@@ -13,7 +13,11 @@ export default class Component {
   $inputHeight: JQuery
   drag: Drag
   stage: Stage
+  props: any = {}
+  formData: any = {}
+  name: string
   constructor(name = '') {
+    this.name = name;
     let $el = $(`
       <div class="component-box">
         <div class="top-bar">
@@ -122,4 +126,9 @@ export default class Component {
       event.stopPropagation();
     })
   }
+
+  getProps() {
+    let props = {}
+  }
+
 }

@@ -1,4 +1,3 @@
-import * as $ from 'jquery';
 import Drag from './Drag';
 import Ruler from './Ruler';
 import Component from './Component';

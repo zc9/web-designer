@@ -1,0 +1,53 @@
+.animselect{
+	float: left;
+	width: 300px;
+	height: 160px;
+	background: #fbfbfb;
+	border: 1px #e5e5e5 solid;
+}
+.animselect div{
+	width: 100px;
+	height: 80px;
+	float: left;
+	color: #818181;
+	text-align: center;
+	line-height: 120px;
+	position:relative;
+	cursor:pointer;
+}
+.animselect div i{
+	display:block;
+	position:absolute;
+	width:20px;
+	height:15px;
+	left: 39px;
+	top: 22px;
+	transition:.3s cubic-bezier(0, 2.68, 0.58, -1.34);
+}
+.animselect div i em{
+	background: #999;
+	display: block;
+	width:100%;
+	height:100%;
+	transition:.3s cubic-bezier(0.55, -1.31, 0.74, 2.15);
+}
+.animselect div.active{
+	background:#f1f1f1;
+}
+.animselect div.active{
+	color:#19c2d1;
+}
+.animselect div.active i em{
+	border-color:#19c2d1;
+	background:#19c2d1;
+}
+.animselect div.shakex:hover i{margin-left:-5px;}
+.animselect div.shakex:hover i em{margin-left:5px;}
+.animselect div.shakey:hover i{margin-top:-5px;}
+.animselect div.shakey:hover i em{margin-top:5px;}
+.animselect div.shaker:hover i{-webkit-transform:rotate(30deg);transform:rotate(30deg);}
+.animselect div.shaker:hover i em{-webkit-transform:rotate(-30deg);transform:rotate(-30deg);}
+.animselect div.shakes:hover i{-webkit-transform:scale(1.25,1.25);transform:scale(1.25,1.25);}
+.animselect div.shakes:hover i em{-webkit-transform:scale(0.8,0.8);transform:scale(0.8,0.8);}
+.animselect div.shaken:hover i{-webkit-transform:scale(1.25,0.8);transform:scale(1.25,0.8);}
+.animselect div.shaken:hover i em{-webkit-transform:scale(0.8,1.25);transform:scale(0.8,1.25);}

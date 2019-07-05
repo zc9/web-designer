@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="lib/spectrum/spectrum.css">
+  <link rel="stylesheet" href="lib/layui/css/layui.css">
+  <title>Web Designer</title>
+<link href="css/index.css" rel="stylesheet"></head>
+<body>
+  <div class="header">
+    <div class="logo">
+      <a href="/" target="_blank"></a>
+    </div>
+    <div class="login">
+			<span><i></i>未登录</span>
+    </div>
+    <div class="reg">
+			<span><icon>ꑤ</icon>注册用户</span>
+    </div>
+    <div class="btn-box">
+      <div class="undo-btn">
+				<span><icon class="june-notc-i">ꑲ</icon> 撤销</span>
+      </div>
+      <div class="redo-btn">
+				<span><icon class="june-notc-i">ꑳ</icon> 重做</span>
+      </div>
+      <div class="save-btn">
+				<span><icon>ꑨ</icon> 保存</span>
+      </div>
+      <div class="makepage import-btn">
+				<span><icon class="june-notc-i">ꑩ</icon> 导入代码</span>
+      </div>
+      <div class="makepage export-btn">
+				<span><icon class="june-notc-i">ꑰ</icon> 生成代码</span>
+				<!-- <div class="j-hop-hover">
+					<span class="j-hop-ele active"><i></i>生成整个页面</span>
+					<span class="j-hop-ele"><i></i>仅生成所选应用</span>
+				</div> -->
+      </div>
+      <div class="makepage preview-btn">
+				<span><icon class="june-notc-i">ꑱ</icon> 效果预览</span>
+			</div>
+    </div>
+  </div>
+  <div class="page-config">
+    <div class="set-panel">
+      <span class="title">页面设置</span>
+      <span class="label">宽度</span>
+      <input class="input-px input-width" value="">
+      <span class="calc-size calc-width">计算</span>
+      <span class="label">高度</span>
+      <input class="input-px input-height" value="">
+      <span class="calc-size calc-height">计算</span>
+      <span class="label">整页背景图</span>
+      <input class="input-bg" style="width:150px;" value="">
+      <span class="label">背景对齐位置</span>
+      <select class="align-select" style="outline: none;height: 20px;margin-left: 9px;border: 1px #141619 solid;color: #525c66">
+        <option value="0% 0%">左上</option>
+        <option selected="selected" value="50% 0%">中上</option>
+        <option value="100% 0%">右上</option>
+        <option value="0% 50%">左中</option>
+        <option value="50% 50%">居中</option>
+        <option value="100% 50%">右中</option>
+        <option value="0% 100%">左下</option>
+        <option value="50% 100%">中下</option>
+        <option value="100% 100%">右下</option>
+      </select>
+      <span class="label">整页背景色</span>
+      <div class="bgcolor-box" style="height: 25px;width: 110px;">
+        <div class="sp-replacer sp-light" style="z-index: 2;bottom: auto;top: 10px;">
+          <div class="sp-preview">
+            <div class="sp-preview-inner" style="background-color: #fff;"></div>
+          </div>
+        </div>
+        <input class="pagecolor" type="text" value="#FFFFFF" style="width:100px;text-indent:28px;position: absolute;top: 9px;"><span class="clear-color-button"></span>
+      </div>
+    </div>
+  </div>
+  <div class="main">
+    <div class="left-area">
+      <div class="component-list">
+        <div class="shrink"><i class="xb"></i></div>
+        <div class="move"><i></i></div>
+        <ul>
+          <li data-name="img-component"><icon>ꉠ</icon><span>单图</span></li>
+          <li data-name="text-component"><icon>ꆀ</icon><span>文字</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="stage-ct">
+    </div>
+    <div class="right-area">
+    </div>
+  </div>
+  <script src="lib/jquery-1.8.3.min.js"></script>
+  <script src="lib/iscroll/iscroll-probe.js"></script>
+  <script src="lib/spectrum/spectrum.js"></script>
+  <script src="lib/layui/layui.all.js"></script>
+<script type="text/javascript" src="js/index.bundle.js"></script></body>
+</html>

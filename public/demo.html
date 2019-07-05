@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>draggable</title>
+  <style>
+    body {
+      background: rgb(68, 68, 68);
+    }
+    .stage {
+      position: relative;
+      width: 600px;
+      height: 400px;
+      margin: 50px auto;
+      /* border: 3px solid black; */
+      background: white;
+    }
+    .drag-box1 {
+      position: absolute;
+      left: 50px;
+      top: 100px;
+      height: 40px;
+      width: 30px;
+      background: skyblue
+    }
+
+    .drag-box2 {
+      position: absolute;
+      left: 200px;
+      top: 120px;
+      height: 70px;
+      width: 80px;
+      background: sandybrown
+    }
+
+    .drag-box3 {
+      position: absolute;
+      left: 360px;
+      top: 140px;
+      height: 50px;
+      width: 100px;
+      background: salmon
+    }
+
+    .guide-line {
+      position: absolute;
+    }
+    .guide-lineX {
+      top: 10px;
+      left: 0;
+      right: 0;
+      height: 5px;
+      cursor: row-resize;
+    }
+
+    .guide-lineX > div {
+      position: absolute;
+      top: 2px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: rgb(51, 238, 255);
+    }
+
+
+
+    .guide-lineY {
+      left: 10px;
+      top: 0;
+      bottom: 0;
+      width: 5px;
+      cursor: col-resize;
+    }
+
+    .guide-lineY > div {
+      position: absolute;
+      left: 2px;
+      width: 1px;
+      top: 0;
+      bottom: 0;
+      background: rgb(51, 238, 255);
+    }
+
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <div class="drag-box drag-box1">
+    </div>
+    <div class="drag-box drag-box2">
+    </div>
+    <div class="drag-box drag-box3">
+    </div>
+
+
+    <div class="guide-line guide-lineX"><div></div></div>
+    <div class="guide-line guide-lineY"><div></div></div>
+
+  </div>
+</body>
+</html>

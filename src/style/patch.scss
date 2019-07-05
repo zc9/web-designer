@@ -1,0 +1,67 @@
+.sp-container {
+  background: #212224;
+  border: 1px #111 solid;
+  z-index: 99999999999999;
+}
+.sp-palette .sp-thumb-el {
+  border: 1px #111 solid;
+}
+.sp-palette .sp-thumb-el {
+  width: 16px;
+  height: 16px;
+  margin: 2px 1px;
+}
+.sp-palette-container {
+  border: 0;
+}
+.sp-picker-container {
+  border: 0;
+}
+.layui-form-label {
+  width: 120px;
+}
+.layui-input-block {
+  margin-left: 150px;
+}
+
+.layui-form-item .layui-input-inline {
+  width: 260px;
+}
+.sp-replacer {
+  position: absolute;
+  padding: 0;
+  outline: none;
+  border: none;
+  bottom: 10px;
+  height: 20px;
+  left: 10px;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAGUlEQVQYV2M4gwH+YwCGIasIUwhT25BVBADtzYNYrHvv4gAAAABJRU5ErkJggg==);
+  border-right: 1px #eee solid;
+}
+.sp-preview {
+  margin: 0;
+  border: none;
+  width: 22px;
+  height: 22px;
+}
+.sp-thumb-inner {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+.clear-color-button {
+  display: block;
+  width: 14px;
+  height: 14px;
+  background: url("../assets/icon.png");
+  position: absolute;
+  margin: 0;
+  top: 12px;
+  right: 3px;
+  background-position: -238px -391px;
+  cursor: pointer;
+}
+

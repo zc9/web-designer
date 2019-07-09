@@ -169,6 +169,9 @@ icon {
     }
   }
 }
+.bg-trans {
+  background: url("../assets/trans.jpg") repeat !important;
+}
 .page-config {
   position: relative;
   height: 40px;
@@ -307,7 +310,6 @@ icon {
     display: block;
     width: 100%;
     height: 100%;
-    background-image: url(https://img.alicdn.com/imgextra/i2/280837244/TB2orubcrJmpuFjSZFwXXaE4VXa-280837244.jpg);
     background-position: center center;
     background-repeat: no-repeat;
   }
@@ -481,6 +483,9 @@ icon {
     > div {
       position: relative;
     }
+    .canvas-box {
+      position: relative;
+    }
     .canvas {
       position: relative;
       height: 1000px;
@@ -622,4 +627,66 @@ icon {
     }
   }
   //#19c2d1 border-color
+}
+.codegen textarea {
+  margin: 0px;
+  line-height: 24px;
+  padding: 7px 10px;
+  border-radius: 0px;
+  border: 1px #e5e5e5 solid;
+  box-sizing: border-box;
+  font-size: 12px;
+}
+.codegen textarea:focus {
+  outline: 2px #4C83E5 solid;
+}
+.codegen-head {
+  height: 55px;
+  font-size: 12px;
+  color: #666;
+}
+.codegen-head ul li {
+  height: 55px;
+  line-height: 55px;
+}
+.codegen-head label {
+  font-size: 12px;
+  float: left;
+}
+.codegen-head input {
+  float: left;
+  border: 1px solid #dddddd;
+  background: #f2f2f2;
+  margin-top: 16px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  outline: none;
+  padding: 0;
+  border-radius: 2px;
+}
+.codegen-head input.cfgl-rr {
+  margin-top: 10px;
+  margin-left: 15px;
+  display: none;
+}
+.codegen-head label.cfgl-radio {
+  margin-top: 13px;
+  height: 24px;
+  line-height: 24px;
+  background: #f2f2f2;
+  border: 1px solid #dddddd;
+  width: 50px;
+  text-align: center;
+  cursor: pointer;
+}
+.codegen-head input.cfgl-rr {
+  margin-top: 10px;
+  margin-left: 15px;
+  display: none;
+}
+.codegen-head label.cfgl-radio-checked {
+  color: #fff;
+  background: #19c2d1;
+  border: 1px solid #19c2d1;
 }

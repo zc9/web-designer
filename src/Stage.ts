@@ -1,30 +1,32 @@
 import Drag from './Drag';
 import Ruler from './Ruler';
 import Component from './Component';
-import PageConfig from './PageConfig';
+import HotAreaComponent from './HotAreaComponent';
 export default class Stage {
   EVENTS: Array<string> = []
   isRuler: boolean = true
   drags: Array<Drag> = []
   curSelectedComponent: Component = null
+  components: Array<Component> = []
   $el: JQuery
   $canvasWrap: JQuery
+  $canvasBox: JQuery
   $scrollContent: JQuery
   $canvas: JQuery
   myScroll: any
   paddingWidth: number
   paddingHeight: number
   ruler: Ruler
-
+  pageWidth: number = 1000
+  pageHeight: number = 600
+  props: any = {}
   constructor() {
     this.EVENTS = this.isTouch() ?
     ['touchstart', 'touchmove', 'touchend'] : ['mousedown', 'mousemove', 'mouseup'];
   }
-
   create($stageCt) {
-    let pageConfig = new PageConfig(this);
-    let canvasWidth = pageConfig.pageWidth;
-    let canvasHeight = pageConfig.pageHeight;
+    let canvasWidth = this.pageWidth;
+    let canvasHeight = this.pageHeight;
     let $el = $('<div class="stage"></div>');
 
     let $canvasWrap, $scrollContent, $canvas;
@@ -34,7 +36,9 @@ export default class Stage {
     $canvasWrap = $(`
       <div class="canvas-wrap">
         <div>
-          <div class="canvas">
+          <div class="canvas-box">
+            <div class="canvas">
+            </div>
           </div>
         </div>
       </div>
@@ -56,6 +60,7 @@ export default class Stage {
     $scrollContent = $canvasWrap.find('> div');
     $canvas = $canvasWrap.find('.canvas');
     this.$canvas = $canvas;
+    this.$canvasBox = $canvasWrap.find('.canvas-box');
     this.$canvasWrap = $canvasWrap;
     this.$el = $el;
     this.ruler = ruler;
@@ -154,8 +159,12 @@ export default class Stage {
     }
     this.$canvas.width(canvasWidth)
     this.$canvas.height(canvasHeight)
-    this.$canvas.css('margin-left', marginLeft + 'px')
-    this.$canvas.css('margin-top', marginTop + 'px')
+    // this.$canvas.css('margin-left', marginLeft + 'px')
+    // this.$canvas.css('margin-top', marginTop + 'px')
+    this.$canvasBox.width(canvasWidth)
+    this.$canvasBox.height(canvasHeight)
+    this.$canvasBox.css('margin-left', marginLeft + 'px')
+    this.$canvasBox.css('margin-top', marginTop + 'px')
     this.$scrollContent.width(scrollContentWidth)
     this.$scrollContent.height(scrollContentHeight)
     this.myScroll.scrollTo(-startX, -startY)
@@ -163,6 +172,8 @@ export default class Stage {
   }
 
   setCanvasSize(canvasWidth, canvasHeight) {
+    this.pageWidth = canvasWidth
+    this.pageHeight = canvasHeight
     this.layoutCanvas(canvasWidth, canvasHeight)
   }
 
@@ -193,8 +204,7 @@ export default class Stage {
       let eventInfo: any = this.getEventInfo(event);
       let startX = eventInfo.clientX;
       let startY = eventInfo.clientY;
-      let component = new Component();
-      component.setContent('<div class="hot-area-box"></div>')
+      let component = new HotAreaComponent();
       this.addComponent(component)
       function move(event) {
         event = that.getEventInfo(event)
@@ -270,13 +280,26 @@ export default class Stage {
   removeComponent(component) {
     component.remove();
     // @ts-ignore
+    this.components.remove(component)
+    // @ts-ignore
     this.drags.remove(component.drag);
   }
 
   addComponent(component) {
     component.mount(this);
     this.drags.push(component.drag);
+    this.components.push(component)
     this.resetAlignElements();
+  }
+
+  generateJsonCode() {
+    this.props.width = this.pageWidth
+    this.props.height = this.pageHeight
+    this.props.app = []
+    this.components.forEach((component) => {
+      this.props.app.push(component.getProps())
+    })
+    return JSON.stringify(this.props)
   }
 
 }

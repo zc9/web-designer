@@ -9,13 +9,30 @@ export default class ImgComponent extends Component {
     this.$topBar.find('.setting').bind('click', function() {
       that.openEditDialog();
     })
+    this.initFormData()
+  }
+
+  initFormData() {
+    this.formData.bgImg = 'https://img.alicdn.com/imgextra/i2/280837244/TB2orubcrJmpuFjSZFwXXaE4VXa-280837244.jpg'
+    this.formData.bgColor = ''
+    this.formData.appLabel = ''
+    this.formData.imgMode = 'cut'
+    this.formData.linkMode = 'unlink'
+    this.formData.href = ''
+    this.formData.tipText = ''
+    this.formData.animType = ''
+    this.formData.hrefMode = false
+    this.formData.bgImgSize = false
+    this.formData.animSpeed = '1s'
+    this.formData.animRange = '-s'
+
+    this.$content.css('background-image', `url(${this.formData.bgImg})`)
   }
 
   openEditDialog() {
     let that = this;
     let layer = layui.layer;
     let $layerElem = null;
-    this.formData.bgImg = this.$content.css('background-image').replace(/(?:^url\(["']?|["']?\)$)/g, '');
     let layerNo = layer.open({
       type: 1,
       title: '单图设置',
@@ -162,5 +179,18 @@ export default class ImgComponent extends Component {
       return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
     });
     form.val('imgComponentForm', that.formData)
+  }
+  getProps() {
+    console.log(this.formData)
+    return {
+      'appType': 'xdtb',
+      'config': this.formData,
+      'pos': {
+        w: this.width(),
+        h: this.height(),
+        l: parseInt(this.$el.css('left')),
+        t: parseInt(this.$el.css('top'))
+      }
+    }
   }
 }

@@ -1,6 +1,6 @@
 import Drag from './Drag';
 import Stage from './Stage';
-export default class Component {
+export default abstract class Component {
   $contentBox: JQuery
   $el: JQuery
   $topBar: JQuery
@@ -68,6 +68,8 @@ export default class Component {
     this.$el.remove();
   }
 
+  abstract getProps() : object;
+
   select() {
     this.$topBar.show();
     this.$bottomBar.show();
@@ -93,6 +95,8 @@ export default class Component {
   mount(stage) {
     this.stage = stage;
     let $canvas = stage.$canvas;
+    this.$el.css('left', '0')
+    this.$el.css('top', '0')
     $canvas.append(this.$el)
     let drag = new Drag(this.$el[0], {
       allowOverstep: false,
@@ -125,10 +129,6 @@ export default class Component {
     this.$bottomBar.on('mousedown', (event) => {
       event.stopPropagation();
     })
-  }
-
-  getProps() {
-    let props = {}
   }
 
 }

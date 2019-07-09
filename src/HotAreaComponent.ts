@@ -1,9 +1,9 @@
 import Component from './Component';
-export default class TextComponent extends Component {
+export default class HotAreaComponent extends Component {
   constructor() {
-    super('text-component')
+    super('hotarea-component')
     let content = `
-        <a>请双击设置文件内容</a>
+        <div class="hot-area-box"></div>
       `
     this.$contentBox.append(content)
   }

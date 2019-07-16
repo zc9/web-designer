@@ -16,6 +16,7 @@ export default abstract class Component {
   props: any = {}
   formData: any = {}
   name: string
+  id: string
   constructor(name = '') {
     this.name = name;
     let $el = $(`
@@ -50,6 +51,7 @@ export default abstract class Component {
     this.$inputY = this.$bottomBar.find('span:nth-child(2) input');
     this.$inputWidth = this.$bottomBar.find('span:nth-child(3) input');
     this.$inputHeight = this.$bottomBar.find('span:nth-child(4) input');
+
   }
 
   width() {
@@ -92,14 +94,15 @@ export default abstract class Component {
     this.$contentBox.removeClass('selected')
   }
 
-  mount(stage) {
+  mount(stage: Stage) {
     this.stage = stage;
+    this.id = stage.getRandomStr(4)
     let $canvas = stage.$canvas;
     this.$el.css('left', '0')
     this.$el.css('top', '0')
     $canvas.append(this.$el)
     let drag = new Drag(this.$el[0], {
-      allowOverstep: false,
+      allowOverstep: stage.props.overflow === 'hidden' ? false : true,
       minWidth: this.minWidth,
       minHeight: this.minHeight,
       dragAnchor: this.$contentBox[0],

@@ -19,10 +19,16 @@ export default class Stage {
   ruler: Ruler
   pageWidth: number = 1000
   pageHeight: number = 600
-  props: any = {}
+  props: any = {
+    bgColor: '#FFFFFF',
+    position: '50% 0%',
+    overflow: 'hidden'
+  }
+  id: string
   constructor() {
     this.EVENTS = this.isTouch() ?
     ['touchstart', 'touchmove', 'touchend'] : ['mousedown', 'mousemove', 'mouseup'];
+    this.id = this.getRandomStr(5)
   }
   create($stageCt) {
     let canvasWidth = this.pageWidth;
@@ -292,6 +298,12 @@ export default class Stage {
     this.resetAlignElements();
   }
 
+  setComponentAllowOverstep(allowOverstep) {
+    this.components.forEach((component) => {
+      component['drag']['option'].allowOverstep = allowOverstep;
+    })
+  }
+
   generateJsonCode() {
     this.props.width = this.pageWidth
     this.props.height = this.pageHeight
@@ -300,6 +312,15 @@ export default class Stage {
       this.props.app.push(component.getProps())
     })
     return JSON.stringify(this.props)
+  }
+
+  getRandomStr(len) {
+    let charArr = []
+    const chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    while (len--) {
+      charArr.push(chars[Math.floor(chars.length * Math.random())])
+    }
+    return charArr.join('')
   }
 
 }

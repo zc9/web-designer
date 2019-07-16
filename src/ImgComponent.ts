@@ -182,9 +182,11 @@ export default class ImgComponent extends Component {
   }
   getProps() {
     console.log(this.formData)
+    let config = this.formData;
+    config.appID = `${this.stage.id}-${this.id}`
     return {
       'appType': 'xdtb',
-      'config': this.formData,
+      'config': config,
       'pos': {
         w: this.width(),
         h: this.height(),

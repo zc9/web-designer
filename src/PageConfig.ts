@@ -15,6 +15,7 @@ export default class PageConfig {
     let $calcWidth = $el.find('.calc-width');
     let $calcHeight = $el.find('.calc-height');
     let $alignSelect = $el.find('.align-select');
+    let $allowOverstep = $el.find('#allowOverstep')
 
     this.$inputWidth = $inputWidth
     this.$inputHeight = $inputHeight
@@ -40,37 +41,75 @@ export default class PageConfig {
           if (!color) {
             that.stage.$canvasBox.addClass('bg-trans');
             that.stage.$canvas.css('background-color', 'transparent');
+            that.stage.props.bgColor = 'transparent'
           }
           if (typeof color === 'object') {
+            let colorHex = color.toHexString()
             that.stage.$canvasBox.removeClass('bg-trans')
-            that.stage.$canvas.css('background-color', color.toHexString() + '');
+            that.stage.$canvas.css('background-color', colorHex + '');
+            that.stage.props.bgColor = colorHex
           }
         }
       }
     }).spectrum.freshSpan();
 
     $inputWidth.change(function () {
-      if (that.stage) {
-        that.pageWidth = +$(this).val();
-        that.stage.setCanvasSize(that.pageWidth, that.pageHeight)
-      }
+      that.pageWidth = +$(this).val();
+      that.stage.setCanvasSize(that.pageWidth, that.pageHeight)
     });
 
     $inputHeight.change(function () {
-      if (that.stage) {
-        that.pageHeight = +$(this).val();
-        that.stage.setCanvasSize(that.pageWidth, that.pageHeight)
-      }
+      that.pageHeight = +$(this).val();
+      that.stage.setCanvasSize(that.pageWidth, that.pageHeight)
     });
 
-    $inputBg.change(function() {
-      if (that.stage) {
-        that.stage.$canvas.css('background-image',  `url("${$(this).val()}")`)
-      }
+    $inputBg.bind('input', function() {
+      let img = $(this).val()
+      that.stage.props.bgImg = img
+      that.stage.$canvas.css('background-image',  `url("${img}")`)
     })
     $alignSelect.change(function() {
-      if (that.stage) {
-        that.stage.$canvas.css('background-position', +$(this).val())
+      let alignValue = $(this).val()
+      that.stage.$canvas.css('background-position', `${alignValue}`)
+      that.stage.props.position = alignValue
+    })
+
+    $allowOverstep.bind('click', function() {
+      if ($allowOverstep.hasClass('active')) {
+        $allowOverstep.removeClass('active')
+        that.stage.props.overflow = 'hidden'
+        that.stage.setComponentAllowOverstep(false)
+      } else {
+        $allowOverstep.addClass('active')
+        that.stage.props.overflow = 'visible'
+        that.stage.setComponentAllowOverstep(true)
+      }
+    })
+    $el.find('.bgImg-box .page-check').bind('click', function() {
+      let $this = $(this)
+      let val = $this.data('val')
+      console.log(val)
+      if ($this.hasClass('active')) {
+        $this.removeClass('active')
+        if (val === 'repeat') {
+          that.stage.$canvas.css('background-repeat', '')
+          that.stage.props.repeat = ''
+        }
+        if (val === 'fixed') {
+          that.stage.$canvas.css('background-attachment', '')
+          that.stage.props.attachment = ''
+        }
+
+      } else {
+        $this.addClass('active')
+        if (val === 'repeat') {
+          that.stage.$canvas.css('background-repeat', 'repeat')
+          that.stage.props.repeat = 'repeat'
+        }
+        if (val === 'fixed') {
+          that.stage.$canvas.css('background-attachment', 'fixed')
+          that.stage.props.attachment = 'fixed'
+        }
       }
     })
   }

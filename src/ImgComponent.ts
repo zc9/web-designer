@@ -9,6 +9,9 @@ export default class ImgComponent extends Component {
     this.$topBar.find('.setting').bind('click', function() {
       that.openEditDialog();
     })
+    this.$el.dblclick(function() {
+      that.openEditDialog();
+    })
     this.initFormData()
   }
 

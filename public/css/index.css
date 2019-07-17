@@ -189,6 +189,39 @@ icon {
       color: #fff;
       text-align: center;
       margin-top: 5px; }
+  .page-config .page-check {
+    display: inline-block;
+    width: 70px;
+    height: 41px;
+    line-height: 41px;
+    cursor: pointer;
+    margin-left: 0px; }
+    .page-config .page-check i {
+      padding: 5px 8px;
+      margin-right: 2px;
+      background: url(../assets/icon.png) -31px -126px; }
+    .page-config .page-check.active i {
+      padding: 5px 8px;
+      margin-right: 2px;
+      background: url(../assets/icon.png) -10px -126px; }
+  .page-config .bgImg-box {
+    position: relative;
+    display: inline;
+    overflow: hidden;
+    padding: 13px 0; }
+    .page-config .bgImg-box .ppbPP {
+      display: none;
+      position: absolute;
+      left: 9px;
+      width: 150px;
+      height: 42px;
+      top: 35px;
+      border: 1px #1e2226 solid;
+      background: #292e33;
+      z-index: 1;
+      box-shadow: 0px 10px 10px -5px rgba(122, 138, 153, 0.1); }
+    .page-config .bgImg-box:hover .ppbPP {
+      display: block; }
 
 .main {
   position: absolute;
@@ -259,6 +292,7 @@ icon {
     display: block;
     width: 100%;
     height: 100%;
+    overflow: hidden;
     background-position: center center;
     background-repeat: no-repeat; }
 

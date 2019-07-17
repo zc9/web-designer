@@ -53,12 +53,12 @@ export default class PageConfig {
       }
     }).spectrum.freshSpan();
 
-    $inputWidth.change(function () {
+    $inputWidth.bind('input', function() {
       that.pageWidth = +$(this).val();
       that.stage.setCanvasSize(that.pageWidth, that.pageHeight)
     });
 
-    $inputHeight.change(function () {
+    $inputHeight.bind('input', function() {
       that.pageHeight = +$(this).val();
       that.stage.setCanvasSize(that.pageWidth, that.pageHeight)
     });

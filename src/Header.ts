@@ -10,6 +10,17 @@ export default class Header {
     this.$el.find('.export-btn').bind('click', function() {
       that.openExportDialog()
     })
+
+    this.$el.find('.preview-btn').bind('click', function() {
+      let previewWin = window.open('')
+      let url = window.location.href
+      previewWin.document.write(`<html><head><title></title><link rel="stylesheet" type="text/css" href="${url}css/common.css"></head><body>`);
+      previewWin.document.write(that.stageCt.curStage.generateHtmlCode());
+      previewWin.document.write('</body></html>');
+      previewWin.focus()
+      previewWin.document.title = '预览'
+    })
+
   }
 
   generateJsonCode() {
@@ -27,7 +38,9 @@ export default class Header {
       success: function(layerElem, index) {
         let $layerElem = $(layerElem)
         let $jsonTextArea = $layerElem.find('#jsonTextArea')
+        let $htmlTextArea = $layerElem.find('#htmlTextArea')
         $jsonTextArea.val(that.stageCt.curStage.generateJsonCode())
+        $htmlTextArea.val(that.stageCt.curStage.generateHtmlCode())
         $layerElem.find('.page-width').val(that.stageCt.curStage.pageWidth)
         $layerElem.find('.page-height').val(that.stageCt.curStage.pageHeight)
       },

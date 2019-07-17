@@ -1,9 +1,11 @@
 import Component from './Component';
 export default class ImgComponent extends Component {
   $content: JQuery
+  $img: JQuery
   constructor() {
     super('img-component')
-    this.$content = $('<a></a>')
+    this.$content = $('<a><img src="" style="display:none"></a>')
+    this.$img = this.$content.find('img')
     this.$contentBox.append(this.$content)
     let that = this;
     this.$topBar.find('.setting').bind('click', function() {
@@ -13,6 +15,26 @@ export default class ImgComponent extends Component {
       that.openEditDialog();
     })
     this.initFormData()
+  }
+
+  toHtml() {
+    let top, left, width, height
+    top = this.$el.css('top')
+    left = this.$el.css('left')
+    width = this.$el.width()
+    height = this.$el.height()
+    let img = ''
+    let background = `url(${this.formData.bgImg}) 50% 50% no-repeat;`
+    if (this.formData.imgMode === 'cut') {
+      background = `url(${this.formData.bgImg}) 50% 50% no-repeat;`
+    } else {
+      img = this.$img[0].outerHTML
+    }
+    return `
+      <a href="${this.formData.href}" target="${this.formData.hrefMode || ''}" style="position: absolute; top: ${top}; left: ${left}; width: ${width}px; height: ${height};background: ${background}">
+        ${img}
+      </a>
+    `
   }
 
   initFormData() {
@@ -30,6 +52,8 @@ export default class ImgComponent extends Component {
     this.formData.animRange = '-s'
 
     this.$content.css('background-image', `url(${this.formData.bgImg})`)
+    this.$content.css('background-color', this.formData.bgColor)
+    this.$img.attr('src', this.formData.bgImg)
   }
 
   openEditDialog() {
@@ -40,7 +64,7 @@ export default class ImgComponent extends Component {
       type: 1,
       title: '单图设置',
       skin: 'layui-layer-rim', //加上边框
-      area: ['600px', '550px'],
+      area: ['600px', '600px'],
       success: function(layerElem, index) {
         $layerElem = $(layerElem)
         if (typeof that.formData.animType === 'undefined') {
@@ -115,7 +139,7 @@ export default class ImgComponent extends Component {
                 <div class="layui-input-inline">
                   <input name="href" type="text" class="layui-input">
                 </div>
-                <div><input name="hrefMode" value="true" type="checkbox" lay-skin="primary" title="新窗口打开"></div>
+                <div><input name="hrefMode" value="_blank" type="checkbox" lay-skin="primary" title="新窗口打开"></div>
               </div>
               <div class="layui-form-item">
                 <label class="layui-form-label">提示文字</label>
@@ -161,7 +185,7 @@ export default class ImgComponent extends Component {
           </div>
         </div>
         <div class="layui-form-item">
-          <div class="layui-input-block" style="margin-left: 440px;">
+          <div class="layui-input-block" style="margin-left: 440px;margin-top: 50px">
             <button class="layui-btn" lay-submit lay-filter="imgComponentForm">确定</button>
             <button type="button" class="cancel-btn layui-btn layui-btn-primary">取消</button>
           </div>
@@ -174,8 +198,37 @@ export default class ImgComponent extends Component {
     form.on('submit(imgComponentForm)', function(data) {
       if (data.field.bgImg !== that.formData.bgImg) {
         that.$content.css('background-image', `url(${data.field.bgImg})`)
+        that.$img.attr('src', data.field.bgImg)
+      }
+      if (data.field.bgColor !== that.formData.bgColor) {
+        that.$content.css('background-color', data.field.bgColor)
       }
       that.formData = data.field;
+      if (that.formData.bgImgSize === 'true') {
+        that.$el.width(that.$img.width())
+        that.$el.height(that.$img.height())
+      }
+      let imgMode = that.formData.imgMode
+      if (imgMode === 'cut') {
+        if (that.$img.is(':visible')) {
+          that.$content.css('background-image', `url(${that.formData.bgImg})`)
+          that.$img.hide()
+        }
+      } else {
+        that.$content.css('background-image', '')
+        if (imgMode === 'full') {
+          that.$img.css('width', '100%')
+          that.$img.css('height', '100%')
+        } else if (imgMode === 'scaleX') {
+          that.$img.css('height', '100%')
+          that.$img.css('width', '')
+        } else if (imgMode === 'scaleY') {
+          that.$img.css('width', '100%')
+          that.$img.css('height', '')
+        }
+        that.$img.show()
+      }
+
       that.formData.animType = $layerElem.find('.animselect > div.active').data('val')
       console.log(that.formData)
       layer.close(layerNo)
@@ -184,7 +237,6 @@ export default class ImgComponent extends Component {
     form.val('imgComponentForm', that.formData)
   }
   getProps() {
-    console.log(this.formData)
     let config = this.formData;
     config.appID = `${this.stage.id}-${this.id}`
     return {

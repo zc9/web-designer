@@ -10,4 +10,7 @@ export default class HotAreaComponent extends Component {
   getProps() {
     return {}
   }
+  toHtml() {
+    return ''
+  }
 }

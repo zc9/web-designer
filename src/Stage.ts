@@ -17,8 +17,8 @@ export default class Stage {
   paddingWidth: number
   paddingHeight: number
   ruler: Ruler
-  pageWidth: number = 1000
-  pageHeight: number = 600
+  pageWidth: number = 1920
+  pageHeight: number = 2561
   props: any = {
     bgColor: '#FFFFFF',
     position: '50% 0%',
@@ -156,8 +156,16 @@ export default class Stage {
     marginTop = this.paddingHeight / 2;
     scrollContentWidth = Math.ceil(canvasWidth / 50) * 50 + this.paddingWidth;
     scrollContentHeight = Math.ceil(canvasHeight / 50) * 50 + this.paddingHeight;
-    startX = scrollContentWidth / 2 - this.$canvasWrap.width() / 2;
-    startY = scrollContentHeight / 2 -this.$canvasWrap.height() / 2;
+    if (canvasWidth < this.$canvasWrap.width()) {
+      startX = scrollContentWidth / 2 - this.$canvasWrap.width() / 2;
+    } else {
+      startX = this.paddingWidth / 2;
+    }
+    if (canvasHeight < this.$canvasWrap.height()) {
+      startY = scrollContentHeight / 2 -this.$canvasWrap.height() / 2;
+    } else {
+      startY = this.paddingHeight / 2
+    }
     this.ruler.update(canvasWidth, canvasHeight, this.paddingWidth, this.paddingHeight);
     if (this.ruler) {
       this.ruler.setX(-startX);
@@ -312,6 +320,16 @@ export default class Stage {
       this.props.app.push(component.getProps())
     })
     return JSON.stringify(this.props)
+  }
+
+  generateHtmlCode() {
+    let appsHtml = []
+    this.components.forEach((component) => {
+      appsHtml.push(component.toHtml())
+    })
+    return `<div style="position: relative; overflow: hidden;width: ${this.pageWidth}; height: ${this.pageHeight}px;background: ${this.props.bgColor};">
+      ${appsHtml.join('')}
+    </div>`
   }
 
   getRandomStr(len) {

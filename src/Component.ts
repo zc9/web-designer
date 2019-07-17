@@ -71,6 +71,7 @@ export default abstract class Component {
   }
 
   abstract getProps() : object;
+  abstract toHtml() : string;
 
   select() {
     this.$topBar.show();
@@ -98,8 +99,6 @@ export default abstract class Component {
     this.stage = stage;
     this.id = stage.getRandomStr(4)
     let $canvas = stage.$canvas;
-    this.$el.css('left', '0')
-    this.$el.css('top', '0')
     $canvas.append(this.$el)
     let drag = new Drag(this.$el[0], {
       allowOverstep: stage.props.overflow === 'hidden' ? false : true,

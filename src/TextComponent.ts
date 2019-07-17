@@ -10,4 +10,7 @@ export default class TextComponent extends Component {
   getProps() {
     return {}
   }
+  toHtml() {
+    return ''
+  }
 }

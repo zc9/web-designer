@@ -31,7 +31,7 @@ export default class ImgComponent extends Component {
       img = this.$img[0].outerHTML
     }
     return `
-      <a href="${this.formData.href}" target="${this.formData.hrefMode || ''}" style="position: absolute; top: ${top}; left: ${left}; width: ${width}px; height: ${height};background: ${background}">
+      <a href="${this.formData.href}" target="${this.formData.hrefMode || ''}" style="position: absolute; top: ${top}; left: ${left}; width: ${width}px; height: ${height}px;background: ${background}">
         ${img}
       </a>
     `

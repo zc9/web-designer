@@ -1,4 +1,4 @@
-import Drag from './Drag';
+import Draggable from './Draggable';
 import Stage from './Stage';
 export default abstract class Component {
   $contentBox: JQuery
@@ -11,7 +11,7 @@ export default abstract class Component {
   $inputY: JQuery
   $inputWidth: JQuery
   $inputHeight: JQuery
-  drag: Drag
+  drag: Draggable
   stage: Stage
   props: any = {}
   formData: any = {}
@@ -100,7 +100,7 @@ export default abstract class Component {
     this.id = stage.getRandomStr(4)
     let $canvas = stage.$canvas;
     $canvas.append(this.$el)
-    let drag = new Drag(this.$el[0], {
+    let drag = new Draggable(this.$el[0], {
       allowOverstep: stage.props.overflow === 'hidden' ? false : true,
       minWidth: this.minWidth,
       minHeight: this.minHeight,

@@ -1,4 +1,4 @@
-export default class Drag {
+export default class Draggable {
   EVENTS: Array<string> = []
   resizeFlags = [
     'n-resize', 'e-resize', 's-resize', 'w-resize',
@@ -11,7 +11,7 @@ export default class Drag {
   ]
   resizeFlag: string
   $el: any
-  isDrag: boolean = false
+  isDragging: boolean = false
   option: any
   onStart: Function
   onEnd: Function
@@ -127,7 +127,7 @@ export default class Drag {
     let windowWidth = 0, windowHeight = 0, parentWidth = 0, parentHeight = 0;
     let option = this.option;
     let eventInfo = _this.getEventInfo(event);
-    _this.isDrag = true;
+    _this.isDragging = true;
     diffX = eventInfo.clientX - _this.$el.offsetLeft;
     diffY = eventInfo.clientY - _this.$el.offsetTop;
     elemWidth = _this.$el.offsetWidth;
@@ -171,7 +171,7 @@ export default class Drag {
     }
     function end(event) {
       let eventInfo = _this.getEventInfo(event);
-      _this.isDrag = false;
+      _this.isDragging = false;
       document.removeEventListener(EVENTS[1], move);
       document.removeEventListener(EVENTS[2], end);
       if (_this.onEnd) _this.onEnd(eventInfo);
@@ -310,7 +310,7 @@ export default class Drag {
   start(event) {
     event.preventDefault();
     this.stopPropagation(event);
-    // if (_this.isDrag) {
+    // if (_this.isDragging) {
     //   return;
     // }
     if (this.resizeFlag) {

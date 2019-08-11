@@ -1,11 +1,11 @@
-import Drag from './Drag';
+import Draggable from './Draggable';
 import Ruler from './Ruler';
 import Component from './Component';
 import HotAreaComponent from './HotAreaComponent';
 export default class Stage {
   EVENTS: Array<string> = []
   isRuler: boolean = true
-  drags: Array<Drag> = []
+  drags: Array<Draggable> = []
   curSelectedComponent: Component = null
   components: Array<Component> = []
   $el: JQuery
@@ -104,7 +104,7 @@ export default class Stage {
     $rulerX.addEventListener(EVENTS[0], event => {
       let $guideLine = $('<div class="guide-line guide-lineX"><div></div></div>');
       this.$el.append($guideLine)
-      let drag = new Drag($guideLine[0], {
+      let drag = new Draggable($guideLine[0], {
         isShowDist: false,
         alignAnchor: $guideLine[0].children[0],
         minLeft: 20,
@@ -126,7 +126,7 @@ export default class Stage {
       let $guideLine = $('<div class="guide-line guide-lineY"><div></div></div>');
       this.$el.append($guideLine)
 
-      let drag = new Drag($guideLine[0], {
+      let drag = new Draggable($guideLine[0], {
         isShowDist: false,
         alignAnchor: $guideLine[0].children[0],
         minTop: 20,

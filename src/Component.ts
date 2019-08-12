@@ -101,14 +101,15 @@ export default abstract class Component {
     let $canvas = stage.$canvas;
     $canvas.append(this.$el)
     let drag = new Draggable(this.$el[0], {
-      allowOverstep: stage.props.overflow === 'hidden' ? false : true,
       minWidth: this.minWidth,
       minHeight: this.minHeight,
-      dragAnchor: this.$contentBox[0],
+      handle: this.$contentBox[0],
+      resizeable: true,
+      snap: true
       // isShowDist: false,
     })
     this.drag = drag;
-    drag.onMove = () => {
+    drag.onDrag = () => {
       this.resetPositionInfo();
     }
     drag.onResize = () => {

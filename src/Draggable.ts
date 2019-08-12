@@ -4,7 +4,7 @@ export default class Draggable {
     'n-resize', 'e-resize', 's-resize', 'w-resize',
     'ne-resize', 'nw-resize', 'se-resize', 'sw-resize'
   ]
-  alignFlags = [
+  snapFlags = [
     'top_tt', 'top_bt', 'top_cc','top_bb', 'top_tb',
     'left_ll', 'left_rl', 'left_cc', 'left_rr', 'left_lr',
     'top_tc', 'top_bc', 'left_lc', 'left_rc'
@@ -12,71 +12,105 @@ export default class Draggable {
   resizeFlag: string
   $el: any
   isDragging: boolean = false
-  option: any
+
   onStart: Function
-  onEnd: Function
+  onStop: Function
   onResize: Function
-  onAlign: Function
-  onMove: Function
+  onSnap: Function
+  onDrag: Function
   isResizing: boolean = false
 
-  constructor(el: any, option = {}) {
-    this.$el = el;
-    this.option = option;
-    this.EVENTS = this.isTouch() ?
-      ['touchstart', 'touchmove', 'touchend'] : ['mousedown', 'mousemove', 'mouseup'];
+  cursor: string = 'move'
+  containment: any = null
+  disabled: boolean = false
+  handle: any = null
+  snapTolerance: number = 10
+  snap: any = false
+  snapLineColor: string = '#FF4AFF'
+  snapLineSize: number = 1
+  snapLine: boolean = true
+  snapDist: boolean = true
+  axis: any = false
+  minLeft: number = 0
+  minTop: number = 0
 
-    this.init();
+  resizeable: boolean = false
+  resizeTolerance: number = 5
+  minWidth: number = 24
+  minHeight: number = 24
+
+  constructor(el: any, opt = {}) {
+    this.$el = el
+    this.EVENTS = this.isTouch() ?
+      ['touchstart', 'touchmove', 'touchend'] : ['mousedown', 'mousemove', 'mouseup']
+
+    this.init(opt)
   }
 
-  init() {
+  init(opt) {
     if (typeof this.$el === 'string') {
-      this.$el = document.querySelector(this.$el);
+      this.$el = document.querySelector(this.$el)
     }
-    let option = this.option;
-
-    if (option.parent && typeof option.parent === 'string') {
-      this.option.parent = document.querySelector(option.parent);
+    let classArr = this.$el.className.split(' ');
+    classArr.push('draggable')
+    this.$el.className = classArr.join(' ')
+    if (typeof opt.containment === 'undefined') {
+      this.containment = this.$el.parentNode
     }
-
-    if (!option.alignLineColor) {
-      option.alignLineColor = '#FF4AFF';
+    if (typeof opt.handle === 'undefined') {
+      this.handle = this.$el
+    } else {
+      if (typeof opt.handle === 'string') {
+        this.handle = document.querySelector(opt.handle)
+      } else {
+        this.handle = opt.handle
+      }
     }
-
-    if (!option.alignGap) {
-      option.alignGap = 3;
+    if (typeof opt.snap !== 'undefined') {
+      this.snap = opt.snap
     }
-
-    if (!option.resizeGap) {
-      option.resizeGap = 5;
+    if (opt.snapLineColor) {
+      this.snapLineColor = opt.snapLineColor
     }
-
-    if (!option.alignLineSize) {
-      option.alignLineSize = 1;
+    if (opt.snapTolerance) {
+      this.snapTolerance = opt.snapTolerance
     }
-
-    if (typeof option.isShowDist === 'undefined') {
-      option.isShowDist = true;
+    if (opt.resizeTolerance) {
+      this.resizeTolerance = opt.resizeTolerance
     }
-    if (typeof option.resizable === 'undefined') {
-      option.resizable = true;
+    if (opt.cursor) {
+      this.cursor = opt.cursor
     }
-
-    if (typeof option.minWidth === 'undefined') {
-      option.minWidth = 24;
+    if (typeof opt.snapLine !== 'undefined') {
+      this.snapLine = opt.snapLine
     }
-    if (typeof option.minHeight === 'undefined') {
-      option.minHeight = 24;
+    if (typeof opt.snapDist !== 'undefined') {
+      this.snapDist = opt.snapDist
     }
-    this.setupEvent();
+    if (typeof opt.resizeable !== 'undefined') {
+      this.resizeable = opt.resizeable
+    }
+    if (opt.minWidth) {
+      this.minWidth = opt.minWidth
+    }
+    if (opt.minHeight) {
+      this.minHeight = opt.minHeight
+    }
+    if (opt.minLeft) {
+      this.minLeft = opt.minLeft
+    }
+    if (opt.minTop) {
+      this.minTop = opt.minTop
+    }
+    this.setupEvent()
   }
 
   isTouch() {
-    return 'ontouchstart' in window;
+    return 'ontouchstart' in window
   }
 
   stopPropagation(event) {
-    window.event? window.event.cancelBubble = true : event.stopPropagation();
+    window.event? window.event.cancelBubble = true : event.stopPropagation()
   }
 
   getEventInfo(event) {
@@ -84,181 +118,173 @@ export default class Draggable {
   }
 
   checkResize(elem, x, y) {
-    let rect = elem.getBoundingClientRect();
-    let resizeGap = this.option.resizeGap;
-    let resizeFlags = this.resizeFlags;
-    if ((x >= rect.right - resizeGap && x <= rect.right) &&
-      (y >= rect.top && y <= rect.top + resizeGap)) {
+    let rect = elem.getBoundingClientRect()
+    let resizeTolerance = this.resizeTolerance
+    let resizeFlags = this.resizeFlags
+    if ((x >= rect.right - resizeTolerance && x <= rect.right) &&
+      (y >= rect.top && y <= rect.top + resizeTolerance)) {
       return resizeFlags[4]
     }
-    else if ((x >= rect.left && x <= rect.left + resizeGap) &&
-      (y >= rect.top && y <= rect.top + resizeGap)) {
+    else if ((x >= rect.left && x <= rect.left + resizeTolerance) &&
+      (y >= rect.top && y <= rect.top + resizeTolerance)) {
       return resizeFlags[5]
     }
-    else if ((x >= rect.right - resizeGap && x <= rect.right) &&
-      (y >= rect.bottom - resizeGap && y <= rect.bottom)) {
+    else if ((x >= rect.right - resizeTolerance && x <= rect.right) &&
+      (y >= rect.bottom - resizeTolerance && y <= rect.bottom)) {
       return resizeFlags[6]
     }
-    else if ((x >= rect.left && x <= rect.left + resizeGap) &&
-      (y >= rect.bottom - resizeGap && y <= rect.bottom)) {
+    else if ((x >= rect.left && x <= rect.left + resizeTolerance) &&
+      (y >= rect.bottom - resizeTolerance && y <= rect.bottom)) {
       return resizeFlags[7]
     }
-    else if (y >= rect.top && y <= rect.top + resizeGap) {
-      return resizeFlags[0];
+    else if (y >= rect.top && y <= rect.top + resizeTolerance) {
+      return resizeFlags[0]
     }
-    else if (x >= rect.right - resizeGap && x <= rect.right) {
-      return resizeFlags[1];
+    else if (x >= rect.right - resizeTolerance && x <= rect.right) {
+      return resizeFlags[1]
     }
-    else if (y >= rect.bottom - resizeGap && y <= rect.bottom) {
-      return resizeFlags[2];
+    else if (y >= rect.bottom - resizeTolerance && y <= rect.bottom) {
+      return resizeFlags[2]
     }
-    else if (x >= rect.left && x <= rect.left + resizeGap) {
-      return resizeFlags[3];
+    else if (x >= rect.left && x <= rect.left + resizeTolerance) {
+      return resizeFlags[3]
     }
-    return null;
+    return null
   }
 
   darg(event) {
-    let _this = this;
-    const EVENTS = this.EVENTS;
-    let diffX = 0, diffY = 0;
-    let elemWidth = 0, elemHeight = 0;
-    let $parent = this.option.parent || this.$el.offsetParent;
-    let windowWidth = 0, windowHeight = 0, parentWidth = 0, parentHeight = 0;
-    let option = this.option;
-    let eventInfo = _this.getEventInfo(event);
-    _this.isDragging = true;
-    diffX = eventInfo.clientX - _this.$el.offsetLeft;
-    diffY = eventInfo.clientY - _this.$el.offsetTop;
-    elemWidth = _this.$el.offsetWidth;
-    elemHeight = _this.$el.offsetHeight;
-    windowWidth = document.documentElement.clientWidth;
-    windowHeight = document.documentElement.clientHeight;
-    parentWidth = $parent.clientWidth || windowWidth;
-    parentHeight = $parent.clientHeight || windowHeight;
-    document.addEventListener(EVENTS[1], move);
-    document.addEventListener(EVENTS[2], end);
-    if (_this.onStart) _this.onStart(eventInfo);
-
+    let _this = this
+    const EVENTS = this.EVENTS
+    let diffX = 0, diffY = 0
+    let elemWidth = 0, elemHeight = 0
+    let windowWidth = 0, windowHeight = 0, parentWidth = 0, parentHeight = 0
+    let eventInfo = _this.getEventInfo(event)
+    _this.isDragging = true
+    diffX = eventInfo.clientX - _this.$el.offsetLeft
+    diffY = eventInfo.clientY - _this.$el.offsetTop
+    elemWidth = _this.$el.offsetWidth
+    elemHeight = _this.$el.offsetHeight
+    windowWidth = document.documentElement.clientWidth
+    windowHeight = document.documentElement.clientHeight
+    parentWidth = this.containment ? this.containment.clientWidth : windowWidth
+    parentHeight = this.containment ? this.containment.clientHeight : windowHeight
+    document.addEventListener(EVENTS[1], move)
+    document.addEventListener(EVENTS[2], end)
     function move(event) {
-      let eventInfo = _this.getEventInfo(event);
-      let left = eventInfo.clientX - diffX;
-      let top = eventInfo.clientY - diffY;
-      let minLeft = option.minLeft ? option.minLeft : 0;
-      let minTop = option.minTop? option.minTop : 0;
-
-      if (!_this.option.allowOverstep) {
+      let eventInfo = _this.getEventInfo(event)
+      let left = eventInfo.clientX - diffX
+      let top = eventInfo.clientY - diffY
+      let minLeft = _this.minLeft
+      let minTop = _this.minTop
+      if (_this.containment !== false) {
         if (left < minLeft) {
           left = minLeft
         }
         if (top < minTop) {
-          top = minTop;
+          top = minTop
         }
         if (left + elemWidth > parentWidth) {
-          left = parentWidth - elemWidth;
+          left = parentWidth - elemWidth
         }
         if (top + elemHeight > parentHeight) {
-          top = parentHeight - elemHeight;
+          top = parentHeight - elemHeight
         }
       }
-      _this.$el.style.position = 'absolute';
-      _this.$el.style.left = `${left}px`;
-      _this.$el.style.top = `${top}px`;
-      if (_this.option.alignDrags) {
-        _this.checkAlign();
+      _this.$el.style.position = 'absolute'
+      _this.$el.style.left = `${left}px`
+      _this.$el.style.top = `${top}px`
+      if (_this.snap) {
+        _this.doSnap()
       }
-      if (_this.onMove) _this.onMove(eventInfo);
+      if (_this.onDrag) _this.onDrag(eventInfo)
     }
     function end(event) {
-      let eventInfo = _this.getEventInfo(event);
-      _this.isDragging = false;
-      document.removeEventListener(EVENTS[1], move);
-      document.removeEventListener(EVENTS[2], end);
-      if (_this.onEnd) _this.onEnd(eventInfo);
-      _this.clearAlignLine();
+      let eventInfo = _this.getEventInfo(event)
+      _this.isDragging = false
+      document.removeEventListener(EVENTS[1], move)
+      document.removeEventListener(EVENTS[2], end)
+      if (_this.onStop) _this.onStop(eventInfo)
+      _this.clearSnapLine()
     }
   }
 
   resize(event) {
-    const EVENTS = this.EVENTS;
-    let that = this;
-    event = this.getEventInfo(event);
-    let startX = event.clientX;
-    let startY = event.clientY;
-    let height = this.$el.offsetHeight;
-    let width = this.$el.offsetWidth;
-    let originHeight = height, originWidth = width;
-    let top = parseInt(this.getStyle(this.$el, 'top'));
-    let left = parseInt(this.getStyle(this.$el, 'left'));
-    let originTop = top;
-    let originLeft = left;
-    this.isResizing = true;
-    let $parent = this.option.parent || this.$el.offsetParent;
-    let windowWidth = document.documentElement.clientWidth;
-    let windowHeight = document.documentElement.clientHeight;
-    let parentWidth = $parent.clientWidth || windowWidth;
-    let parentHeight = $parent.clientHeight || windowHeight;
-    let minWidth = this.option.minWidth;
-    let minHeight = this.option.minHeight;
-
-
+    const EVENTS = this.EVENTS
+    let that = this
+    event = this.getEventInfo(event)
+    let startX = event.clientX
+    let startY = event.clientY
+    let height = this.$el.offsetHeight
+    let width = this.$el.offsetWidth
+    let originHeight = height, originWidth = width
+    let top = parseInt(this.getStyle(this.$el, 'top'))
+    let left = parseInt(this.getStyle(this.$el, 'left'))
+    let originTop = top
+    let originLeft = left
+    this.isResizing = true
+    let windowWidth = document.documentElement.clientWidth
+    let windowHeight = document.documentElement.clientHeight
+    let parentWidth = this.containment ? this.containment.clientWidth : windowWidth
+    let parentHeight = this.containment ? this.containment.clientHeight : windowHeight
+    let minWidth = this.minWidth
+    let minHeight = this.minHeight
     function resizeN(event) {
-      let d = event.clientY - startY;
-      height -= d;
+      let d = event.clientY - startY
+      height -= d
       if (height < minHeight) {
-        height = minHeight;
+        height = minHeight
       }
       if (height > originTop + originHeight) {
-        height = originTop + originHeight;
+        height = originTop + originHeight
       }
-      top += d;
+      top += d
       if (top < 0) {
-        top = 0;
+        top = 0
       }
       if(top > originTop + (originHeight - minHeight)) {
-        top = originTop + (originHeight - minHeight);
+        top = originTop + (originHeight - minHeight)
       }
-      that.$el.style.top = top + 'px';
-      that.$el.style.height = height + 'px';
+      that.$el.style.top = top + 'px'
+      that.$el.style.height = height + 'px'
     }
 
     function resizeE(event) {
-      width += event.clientX - startX;
+      width += event.clientX - startX
       if (width < minWidth) {
-        width = minWidth;
+        width = minWidth
       }
       if (width > parentWidth - originLeft) {
-        width = parentWidth - originLeft;
+        width = parentWidth - originLeft
       }
-      that.$el.style.width = width + 'px';
+      that.$el.style.width = width + 'px'
     }
     function resizeS(event) {
-      height += event.clientY - startY;
+      height += event.clientY - startY
       if (height < minHeight) {
-        height = minHeight;
+        height = minHeight
       }
       if (height > parentHeight - originTop) {
-        height = parentHeight - originTop;
+        height = parentHeight - originTop
       }
-      that.$el.style.height = height + 'px';
+      that.$el.style.height = height + 'px'
     }
     function resizeW(event) {
-      width -= event.clientX - startX;
+      width -= event.clientX - startX
       if (width < minWidth) {
-        width = minWidth;
+        width = minWidth
       }
       if (width > originLeft + originWidth) {
-        width = originLeft + originWidth;
+        width = originLeft + originWidth
       }
-      left += event.clientX - startX;
+      left += event.clientX - startX
       if (left < 0) {
-        left = 0;
+        left = 0
       }
       if(left > originLeft + (originWidth - minWidth)) {
-        left = originLeft + (originWidth - minWidth);
+        left = originLeft + (originWidth - minWidth)
       }
-      that.$el.style.left = left + 'px';
-      that.$el.style.width = width + 'px';
+      that.$el.style.left = left + 'px'
+      that.$el.style.width = width + 'px'
     }
 
     function move(event) {
@@ -291,14 +317,14 @@ export default class Draggable {
         resizeS(event)
         resizeW(event)
       }
-      startY = event.clientY;
-      startX = event.clientX;
+      startY = event.clientY
+      startX = event.clientX
       if (that.onResize) {
-        that.onResize();
+        that.onResize()
       }
     }
     function end(event) {
-      that.isResizing = false;
+      that.isResizing = false
       document.removeEventListener(EVENTS[1], move)
       document.removeEventListener(EVENTS[2], end)
     }
@@ -308,503 +334,506 @@ export default class Draggable {
   }
 
   start(event) {
-    event.preventDefault();
-    this.stopPropagation(event);
-    // if (_this.isDragging) {
-    //   return;
-    // }
-    if (this.resizeFlag) {
-      this.resize(event);
+    event.preventDefault()
+    this.stopPropagation(event)
+    if (this.onStart) this.onStart(event)
+    if (this.resizeable && this.resizeFlag) {
+      this.resize(event)
     } else {
-      this.darg(event);
+      this.darg(event)
     }
   }
 
   setupEvent() {
-    let EVENTS = this.EVENTS;
-    let _this = this;
-    let elem = this.option.dragAnchor ? this.option.dragAnchor : this.$el;
-    if (this.option.resizable) {
-      elem.addEventListener(EVENTS[1], event => {
+    let EVENTS = this.EVENTS
+    let _this = this
+    let handle = this.handle
+    if (this.resizeable) {
+      handle.addEventListener(EVENTS[1], event => {
         if (!this.isResizing) {
-          let eventInfo = _this.getEventInfo(event);
-          let resizeFlag = _this.checkResize(elem, eventInfo.clientX, eventInfo.clientY)
-          this.resizeFlag = resizeFlag;
-          if (resizeFlag) {
-            elem.style.cursor = resizeFlag;
+          let eventInfo = _this.getEventInfo(event)
+          let resizeFlag = _this.checkResize(handle, eventInfo.clientX, eventInfo.clientY)
+          this.resizeFlag = resizeFlag
+          if (this.resizeable && resizeFlag) {
+            handle.style.cursor = resizeFlag
           } else {
-            elem.style.cursor = 'move';
+            handle.style.cursor = this.cursor
           }
         }
-      });
+      })
     }
-    elem.addEventListener(EVENTS[0], this.start.bind(this));
-  }
-
-  setAlignDrags(alignDrags) {
-    this.option.alignDrags = alignDrags;
+    handle.addEventListener(EVENTS[0], this.start.bind(this))
   }
 
   getStyle(el, styleProp) {
     if(window.getComputedStyle) {
-      return document.defaultView.getComputedStyle(el, null).getPropertyValue(styleProp);
+      return document.defaultView.getComputedStyle(el, null).getPropertyValue(styleProp)
     }
     if (el.currentStyle) {
-      return el.currentStyle[styleProp];
+      return el.currentStyle[styleProp]
     }
-    return null;
+    return null
   }
 
   getClientRect(el) {
-    let elemRect = el.getBoundingClientRect();
-    let $parent = this.option.parent || this.$el.offsetParent;
-    let clientRect: any = {};
-    let leftBorderWidth = parseInt(this.getStyle($parent, 'border-left-width'));
-    let topBorderWidth = parseInt(this.getStyle($parent, 'border-top-width'));
-    let parentRect: any = $parent.getBoundingClientRect();
-    clientRect.left = elemRect.left - parentRect.left - leftBorderWidth;
-    clientRect.top = elemRect.top - parentRect.top - topBorderWidth;
-    clientRect.right = clientRect.left + elemRect.width;
-    clientRect.bottom = clientRect.top + elemRect.height;
-    clientRect.width = elemRect.width;
-    clientRect.height = elemRect.height;
-    return clientRect;
+    let elemRect = el.getBoundingClientRect()
+    let $parent = this.containment
+    let clientRect: any = {}
+    let leftBorderWidth = parseInt(this.getStyle($parent, 'border-left-width'))
+    let topBorderWidth = parseInt(this.getStyle($parent, 'border-top-width'))
+    let parentRect: any = $parent.getBoundingClientRect()
+    clientRect.left = elemRect.left - parentRect.left - leftBorderWidth
+    clientRect.top = elemRect.top - parentRect.top - topBorderWidth
+    clientRect.right = clientRect.left + elemRect.width
+    clientRect.bottom = clientRect.top + elemRect.height
+    clientRect.width = elemRect.width
+    clientRect.height = elemRect.height
+    return clientRect
   }
 
-  isAlign(srcValue, destValue) {
-    let alignGap = this.option.alignGap;
-    return Math.abs(srcValue - destValue) <= alignGap;
+  isSnap(srcValue, destValue) {
+    let snapTolerance = this.snapTolerance
+    return Math.abs(srcValue - destValue) <= snapTolerance
   }
 
-  clearAlignLine() {
-    let lines = Array.apply(null, document.querySelectorAll('.align-line'));
+  clearSnapLine() {
+    let lines = Array.apply(null, document.querySelectorAll('.snap-line'))
     lines.forEach(item => {
-      item.parentNode.removeChild(item);
-    });
+      item.parentNode.removeChild(item)
+    })
   }
 
 
-  createDistText(flag, dragElemRect, alignElemRect) {
-    let alignLineColor = this.option.alignLineColor;
-    let { top, bottom, left, right, width, height } = alignElemRect;
-    let itemWidthHalf = width / 2;
-    let itemHeightHalf = height / 2;
-    let dragWidthHalf = dragElemRect.width / 2;
-    let dragHeightHalf = dragElemRect.height / 2;
+  createDistText(flag, dragElemRect, snapElemRect) {
+    let { top, bottom, left, right, width, height } = snapElemRect
+    let itemWidthHalf = width / 2
+    let itemHeightHalf = height / 2
+    let dragWidthHalf = dragElemRect.width / 2
+    let dragHeightHalf = dragElemRect.height / 2
 
-    let textBox = document.createElement('div');
-    textBox.style.position = 'absolute';
-    // textBox.style.background = '#000000';
-    textBox.style.textAlign = 'center';
+    let textBox = document.createElement('div')
+    textBox.style.position = 'absolute'
+    // textBox.style.background = '#000000'
+    textBox.style.textAlign = 'center'
 
-    let text = document.createElement('span');
-    let distance = 0;
-    let textHeight = 14;
-    text.style.background = alignLineColor;
-    text.style.borderRadius = '2px';
-    text.style.lineHeight = '14px';
-    text.style.padding = '0 2px';
-    text.style.fontSize = '10px';
-    text.style.color = '#ffffff';
-    text.style.userSelect='none';
-    textBox.appendChild(text);
-    let alignFlags = this.alignFlags;
+    let text = document.createElement('span')
+    let distance = 0
+    let textHeight = 14
+    text.style.background = this.snapLineColor
+    text.style.borderRadius = '2px'
+    text.style.lineHeight = '14px'
+    text.style.padding = '0 2px'
+    text.style.fontSize = '10px'
+    text.style.color = '#ffffff'
+    text.style.userSelect='none'
+    textBox.appendChild(text)
+    let snapFlags = this.snapFlags
     //'top_tt', 'top_bt','top_bb', 'top_tb',
-    if (flag === alignFlags[0] || flag === alignFlags[1] ||
-      flag === alignFlags[3] || flag === alignFlags[4]) {
-      textBox.style.bottom = '0px';
+    if (flag === snapFlags[0] || flag === snapFlags[1] ||
+      flag === snapFlags[3] || flag === snapFlags[4]) {
+      textBox.style.bottom = '0px'
       if (left < dragElemRect.left) {
-        distance = dragElemRect.left - right;
-        textBox.style.left = width + 'px';
+        distance = dragElemRect.left - right
+        textBox.style.left = width + 'px'
       } else {
-        distance = left - dragElemRect.right;
-        textBox.style.left = dragElemRect.width + 'px';
+        distance = left - dragElemRect.right
+        textBox.style.left = dragElemRect.width + 'px'
       }
-      distance = Math.round(distance);
-      if (distance < 0) return null;
+      distance = Math.round(distance)
+      if (distance < 0) return null
       textBox.style.width = distance + 'px'
-      textBox.style.paddingBottom = '2px';
-      text.innerText = distance + 'px';
+      textBox.style.paddingBottom = '2px'
+      text.innerText = distance + 'px'
     }
     // 'top_cc' 'top_tc' 'top_bc'
-    else if (flag === alignFlags[2] || flag === alignFlags[10] || flag === alignFlags[11]) {
-      textBox.style.bottom = '0px';
+    else if (flag === snapFlags[2] || flag === snapFlags[10] || flag === snapFlags[11]) {
+      textBox.style.bottom = '0px'
       if (left < dragElemRect.left) {
-        distance = dragElemRect.left - right;
-        textBox.style.left = itemWidthHalf + 'px';
+        distance = dragElemRect.left - right
+        textBox.style.left = itemWidthHalf + 'px'
       } else {
-        distance = left - dragElemRect.right;
-        textBox.style.left = dragWidthHalf + 'px';
+        distance = left - dragElemRect.right
+        textBox.style.left = dragWidthHalf + 'px'
       }
-      distance = Math.round(distance);
-      if (distance < 0) return null;
-      textBox.style.paddingBottom = '2px';
+      distance = Math.round(distance)
+      if (distance < 0) return null
+      textBox.style.paddingBottom = '2px'
       textBox.style.width = distance + 'px'
-      text.innerText = distance + 'px';
+      text.innerText = distance + 'px'
     }
 
-    else if (flag === alignFlags[5] || flag === alignFlags[6] ||
-      flag === alignFlags[8] || flag === alignFlags[9]) {
-      textBox.style.left = '0px';
+    else if (flag === snapFlags[5] || flag === snapFlags[6] ||
+      flag === snapFlags[8] || flag === snapFlags[9]) {
+      textBox.style.left = '0px'
       if (top < dragElemRect.top) {
-        distance = dragElemRect.top - bottom;
-        textBox.style.top = height + 'px';
+        distance = dragElemRect.top - bottom
+        textBox.style.top = height + 'px'
       } else {
-        distance = top - dragElemRect.bottom;
-        textBox.style.top = dragElemRect.height + 'px';
+        distance = top - dragElemRect.bottom
+        textBox.style.top = dragElemRect.height + 'px'
       }
-      distance = Math.round(distance);
-      if (distance < 0) return null;
-      text.style.position = 'absolute';
-      text.style.top = '50%';
-      text.style.marginTop = -(textHeight / 2) + 'px';
-      text.style.left = '2px';
+      distance = Math.round(distance)
+      if (distance < 0) return null
+      text.style.position = 'absolute'
+      text.style.top = '50%'
+      text.style.marginTop = -(textHeight / 2) + 'px'
+      text.style.left = '2px'
       textBox.style.height = distance + 'px'
-      text.innerText = distance + 'px';
+      text.innerText = distance + 'px'
     }
     //'left_cc' 'left_lc' 'top_rc'
-    else if (flag === alignFlags[7] || flag === alignFlags[12] || flag === alignFlags[13]) {
-      textBox.style.left = '0px';
+    else if (flag === snapFlags[7] || flag === snapFlags[12] || flag === snapFlags[13]) {
+      textBox.style.left = '0px'
       if (top < dragElemRect.top) {
-        distance = dragElemRect.top - bottom;
-        textBox.style.top = itemHeightHalf + 'px';
+        distance = dragElemRect.top - bottom
+        textBox.style.top = itemHeightHalf + 'px'
       } else {
-        distance = top - dragElemRect.bottom;
-        textBox.style.top = dragHeightHalf + 'px';
+        distance = top - dragElemRect.bottom
+        textBox.style.top = dragHeightHalf + 'px'
       }
-      distance = Math.round(distance);
-      if (distance < 0) return null;
-      text.style.position = 'absolute';
-      text.style.top = '50%';
-      text.style.marginTop = -(textHeight / 2) + 'px';
-      text.style.left = '2px';
+      distance = Math.round(distance)
+      if (distance < 0) return null
+      text.style.position = 'absolute'
+      text.style.top = '50%'
+      text.style.marginTop = -(textHeight / 2) + 'px'
+      text.style.left = '2px'
       textBox.style.height = distance + 'px'
-      text.innerText = distance + 'px';
+      text.innerText = distance + 'px'
     }
 
-    return textBox;
+    return textBox
 
   }
 
 
-  showAlignLine($parent, { flag, dragElemRect, alignElemRect, alignDrag }) {
-    let alignLineSize = this.option.alignLineSize;
-    let alignLineColor = this.option.alignLineColor;
-    let { top, bottom, left, right, width, height } = alignElemRect;
-    let itemWidthHalf = width / 2;
-    let itemHeightHalf = height / 2;
-    let dragWidthHalf = dragElemRect.width / 2;
-    let dragHeightHalf = dragElemRect.height / 2;
-    let lineRect: any = {};
+  showSnapLine($parent, { flag, dragElemRect, snapElemRect, snapDrag }) {
+    let snapLineSize = this.snapLineSize
+    let snapLineColor = this.snapLineColor
+    let { top, bottom, left, right, width, height } = snapElemRect
+    let itemWidthHalf = width / 2
+    let itemHeightHalf = height / 2
+    let dragWidthHalf = dragElemRect.width / 2
+    let dragHeightHalf = dragElemRect.height / 2
+    let lineRect: any = {}
 
-    let alignFlags = this.alignFlags;
-    if (flag === alignFlags[0] || flag === alignFlags[1]) {
-      lineRect.left = left < dragElemRect.left ? left : dragElemRect.left;
-      lineRect.top = top;
-      lineRect.bottom = lineRect.top + alignLineSize;
-      lineRect.right = right > dragElemRect.right ? right : dragElemRect.right;
+    let snapFlags = this.snapFlags
+    if (flag === snapFlags[0] || flag === snapFlags[1]) {
+      lineRect.left = left < dragElemRect.left ? left : dragElemRect.left
+      lineRect.top = top
+      lineRect.bottom = lineRect.top + snapLineSize
+      lineRect.right = right > dragElemRect.right ? right : dragElemRect.right
 
-    } else if (flag === alignFlags[2]) {
-      lineRect.top = top + itemHeightHalf;
-      lineRect.bottom = lineRect.top + alignLineSize;
+    } else if (flag === snapFlags[2]) {
+      lineRect.top = top + itemHeightHalf
+      lineRect.bottom = lineRect.top + snapLineSize
       if (left === dragElemRect.left && right === dragElemRect.right) {
-        lineRect.left = left;
-        lineRect.right = right;
+        lineRect.left = left
+        lineRect.right = right
       } else if (left > dragElemRect.left && right < dragElemRect.right) {
-        lineRect.left = dragElemRect.left;
-        lineRect.right = dragElemRect.right;
+        lineRect.left = dragElemRect.left
+        lineRect.right = dragElemRect.right
       } else if (left < dragElemRect.left && right > dragElemRect.right) {
-        lineRect.left = dragElemRect.left + dragWidthHalf;
-        lineRect.right = right;
+        lineRect.left = dragElemRect.left + dragWidthHalf
+        lineRect.right = right
       } else {
-        lineRect.left = left < dragElemRect.left ? left + itemWidthHalf : dragElemRect.left + dragWidthHalf;
-        lineRect.right = right > dragElemRect.right ? right - itemWidthHalf : dragElemRect.right - dragWidthHalf;
+        lineRect.left = left < dragElemRect.left ? left + itemWidthHalf : dragElemRect.left + dragWidthHalf
+        lineRect.right = right > dragElemRect.right ? right - itemWidthHalf : dragElemRect.right - dragWidthHalf
       }
 
-    } else if (flag === alignFlags[3] || flag === alignFlags[4]) {
-      lineRect.left = left < dragElemRect.left ? left : dragElemRect.left;
-      lineRect.top = bottom;
-      lineRect.bottom = lineRect.top + alignLineSize;
-      lineRect.right = right > dragElemRect.right ? right : dragElemRect.right;
-    } else if (flag === alignFlags[5] || flag === alignFlags[6]) {
-      lineRect.left = left;
-      lineRect.top = top < dragElemRect.top ? top : dragElemRect.top;
-      lineRect.bottom = bottom > dragElemRect.bottom ? bottom : dragElemRect.bottom;
-      lineRect.right = lineRect.left + alignLineSize;
-    } else if (flag === alignFlags[7]) {
-      lineRect.left = left + itemWidthHalf;
+    } else if (flag === snapFlags[3] || flag === snapFlags[4]) {
+      lineRect.left = left < dragElemRect.left ? left : dragElemRect.left
+      lineRect.top = bottom
+      lineRect.bottom = lineRect.top + snapLineSize
+      lineRect.right = right > dragElemRect.right ? right : dragElemRect.right
+    } else if (flag === snapFlags[5] || flag === snapFlags[6]) {
+      lineRect.left = left
+      lineRect.top = top < dragElemRect.top ? top : dragElemRect.top
+      lineRect.bottom = bottom > dragElemRect.bottom ? bottom : dragElemRect.bottom
+      lineRect.right = lineRect.left + snapLineSize
+    } else if (flag === snapFlags[7]) {
+      lineRect.left = left + itemWidthHalf
       if (top === dragElemRect.top && bottom === dragElemRect.bottom) {
-        lineRect.top = top;
-        lineRect.bottom = bottom;
+        lineRect.top = top
+        lineRect.bottom = bottom
       } else if (top > dragElemRect.top && bottom < dragElemRect.bottom) {
-        lineRect.top = dragElemRect.top;
-        lineRect.bottom = dragElemRect.bottom;
+        lineRect.top = dragElemRect.top
+        lineRect.bottom = dragElemRect.bottom
       } else if (top < dragElemRect.top && bottom > dragElemRect.bottom) {
-        lineRect.top = top;
-        lineRect.bottom = dragElemRect.top + dragHeightHalf;
+        lineRect.top = top
+        lineRect.bottom = dragElemRect.top + dragHeightHalf
       } else {
-        lineRect.top = top < dragElemRect.top ? top + itemHeightHalf : dragElemRect.top + dragHeightHalf;
-        lineRect.bottom = bottom > dragElemRect.bottom ? bottom - itemHeightHalf : dragElemRect.bottom - dragHeightHalf;
+        lineRect.top = top < dragElemRect.top ? top + itemHeightHalf : dragElemRect.top + dragHeightHalf
+        lineRect.bottom = bottom > dragElemRect.bottom ? bottom - itemHeightHalf : dragElemRect.bottom - dragHeightHalf
       }
-      lineRect.right = lineRect.left + alignLineSize;
-    } else if (flag === alignFlags[8] || flag === alignFlags[9]) {
-      lineRect.left = right;
-      lineRect.top = top < dragElemRect.top ? top : dragElemRect.top;
-      lineRect.bottom = bottom > dragElemRect.bottom ? bottom : dragElemRect.bottom;
-      lineRect.right = lineRect.left + alignLineSize;
+      lineRect.right = lineRect.left + snapLineSize
+    } else if (flag === snapFlags[8] || flag === snapFlags[9]) {
+      lineRect.left = right
+      lineRect.top = top < dragElemRect.top ? top : dragElemRect.top
+      lineRect.bottom = bottom > dragElemRect.bottom ? bottom : dragElemRect.bottom
+      lineRect.right = lineRect.left + snapLineSize
     }
 
-    else if (flag === alignFlags[10] || flag === alignFlags[11]) {
-      lineRect.top = top + itemHeightHalf;
-      lineRect.bottom = lineRect.top + alignLineSize;
+    else if (flag === snapFlags[10] || flag === snapFlags[11]) {
+      lineRect.top = top + itemHeightHalf
+      lineRect.bottom = lineRect.top + snapLineSize
       if (left === dragElemRect.left && right === dragElemRect.right) {
-        lineRect.left = left;
-        lineRect.right = right;
+        lineRect.left = left
+        lineRect.right = right
       } else if (left > dragElemRect.left && right < dragElemRect.right) {
-        lineRect.left = dragElemRect.left;
-        lineRect.right = dragElemRect.right;
+        lineRect.left = dragElemRect.left
+        lineRect.right = dragElemRect.right
       } else {
-        lineRect.left = left < dragElemRect.left ? left + itemWidthHalf : dragElemRect.left + dragWidthHalf;
-        lineRect.right = right > dragElemRect.right ? right : dragElemRect.right;
+        lineRect.left = left < dragElemRect.left ? left + itemWidthHalf : dragElemRect.left + dragWidthHalf
+        lineRect.right = right > dragElemRect.right ? right : dragElemRect.right
       }
     }
 
-    else if (flag === alignFlags[12] || flag === alignFlags[13]) {
-      lineRect.left = left + itemWidthHalf;
+    else if (flag === snapFlags[12] || flag === snapFlags[13]) {
+      lineRect.left = left + itemWidthHalf
       if (top === dragElemRect.top && bottom === dragElemRect.bottom) {
-        lineRect.top = top;
-        lineRect.bottom = bottom;
+        lineRect.top = top
+        lineRect.bottom = bottom
       } else if (top > dragElemRect.top && bottom < dragElemRect.bottom) {
-        lineRect.top = dragElemRect.top;
-        lineRect.bottom = dragElemRect.bottom;
+        lineRect.top = dragElemRect.top
+        lineRect.bottom = dragElemRect.bottom
       } else {
-        lineRect.top = top < dragElemRect.top ? top + itemHeightHalf : dragElemRect.top + dragHeightHalf;
-        lineRect.bottom = bottom > dragElemRect.bottom ? bottom : dragElemRect.bottom;
+        lineRect.top = top < dragElemRect.top ? top + itemHeightHalf : dragElemRect.top + dragHeightHalf
+        lineRect.bottom = bottom > dragElemRect.bottom ? bottom : dragElemRect.bottom
       }
-      lineRect.right = lineRect.left + alignLineSize;
+      lineRect.right = lineRect.left + snapLineSize
     }
 
-    let line = document.createElement('div');
-    line.style.position = 'absolute';
-    line.style.top = `${lineRect.top}px`;
-    line.style.left = `${lineRect.left}px`;
-    let lineWidth = lineRect.right - lineRect.left;
-    lineWidth = lineWidth === 1 ? lineWidth : lineWidth;
-    let lineHeight = lineRect.bottom - lineRect.top;
-    lineHeight = lineHeight === 1 ? lineHeight : lineHeight;
-    line.style.width = `${lineWidth}px`;
-    line.style.height = `${lineHeight}px`;
-    line.style.background =  alignLineColor;
-    line.style.zIndex = '9999999999999';
-    line.className = 'align-line';
-    let distText = this.createDistText(flag, dragElemRect, alignElemRect);
-    if (this.option.isShowDist && distText) {
-      line.appendChild(distText);
+    let line = document.createElement('div')
+    line.style.position = 'absolute'
+    line.style.top = `${lineRect.top}px`
+    line.style.left = `${lineRect.left}px`
+    let lineWidth = lineRect.right - lineRect.left
+    lineWidth = lineWidth === 1 ? lineWidth : lineWidth
+    let lineHeight = lineRect.bottom - lineRect.top
+    lineHeight = lineHeight === 1 ? lineHeight : lineHeight
+    line.style.width = `${lineWidth}px`
+    line.style.height = `${lineHeight}px`
+    line.style.background =  snapLineColor
+    line.style.zIndex = '9999999999999'
+    line.className = 'snap-line'
+    let distText = this.createDistText(flag, dragElemRect, snapElemRect)
+    if (this.snapDist && distText) {
+      line.appendChild(distText)
     }
-    $parent.appendChild(line);
+    $parent.appendChild(line)
   }
-  checkAlign() {
-    let dragElem = this.$el;
-    let alignDrags = this.option.alignDrags;
-    let dragElemRect = this.getClientRect(this.option.alignAnchor ? this.option.alignAnchor : dragElem);
-    let alignInfos = [];
-    this.clearAlignLine();
-    let alignFlags = this.alignFlags;
-    alignDrags.forEach(item => {
+  doSnap() {
+    let dragElem = this.$el
+    let snapElems = []
+    if (typeof this.snap === 'boolean') {
+      snapElems = [].slice.call(document.querySelectorAll('.draggable'))
+    }
+    else if (typeof this.snap === 'string') {
+      snapElems = [].slice.call(document.querySelectorAll(this.snap))
+    } else if (typeof this.snap === 'object' && this.snap.length) {
+      snapElems = this.snap
+    }
+
+    let dragElemRect = this.getClientRect(this.handle)
+    let snapInfos = []
+    this.clearSnapLine()
+    let snapFlags = this.snapFlags
+    snapElems.forEach(item => {
       if (item === this) {
         return
       }
-      let itemElem = item.$el;
-      let alignElemRect: any = this.getClientRect(item.option.alignAnchor ? item.option.alignAnchor : itemElem);
-      let { top, height, bottom, left, width, right } = alignElemRect;
-      let dragWidthHalf = dragElemRect.width / 2;
-      let itemWidthHalf = width / 2;
-      let dragHeightHalf = dragElemRect.height / 2;
-      let itemHeightHalf = height / 2;
+      let itemElem = item.$el
+      // let snapElemRect: any = this.getClientRect(item.option.alignAnchor ? item.option.alignAnchor : itemElem)
+      let snapElemRect: any = this.getClientRect(itemElem)
+      let { top, height, bottom, left, width, right } = snapElemRect
+      let dragWidthHalf = dragElemRect.width / 2
+      let itemWidthHalf = width / 2
+      let dragHeightHalf = dragElemRect.height / 2
+      let itemHeightHalf = height / 2
 
       // y c
-      if (this.isAlign(dragElemRect.top + dragHeightHalf, top + itemHeightHalf)) {
-        let alignInfo = {
-          flag: alignFlags[2],
-          alignDrag: item,
+      if (this.isSnap(dragElemRect.top + dragHeightHalf, top + itemHeightHalf)) {
+        let snapInfo = {
+          flag: snapFlags[2],
+          snapDrag: item,
           dragValue: top + itemHeightHalf - dragHeightHalf,
-          alignElemRect: alignElemRect,
+          snapElemRect: snapElemRect,
           dragElemRect: dragElemRect
         }
-        alignInfos.push(alignInfo);
+        snapInfos.push(snapInfo)
       }
       // y t-top
-      else if (this.isAlign(dragElemRect.top, top)) {
-        let alignInfo = {
-          flag: alignFlags[0],
+      else if (this.isSnap(dragElemRect.top, top)) {
+        let snapInfo = {
+          flag: snapFlags[0],
           dragValue: top,
-          alignDrag: item,
-          alignElemRect: alignElemRect,
+          snapDrag: item,
+          snapElemRect: snapElemRect,
           dragElemRect: dragElemRect
         }
-        alignInfos.push(alignInfo);
+        snapInfos.push(snapInfo)
       }
       // y b-top
-      else if (this.isAlign(dragElemRect.bottom, top)) {
-        let alignInfo = {
-          flag: alignFlags[1],
-          alignDrag: item,
+      else if (this.isSnap(dragElemRect.bottom, top)) {
+        let snapInfo = {
+          flag: snapFlags[1],
+          snapDrag: item,
           dragValue: top - dragElemRect.height,
-          alignElemRect: alignElemRect,
+          snapElemRect: snapElemRect,
           dragElemRect: dragElemRect
         }
-        alignInfos.push(alignInfo);
+        snapInfos.push(snapInfo)
       }
 
       // y b-bottom
-      else if (this.isAlign(dragElemRect.bottom, bottom)) {
-        let alignInfo = {
-          flag: alignFlags[3],
-          alignDrag: item,
+      else if (this.isSnap(dragElemRect.bottom, bottom)) {
+        let snapInfo = {
+          flag: snapFlags[3],
+          snapDrag: item,
           dragValue: bottom - dragElemRect.height,
-          alignElemRect: alignElemRect,
+          snapElemRect: snapElemRect,
           dragElemRect: dragElemRect
         }
-        alignInfos.push(alignInfo);
+        snapInfos.push(snapInfo)
       }
       // y t-bottom
-      else if (this.isAlign(dragElemRect.top, bottom)) {
-        let alignInfo = {
-          flag: alignFlags[4],
-          alignDrag: item,
+      else if (this.isSnap(dragElemRect.top, bottom)) {
+        let snapInfo = {
+          flag: snapFlags[4],
+          snapDrag: item,
           dragValue: bottom,
-          alignElemRect: alignElemRect,
+          snapElemRect: snapElemRect,
           dragElemRect: dragElemRect
         }
-        alignInfos.push(alignInfo);
+        snapInfos.push(snapInfo)
       }
       // y t-center
-      else if (this.isAlign(dragElemRect.top, top + itemHeightHalf)) {
-        let alignInfo = {
-          flag: alignFlags[10],
-          alignDrag: item,
+      else if (this.isSnap(dragElemRect.top, top + itemHeightHalf)) {
+        let snapInfo = {
+          flag: snapFlags[10],
+          snapDrag: item,
           dragValue: top + itemHeightHalf,
-          alignElemRect: alignElemRect,
+          snapElemRect: snapElemRect,
           dragElemRect: dragElemRect
         }
-        alignInfos.push(alignInfo);
+        snapInfos.push(snapInfo)
       }
       // y b_center
-      else if (this.isAlign(dragElemRect.bottom, bottom - itemHeightHalf)) {
-        let alignInfo = {
-          flag: alignFlags[11],
-          alignDrag: item,
+      else if (this.isSnap(dragElemRect.bottom, bottom - itemHeightHalf)) {
+        let snapInfo = {
+          flag: snapFlags[11],
+          snapDrag: item,
           dragValue: bottom - itemHeightHalf - dragElemRect.height,
-          alignElemRect: alignElemRect,
+          snapElemRect: snapElemRect,
           dragElemRect: dragElemRect
         }
-        alignInfos.push(alignInfo);
+        snapInfos.push(snapInfo)
       }
 
 
       // x c
-      if (this.isAlign(dragElemRect.left + dragWidthHalf, left + itemWidthHalf)) {
-        let alignInfo = {
-          flag: alignFlags[7],
-          alignDrag: item,
+      if (this.isSnap(dragElemRect.left + dragWidthHalf, left + itemWidthHalf)) {
+        let snapInfo = {
+          flag: snapFlags[7],
+          snapDrag: item,
           dragValue: left + itemWidthHalf - dragWidthHalf,
-          alignElemRect: alignElemRect,
+          snapElemRect: snapElemRect,
           dragElemRect: dragElemRect
         }
-        alignInfos.push(alignInfo);
+        snapInfos.push(snapInfo)
       }
 
       // x l-left
-      else if (this.isAlign(dragElemRect.left, left)) {
-        let alignInfo = {
-          flag: alignFlags[5],
-          alignDrag: item,
+      else if (this.isSnap(dragElemRect.left, left)) {
+        let snapInfo = {
+          flag: snapFlags[5],
+          snapDrag: item,
           dragValue: left,
-          alignElemRect: alignElemRect,
+          snapElemRect: snapElemRect,
           dragElemRect: dragElemRect
         }
-        alignInfos.push(alignInfo);
+        snapInfos.push(snapInfo)
       }
       // x r-left
-      else if (this.isAlign(dragElemRect.right, left)) {
-        let alignInfo = {
-          flag: alignFlags[6],
-          alignDrag: item,
+      else if (this.isSnap(dragElemRect.right, left)) {
+        let snapInfo = {
+          flag: snapFlags[6],
+          snapDrag: item,
           dragValue: left - dragElemRect.width,
-          alignElemRect: alignElemRect,
+          snapElemRect: snapElemRect,
           dragElemRect: dragElemRect
         }
-        alignInfos.push(alignInfo);
+        snapInfos.push(snapInfo)
       }
 
       // x r-right
-      else if (this.isAlign(dragElemRect.right, right)) {
-        let alignInfo = {
-          flag: alignFlags[8],
-          alignDrag: item,
+      else if (this.isSnap(dragElemRect.right, right)) {
+        let snapInfo = {
+          flag: snapFlags[8],
+          snapDrag: item,
           dragValue: right - dragElemRect.width,
-          alignElemRect: alignElemRect,
+          snapElemRect: snapElemRect,
           dragElemRect: dragElemRect
         }
-        alignInfos.push(alignInfo);
+        snapInfos.push(snapInfo)
       }
       // x l-right
-      else if (this.isAlign(dragElemRect.left, right)) {
-        let alignInfo = {
-          flag: alignFlags[9],
-          alignDrag: item,
+      else if (this.isSnap(dragElemRect.left, right)) {
+        let snapInfo = {
+          flag: snapFlags[9],
+          snapDrag: item,
           dragValue: right,
-          alignElemRect: alignElemRect,
+          snapElemRect: snapElemRect,
           dragElemRect: dragElemRect
         }
-        alignInfos.push(alignInfo);
+        snapInfos.push(snapInfo)
       }
       // y l-center
-      else if (this.isAlign(dragElemRect.left, left + itemWidthHalf)) {
-        let alignInfo = {
-          flag: alignFlags[12],
-          alignDrag: item,
+      else if (this.isSnap(dragElemRect.left, left + itemWidthHalf)) {
+        let snapInfo = {
+          flag: snapFlags[12],
+          snapDrag: item,
           dragValue: left + itemWidthHalf,
-          alignElemRect: alignElemRect,
+          snapElemRect: snapElemRect,
           dragElemRect: dragElemRect
         }
-        alignInfos.push(alignInfo);
+        snapInfos.push(snapInfo)
       }
       // y r_center
-      else if (this.isAlign(dragElemRect.right, right - itemWidthHalf)) {
-        let alignInfo = {
-          flag: alignFlags[13],
-          alignDrag: item,
+      else if (this.isSnap(dragElemRect.right, right - itemWidthHalf)) {
+        let snapInfo = {
+          flag: snapFlags[13],
+          snapDrag: item,
           dragValue: right - itemWidthHalf - dragElemRect.width,
-          alignElemRect: alignElemRect,
+          snapElemRect: snapElemRect,
           dragElemRect: dragElemRect
         }
-        alignInfos.push(alignInfo);
+        snapInfos.push(snapInfo)
       }
 
-    });
-    let $parent = this.option.parent || this.$el.offsetParent;
-    alignInfos.forEach(alignInfo => {
-      let flags = alignInfo.flag.split('_');
-      let pos = flags[0];
-      if (this.option.alignAnchor) {
-        let d = 0;
-        if (pos === 'left') {
-          d = this.option.alignAnchor.offsetLeft;
-        } else if (pos === 'top') {
-          d = this.option.alignAnchor.offsetTop;
-        }
-        dragElem.style[pos] = `${alignInfo.dragValue - d}px`;
-      } else {
-        dragElem.style[pos] = `${alignInfo.dragValue}px`;
-      }
-      if (this.option.isShowDist || alignInfo.alignDrag.option.isShowDist) {
-        this.showAlignLine($parent, alignInfo);
+    })
+    snapInfos.forEach(snapInfo => {
+      let flags = snapInfo.flag.split('_')
+      let pos = flags[0]
+      // if (this.option.alignAnchor) {
+      //   let d = 0
+      //   if (pos === 'left') {
+      //     d = this.option.alignAnchor.offsetLeft
+      //   } else if (pos === 'top') {
+      //     d = this.option.alignAnchor.offsetTop
+      //   }
+      //   dragElem.style[pos] = `${snapInfo.dragValue - d}px`
+      // } else {
+        dragElem.style[pos] = `${snapInfo.dragValue}px`
+      // }
+      // || snapInfo.snapDrag.isShowDist
+      if (this.snapLine) {
+        this.showSnapLine(this.containment, snapInfo)
       }
     })
 
-    if (this.onAlign && alignInfos.length > 0) {
-      this.onAlign(alignInfos);
+    if (this.onSnap && snapInfos.length > 0) {
+      this.onSnap(snapInfos)
     }
   }
 

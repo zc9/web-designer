@@ -111,9 +111,9 @@ export default class Stage {
         resizable: false,
         allowOverstep: false,
       })
-      $guideLine.css('top', (event.clientY - this.$el[0].getBoundingClientRect().top - drag.option.alignAnchor.offsetTop) + 'px')
+      $guideLine.css('top', (event.clientY - this.$el[0].getBoundingClientRect().top - $guideLine[0].children[0]['offsetTop']) + 'px')
       drag.start(event)
-      drag.onEnd = function(event) {
+      drag.onStop = function(event) {
         if (drag.$el.offsetTop <= 15) {
           $(drag.$el).remove();
         }
@@ -133,9 +133,9 @@ export default class Stage {
         resizable: false,
         allowOverstep: false,
       })
-      $guideLine.css('left', (event.clientX - this.$el[0].getBoundingClientRect().left - drag.option.alignAnchor.offsetLeft) + 'px')
+      $guideLine.css('left', (event.clientX - this.$el[0].getBoundingClientRect().left - $guideLine[0].children[0]['offsetLeft']) + 'px')
       drag.start(event)
-      drag.onEnd = function(event) {
+      drag.onStop = function(event) {
         if (drag.$el.offsetLeft <= 15) {
           $(drag.$el).remove();
         }
@@ -287,7 +287,7 @@ export default class Stage {
 
   resetAlignElements() {
     this.drags.forEach(item => {
-      item.setAlignDrags(this.drags);
+      // item.setAlignDrags(this.drags);
     })
   }
 

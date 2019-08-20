@@ -1,8 +1,12 @@
+@import './rightarea.scss';
 * {
   margin: 0;
   padding: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
-
 @font-face{
   font-family: "xinszxicon";
   src:url("../assets/xinszx_icon.ttf"),
@@ -14,6 +18,19 @@ icon {
 	font-family:"xinszxicon";
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+}
+.clearfix {
+  *zoom: 1;
+}
+
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  line-height: 0;
+  content: "";
+}
+.clearfix:after {
+  clear: both;
 }
 .header {
   position: relative;
@@ -172,10 +189,55 @@ icon {
 .bg-trans {
   background: url("../assets/trans.jpg") repeat !important;
 }
-.page-config {
+.pagecolorpanel {
+  display: inline-block;
+  position: relative;
+}
+.page-check {
+  display: inline-block;
+  cursor: pointer;
+  margin-left: 0px;
+  i {
+    padding: 5px 8px;
+    margin-right: 2px;
+    background: url("../assets/icon.png") -31px -126px;
+  }
+  &.active {
+    i {
+      padding: 5px 8px;
+      margin-right: 2px;
+      background: url("../assets/icon.png") -10px -126px;
+    }
+  }
+}
+.setting-bar {
   position: relative;
   height: 40px;
   background-color: #292e33;
+  .icon-box {
+    width:50px;
+    height:40px;
+    icon{
+      width:48px;
+      height:40px;
+      line-height:40px;
+      color:#13b964;
+      display:block;
+      float:left;
+      text-align:center;
+      font-size:17px;
+    }
+    i {
+      display: block;
+      float: left;
+      width: 1px;
+      height: 21px;
+      background: none;
+      margin-left: 0;
+      margin-top: 9px;
+      border-right: 1px #1b1f24 solid;
+    }
+  }
   .set-panel {
     height: 41px;
     line-height: 41px;
@@ -193,11 +255,25 @@ icon {
       text-indent: 14px;
       display: inline-block;
     }
-    .bgcolor-box {
+    .pageselect{
       display: inline-block;
-      position: relative;
+      width: 70px;
+      height: 20px;
+      line-height: 20px;
+      cursor: pointer;
+      margin-left: 5px;
+      text-indent: 4px;
+      color: #525c66;
+      background: url("../assets/icon.png") -346px -288px;
     }
-
+    .pageselect:hover{
+      background: url("../assets/icon.png") -346px -309px;
+    }
+    .spaceline {
+      border-right: 1px #1b1f24 solid;
+      margin-left: 14px;
+      margin-top: 5px;
+    }
     input {
       width: 55px;
       height: 20px;
@@ -228,26 +304,7 @@ icon {
       margin-top: 5px;
     }
   }
-  .page-check {
-    display: inline-block;
-    width: 70px;
-    height: 41px;
-    line-height: 41px;
-    cursor: pointer;
-    margin-left: 0px;
-    i {
-      padding: 5px 8px;
-      margin-right: 2px;
-      background: url("../assets/icon.png") -31px -126px;
-    }
-    &.active {
-      i {
-        padding: 5px 8px;
-        margin-right: 2px;
-        background: url("../assets/icon.png") -10px -126px;
-      }
-    }
-  }
+
   .bgImg-box {
     position: relative;
     display: inline;
@@ -269,7 +326,11 @@ icon {
       display:block;
     }
   }
+  .page-config {
+
+  }
 }
+
 .main {
   position: absolute;
   top: 90px;
@@ -279,48 +340,110 @@ icon {
   padding-top: 0;
   overflow: hidden;
 }
-.left-area {
+
+.toolbar {
+  position: absolute;
+  width: 50px;
+  background: #292e33;
+  top: 0;
+  bottom: 0;
+  .move-handle {
+    i {
+      margin-left: 14px;
+    }
+  }
+  .shrink {
+    i {
+      background: url("../assets/icon.png") -119px -135px;
+    }
+  }
+  ul {
+    li {
+      width: 50px;
+      height: 46px;
+      cursor: pointer;
+      padding-top: 3px;
+      padding-bottom: 3px;
+      text-align: center;
+      &.active {
+        background: #1f2226;
+      }
+      &:hover{
+        background:#333a40;
+      }
+      .color1 {
+        color: #814fcf;
+      }
+      .color0 {
+        color: rgb(102, 115, 128);
+      }
+      .color2 {
+        color: #13b964;
+      }
+      icon {
+        font-size:17px;
+        color:#19c2d1;
+        display:block;
+        margin-bottom: 2px;
+        line-height: 25px;
+      }
+      span {
+        color:#19c2d1;
+        font-size: 12px;
+        line-height: 18px;
+      }
+    }
+  }
+}
+
+.shrink {
+  height: 10px;
+  background: #141619;
+  transition: 0.2s;
+  border-bottom: none;
+  i {
+    display: block;
+    width: 14px;
+    height: 10px;
+    float: right;
+    cursor: pointer;
+  }
+}
+.move-handle {
+  height: 20px;
+  cursor: move;
+  i {
+    display: block;
+    float: left;
+    margin-top: 7px;
+    width: 21px;
+    height: 6px;
+    background: url("../assets/icon.png") -136px -137px;
+  }
+}
+
+.component-bar {
   position: absolute;
   top: 0px;
-  left: 0px;
+  left: 50px;
   bottom: 0;
   width: 140px;
   background: #292e33;
   border: 1px #14171a solid;
   border-top: none;
-}
-.component-list {
   font-size: 13px;
   color: #b8c2cc;
   .shrink {
-    width: 140px;
-    height: 10px;
-    background: #141619;
-    transition: 0.2s;
-    border-bottom: none;
     i {
-      display: block;
-      width: 14px;
-      height: 10px;
-      float: right;
       background: url("../assets/icon.png") -67px -154px;
-      cursor: pointer;
       &.xb {
         background: url("../assets/icon.png") -100px -135px;
       }
     }
   }
-  .move {
-    height: 20px;
-    cursor: move;
+  .move-handle {
     i {
-      display: block;
-      float: left;
       margin-left: 56px;
-      margin-top: 7px;
-      width: 21px;
-      height: 6px;
-      background: url("../assets/icon.png") -136px -137px;
     }
   }
   ul {
@@ -373,23 +496,13 @@ icon {
     white-space: normal;
   }
 }
-
-.right-area {
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  bottom: 0;
-  width: 200px;
-  background: #292e33;
-}
-
 .stage-ct {
   position: relative;
   height: 100%;
   overflow: hidden;
-  margin-left: 140px;
+  margin-left: 190px;
   margin-top: 0;
-  margin-right: 200px;
+  margin-right: 280px;
 }
 
 .stage {

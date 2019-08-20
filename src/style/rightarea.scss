@@ -1,0 +1,130 @@
+
+.right-area {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0;
+  width: 280px;
+  background: #292e33;
+  border-left: 1px #393939 solid;
+  .align-panel {
+    .title-bar {
+      color: #8fa1b3;
+      height: 24px;
+      line-height: 24px;
+      background: #141618;
+      font-size: 12px;
+      em {
+        padding: 0 15px;
+        background: url("../assets/icon.png") -99px -171px;
+      }
+      i {
+        display: block;
+        float: right;
+        width: 19px;
+        height: 14px;
+        background: url("../assets/icon.png") -80px -130px;
+        cursor: pointer;
+      }
+    }
+
+    .align-btn-group {
+      padding-left: 10px;
+      background: #282e32;
+      border-bottom: 1px #141619 solid;
+      color: #b8c2cc;
+      .space-line {
+        height: 1px;
+        background: #343941;
+        border-top: 1px #141619 solid;
+        margin-top: 8px;
+        clear: both;
+        float: left;
+        width: 100%;
+      }
+      .plbox {
+        clear: both;
+        margin-top: 8px;
+        font-size: 12px;
+        float: left;
+        width: 100%;
+        margin-bottom: 8px;
+        input.px {
+          height: 20px;
+          font-size: 12px;
+          color: #525c66;
+          background: #fff;
+          border: 1px #141619 solid;
+          text-indent: 2px;
+          margin-left: 9px;
+          outline: 0;
+          width: 36px;
+          padding-right: 15px;
+          float: left;
+          background-image: url("../assets/icon.png");
+          background-position: -445px -434px;
+        }
+      }
+      span {
+        display: block;
+        width: 22px;
+        height: 20px;
+        line-height: 20px;
+        text-align: center;
+        float: left;
+        background: url("../assets/icon.png") -126px -192px;
+        margin-top: 8px;
+        margin-right: 4px;
+        icon {
+          font-size: 17px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  .prop-setting-ct {
+    font-size: 12px;
+    input {
+      color: #525c66;
+      background: #fff;
+      border: 1px #141619 solid;
+      outline: none;
+      padding: 0 2px;
+      font-size: 12px;
+      height: 20px;
+      width: 142px;
+      &:focus {
+        border-color: #1a8cff;
+      }
+    }
+    .img-com-prop-panel {
+      color: #8fa1b3;
+      .title-bar {
+        height: 24px;
+        line-height: 24px;
+        background: #141618;
+        font-size: 12px;
+        em {
+          padding: 0 5px;
+        }
+        i {
+          display: block;
+          float: right;
+          width: 19px;
+          height: 14px;
+          background: url("../assets/icon.png") -80px -130px;
+          cursor: pointer;
+        }
+      }
+      .item {
+        margin-top: 20px;
+        padding: 0 10px;
+        > div {
+          float: left;
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+}
+

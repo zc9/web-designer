@@ -2,7 +2,9 @@ import Draggable from './Draggable';
 import Ruler from './Ruler';
 import Component from './Component';
 import HotAreaComponent from './HotAreaComponent';
+
 export default class Stage {
+  static STATE: Array<string> = ['hotarea', 'selection', 'handle']
   EVENTS: Array<string> = []
   isRuler: boolean = true
   drags: Array<Draggable> = []
@@ -14,11 +16,13 @@ export default class Stage {
   $scrollContent: JQuery
   $canvas: JQuery
   myScroll: any
+  selector = null
   paddingWidth: number
   paddingHeight: number
   ruler: Ruler
   pageWidth: number = 1920
   pageHeight: number = 2561
+  state: string
   props: any = {
     bgColor: '#FFFFFF',
     position: '50% 0%',
@@ -105,11 +109,11 @@ export default class Stage {
       let $guideLine = $('<div class="guide-line guide-lineX"><div></div></div>');
       this.$el.append($guideLine)
       let drag = new Draggable($guideLine[0], {
-        isShowDist: false,
-        alignAnchor: $guideLine[0].children[0],
+        snapAnchor: $guideLine[0].children[0],
         minLeft: 20,
+        axis: 'y',
+        cursor: 'row-resize',
         resizable: false,
-        allowOverstep: false,
       })
       $guideLine.css('top', (event.clientY - this.$el[0].getBoundingClientRect().top - $guideLine[0].children[0]['offsetTop']) + 'px')
       drag.start(event)
@@ -118,8 +122,6 @@ export default class Stage {
           $(drag.$el).remove();
         }
       }
-      this.drags.push(drag);
-      this.resetAlignElements();
     })
 
     $rulerY.addEventListener(EVENTS[0], event => {
@@ -127,11 +129,11 @@ export default class Stage {
       this.$el.append($guideLine)
 
       let drag = new Draggable($guideLine[0], {
-        isShowDist: false,
-        alignAnchor: $guideLine[0].children[0],
+        snapAnchor: $guideLine[0].children[0],
         minTop: 20,
+        axis: 'x',
+        cursor: 'col-resize',
         resizable: false,
-        allowOverstep: false,
       })
       $guideLine.css('left', (event.clientX - this.$el[0].getBoundingClientRect().left - $guideLine[0].children[0]['offsetLeft']) + 'px')
       drag.start(event)
@@ -140,11 +142,13 @@ export default class Stage {
           $(drag.$el).remove();
         }
       }
-      this.drags.push(drag);
-      this.resetAlignElements();
+
     })
 
-
+    this.selector = $scrollContent.selectable({
+      disabled: true
+    });
+    this.setState(Stage.STATE[0])
     this.setupEvent();
 
   }
@@ -211,15 +215,19 @@ export default class Stage {
     })
 
     canvasElem.addEventListener(EVENTS[0], event => {
+      if (event.target !== canvasElem || this.state !== Stage.STATE[0]) {
+        return
+      }
       let canvasRect = canvasElem.getBoundingClientRect();
       this.unselectComponent();
-      console.log('canvas down')
       let that = this;
       let eventInfo: any = this.getEventInfo(event);
       let startX = eventInfo.clientX;
       let startY = eventInfo.clientY;
       let component = new HotAreaComponent();
       this.addComponent(component)
+      component.select()
+      component.showToolbar()
       function move(event) {
         event = that.getEventInfo(event)
         let curStartX = event.clientX;
@@ -241,6 +249,7 @@ export default class Stage {
           height = curStartY - startY;
         }
         that.setElementPos(component.$el, left - canvasRect.left, top - canvasRect.top, width, height)
+        component.resetPositionInfo()
       }
       function end(event) {
         if (component.width() < component.minWidth || component.height() < component.minHeight) {
@@ -253,6 +262,15 @@ export default class Stage {
       document.addEventListener(EVENTS[1], move)
       document.addEventListener(EVENTS[2], end)
     })
+  }
+
+  setState(state) {
+    this.state = state
+    if (state === Stage.STATE[1]) {
+      this.selector.selectable('option', 'disabled', false);
+    } else {
+      this.selector.selectable('option', 'disabled', true);
+    }
   }
 
   unselectComponent() {
@@ -285,30 +303,25 @@ export default class Stage {
     return this.isTouch() ? event.targetTouches[0] : event
   }
 
-  resetAlignElements() {
-    this.drags.forEach(item => {
-      // item.setAlignDrags(this.drags);
-    })
-  }
 
   removeComponent(component) {
     component.remove();
     // @ts-ignore
     this.components.remove(component)
-    // @ts-ignore
-    this.drags.remove(component.drag);
   }
 
   addComponent(component) {
     component.mount(this);
-    this.drags.push(component.drag);
     this.components.push(component)
-    this.resetAlignElements();
   }
 
   setComponentAllowOverstep(allowOverstep) {
     this.components.forEach((component) => {
-      component['drag']['option'].allowOverstep = allowOverstep;
+      if (allowOverstep) {
+        component['drag'].option('containment', false)
+      } else {
+        component['drag'].option('containment', 'parent')
+      }
     })
   }
 

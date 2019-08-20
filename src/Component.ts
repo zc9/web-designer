@@ -17,6 +17,7 @@ export default abstract class Component {
   formData: any = {}
   name: string
   id: string
+  selected: boolean = false
   constructor(name = '') {
     this.name = name;
     let $el = $(`
@@ -74,10 +75,14 @@ export default abstract class Component {
   abstract toHtml() : string;
 
   select() {
+    this.$contentBox.addClass('selected');
+    this.selected = true
+    this.resetPositionInfo();
+  }
+
+  showToolbar() {
     this.$topBar.show();
     this.$bottomBar.show();
-    this.$contentBox.addClass('selected');
-    this.resetPositionInfo();
   }
 
   resetPositionInfo() {
@@ -93,6 +98,7 @@ export default abstract class Component {
     this.$topBar.hide();
     this.$bottomBar.hide();
     this.$contentBox.removeClass('selected')
+    this.selected = false
   }
 
   mount(stage: Stage) {
@@ -100,13 +106,21 @@ export default abstract class Component {
     this.id = stage.getRandomStr(4)
     let $canvas = stage.$canvas;
     $canvas.append(this.$el)
+    // @ts-ignore
+    this.$el.resizable({
+      // containment: $canvas[0],
+      classes: {
+        'ui-resizable-se': '',
+      },
+      handles: 'all',
+    })
     let drag = new Draggable(this.$el[0], {
       minWidth: this.minWidth,
       minHeight: this.minHeight,
       handle: this.$contentBox[0],
-      resizeable: true,
+      // containment: $canvas[0],
+      resizable: false,
       snap: true
-      // isShowDist: false,
     })
     this.drag = drag;
     drag.onDrag = () => {
@@ -118,6 +132,7 @@ export default abstract class Component {
     this.$contentBox.on('mousedown',  (event) => {
       if (stage.curSelectedComponent != this) {
         stage.selectComponent(this);
+        this.showToolbar()
       }
     });
 
@@ -132,6 +147,19 @@ export default abstract class Component {
     this.$bottomBar.on('mousedown', (event) => {
       event.stopPropagation();
     })
+
+    this.$el.on('mouseenter', (event) => {
+      if (this.selected) {
+        this.showToolbar()
+      }
+    })
+
+    // this.$el.on('mouseleave', (event) => {
+    //   if (this.selected) {
+    //     this.$topBar.hide();
+    //     this.$bottomBar.hide();
+    //   }
+    // })
   }
 
 }

@@ -6,9 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="lib/spectrum/spectrum.css">
   <link rel="stylesheet" href="lib/layui/css/layui.css">
+  <link rel="stylesheet" href="lib/jquery-ui/jquery-ui.min.css">
   <title>Web Designer</title>
 </head>
-<body>
+<body onselectstart="return false">
   <div class="header">
     <div class="logo">
       <a href="/" target="_blank"></a>
@@ -44,66 +45,208 @@
 			</div>
     </div>
   </div>
-  <div class="page-config">
-    <div class="set-panel">
-      <span class="title">页面设置</span>
-      <span class="label">宽度</span>
-      <input class="input-px input-width" value="">
-      <span class="calc-size calc-width">计算</span>
-      <span class="label">高度</span>
-      <input class="input-px input-height" value="">
-      <span class="calc-size calc-height">计算</span>
-      <span class="label">整页背景图</span>
-      <div class="bgImg-box">
-        <input class="input-bg" style="width:150px;">
-        <div class="ppbPP">
-          <span class="page-check" data-val="repeat" style="text-indent: 12px;"><i></i>平铺<input type="hidden"></span>
-          <span class="page-check" data-val="fixed"><i></i>固定背景<input type="hidden"></span>
-        </div>
+  <div class="setting-bar">
+    <div class="page-config">
+      <div class="icon-box">
+        <icon>ꒃ</icon><i></i>
       </div>
-      <span class="label">背景对齐位置</span>
-      <select class="align-select" style="outline: none;height: 20px;margin-left: 9px;border: 1px #141619 solid;color: #525c66">
-        <option value="0% 0%">左上</option>
-        <option selected="selected" value="50% 0%">中上</option>
-        <option value="100% 0%">右上</option>
-        <option value="0% 50%">左中</option>
-        <option value="50% 50%">居中</option>
-        <option value="100% 50%">右中</option>
-        <option value="0% 100%">左下</option>
-        <option value="50% 100%">中下</option>
-        <option value="100% 100%">右下</option>
-      </select>
-      <span class="label">整页背景色</span>
-      <div class="bgcolor-box" style="height: 25px;width: 110px;">
-        <div class="sp-replacer sp-light" style="z-index: 2;bottom: auto;top: 10px;">
-          <div class="sp-preview">
-            <div class="sp-preview-inner" style="background-color: #fff;"></div>
+      <div class="set-panel">
+        <span class="title">页面设置</span>
+        <span class="label">宽度</span>
+        <input class="input-px input-width" value="">
+        <span class="calc-size calc-width">计算</span>
+        <span class="label">高度</span>
+        <input class="input-px input-height" value="">
+        <span class="calc-size calc-height">计算</span>
+        <span class="label">整页背景图</span>
+        <div class="bgImg-box">
+          <input class="input-bg" style="width:150px;">
+          <div class="ppbPP">
+            <span class="page-check" data-val="repeat" style="text-indent: 12px;"><i></i>平铺<input type="hidden"></span>
+            <span class="page-check" data-val="fixed"><i></i>固定背景<input type="hidden"></span>
           </div>
         </div>
-        <input id="inputBgColor" class="pagecolor" type="text" value="#FFFFFF" style="width:100px;text-indent:28px;position: absolute;top: 9px;"><span class="clear-color-button"></span>
+        <span class="label">背景对齐位置</span>
+        <select class="align-select" style="outline: none;height: 20px;margin-left: 9px;border: 1px #141619 solid;color: #525c66">
+          <option value="0% 0%">左上</option>
+          <option selected="selected" value="50% 0%">中上</option>
+          <option value="100% 0%">右上</option>
+          <option value="0% 50%">左中</option>
+          <option value="50% 50%">居中</option>
+          <option value="100% 50%">右中</option>
+          <option value="0% 100%">左下</option>
+          <option value="50% 100%">中下</option>
+          <option value="100% 100%">右下</option>
+        </select>
+        <span class="label">整页背景色</span>
+        <div class="pagecolorpanel" style="height: 25px;width: 110px;">
+          <div class="sp-replacer sp-light" style="z-index: 2;bottom: auto;top: 10px;">
+            <div class="sp-preview">
+              <div class="sp-preview-inner" style="background-color: #fff;"></div>
+            </div>
+          </div>
+          <input id="inputBgColor" class="pagecolor" type="text" value="#FFFFFF" style="width:100px;text-indent:28px;position: absolute;top: 9px;"><span class="clear-color-button"></span>
+        </div>
+        <span id="allowOverstep" class="page-check" style="width:120px;"><i></i>允许应用超出画布<input class="junelp-h" type="hidden" value="visible"></span>
       </div>
-      <span id="allowOverstep" class="page-check" style="width:120px;"><i></i>允许应用超出画布<input class="junelp-h" type="hidden" value="visible"></span>
+    </div>
+    <div class="magnet-config" style="display:none">
+      <div class="icon-box">
+        <icon>ꒇ</icon><i></i>
+      </div>
+      <div class="set-panel">
+        <span class="title">智能吸附设置</span>
+        <span class="label">吸附开关</span>
+        <span class="pageselect"><val>开启</val><input class="junelp-h" type="hidden" name="mag_switch" value="opened"></span>
+        <span class="label">触发间距</span>
+        <input class="input-px" value="5">
+        <span class="label">吸附后间距</span>
+        <input class="input-px" value="0">
+        <span class="spaceline"></span>
+        <span class="label">吸附辅助线</span>
+        <span class="pageselect"><val>开启</val><input class="junelp-h" type="hidden" name="mag_line" value="opened"></span>
+        <span class="spaceline"></span>
+      </div>
+    </div>
+    <div class="assist-config" style="display: none">
+      <div class="icon-box">
+        <icon>ꒁ</icon><i></i>
+      </div>
+      <div class="set-panel">
+        <span class="title">辅助线显示设置</span>
+        <span class="label">CTRL辅助线开关</span>
+        <span class="pageselect"><val>开启</val><input type="hidden" value="opened"></span>
+        <span class="label">吸附辅助线开关</span>
+        <span class="pageselect"><val>开启</val><input" type="hidden" value="opened"></span>
+        <span class="label">辅助线颜色</span>
+        <div class="pagecolorpanel" style="height: 25px;width: 110px;">
+          <div class="sp-replacer sp-light" style="z-index: 2;bottom: auto;top: 10px;"><div class="sp-preview"><div class="sp-preview-inner" style="background-color:#FF4AFF;"></div></div></div>
+          <input class="pageinput pagecolor" type="text" name="assist_color" value="#FF4AFF" style="width:100px;text-indent:28px;position: absolute;top: 9px;"><span class="clear-color-button"></span>
+        </div>
+      </div>
     </div>
   </div>
+
   <div class="main">
-    <div class="left-area">
-      <div class="component-list">
-        <div class="shrink"><i class="xb"></i></div>
-        <div class="move"><i></i></div>
-        <ul>
-          <li data-name="img-component"><icon>ꉠ</icon><span>单图</span></li>
-          <li data-name="text-component"><icon>ꆀ</icon><span>文字</span></li>
-        </ul>
-      </div>
+    <div class="toolbar">
+      <div class="shrink"><i class="xb"></i></div>
+      <div class="move-handle"><i></i></div>
+      <ul>
+        <li data-name="hotarea" class="group1 active"><icon>ꑴ</icon><span>热区</span></li>
+        <li data-name="selection" class="group1"><icon>ꑵ</icon><span>多选</span></li>
+        <li data-name="handle" class="group1"><icon>ꑶ</icon><span>抓手</span></li>
+        <li data-name="draggable" class="active"><icon class="color1">ꑸ</icon><span class="color1">可拖拽</span></li>
+        <li data-name="magnet" class="group3"><icon class="color2">ꒇ</icon><span class="color2">吸附</span></li>
+        <li data-name="assist" class="group3"><icon class="color2">ꒁ</icon><span class="color2">辅助线</span></li>
+        <li data-name="page" class="group3 active"><icon class="color2">ꒃ</icon><span class="color2">设置</span></li>
+      </ul>
+    </div>
+    <div class="component-bar">
+      <div class="shrink"><i class="xb"></i></div>
+      <div class="move-handle"><i></i></div>
+      <ul>
+        <li data-name="img-component"><icon>ꉠ</icon><span>单图</span></li>
+        <li data-name="text-component"><icon>ꆀ</icon><span>文字</span></li>
+        <li><icon>ꑀ</icon><span>旺旺</span></li>
+        <li><icon>ꅀ</icon><span>特效层</span></li>
+        <li><icon>ꅠ</icon><span>正反面图片</span></li>
+        <li><icon>ꅰ</icon><span>切片正反面</span></li>
+        <li><icon>ꈐ</icon><span>轮播</span></li>
+        <li><icon>ꆐ</icon><span>滚动文字/图片</span></li>
+      </ul>
     </div>
     <div class="stage-ct">
     </div>
     <div class="right-area">
+      <div class="align-panel">
+        <div class="title-bar"><em></em>对齐与分布<i class="june-notc-i" data-patype="switchBtn" data-paval="rightDq"></i></div>
+        <div class="align-btn-group clearfix">
+          <span data-aligntype="top" title="所选应用顶部对齐"><icon>ꔤ</icon></span>
+          <span data-aligntype="HorizontalMiddle" title="所选应用垂直中部对齐"><icon>ꔥ</icon></span>
+          <span data-aligntype="bottom" title="所选应用底部对齐"><icon>ꔦ</icon></span>
+          <span data-aligntype="left" title="所选应用左对齐"><icon>ꔧ</icon></span>
+          <span data-aligntype="VerticalMiddle" title="所选应用水平中部对齐"><icon>ꔨ</icon></span>
+          <span data-aligntype="right" title="所选应用右对齐"><icon>ꔩ</icon></span>
+          <span data-aligntype="topCanvas" title="调整位置到父层顶部"><icon>ꔰ</icon></span>
+          <span data-aligntype="VerticalMiddleCanvas" title="调整位置到父层垂直居中"><icon>ꔱ</icon></span>
+          <span data-aligntype="bottomCanvas" title="调整位置到父层底部"><icon>ꔲ</icon></span>
+          <span data-aligntype="leftCanvas" title="调整位置到父层左侧"><icon>ꔳ</icon></span>
+          <span data-aligntype="HorizontalMiddleCanvas" title="调整位置到父层水平居中"><icon>ꔴ</icon></span>
+          <span data-aligntype="rightCanvas" title="调整位置到父层右侧"><icon>ꔵ</icon></span>
+          <div class="space-line"></div>
+          <span data-aligntype="topSpread" title="基于应用上边线平均分布"><icon>ꔶ</icon></span>
+          <span data-aligntype="HorizontalSpread" title="基于应用水平中线平均分布"><icon>ꔷ</icon></span>
+          <span data-aligntype="bottomSpread" title="基于应用下边线平均分布"><icon>ꔸ</icon></span>
+          <span data-aligntype="leftSpread" title="基于应用左线平均分布"><icon>ꔹ</icon></span>
+          <span data-aligntype="VerticalSpread" title="基于应用垂直中线平均分布"><icon>ꕀ</icon></span>
+          <span data-aligntype="rightSpread" title="基于应用右线平均分布"><icon>ꕁ</icon></span>
+          <div class="space-line"></div>
+          <div class="plbox clearfix">
+            <label style="float:left;">按间距</label><input class="px" style="float:left;" type="text" name="jianju" id="jianju">
+            <span style="margin-top:0px;margin-left:8px;" title="横向按间距排列" data-aligntype="HorizontalRange"><icon>ꕂ</icon></span>
+            <span style="margin-top:0px;margin-right:0;" title="纵向按间距排列" data-aligntype="VerticalRange"><icon>ꕃ</icon></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="prop-setting-ct">
+        <div class="img-com-prop-panel">
+            <div class="title-bar"><em></em>常用属性<i class="june-notc-i"></i></div>
+            <div class="item clearfix">
+              <div>应用名称</div>
+              <div><input type="text"></div>
+            </div>
+            <div class="item clearfix">
+              <div>图片地址</div>
+              <div><input style="width: 124px" type="text"></div>
+              <div><span class="page-check"><i></i>自动宽高</span></div>
+            </div>
+            <div class="item clearfix">
+              <div>显示方式</div>
+              <div>
+                <select style="height: 22px;width: 148px">
+                  <option value="0">保持原图尺寸</option>
+                  <option value="1">自由拉伸</option>
+                  <option value="2">保持比例(只裁剪宽度)</option>
+                  <option value="3">保持比例(只裁剪高度)</option>
+                </select>
+              </div>
+            </div>
+            <div class="item clearfix">
+              <div>背景颜色</div>
+              <div class="pagecolorpanel" style="height: 22px;">
+                <div class="sp-replacer sp-light" style="z-index: 2;bottom: auto;top: 1px;left: 1px">
+                  <div class="sp-preview">
+                    <div class="sp-preview-inner" style="background-color: #fff;"></div>
+                  </div>
+                </div>
+                <input class="pagecolor" type="text" value="#FFFFFF" style="text-indent:28px;position: absolute;"><span style="top: 4px;right: -143px" class="clear-color-button"></span>
+              </div>
+            </div>
+            <div class="item clearfix">
+              <div>链接类型</div>
+              <div>
+                <span class="page-check"><i></i>普通</span>
+                <span class="page-check"><i></i>旺旺</span>
+              </div>
+            </div>
+            <div class="item clearfix">
+              <div>链接地址</div>
+              <div><input type="text"></div>
+            </div>
+            <div class="item clearfix">
+              <div>提示文字</div>
+              <div><input type="text"></div>
+            </div>
+
+        </div>
+      </div>
     </div>
   </div>
   <script src="lib/jquery-1.8.3.min.js"></script>
   <script src="lib/iscroll/iscroll-probe.js"></script>
   <script src="lib/spectrum/spectrum.js"></script>
   <script src="lib/layui/layui.all.js"></script>
+  <script src="lib/jquery-ui/jquery-ui.js"></script>
 </body>
 </html>

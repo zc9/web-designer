@@ -42,7 +42,7 @@ export default class ImgComponent extends Component {
     this.formData.bgColor = ''
     this.formData.appLabel = ''
     this.formData.imgMode = 'cut'
-    this.formData.linkMode = 'unlink'
+    this.formData.linkMode = 'urlink'
     this.formData.href = ''
     this.formData.tipText = ''
     this.formData.animType = ''
@@ -50,10 +50,23 @@ export default class ImgComponent extends Component {
     this.formData.bgImgSize = false
     this.formData.animSpeed = '1s'
     this.formData.animRange = '-s'
+    this.formData.wangID = ''
 
     this.$content.css('background-image', `url(${this.formData.bgImg})`)
     this.$content.css('background-color', this.formData.bgColor)
     this.$img.attr('src', this.formData.bgImg)
+  }
+
+  onLinkModeChanged($layerElem, linkMode) {
+    let $wangIDInputBox = $layerElem.find('.wangID-input-box')
+    let $hrefInputBox = $layerElem.find('.href-input-box')
+    if (linkMode === 'urlink') {
+      $wangIDInputBox.hide()
+      $hrefInputBox.show()
+    } else if (linkMode === 'wwlink') {
+      $hrefInputBox.hide()
+      $wangIDInputBox.show()
+    }
   }
 
   openEditDialog() {
@@ -82,6 +95,8 @@ export default class ImgComponent extends Component {
         $layerElem.find('.cancel-btn').on('click', function() {
           layer.close(index)
         })
+        that.onLinkModeChanged($layerElem, that.formData.linkMode)
+
       },
       content: `<form class="layui-form" lay-filter="imgComponentForm">
         <div class="layui-tab layui-tab-brief">
@@ -130,16 +145,22 @@ export default class ImgComponent extends Component {
               <div class="layui-form-item">
                 <label class="layui-form-label">链接类型</label>
                 <div class="layui-input-inline">
-                  <input type="radio" name="linkMode" value="urlink" title="普通" checked="">
-                  <input type="radio" name="linkMode" value="wwlink" title="旺旺">
+                  <input type="radio" name="linkMode" lay-filter="linkMode" value="urlink" title="普通" checked="">
+                  <input type="radio" name="linkMode" lay-filter="linkMode" value="wwlink" title="旺旺">
                 </div>
               </div>
-              <div class="layui-form-item">
+              <div class="layui-form-item href-input-box" style="display:none">
                 <label class="layui-form-label">链接地址</label>
                 <div class="layui-input-inline">
                   <input name="href" type="text" class="layui-input">
                 </div>
                 <div><input name="hrefMode" value="_blank" type="checkbox" lay-skin="primary" title="新窗口打开"></div>
+              </div>
+              <div class="layui-form-item wangID-input-box" style="display:none">
+                <label class="layui-form-label">旺旺ID</label>
+                <div class="layui-input-inline">
+                  <input name="wangID" type="text" class="layui-input">
+                </div>
               </div>
               <div class="layui-form-item">
                 <label class="layui-form-label">提示文字</label>
@@ -163,7 +184,7 @@ export default class ImgComponent extends Component {
                 </div>
               </div>
               <div class="layui-form-item">
-                <label class="layui-form-label">链接类型</label>
+                <label class="layui-form-label">动画幅度</label>
                 <div class="layui-input-inline">
                   <input type="radio" name="animRange" value="-s" title="弱" checked="">
                   <input type="radio" name="animRange" value="-m" title="中">
@@ -178,6 +199,11 @@ export default class ImgComponent extends Component {
                     <option value="2s">2秒</option>
                     <option value="3s">3秒</option>
                     <option value="4s">4秒</option>
+                    <option value="5s">5秒</option>
+                    <option value="6s">6秒</option>
+                    <option value="7s">7秒</option>
+                    <option value="8s">8秒</option>
+                    <option value="9s">9秒</option>
                   </select>
                 </div>
               </div>
@@ -185,7 +211,7 @@ export default class ImgComponent extends Component {
           </div>
         </div>
         <div class="layui-form-item">
-          <div class="layui-input-block" style="margin-left: 440px;margin-top: 50px">
+          <div class="layui-input-block" style="margin-left: 440px;margin-top: 20px">
             <button class="layui-btn" lay-submit lay-filter="imgComponentForm">确定</button>
             <button type="button" class="cancel-btn layui-btn layui-btn-primary">取消</button>
           </div>
@@ -194,6 +220,11 @@ export default class ImgComponent extends Component {
     });
     var form = layui.form
     form.render();
+
+    form.on('radio(linkMode)', function(data){
+      console.log(data)
+      that.onLinkModeChanged($layerElem, data.value)
+    })
 
     form.on('submit(imgComponentForm)', function(data) {
       if (data.field.bgImg !== that.formData.bgImg) {

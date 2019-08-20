@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link href="jquery-ui.css" rel="stylesheet">
+  <style>
+    .canvas {
+      position: relative;
+      width: 600px;
+      height: 400px;
+      margin: 0 auto;
+      margin-top: 20px;
+      border: 1px solid red;
+    }
+    .draggable {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 100px;
+      height: 100px;
+      background: yellow;
+    }
+    .d1 {
+      top: 200px;
+      left: 10px;
+      width: 50px;
+      height: 50px;
+      background: green;
+    }
+  </style>
+</head>
+<body>
+  <div class="canvas">
+    <div class="draggable">
+      <p>Drag</p>
+    </div>
+    <div class="draggable d1">
+      <p>Drag</p>
+    </div>
+  </div>
+ 
+<script src="external/jquery/jquery.js"></script>
+<script src="jquery-ui.js"></script>
+<script>
+
+$( ".draggable" ).draggable({
+  cursor: 'move',
+  snap: true,
+  containment: "parent",
+  drag: function( event, ui ) {
+ 
+  console.log(event,ui)
+}
+}).resizable({
+  autoHide: true,
+  handles: "n, e, s, w"
+});
+</script>
+</body>
+</html>

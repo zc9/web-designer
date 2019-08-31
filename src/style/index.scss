@@ -648,6 +648,16 @@ icon {
       background: #fff;
       background-repeat: no-repeat;
       background-position: 50% 0;
+      &.handle:hover {
+        cursor: grab;
+        cursor: -webkit-grab;
+        cursor: -moz-grab;
+      }
+      &.handle.grabbing{
+        cursor: grabbing;
+        cursor: -webkit-grabbing;
+        cursor: -moz-grabbing;
+      }
       &:hover {
         cursor: url("http://www.dianmishu.com/4.0/images/area.ico") 16 16, crosshair;
       }
@@ -664,7 +674,6 @@ icon {
     right: 0;
     height: 4px;
     cursor: row-resize;
-
   }
 
   .guide-lineX > div {

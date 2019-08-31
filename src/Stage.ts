@@ -22,7 +22,7 @@ export default class Stage {
   ruler: Ruler
   pageWidth: number = 1920
   pageHeight: number = 2561
-  state: string
+  state: string = Stage.STATE[0]
   props: any = {
     bgColor: '#FFFFFF',
     position: '50% 0%',
@@ -75,36 +75,11 @@ export default class Stage {
     this.$el = $el;
     this.ruler = ruler;
     this.$scrollContent = $scrollContent;
-    // @ts-ignore
-    this.myScroll = new IScroll($canvasWrap[0], {
-      scrollX: true,
-      freeScroll: true,
-      startX: 0,
-      startY: 0,
-      probeType: 3,
-      scrollbars: true,
-      mouseWheel: true,
-      interactiveScrollbars: true,
-      disableMouse: true,
-      disablePointer: true,
-      disableTouch: true
-    });
-
+    this.createIScroll()
     this.layoutCanvas(canvasWidth, canvasHeight);
-
-    this.myScroll.on('scroll', function() {
-      if (ruler) {
-        ruler.setX(this.x);
-        ruler.setY(this.y)
-      }
-    });
-
-
     let $rulerX = ruler.$rulerX[0];
     let $rulerY = ruler.$rulerY[0];
-
     let EVENTS = this.EVENTS;
-
     $rulerX.addEventListener(EVENTS[0], event => {
       let $guideLine = $('<div class="guide-line guide-lineX"><div></div></div>');
       this.$el.append($guideLine)
@@ -142,15 +117,37 @@ export default class Stage {
           $(drag.$el).remove();
         }
       }
-
     })
 
     this.selector = $scrollContent.selectable({
       disabled: true
     });
-    this.setState(Stage.STATE[0])
     this.setupEvent();
 
+  }
+
+  createIScroll(disableMouse = true, x = 0, y = 0) {
+    // @ts-ignore
+    this.myScroll = new IScroll(this.$canvasWrap[0], {
+      scrollX: true,
+      freeScroll: true,
+      startX: x,
+      startY: y,
+      probeType: 3,
+      scrollbars: true,
+      mouseWheel: true,
+      interactiveScrollbars: true,
+      disableMouse: disableMouse,
+      disablePointer: disableMouse,
+      disableTouch: disableMouse
+    });
+    let ruler = this.ruler
+    this.myScroll.on('scroll', function() {
+      if (ruler) {
+        ruler.setX(this.x);
+        ruler.setY(this.y)
+      }
+    });
   }
 
   layoutCanvas(canvasWidth, canvasHeight) {
@@ -215,20 +212,27 @@ export default class Stage {
     })
 
     canvasElem.addEventListener(EVENTS[0], event => {
-      if (event.target !== canvasElem || this.state !== Stage.STATE[0]) {
+      if (event.target !== canvasElem) {
+        return
+      }
+      this.unselectComponent();
+      if (this.state !== Stage.STATE[0]) {
         return
       }
       let canvasRect = canvasElem.getBoundingClientRect();
-      this.unselectComponent();
       let that = this;
       let eventInfo: any = this.getEventInfo(event);
       let startX = eventInfo.clientX;
       let startY = eventInfo.clientY;
-      let component = new HotAreaComponent();
-      this.addComponent(component)
-      component.select()
-      component.showToolbar()
+      let component = null
       function move(event) {
+        if (component === null) {
+          component = new HotAreaComponent();
+          that.curSelectedComponent = component
+          that.addComponent(component)
+          component.select()
+          component.showToolbar()
+        }
         event = that.getEventInfo(event)
         let curStartX = event.clientX;
         let curStartY = event.clientY;
@@ -252,8 +256,10 @@ export default class Stage {
         component.resetPositionInfo()
       }
       function end(event) {
-        if (component.width() < component.minWidth || component.height() < component.minHeight) {
-          that.removeComponent(component);
+        if (component) {
+          if (component.width() < component.minWidth || component.height() < component.minHeight) {
+            that.removeComponent(component);
+          }
         }
         document.removeEventListener(EVENTS[1], move)
         document.removeEventListener(EVENTS[2], end)
@@ -271,6 +277,21 @@ export default class Stage {
     } else {
       this.selector.selectable('option', 'disabled', true);
     }
+
+    if (state === Stage.STATE[2]) {
+      this.$canvas.addClass('handle')
+      let x = this.myScroll.x
+      let y = this.myScroll.y
+      this.myScroll.destroy()
+      this.createIScroll(false, x, y)
+    } else {
+      this.$canvas.removeClass('handle')
+      let x = this.myScroll.x
+      let y = this.myScroll.y
+      this.myScroll.destroy()
+      this.createIScroll(true, x, y)
+    }
+
   }
 
   unselectComponent() {

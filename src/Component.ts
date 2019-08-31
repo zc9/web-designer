@@ -118,7 +118,7 @@ export default abstract class Component {
       minWidth: this.minWidth,
       minHeight: this.minHeight,
       handle: this.$contentBox[0],
-      // containment: $canvas[0],
+      containment: $canvas[0],
       resizable: false,
       snap: true
     })
@@ -130,10 +130,8 @@ export default abstract class Component {
       this.resetPositionInfo();
     }
     this.$contentBox.on('mousedown',  (event) => {
-      if (stage.curSelectedComponent != this) {
-        stage.selectComponent(this);
-        this.showToolbar()
-      }
+      stage.selectComponent(this);
+      this.showToolbar()
     });
 
     this.$topBar.find('.delete').on('mousedown', (event) => {
@@ -148,11 +146,11 @@ export default abstract class Component {
       event.stopPropagation();
     })
 
-    this.$el.on('mouseenter', (event) => {
-      if (this.selected) {
-        this.showToolbar()
-      }
-    })
+    // this.$el.on('mouseenter', (event) => {
+    //   if (this.selected) {
+    //     this.showToolbar()
+    //   }
+    // })
 
     // this.$el.on('mouseleave', (event) => {
     //   if (this.selected) {

@@ -31,9 +31,9 @@ export default class PageConfig {
       preferredFormat : 'hex',
       showButtons : !1,
       palette: [
-          ['#000','#444','#666','#999','#ccc','#eee','#f3f3f3','#fff'],
-          ['#f00','#f90','#ff0','#0f0','#0ff','#00f','#90f','#f0f'],
-          ['#900','#b45f06','#bf9000','#38761d','#134f5c','#0b5394','#351c75','#741b47']
+          ['#000','#444','#666','#999','#ccc','#eee'],
+          ['#f00','#f90','#ff0','#0f0','#0ff','#00f'],
+          ['#900','#b45f06','#bf9000','#38761d','#134f5c','#0b5394']
       ],
       move: function(color, $input) {
         let id = $input.attr('id')

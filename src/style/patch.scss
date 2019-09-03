@@ -65,3 +65,41 @@
   cursor: pointer;
 }
 
+/*add  2019.9.1 ydx*/
+.sp-palette-container{
+  float:right;
+  border:none;
+  width:120px;
+}
+
+.sp-palette {
+  position: absolute;
+  top: 72px;
+  left: 5px;
+  padding-top:20px;
+  background:url(https://img.alicdn.com/imgextra/i3/39767794/TB2IzqFkXXXXXbPXXXXXXXXXXXX-39767794.png) 0 0 no-repeat;
+}
+
+.sp-initial{
+  position: absolute;
+  top: 20px;
+  left: 214px;
+  width: 98px;
+  height: 23px;
+}
+.sp-initial span{
+  width:49px;
+}
+.sp-hue{
+  width:18px;
+  left: auto;
+  right: 4px;
+}
+.sp-slider{
+  top:0px;
+  left: -8px;
+  width: 31px;
+  height: 9px;
+  border: none;
+  background: url(https://img.alicdn.com/imgextra/i3/39767794/TB22baUkXXXXXXKXXXXXXXXXXXX-39767794.png);
+}

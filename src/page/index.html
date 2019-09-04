@@ -190,11 +190,91 @@
       </div>
 
       <div class="prop-setting-ct">
+        <div class="ww-com-prop-panel">
+          <div class="title-bar"><em></em>旺旺 属性<i class="june-notc-i"></i></div>
+          <div class="engine-app">
+            <div class="nromal-wrap">
+              <label class="label-con">旺旺样式</label>
+              <input class="radio-medium" type="radio" name="borderStyle" id="bks_1" value="1">
+              <label for="bks_1" >小旺旺</label>
+              <input class="radio-medium" type="radio" name="borderStyle" id="bks_2" value="2" checked="checked" style="margin-left:10px;">
+              <label for="bks_2" >大旺旺 </label>
+
+            </div>
+            <div class="nromal-wrap">
+              <label class="label-con">旺旺账号</label>
+              <input    type="text" placeholder="输入主旺旺或子旺旺号 不是邮箱号" />
+            </div>
+            <div class="nromal-wrap">
+              <label class="label-con">旺旺昵称</label>
+              <input    type="text" placeholder="可以为空" />
+            </div>
+            <div class="nromal-wrap">
+              <label class="label-con">昵称位置</label>
+              <input class="radio-medium" type="radio" name="nickPlace" id="nkp_1" value="1">
+              <label for="nkp_1" >左边</label>
+              <input class="radio-medium" type="radio" name="nickPlace" id="nkp_2" value="2" checked="checked" style="margin-left:10px;">
+              <label for="nkp_2" >右边 </label>
+              <input class="radio-medium" type="radio" name="nickPlace" id="nkp_3" value="3">
+              <label for="nkp_3" >上边</label>
+              <input class="radio-medium" type="radio" name="nickPlace" id="nkp_4" value="4"   style="margin-left:10px;">
+              <label for="nkp_4" >下边 </label>
+            </div>
+
+
+
+            <div class="nromal-wrap">
+              <label class="label-con">昵称颜色</label>
+              <div class="pagecolorpanel">
+                <div class="sp-replacer sp-light"  ><div class="sp-preview"><div class="sp-preview-inner" style="background-color:transparent;"></div></div></div>
+                <input class="pagecolor"  type="text"   />
+                <span class="clear-color-button"></span>
+              </div>
+            </div>
+            <div class="nromal-wrap">
+              <label class="label-con">昵称背景</label>
+              <div class="pagecolorpanel">
+                <div class="sp-replacer sp-light"  ><div class="sp-preview"><div class="sp-preview-inner" style="background-color:transparent;"></div></div></div>
+                <input class="pagecolor"  type="text"  />
+                <span class="clear-color-button"></span>
+              </div>
+            </div>
+            <div class="nromal-wrap">
+              <label class="label-con">昵称字体</label>
+              <select class="select-medium"  >
+                  <option value="宋体" >宋体</option>
+                  <option value="黑体" >黑体</option>
+                  <option value="微软雅黑" >雅黑</option>
+                  <option value="楷体" >楷体</option>
+                  <option value="arial" >Arial</option>
+                  <option value="verdana" >Verdana</option>
+                  <option value="georgia" >Georgia</option>
+                  <option value="times new roman" >Times New Roman</option>
+                  <option value="trebuchet ms" >Trebuchet MS</option>
+              </select>
+            </div>
+            <div class="nromal-wrap">
+              <label class="label-con">昵称粗体</label>
+              <select class="select-short"   >
+                <option value="400">正常</option>
+                <option value="500">较粗</option>
+                <option value="600">特粗</option>
+              </select>
+              <label class="label-con" style="margin-left:5px;">昵称斜体</label>
+              <select class="select-short"   >
+                <option value="0">正常</option>
+                <option value="1">斜体</option>
+              </select>
+            </div>
+            <div class="nromal-wrap">
+              <label class="label-con">提示文字</label>
+              <input    type="text" placeholder="可以为空 鼠标经过显示文字" />
+            </div>
+          </div>
+        </div>
         <div class="img-com-prop-panel">
             <div class="title-bar"><em></em>单图 属性<i class="june-notc-i"></i></div>
             <div class="engine-app">
-
-         
               <div class="nromal-wrap">
                 <label class="label-con">图片地址</label>
                 <input class="input-medium"   type="text" />
@@ -244,7 +324,6 @@
                   <input class="pagecolor"  type="text" />
                   <span class="clear-color-button"></span>
                 </div>
-
               </div>      
               <div class="nromal-wrap">
                 <label class="label-con">边框样式</label>

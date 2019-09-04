@@ -83,7 +83,7 @@
     }
   }
   .prop-setting-ct {
-    
+    color: #8fa1b3;
     font-size: 12px;
     input {
       color: #525c66;
@@ -113,7 +113,8 @@
       }
     }
     .engine-app{
-      padding-top:10px;
+      padding-top:5px;
+      padding-bottom:5px;
       .nromal-wrap{
         padding: 5px 0px;
         line-height:24px;
@@ -162,6 +163,9 @@
           option{
              line-height:23px;
           }
+        }
+        .select-short{
+          width:75px;
         }
         .select-medium{
           width:133px;
@@ -242,7 +246,7 @@
 
  
     .img-com-prop-panel {
-      color: #8fa1b3;
+     
 
       .item {
         margin-top: 20px;

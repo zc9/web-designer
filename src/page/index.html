@@ -158,7 +158,7 @@
     <div class="stage-ct">
     </div>
     <div class="right-area">
-      <div class="align-panel">
+      <div class="align-panel" style="display:none">
         <div class="title-bar"><em></em>对齐与分布<i class="june-notc-i" data-patype="switchBtn" data-paval="rightDq"></i></div>
         <div class="align-btn-group clearfix">
           <span data-aligntype="top" title="所选应用顶部对齐"><icon>ꔤ</icon></span>
@@ -191,55 +191,94 @@
 
       <div class="prop-setting-ct">
         <div class="img-com-prop-panel">
-            <div class="title-bar"><em></em>常用属性<i class="june-notc-i"></i></div>
-            <div class="item clearfix">
-              <div>应用名称</div>
-              <div><input type="text"></div>
-            </div>
-            <div class="item clearfix">
-              <div>图片地址</div>
-              <div><input style="width: 124px" type="text"></div>
-              <div><span class="page-check"><i></i>自动宽高</span></div>
-            </div>
-            <div class="item clearfix">
-              <div>显示方式</div>
-              <div>
-                <select style="height: 22px;width: 148px">
-                  <option value="0">保持原图尺寸</option>
-                  <option value="1">自由拉伸</option>
-                  <option value="2">保持比例(只裁剪宽度)</option>
-                  <option value="3">保持比例(只裁剪高度)</option>
-                </select>
-              </div>
-            </div>
-            <div class="item clearfix">
-              <div>背景颜色</div>
-              <div class="pagecolorpanel" style="height: 22px;">
-                <div class="sp-replacer sp-light" style="z-index: 2;bottom: auto;top: 1px;left: 1px">
-                  <div class="sp-preview">
-                    <div class="sp-preview-inner" style="background-color: #fff;"></div>
-                  </div>
-                </div>
-                <input class="pagecolor" type="text" value="#FFFFFF" style="text-indent:28px;position: absolute;"><span style="top: 4px;right: -143px" class="clear-color-button"></span>
-              </div>
-            </div>
-            <div class="item clearfix">
-              <div>链接类型</div>
-              <div>
-            
-                  <input type="radio" name="linkMode"  value="urlink" title="普通" checked=""><label>普通</label>
-                  <input type="radio" name="linkMode"  value="wwlink" title="旺旺"><label>旺旺</label>
+            <div class="title-bar"><em></em>单图 属性<i class="june-notc-i"></i></div>
+            <div class="engine-app">
 
+         
+              <div class="nromal-wrap">
+                <label class="label-con">图片地址</label>
+                <input class="input-medium"   type="text" />
+                <input class="chkBox" type="checkbox" name="autoSize" value="yes" checked="checked" >
+                <label for="autoSize" class="chkLabel">自动高宽</label>
               </div>
+              <div class="nromal-wrap">
+                <label class="label-con">图片方式</label>
+                
+                  <select class="select-medium"   >
+                    <option value="0">保持原图尺寸</option>
+                    <option value="1">自由拉伸</option>
+                    <option value="2">保持比例(只裁剪宽度)</option>
+                    <option value="3">保持比例(只裁剪高度)</option>
+                  </select>
+                 
+              </div>
+
+              <div class="nromal-wrap">
+                <label class="label-con">链接类型</label>
+                <input    type="radio" value="urlink"  name="linkMode" >
+                <label >普通</label>
+                <input   type="radio" value="wwlink"  name="linkMode"  checked="checked" style="margin-left:10px;">
+                <label>旺旺 </label>
+              </div>
+              <div class="nromal-wrap">
+                  <label class="label-con">链接地址</label>
+                  <input class="input-medium"   name="href" 　 type="text" />
+                  <input  type="checkbox" name="autoSize" value="yes" checked="checked" >
+                  <label for="autoSize" class="chkLabel">新窗口打开</label>
+              </div>
+              <div class="nromal-wrap">
+                <label class="label-con col2">宽  度</label>
+                <input class="input-short"  type="text" />
+                <label class="label-con col2" style="margin-left:5px;">高  度</label>
+                <input class="input-short"  type="text" />
+              </div>
+              <div class="nromal-wrap">
+                <label class="label-con">圆角度数</label>
+                <input class="input-short"   type="text" name="borderRadius" />
+                <label class="label-con">(填数字)</label>
+              </div>
+              <div class="nromal-wrap">
+                <label class="label-con">边框粗细</label>
+                <input class="input-short"  type="text" />
+                <label class="label-con">px,填数字,填0代表没边框</label>
+              </div>
+              <div class="nromal-wrap">
+                <label class="label-con">边框颜色</label>
+                <div class="pagecolorpanel">
+                  <div class="sp-replacer sp-light"  ><div class="sp-preview"><div class="sp-preview-inner" style="background-color:transparent;"></div></div></div>
+                  <input class="pagecolor"  type="text" />
+                  <span class="clear-color-button"></span>
+                </div>
+
+              </div>      
+              <div class="nromal-wrap">
+                <label class="label-con">边框样式</label>
+                <input class="radio-medium" type="radio" name="borderStyle" id="bks_1" value="1">
+                <label for="bks_1" >实线</label>
+                <input class="radio-medium" type="radio" name="borderStyle" id="bks_2" value="2" checked="checked" style="margin-left:10px;">
+                <label for="bks_2" >细虚线 </label>
+                <input class="radio-medium" type="radio" name="borderStyle" id="bks_3" value="3" checked="checked" style="margin-left:10px;">
+                <label for="bks_3" >粗虚线 </label>
+              </div>
+              <div class="nromal-wrap">
+                <label class="label-con">边框显示</label>
+                <input class="check-medium" type="checkbox" name="borderT" id="bk_1" value="yes" checked="checked" >
+                <label for="bk_1" class="label-ckb">上</label>
+                <input class="check-medium" type="checkbox" name="borderB" id="bk_2" value="yes" checked="checked"  style="margin-left:4px;">
+                <label for="bk_2" class="label-ckb">下</label>
+                <input class="check-medium" type="checkbox" name="borderL" id="bk_3" value="yes" checked="checked" style="margin-left:4px;">
+                <label for="bk_3" class="label-ckb">左</label>
+                <input class="check-medium" type="checkbox" name="borderR" id="bk_4" value="yes" checked="checked" style="margin-left:4px;">
+                <label for="bk_4" class="label-ckb">右</label>  
+              </div>
+
             </div>
-            <div class="item clearfix">
-              <div>链接地址</div>
-              <div><input type="text"></div>
-            </div>
-            <div class="item clearfix">
-              <div>提示文字</div>
-              <div><input type="text"></div>
-            </div>
+            <div class="editor-btns clear"><span>高级...</span></div>
+ 
+
+ 
+ 
+    
         </div>
       </div>
     </div>

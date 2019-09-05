@@ -858,3 +858,35 @@ icon {
   background: #19c2d1;
   border: 1px solid #19c2d1;
 }
+
+/*弹出表单 样式信息*/
+.layui-form {
+  .layui-tab-content{
+    height:400px; 
+    overflow-y:auto;
+  }
+  .layui-ft-btn{
+    border-top:solid 1px #e6e6e6; 
+    text-align:center;
+    padding-top: 15px;
+  }
+  //颜色组件
+  .pagecolorpanel{  
+    .sp-replacer{
+      left:1px;
+      bottom:1px;
+      height: 36px;
+      .sp-preview{
+        width:36px;
+        height: 36px;
+      }
+    }
+    .pagecolor{
+      text-indent:30px;
+    }
+    .clear-color-button{
+      right:12px;
+    }
+  }
+
+}

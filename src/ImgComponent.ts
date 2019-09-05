@@ -102,6 +102,7 @@ export default class ImgComponent extends Component {
         <div class="layui-tab layui-tab-brief">
           <ul class="layui-tab-title">
             <li class="layui-this">内容设置</li>
+             <li>边框设置</li>
             <li>动画设置</li>
           </ul>
           <div class="layui-tab-content">
@@ -132,14 +133,14 @@ export default class ImgComponent extends Component {
               </div>
               <div class="layui-form-item">
                 <label class="layui-form-label">背景颜色</label>
-                <div class="layui-input-inline" style="position:relative">
-                  <div class="sp-replacer sp-light" style="z-index: 2;bottom: auto;top: 10px">
+                <div class="layui-input-inline pagecolorpanel"  >
+                  <div class="sp-replacer sp-light">
                     <div class="sp-preview">
                       <div class="sp-preview-inner"></div>
                     </div>
                   </div>
-                  <input style="text-indent:28px;" name="bgColor" type="text" class="layui-input pagecolor">
-                  <span class="clear-color-button" style="right: 5px"></span>
+                  <input name="bgColor" type="text" class="layui-input pagecolor">
+                  <span class="clear-color-button"></span>
                 </div>
               </div>
               <div class="layui-form-item">
@@ -169,7 +170,11 @@ export default class ImgComponent extends Component {
                 </div>
               </div>
             </div>
-            <div class="layui-tab-item" style="min-height: 356px">
+            <div class="layui-tab-item">
+            tesss
+            </div>
+
+            <div class="layui-tab-item"  >
               <div class="layui-form-item">
                 <label class="layui-form-label">动画效果</label>
                 <div class="layui-input-inline">
@@ -211,7 +216,7 @@ export default class ImgComponent extends Component {
           </div>
         </div>
         <div class="layui-form-item">
-          <div class="layui-input-block" style="margin-left: 440px;margin-top: 20px">
+          <div class="layui-ft-btn">
             <button class="layui-btn" lay-submit lay-filter="imgComponentForm">确定</button>
             <button type="button" class="cancel-btn layui-btn layui-btn-primary">取消</button>
           </div>

@@ -5,15 +5,17 @@
   right: 0px;
   bottom: 0;
   width: 280px;
-  background: #292e33;
+  background: #535353;
   border-left: 1px #393939 solid;
   .align-panel {
     .title-bar {
       color: #8fa1b3;
       height: 24px;
       line-height: 24px;
-      background: #141618;
+      background: #434343;
       font-size: 12px;
+      border-bottom: 1px #393939 solid;
+      border-top: 1px #393939 solid;
       em {
         padding: 0 15px;
         background: url("../assets/icon.png") -99px -171px;
@@ -83,7 +85,7 @@
     }
   }
   .prop-setting-ct {
-    color: #8fa1b3;
+    color: #b8c2cc;
     font-size: 12px;
     input {
       color: #525c66;
@@ -98,8 +100,12 @@
     .title-bar {
       height: 24px;
       line-height: 24px;
-      background: #141618;
+      background: #434343;
       font-size: 12px;
+      border-bottom: 1px #393939 solid;
+      border-top: 1px #393939 solid;
+      box-sizing: border-box;
+      color: #8fa1b3;
       em {
         padding: 0 5px;
       }
@@ -137,7 +143,6 @@
         }
         .label-con{
           display:inline-block;
-          color:#8fa3b3;
           margin-right:3px;;
         }
         .label-con.col2{

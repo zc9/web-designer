@@ -35,7 +35,7 @@ icon {
 .header {
   position: relative;
   height: 50px;
-  background-color: #1F2226;
+  background-color: #535353;
   .logo {
     width: 208px;
     height: 50px;
@@ -213,7 +213,10 @@ icon {
 .setting-bar {
   position: relative;
   height: 40px;
-  background-color: #292e33;
+  background-color: #535353;
+  border-top:1px #393939 solid;
+  border-bottom:1px #393939 solid;
+  box-sizing: border-box;
   .icon-box {
     width:50px;
     height:40px;
@@ -235,7 +238,7 @@ icon {
       background: none;
       margin-left: 0;
       margin-top: 9px;
-      border-right: 1px #1b1f24 solid;
+      border-right: 1px #393939  solid;
     }
   }
   .set-panel {
@@ -344,7 +347,7 @@ icon {
 .toolbar {
   position: absolute;
   width: 50px;
-  background: #292e33;
+  background: #535353;
   top: 0;
   bottom: 0;
   .move-handle {
@@ -366,10 +369,10 @@ icon {
       padding-bottom: 3px;
       text-align: center;
       &.active {
-        background: #1f2226;
+        background: #424242;
       }
       &:hover{
-        background:#333a40;
+        background:#282828;
       }
       .color1 {
         color: #814fcf;
@@ -398,7 +401,7 @@ icon {
 
 .shrink {
   height: 10px;
-  background: #141619;
+  background: #434343;
   transition: 0.2s;
   border-bottom: none;
   i {
@@ -428,11 +431,12 @@ icon {
   left: 50px;
   bottom: 0;
   width: 140px;
-  background: #292e33;
-  border: 1px #14171a solid;
+  background: #535353;
+  border: 1px #393939 solid;
   border-top: none;
   font-size: 13px;
   color: #b8c2cc;
+  box-sizing: border-box;
   .shrink {
     i {
       background: url("../assets/icon.png") -67px -154px;
@@ -454,7 +458,7 @@ icon {
       cursor: pointer;
       font-size: 13px;
       &:hover {
-        background:#3c444c;
+        background:#383838;
         color:#eee;
       }
       icon {
@@ -518,7 +522,7 @@ icon {
     left: 0;
     right: 0;
     bottom: 0;
-    background: #1f2226;
+    background: #474747;
     .rulerX {
       position: absolute;
       left: 20px;
@@ -548,7 +552,7 @@ icon {
         }
       }
       > div {
-        background: url("../assets/ruleX_bg.png") repeat-x #1f2226 left bottom;
+        background: url("../assets/ruleX_bg.png") repeat-x #474747 left bottom;
         position: absolute;
         left: 0;
         top: 0;
@@ -560,11 +564,11 @@ icon {
           display: inline-block;
           user-select: none;
           font-size: 12px;
-          color: #7a8a99;
+          color: #A0A0A0;
           box-sizing: border-box;
           padding-left: 5px;
-          transform: scale(0.8,0.8);
-          -webkit-transform: scale(0.8,0.8);
+          transform: scale(0.9,0.9);
+          -webkit-transform: scale(0.9,0.9);
         }
       }
     }
@@ -601,7 +605,7 @@ icon {
       }
       > div {
         position: absolute;
-        background: url("../assets/ruleY_bg.png") repeat-y #1f2226 right bottom;
+        background: url("../assets/ruleY_bg.png") repeat-y #474747 right bottom;
         left: 0;
         top: 0;
         width: 20px;
@@ -616,11 +620,11 @@ icon {
           padding-left: 6px;
           user-select: none;
           font-size: 12px;
-          color: #7a8a99;
+          color: #A0A0A0;
           padding-top: 5px;
           box-sizing: border-box;
-          transform: scale(0.8,0.8);
-          -webkit-transform: scale(0.8,0.8);
+          transform: scale(0.9,0.9);
+          -webkit-transform: scale(0.9,0.9);
         }
 
       }

@@ -11,6 +11,7 @@ export default abstract class Component {
   $inputY: JQuery
   $inputWidth: JQuery
   $inputHeight: JQuery
+  $propPanel: JQuery
   drag: Draggable
   stage: Stage
   props: any = {}
@@ -73,11 +74,17 @@ export default abstract class Component {
 
   abstract getProps() : object;
   abstract toHtml() : string;
-
+  abstract openEditDialog(): void
+  abstract update(formData: any): void
+  abstract initPorpPanel(): void
   select() {
+    if (this.selected) {
+      return
+    }
     this.$contentBox.addClass('selected');
     this.selected = true
     this.resetPositionInfo();
+    this.initPorpPanel()
   }
 
   showToolbar() {
@@ -159,5 +166,6 @@ export default abstract class Component {
     //   }
     // })
   }
+
 
 }

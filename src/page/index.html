@@ -190,7 +190,7 @@
       </div>
 
       <div class="prop-setting-ct">
-        <div class="ww-com-prop-panel">
+        <div class="ww-com-prop-panel" style="display: none">
           <div class="title-bar"><em></em>旺旺 属性<i class="june-notc-i"></i></div>
           <div class="engine-app">
             <div class="nromal-wrap">
@@ -272,44 +272,42 @@
             </div>
           </div>
         </div>
-        <div class="img-com-prop-panel">
+        <div class="img-com-prop-panel" style="display: none">
             <div class="title-bar"><em></em>单图 属性<i class="june-notc-i"></i></div>
             <div class="engine-app">
               <div class="nromal-wrap">
                 <label class="label-con">图片地址</label>
-                <input class="input-medium"   type="text" />
-                <input class="chkBox" type="checkbox" name="autoSize" value="yes" checked="checked" >
+                <input class="input-medium" id="bgImgInput" type="text" />
+                <input class="chkBox" type="checkbox" name="bgImgSize" value="true" >
                 <label for="autoSize" class="chkLabel">自动高宽</label>
               </div>
               <div class="nromal-wrap">
                 <label class="label-con">图片方式</label>
-                
-                  <select class="select-medium"   >
-                    <option value="0">保持原图尺寸</option>
-                    <option value="1">自由拉伸</option>
-                    <option value="2">保持比例(只裁剪宽度)</option>
-                    <option value="3">保持比例(只裁剪高度)</option>
-                  </select>
-                 
+                <select class="select-medium" id="imgMode">
+                  <option value="cut">保持原图尺寸</option>
+                  <option value="full">自由拉伸</option>
+                  <option value="scaleX">保持比例(只裁剪宽度)</option>
+                  <option value="scaleY">保持比例(只裁剪高度)</option>
+                </select>
               </div>
 
               <div class="nromal-wrap">
                 <label class="label-con">链接类型</label>
-                <input    type="radio" value="urlink"  name="linkMode" >
-                <label >普通</label>
-                <input   type="radio" value="wwlink"  name="linkMode"  checked="checked" style="margin-left:10px;">
-                <label>旺旺 </label>
+                <input type="radio" checked="checked" value="urlink" name="linkMode" >
+                <label>普通</label>
+                <input type="radio" value="wwlink" name="linkMode" style="margin-left:10px;">
+                <label>旺旺</label>
               </div>
 
-              <div class="nromal-wrap">
-                  <label class="label-con">链接地址</label>
-                  <input class="input-medium"   name="href" 　 type="text" />
-                  <input  type="checkbox" name="autoSize" value="yes" checked="checked" >
-                  <label for="autoSize" class="chkLabel">新窗口打开</label>
+              <div class="nromal-wrap link-box">
+                <label class="label-con">链接地址</label>
+                <input class="input-medium" autocomplete="off" name="href" type="text" />
+                <input  type="checkbox" name="hrefMode" value="_blank">
+                <label for="autoSize" class="chkLabel">新窗口打开</label>
               </div>
-              <div class="nromal-wrap">
+              <div class="nromal-wrap wang-box">
                 <label class="label-con">旺旺账号</label>
-                <input class="input-medium"  type="text" placeholder="输入主旺旺或子旺旺号" />
+                <input class="input-medium" autocomplete="off" name="wangID" type="text" placeholder="输入主旺旺或子旺旺号" />
                 <label for="autoSize" class="chkLabel">不是邮箱号</label>
               </div>
               <div class="nromal-wrap">
@@ -329,7 +327,7 @@
                   <input class="pagecolor"  type="text" />
                   <span class="clear-color-button"></span>
                 </div>
-              </div>      
+              </div>
               <div class="nromal-wrap">
                 <label class="label-con">边框样式</label>
                 <input class="radio-medium" type="radio" name="borderStyle" id="bks_1" value="1">
@@ -348,16 +346,10 @@
                 <input class="check-medium" type="checkbox" name="borderL" id="bk_3" value="yes" checked="checked" style="margin-left:4px;">
                 <label for="bk_3" class="label-ckb">左</label>
                 <input class="check-medium" type="checkbox" name="borderR" id="bk_4" value="yes" checked="checked" style="margin-left:4px;">
-                <label for="bk_4" class="label-ckb">右</label>  
+                <label for="bk_4" class="label-ckb">右</label>
               </div>
-
             </div>
             <div class="editor-btns clear"><span>高级...</span></div>
- 
-
- 
- 
-    
         </div>
       </div>
     </div>

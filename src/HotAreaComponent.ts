@@ -13,4 +13,12 @@ export default class HotAreaComponent extends Component {
   toHtml() {
     return ''
   }
+  initPorpPanel() {
+  }
+  openEditDialog() {
+
+  }
+  update(formData) {
+
+  }
 }

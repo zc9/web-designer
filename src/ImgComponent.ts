@@ -58,14 +58,14 @@ export default class ImgComponent extends Component {
   }
 
   onLinkModeChanged($layerElem, linkMode) {
-    let $wangIDInputBox = $layerElem.find('.wangID-input-box')
-    let $hrefInputBox = $layerElem.find('.href-input-box')
+    let $wangBox = $layerElem.find('.wang-box')
+    let $linkBox = $layerElem.find('.link-box')
     if (linkMode === 'urlink') {
-      $wangIDInputBox.hide()
-      $hrefInputBox.show()
+      $wangBox.hide()
+      $linkBox.show()
     } else if (linkMode === 'wwlink') {
-      $hrefInputBox.hide()
-      $wangIDInputBox.show()
+      $linkBox.hide()
+      $wangBox.show()
     }
   }
 
@@ -147,14 +147,14 @@ export default class ImgComponent extends Component {
                   <input type="radio" name="linkMode" lay-filter="linkMode" value="wwlink" title="旺旺">
                 </div>
               </div>
-              <div class="layui-form-item href-input-box" style="display:none">
+              <div class="layui-form-item link-box" style="display:none">
                 <label class="layui-form-label">链接地址</label>
                 <div class="layui-input-inline">
                   <input name="href" type="text" class="layui-input">
                 </div>
                 <div><input name="hrefMode" value="_blank" type="checkbox" lay-skin="primary" title="新窗口打开"></div>
               </div>
-              <div class="layui-form-item wangID-input-box" style="display:none">
+              <div class="layui-form-item wang-box" style="display:none">
                 <label class="layui-form-label">旺旺ID</label>
                 <div class="layui-input-inline">
                   <input name="wangID" type="text" class="layui-input">
@@ -307,39 +307,9 @@ export default class ImgComponent extends Component {
     })
 
     form.on('submit(imgComponentForm)', function(data) {
-      if (data.field.bgImg !== that.formData.bgImg) {
-        that.$content.css('background-image', `url(${data.field.bgImg})`)
-        that.$img.attr('src', data.field.bgImg)
-      }
-      if (data.field.bgColor !== that.formData.bgColor) {
-        that.$content.css('background-color', data.field.bgColor)
-      }
       that.formData = data.field;
-      if (that.formData.bgImgSize === 'true') {
-        that.$el.width(that.$img.width())
-        that.$el.height(that.$img.height())
-      }
-      let imgMode = that.formData.imgMode
-      if (imgMode === 'cut') {
-        if (that.$img.is(':visible')) {
-          that.$content.css('background-image', `url(${that.formData.bgImg})`)
-          that.$img.hide()
-        }
-      } else {
-        that.$content.css('background-image', '')
-        if (imgMode === 'full') {
-          that.$img.css('width', '100%')
-          that.$img.css('height', '100%')
-        } else if (imgMode === 'scaleX') {
-          that.$img.css('height', '100%')
-          that.$img.css('width', '')
-        } else if (imgMode === 'scaleY') {
-          that.$img.css('width', '100%')
-          that.$img.css('height', '')
-        }
-        that.$img.show()
-      }
-
+      that.update(that.formData)
+      that.updatePropPanel()
       that.formData.animType = $layerElem.find('.animselect > div.active').data('val')
       console.log(that.formData)
       layer.close(layerNo)
@@ -347,6 +317,128 @@ export default class ImgComponent extends Component {
     });
     form.val('imgComponentForm', that.formData)
   }
+
+  update(formData) {
+    let that = this
+    that.$content.css('background-image', `url(${formData.bgImg})`)
+    that.$img.attr('src', formData.bgImg)
+    that.$content.css('background-color', formData.bgColor)
+    that.$img.bind('load', function() {
+      if (formData.bgImgSize === 'true') {
+        that.$el.width(that.$img.width())
+        that.$el.height(that.$img.height())
+      }
+    })
+    let imgMode = formData.imgMode
+    if (imgMode === 'cut') {
+      if (that.$img.is(':visible')) {
+        that.$content.css('background-image', `url(${formData.bgImg})`)
+        that.$img.hide()
+      }
+    } else {
+      that.$content.css('background-image', '')
+      if (imgMode === 'full') {
+        that.$img.css('width', '100%')
+        that.$img.css('height', '100%')
+      } else if (imgMode === 'scaleX') {
+        that.$img.css('height', '100%')
+        that.$img.css('width', '')
+      } else if (imgMode === 'scaleY') {
+        that.$img.css('width', '100%')
+        that.$img.css('height', '')
+      }
+      that.$img.show()
+    }
+  }
+
+  updatePropPanel() {
+    let $propPanel = this.$propPanel
+    let $bgImgInput = $propPanel.find('#bgImgInput')
+    $bgImgInput.val(this.formData.bgImg)
+    let $bgImgSizeCheckBox = $propPanel.find('input[type=checkbox][name=bgImgSize]')
+    if (this.formData.bgImgSize === 'true') {
+      $bgImgSizeCheckBox.prop('checked', true)
+    } else {
+      $bgImgSizeCheckBox.prop('checked', false)
+    }
+    let $imgModeSelect = $propPanel.find('#imgMode')
+    $imgModeSelect.val(this.formData.imgMode)
+    let $linkModeRadio = $propPanel.find('input[type=radio][name=linkMode]')
+    $linkModeRadio.filter(`[value="${this.formData.linkMode}"]`).prop('checked', true)
+    let $hrefInput = $propPanel.find('input[type=text][name=href]')
+    $hrefInput.val(this.formData.href)
+    let $wangIDInput = $propPanel.find('input[type=text][name=wangID]')
+    $wangIDInput.val(this.formData.wangID)
+
+    let $hrefModeCheckBox = $propPanel.find('input[type=checkbox][name=hrefMode]')
+    if (this.formData.hrefMode === '_blank') {
+      $hrefModeCheckBox.prop('checked', true)
+    } else {
+      $hrefModeCheckBox.prop('checked', false)
+    }
+    this.onLinkModeChanged($propPanel, this.formData.linkMode)
+  }
+
+  initPorpPanel() {
+    console.log('initPorpPanel')
+    let that = this
+    let $propPanel = $('.img-com-prop-panel')
+    this.$propPanel = $propPanel
+
+    $propPanel.show()
+    $propPanel.find('*').off()
+
+    this.updatePropPanel()
+
+    let $bgImgInput = $propPanel.find('#bgImgInput')
+    $bgImgInput.change((function() {
+      that.formData.bgImg = $bgImgInput.val()
+      that.update(that.formData)
+    }))
+
+    let $bgImgSizeCheckBox = $propPanel.find('input[type=checkbox][name=bgImgSize]')
+    $bgImgSizeCheckBox.change(function() {
+      let val = $(this).is(':checked')
+      that.formData.bgImgSize = val ? 'true' : 'false'
+      that.update(that.formData)
+    });
+
+    let $imgMode = $propPanel.find('#imgMode')
+    $imgMode.change(function() {
+      that.formData.imgMode = $(this).val()
+      that.update(that.formData)
+    })
+
+    let $linkModeRadio = $propPanel.find('input[type=radio][name=linkMode]')
+    $linkModeRadio.change(function() {
+      let val = $(this).prop('value')
+      that.formData.linkMode = val
+      that.onLinkModeChanged($propPanel, that.formData.linkMode)
+    })
+
+    let $hrefInput = $propPanel.find('input[type=text][name=href]')
+    $hrefInput.change(function() {
+      let val = $(this).val()
+      that.formData.href = val
+    })
+
+    let $hrefModeCheckBox = $propPanel.find('input[type=checkbox][name=hrefMode]')
+    $hrefModeCheckBox.change(function() {
+      let val = $(this).is(':checked')
+      that.formData.hrefMode = val ? '_blank' : ''
+    })
+
+    let $wangIDInput = $propPanel.find('input[type=text][name=wangID]')
+    $wangIDInput.change(function() {
+      let val = $(this).val()
+      that.formData.wangID = val
+    })
+
+    $propPanel.find('.editor-btns').on('click', function() {
+      that.openEditDialog()
+    })
+  }
+
   getProps() {
     let config = this.formData;
     config.appID = `${this.stage.id}-${this.id}`

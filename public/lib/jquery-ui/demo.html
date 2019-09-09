@@ -59,6 +59,11 @@ $.ui.draggable.prototype.createGuide = function ($parent, guideColor, left, top,
 
 
 $.ui.plugin.add('draggable', 'smartGuides', {
+  start: function() {
+    var $that = $(this)
+    var inst = $that.data('ui-draggable')
+    inst.snapInfos = {}
+  },
   stop: function(event, ui) {
     $('.guide-line').remove()
   },
@@ -93,83 +98,86 @@ $.ui.plugin.add('draggable', 'smartGuides', {
             bs = Math.abs(b - y1) <= d,
             hs = Math.abs(hc - xc) <= d,
             vs = Math.abs(vc - yc) <= d
-        // if (lss) {
-        //   ui.position.left = inst._convertPositionTo('relative', { top: 0, left: l }).left - inst.margins.left
-        //   var top = Math.min(y1, t), bottom = Math.max(y2, b)
-        //   var height = bottom - top
-        //   top = top - inst.offset.parent.top
-        //   inst.createGuide($parent, guideColor, ui.position.left, top, 1, height)
-        // }
-        // else if (ls) {
-        //   ui.position.left = inst._convertPositionTo('relative', { top: 0, left: l - inst.helperProportions.width }).left - inst.margins.left
-        //   var top = Math.min(y1, t), bottom = Math.max(y2, b)
-        //   var height = bottom - top
-        //   top = top - inst.offset.parent.top
-        //   inst.createGuide($parent, guideColor, ui.position.left + inst.helperProportions.width, top, 1, height)
-        // }
-        // if (rss) {
-        //   ui.position.left = inst._convertPositionTo('relative', { top: 0, left: r - inst.helperProportions.width }).left - inst.margins.left
-        //   var top = Math.min(y1, t), bottom = Math.max(y2, b)
-        //   var height = bottom - top
-        //   top = top - inst.offset.parent.top
-        //   inst.createGuide($parent, guideColor, ui.position.left + inst.helperProportions.width, top, 1, height)
-        // }
-        // else if (rs) {
-        //   ui.position.left = inst._convertPositionTo('relative', { top: 0, left: r }).left - inst.margins.left
-        //   var top = Math.min(y1, t), bottom = Math.max(y2, b)
-        //   var height = bottom - top
-        //   top = top - inst.offset.parent.top
-        //   inst.createGuide($parent, guideColor, ui.position.left, top, 1, height)
-        //   return
-        // }
-        // if(tss) {
-        //   ui.position.top = inst._convertPositionTo('relative', { top: t, left: 0 }).top - inst.margins.top
-        //   var left = Math.min(x1, l), right = Math.max(x2, r)
-        //   var width = right - left
-        //   left = left - inst.offset.parent.left
-        //   inst.createGuide($parent, guideColor, left, ui.position.top, width, 1)
-        // }
-        // else if(ts) {
-        //   ui.position.top = inst._convertPositionTo('relative', { top: t - inst.helperProportions.height, left: 0 }).top - inst.margins.top
-        //   var left = Math.min(x1, l), right = Math.max(x2, r)
-        //   var width = right - left
-        //   left = left - inst.offset.parent.left
-        //   inst.createGuide($parent, guideColor, left, ui.position.top + inst.helperProportions.height, width, 1)
-        // }
-        // if(bss) {
-        //   ui.position.top = inst._convertPositionTo('relative', { top: b - inst.helperProportions.height, left: 0 }).top - inst.margins.top
-        //   var left = Math.min(x1, l), right = Math.max(x2, r)
-        //   var width = right - left
-        //   left = left - inst.offset.parent.left
-        //   inst.createGuide($parent, guideColor, left, ui.position.top + inst.helperProportions.height, width, 1)
-        // }
-        // else if(bs) {
-        //   ui.position.top = inst._convertPositionTo('relative', { top: b, left: 0 }).top - inst.margins.top
-        //   var left = Math.min(x1, l), right = Math.max(x2, r)
-        //   var width = right - left
-        //   left = left - inst.offset.parent.left
-        //   inst.createGuide($parent, guideColor, left, ui.position.top, width, 1)
-        // }
-        if(hs) {
-          ui.position.left = inst._convertPositionTo('relative', { top: 0, left: hc - inst.helperProportions.width / 2 }).left - inst.margins.left;
-          let tt = Math.min(t, y1)
-          let bb = Math.max(b, y2)
-          if (t <= y1 + d && b >= y2 - d) {
-            inst.createGuide($parent, guideColor, hc - inst.offset.parent.left, t - inst.offset.parent.top, 1, Math.abs(b - t))
-          } else {
-            inst.createGuide($parent, guideColor, hc - inst.offset.parent.left, Math.min(vc, yc) - inst.offset.parent.top, 1, Math.abs(vc - yc))
-          }
+
+        let uuid = $element.data('ui-draggable').uuid
+
+        if (lss) {
+          ui.position.left = inst._convertPositionTo('relative', { top: 0, left: l }).left - inst.margins.left
+          var top = Math.min(y1, t), bottom = Math.max(y2, b)
+          var height = bottom - top
+          top = top - inst.offset.parent.top
+          inst.createGuide($parent, guideColor, ui.position.left, top, 1, height)
         }
-        if(vs) {
-          ui.position.top = inst._convertPositionTo('relative', { top: vc - inst.helperProportions.height / 2, left: 0 }).top - inst.margins.top;
-          let ll = Math.min(l, x1)
-          let rr = Math.max(r, x2)
-          if (l <= x1 + d && r >= x2 - d) {
-            inst.createGuide($parent, guideColor, l - inst.offset.parent.left, vc - inst.offset.parent.top,  Math.abs(r - l), 1)
-          } else {
-            inst.createGuide($parent, guideColor, Math.min(xc, hc) - inst.offset.parent.left, vc - inst.offset.parent.top, Math.abs(hc - xc), 1)
-          }
+        else if (ls) {
+          ui.position.left = inst._convertPositionTo('relative', { top: 0, left: l - inst.helperProportions.width }).left - inst.margins.left
+          var top = Math.min(y1, t), bottom = Math.max(y2, b)
+          var height = bottom - top
+          top = top - inst.offset.parent.top
+          inst.createGuide($parent, guideColor, ui.position.left + inst.helperProportions.width, top, 1, height)
         }
+        if (rss) {
+          ui.position.left = inst._convertPositionTo('relative', { top: 0, left: r - inst.helperProportions.width }).left - inst.margins.left
+          var top = Math.min(y1, t), bottom = Math.max(y2, b)
+          var height = bottom - top
+          top = top - inst.offset.parent.top
+          inst.createGuide($parent, guideColor, ui.position.left + inst.helperProportions.width, top, 1, height)
+        }
+        else if (rs) {
+          ui.position.left = inst._convertPositionTo('relative', { top: 0, left: r }).left - inst.margins.left
+          var top = Math.min(y1, t), bottom = Math.max(y2, b)
+          var height = bottom - top
+          top = top - inst.offset.parent.top
+          inst.createGuide($parent, guideColor, ui.position.left, top, 1, height)
+          return
+        }
+        if(tss) {
+          ui.position.top = inst._convertPositionTo('relative', { top: t, left: 0 }).top - inst.margins.top
+          var left = Math.min(x1, l), right = Math.max(x2, r)
+          var width = right - left
+          left = left - inst.offset.parent.left
+          inst.createGuide($parent, guideColor, left, ui.position.top, width, 1)
+        }
+        else if(ts) {
+          ui.position.top = inst._convertPositionTo('relative', { top: t - inst.helperProportions.height, left: 0 }).top - inst.margins.top
+          var left = Math.min(x1, l), right = Math.max(x2, r)
+          var width = right - left
+          left = left - inst.offset.parent.left
+          inst.createGuide($parent, guideColor, left, ui.position.top + inst.helperProportions.height, width, 1)
+        }
+        if(bss) {
+          ui.position.top = inst._convertPositionTo('relative', { top: b - inst.helperProportions.height, left: 0 }).top - inst.margins.top
+          var left = Math.min(x1, l), right = Math.max(x2, r)
+          var width = right - left
+          left = left - inst.offset.parent.left
+          inst.createGuide($parent, guideColor, left, ui.position.top + inst.helperProportions.height, width, 1)
+        }
+        else if(bs) {
+          ui.position.top = inst._convertPositionTo('relative', { top: b, left: 0 }).top - inst.margins.top
+          var left = Math.min(x1, l), right = Math.max(x2, r)
+          var width = right - left
+          left = left - inst.offset.parent.left
+          inst.createGuide($parent, guideColor, left, ui.position.top, width, 1)
+        }
+        // if(hs) {
+        //   ui.position.left = inst._convertPositionTo('relative', { top: 0, left: hc - inst.helperProportions.width / 2 }).left - inst.margins.left;
+        //   let tt = Math.min(t, y1)
+        //   let bb = Math.max(b, y2)
+        //   if (t <= y1 + d && b >= y2 - d) {
+        //     inst.createGuide($parent, guideColor, hc - inst.offset.parent.left, t - inst.offset.parent.top, 1, Math.abs(b - t))
+        //   } else {
+        //     inst.createGuide($parent, guideColor, hc - inst.offset.parent.left, Math.min(vc, yc) - inst.offset.parent.top, 1, Math.abs(vc - yc))
+        //   }
+        // }
+        // if(vs) {
+        //   ui.position.top = inst._convertPositionTo('relative', { top: vc - inst.helperProportions.height / 2, left: 0 }).top - inst.margins.top;
+        //   let ll = Math.min(l, x1)
+        //   let rr = Math.max(r, x2)
+        //   if (l <= x1 + d && r >= x2 - d) {
+        //     inst.createGuide($parent, guideColor, l - inst.offset.parent.left, vc - inst.offset.parent.top,  Math.abs(r - l), 1)
+        //   } else {
+        //     inst.createGuide($parent, guideColor, Math.min(xc, hc) - inst.offset.parent.left, vc - inst.offset.parent.top, Math.abs(hc - xc), 1)
+        //   }
+        // }
       })
     }
   }

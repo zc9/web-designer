@@ -103,6 +103,7 @@ export default class ImgComponent extends Component {
           <ul class="layui-tab-title">
             <li class="layui-this">内容设置</li>
              <li>边框设置</li>
+             <li>阴影外框</li>
             <li>动画设置</li>
           </ul>
           <div class="layui-tab-content">
@@ -134,11 +135,7 @@ export default class ImgComponent extends Component {
               <div class="layui-form-item">
                 <label class="layui-form-label">背景颜色</label>
                 <div class="layui-input-inline pagecolorpanel"  >
-                  <div class="sp-replacer sp-light">
-                    <div class="sp-preview">
-                      <div class="sp-preview-inner"></div>
-                    </div>
-                  </div>
+                  <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner"></div></div></div>
                   <input name="bgColor" type="text" class="layui-input pagecolor">
                   <span class="clear-color-button"></span>
                 </div>
@@ -163,6 +160,12 @@ export default class ImgComponent extends Component {
                   <input name="wangID" type="text" class="layui-input">
                 </div>
               </div>
+              <div class="layui-form-item"  >
+                <label class="layui-form-label">圆角度数</label>
+                <div class="layui-input-inline">
+                  <input name="borderRadius" type="text" class="layui-input">
+                </div>
+              </div>
               <div class="layui-form-item">
                 <label class="layui-form-label">提示文字</label>
                 <div class="layui-input-inline">
@@ -171,9 +174,81 @@ export default class ImgComponent extends Component {
               </div>
             </div>
             <div class="layui-tab-item">
-            tesss
-            </div>
 
+
+              <fieldset class="layui-elem-field">
+                <legend>默认边框</legend>
+                <div class="layui-field-box">
+                  <div class="layui-form-item"  >
+                    <label class="layui-form-label">边框显示</label>
+                    <div class="layui-input-block">
+                      <input type="checkbox" name="like1[write]" lay-skin="primary" title="上边" checked="">
+                      <input type="checkbox" name="like1[read]" lay-skin="primary" title="下边">
+                      <input type="checkbox" name="like1[game]" lay-skin="primary" title="左边" >
+                      <input type="checkbox" name="like1[game]" lay-skin="primary" title="右边"  >
+                    </div>
+                  </div>
+                  <div class="layui-form-item"  >
+                    <label class="layui-form-label">边框粗细</label>
+                    <div class="layui-input-inline input-short"><input name="borderWidth" type="text" class="layui-input"></div>
+                    <label class="layui-form-label">边框颜色</label>
+                    <div class="layui-input-inline pagecolorpanel input-short"  >
+                      <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner"></div></div></div>
+                      <input name="borderColor" type="text" class="layui-input pagecolor">
+                      <span class="clear-color-button"></span>
+                    </div>
+                  </div>
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">边框样式</label>
+                    <div class="layui-input-block">
+                      <input type="radio" name="borderStyle" lay-filter="borderStyle" value="1" title="实线" checked="">
+                      <input type="radio" name="borderStyle" lay-filter="borderStyle" value="2" title="细虚线">
+                      <input type="radio" name="borderStyle" lay-filter="borderStyle" value="3" title="粗虚线">
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+
+              <fieldset class="layui-elem-field"    style="margin-top:15px;">
+                <legend>
+                <span  style="margin-right:15px;  display:inline-block"> 鼠标_移上边框 </span>
+                   <input type="checkbox" name="like1[game]" lay-skin="primary" title="同步默认边框"   >
+                </legend>
+                <div class="layui-field-box">
+                  <div class="layui-form-item"  >
+                    <label class="layui-form-label">边框显示</label>
+                    <div class="layui-input-block">
+                      <input type="checkbox" name="like1[write]" lay-skin="primary" title="上边" checked="">
+                      <input type="checkbox" name="like1[read]" lay-skin="primary" title="下边">
+                      <input type="checkbox" name="like1[game]" lay-skin="primary" title="左边" >
+                      <input type="checkbox" name="like1[game]" lay-skin="primary" title="右边"  >
+                    </div>
+                  </div>
+                  <div class="layui-form-item"  >
+                    <label class="layui-form-label">边框粗细</label>
+                    <div class="layui-input-inline input-short"><input name="borderWidth" type="text" class="layui-input"></div>
+                    <label class="layui-form-label">边框颜色</label>
+                    <div class="layui-input-inline pagecolorpanel input-short"  >
+                      <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner"></div></div></div>
+                      <input name="borderColor" type="text" class="layui-input pagecolor">
+                      <span class="clear-color-button"></span>
+                    </div>
+                  </div>
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">边框样式</label>
+                    <div class="layui-input-block">
+                      <input type="radio" name="borderStyle" lay-filter="borderStyle" value="1" title="实线" checked="">
+                      <input type="radio" name="borderStyle" lay-filter="borderStyle" value="2" title="细虚线">
+                      <input type="radio" name="borderStyle" lay-filter="borderStyle" value="3" title="粗虚线">
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+
+            </div>
+            <div class="layui-tab-item"  >
+               阴影外框
+            </div>
             <div class="layui-tab-item"  >
               <div class="layui-form-item">
                 <label class="layui-form-label">动画效果</label>

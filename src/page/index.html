@@ -158,7 +158,7 @@
     <div class="stage-ct">
     </div>
     <div class="right-area">
-      <div class="align-panel" style="display:none">
+      <div class="align-panel" >
         <div class="title-bar"><em></em>对齐与分布<i class="june-notc-i" data-patype="switchBtn" data-paval="rightDq"></i></div>
         <div class="align-btn-group clearfix">
           <span data-aligntype="top" title="所选应用顶部对齐"><icon>ꔤ</icon></span>
@@ -190,7 +190,7 @@
       </div>
 
       <div class="prop-setting-ct">
-        <div class="ww-com-prop-panel">
+        <div class="ww-com-prop-panel" style="display:none">
           <div class="title-bar"><em></em>旺旺 属性<i class="june-notc-i"></i></div>
           <div class="engine-app">
             <div class="nromal-wrap">
@@ -199,7 +199,8 @@
               <label for="bks_1" >小旺旺</label>
               <input class="radio-medium" type="radio" name="borderStyle" id="bks_2" value="2" checked="checked" style="margin-left:10px;">
               <label for="bks_2" >大旺旺 </label>
-
+              <input class="radio-medium" type="radio" name="borderStyle" id="bks_3" value="3" checked="checked" style="margin-left:10px;">
+              <label for="bks_3" >真人头像 </label>
             </div>
             <div class="nromal-wrap">
               <label class="label-con">旺旺账号</label>
@@ -272,7 +273,7 @@
             </div>
           </div>
         </div>
-        <div class="img-com-prop-panel">
+        <div class="img-com-prop-panel" >
             <div class="title-bar"><em></em>单图 属性<i class="june-notc-i"></i></div>
             <div class="engine-app">
               <div class="nromal-wrap">
@@ -283,14 +284,12 @@
               </div>
               <div class="nromal-wrap">
                 <label class="label-con">图片方式</label>
-                
                   <select class="select-medium"   >
                     <option value="0">保持原图尺寸</option>
                     <option value="1">自由拉伸</option>
                     <option value="2">保持比例(只裁剪宽度)</option>
                     <option value="3">保持比例(只裁剪高度)</option>
                   </select>
-                 
               </div>
 
               <div class="nromal-wrap">
@@ -319,14 +318,14 @@
               </div>
               <div class="nromal-wrap">
                 <label class="label-con">边框粗细</label>
-                <input class="input-short"  type="text" />
+                <input class="input-short"  type="text" name="borderWidth" />
                 <label class="label-con">px,填数字,填0代表没边框</label>
               </div>
               <div class="nromal-wrap">
                 <label class="label-con">边框颜色</label>
                 <div class="pagecolorpanel">
                   <div class="sp-replacer sp-light"  ><div class="sp-preview"><div class="sp-preview-inner" style="background-color:transparent;"></div></div></div>
-                  <input class="pagecolor"  type="text" />
+                  <input class="pagecolor"  type="text" name="borderColor" />
                   <span class="clear-color-button"></span>
                 </div>
               </div>      
@@ -352,11 +351,7 @@
               </div>
 
             </div>
-            <div class="editor-btns clear"><span>高级...</span></div>
- 
-
- 
- 
+            <div class="editor-btns clear"><span>更多设置...</span></div>
     
         </div>
       </div>

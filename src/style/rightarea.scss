@@ -179,7 +179,14 @@
           width:15px;
           height:15px; 
         }
-
+      }
+      .nromal-field{
+        margin-left:5px;
+        margin-right:5px;
+        border:solid 1px #666666;
+        legend{
+          margin-left:10px;
+        }
       }
       /*颜色选择器*/
       .pagecolorpanel {

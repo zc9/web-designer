@@ -52,6 +52,7 @@ export default class ImgComponent extends Component {
     this.formData.animRange = '-s'
     this.formData.wangID = ''
     this.formData.borderRadius= ''
+    this.formData.borderStyle= 'solid'
 
     this.$content.css('background-image', `url(${this.formData.bgImg})`)
     this.$content.css('background-color', this.formData.bgColor)
@@ -328,10 +329,31 @@ export default class ImgComponent extends Component {
     that.$content.css('border-color', formData.borderColor)
     
     
-    if(formData.borderT==="true"){
+    if(formData.borderT==="true" && typeof(formData.borderWidth) !="undefined"){
       that.$content.css('border-top-style', formData.borderStyle)
       that.$content.css('border-top-width', parseInt(formData.borderWidth)) 
-    } 
+    }else{
+      that.$content.css('border-top-width',0)
+    }
+    if(formData.borderB==="true" && typeof(formData.borderWidth) !="undefined"){
+      that.$content.css('border-bottom-style', formData.borderStyle)
+      that.$content.css('border-bottom-width', parseInt(formData.borderWidth)) 
+    }else{
+      that.$content.css('border-bottom-width',0)
+    }
+    if(formData.borderL==="true" && typeof(formData.borderWidth) !="undefined"){
+      that.$content.css('border-left-style', formData.borderStyle)
+      that.$content.css('border-left-width', parseInt(formData.borderWidth)) 
+    }else{
+      that.$content.css('border-left-width',0)
+    }
+    if(formData.borderR==="true" && typeof(formData.borderWidth) !="undefined"){
+      that.$content.css('border-right-style', formData.borderStyle)
+      that.$content.css('border-right-width', parseInt(formData.borderWidth)) 
+    }else{
+      that.$content.css('border-right-width',0)
+    }
+
     that.$img.bind('load', function() {
       if (formData.bgImgSize === 'true') {
         that.$el.width(that.$img.width())
@@ -496,16 +518,19 @@ export default class ImgComponent extends Component {
     $borderBCheckBox.change(function() {
       let val = $(this).is(':checked')
       that.formData.borderB = val ? 'true' : ''
+      that.update(that.formData)
     })
     let $borderLCheckBox = $propPanel.find('input[type=checkbox][name=borderL]')
     $borderLCheckBox.change(function() {
       let val = $(this).is(':checked')
       that.formData.borderL = val ? 'true' : ''
+      that.update(that.formData)
     })
     let $borderRCheckBox = $propPanel.find('input[type=checkbox][name=borderR]')
     $borderRCheckBox.change(function() {
       let val = $(this).is(':checked')
       that.formData.borderR = val ? 'true' : ''
+      that.update(that.formData)
     })
     $propPanel.find('.editor-btns').on('click', function() {
       that.openEditDialog()

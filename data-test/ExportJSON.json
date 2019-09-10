@@ -1,0 +1,126 @@
+{
+  "width": 750, //模块_宽
+  "height": 600, //模块_高
+  "bgImg": "", //模块_背景图片  
+  "bgColor": "", //模块_背景颜色
+  "repeat": "", //模块_是否平铺
+  "attachment": "", //模块_固定背景
+  "position": "", //模块_背景对齐位置
+  "overflow": "hidden", //模块_是否超出画布局
+  "app": [
+	  {
+	    "appType": "xrq", //热区类型  xrq
+	    "config":
+	    { //参数配置
+	      "appID": "aPviY-MT6F", //组件ID
+	      "linkMode": "urlink", //链接类型 urlink 普通链接  wwlink 旺旺链接
+	      "href": "#", //打开网址
+	      "hrefMode": "_blank", //新窗口打开 
+	      "wangID": "", //旺旺ID
+
+	      "bgImg": "", //背景图片
+	      "bgImgSize": true, //背景图片_自动高宽
+	      "bgImgp": "50% 50", //背景图片对齐位置 
+	      "bgColor": "", //背景颜色
+	      "tipText": "", //提示文字
+
+	      "border": true, //默认边框 
+	      "borderColor": "", //边框颜色
+	      "borderWidth": "", //边框大小
+	      "borderStyle": "", //边框类型 虚线边框/实线/点线
+	      "borderRadius": "", //边框圆角弧度
+
+	      "boxshadow": true, //默认阴影
+	      "shadowColor": "", //阴影颜色
+	      "shadowBlur": "", //阴影模糊距离
+	      "shadowSize": "", //阴影大小
+	      "shadowX": "", //阴影水平阴影距离
+	      "shadowY": "", //阴影垂直阴影距离 
+
+	      "outlineSpeed": "", //鼠标经过时显示速度 trans01s 1秒  trans02s 2秒
+	      "maskMode": "", //鼠标经过时显示：蒙层模式  默认无  mcblack 深色 mcwhite 浅色
+
+	      "mvborder": true, //鼠标经过_边框 
+	      "mvborderColor": "", //边框颜色
+	      "mvborderWidth": "", //边框大小
+	      "mvborderStyle": "", //边框类型 虚线边框/实线/点线
+	      "mvborderRadius": "", //边框圆角弧度
+
+	      "mvboxshadow": true, //鼠标经过_阴影
+	      "mvshadowColor": "", //阴影颜色
+	      "mvshadowBlur": "", //阴影模糊距离
+	      "mvshadowSize": "", //阴影大小
+	      "mvshadowX": "", //阴影水平阴影距离
+	      "mvshadowY": "", //阴影垂直阴影距离 
+
+	      "outline": true, //鼠标移上_扩展外框
+	      "outlineColor": "", //鼠标移上_外框颜色
+	      "outlineColor": "", //鼠标移上_扩展外框粗细
+	      "outlineShadowColor": "", //鼠标移上_扩展外框阴影颜色 
+	    },
+	    "pos":
+	    {
+	      "w": 700, //宽度
+	      "h": 600, //高度
+	      "l": 0, //左边距离
+	      "t": 0, //右边距离
+	    },
+	    "opacity": "", //透明
+	  },
+	  {
+	    "appType": "xwwh", //旺旺类型  xwwh 
+	    "config":
+	    { //参数配置
+	      "appID": "aPviY-FB6b", //组件ID
+	      "wangID": "", //旺旺号
+	      "wangMode": 1, //1 大旺旺 2 小旺旺
+	      "nickName": "", //旺旺昵称
+          "nickPos":'11',
+	      "fontWeight": "", //昵称文字粗细
+	      "fontSize": "", //昵称文字大小
+	      "fontFamily": "", //昵称字体
+	      "fontStyle": "", //昵称文字斜体
+	      "color": "", //昵称文字颜色
+	      "bgColor": "", //昵称背景颜色
+	      "tipText": "", //昵称提示文字
+	    },
+	    "pos":
+	    {
+	      "w": 50, //宽度
+	      "h": 60, //高度
+	      "l": 0, //左边距离
+	      "t": 0, //右边距离
+	    },
+	    "opacity": "", //透明
+	  },
+	  {
+	    "appType": "xdtb", //单图  xdtb 
+	    "appLabel": "单图1", //单图  组件名 
+	    "config":
+	    { //参数配置
+	      "appID": "aPviY-FB6x", //组件ID
+	      "bgImg": "", //背景图片
+	      "bgImgSize": true, //背景图片_自动高宽
+	      "bgColor": "", //背景颜色
+	      "imgMode": "cut", //图片显示方式  cut 保持原图尺寸 full 自由拉伸 scaleX 保持比例(只裁剪宽度) scaleY 保持比例(只裁剪高度)
+	      
+	      "linkMode": "urlink", //链接类型 urlink 普通链接  wwlink 旺旺链接
+	      "href": "", //打开网址
+	      "hrefMode": "_blank", //新窗口打开 
+	      "wangID": "", //旺旺ID
+	      "tipText": "", //提示文字
+          "animType":"",   //xins-x-shake 左右抖动  xins-y-shake 上下抖动 xins-r-shake  旋转摆动  xins-s-shake 弹性缩放 xins-n-shake 弹性果冻
+          "animRange":"-s",    //-s 弱  -m 中  -l强
+          "animSpeed":"0.3s"
+	    },
+	    "pos":
+	    {
+	      "w": 50, //宽度
+	      "h": 60, //高度
+	      "l": 0, //左边距离
+	      "t": 0, //右边距离
+	    },
+	    "opacity": "", //透明
+	  }
+	]
+}

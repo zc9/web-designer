@@ -46,11 +46,12 @@ export default class ImgComponent extends Component {
     this.formData.href = ''
     this.formData.tipText = ''
     this.formData.animType = ''
-    this.formData.hrefMode = false
+    this.formData.hrefMode = true
     this.formData.bgImgSize = false
     this.formData.animSpeed = '1s'
     this.formData.animRange = '-s'
     this.formData.wangID = ''
+    this.formData.borderRadius= ''
 
     this.$content.css('background-image', `url(${this.formData.bgImg})`)
     this.$content.css('background-color', this.formData.bgColor)
@@ -182,10 +183,10 @@ export default class ImgComponent extends Component {
                   <div class="layui-form-item"  >
                     <label class="layui-form-label">边框显示</label>
                     <div class="layui-input-block">
-                      <input type="checkbox" name="like1[write]" lay-skin="primary" title="上边" checked="">
-                      <input type="checkbox" name="like1[read]" lay-skin="primary" title="下边">
-                      <input type="checkbox" name="like1[game]" lay-skin="primary" title="左边" >
-                      <input type="checkbox" name="like1[game]" lay-skin="primary" title="右边"  >
+                      <input type="checkbox" name="borderT" value="true" lay-skin="primary" title="上边"  >
+                      <input type="checkbox" name="borderB" value="true" lay-skin="primary" title="下边">
+                      <input type="checkbox" name="borderL" value="true" lay-skin="primary" title="左边" >
+                      <input type="checkbox" name="borderR" value="true" lay-skin="primary" title="右边"  >
                     </div>
                   </div>
                   <div class="layui-form-item"  >
@@ -201,9 +202,9 @@ export default class ImgComponent extends Component {
                   <div class="layui-form-item">
                     <label class="layui-form-label">边框样式</label>
                     <div class="layui-input-block">
-                      <input type="radio" name="borderStyle" lay-filter="borderStyle" value="1" title="实线" checked="">
-                      <input type="radio" name="borderStyle" lay-filter="borderStyle" value="2" title="细虚线">
-                      <input type="radio" name="borderStyle" lay-filter="borderStyle" value="3" title="粗虚线">
+                      <input type="radio" name="borderStyle" lay-filter="borderStyle" value="solid" title="实线" checked="">
+                      <input type="radio" name="borderStyle" lay-filter="borderStyle" value="dotted" title="细虚线">
+                      <input type="radio" name="borderStyle" lay-filter="borderStyle" value="dashed" title="粗虚线">
                     </div>
                   </div>
                 </div>
@@ -211,14 +212,14 @@ export default class ImgComponent extends Component {
 
               <fieldset class="layui-elem-field"    style="margin-top:15px;">
                 <legend>
-                <span  style="margin-right:15px;  display:inline-block"> 鼠标_移上边框 </span>
-                   <input type="checkbox" name="like1[game]" lay-skin="primary" title="同步默认边框"   >
+                  <span  style="margin-right:15px;  display:inline-block"> 鼠标_移上边框 </span>
+                  <button type="button" class="layui-btn layui-btn-sm">同步默认边框</button>
                 </legend>
                 <div class="layui-field-box">
                   <div class="layui-form-item"  >
                     <label class="layui-form-label">边框显示</label>
                     <div class="layui-input-block">
-                      <input type="checkbox" name="like1[write]" lay-skin="primary" title="上边" checked="">
+                      <input type="checkbox" name="ddd" lay-skin="primary" title="上边" >
                       <input type="checkbox" name="like1[read]" lay-skin="primary" title="下边">
                       <input type="checkbox" name="like1[game]" lay-skin="primary" title="左边" >
                       <input type="checkbox" name="like1[game]" lay-skin="primary" title="右边"  >
@@ -226,20 +227,20 @@ export default class ImgComponent extends Component {
                   </div>
                   <div class="layui-form-item"  >
                     <label class="layui-form-label">边框粗细</label>
-                    <div class="layui-input-inline input-short"><input name="borderWidth" type="text" class="layui-input"></div>
+                    <div class="layui-input-inline input-short"><input name="mbdWidth" type="text" class="layui-input"></div>
                     <label class="layui-form-label">边框颜色</label>
                     <div class="layui-input-inline pagecolorpanel input-short"  >
                       <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner"></div></div></div>
-                      <input name="borderColor" type="text" class="layui-input pagecolor">
+                      <input name="mbdColor" type="text" class="layui-input pagecolor">
                       <span class="clear-color-button"></span>
                     </div>
                   </div>
                   <div class="layui-form-item">
                     <label class="layui-form-label">边框样式</label>
                     <div class="layui-input-block">
-                      <input type="radio" name="borderStyle" lay-filter="borderStyle" value="1" title="实线" checked="">
-                      <input type="radio" name="borderStyle" lay-filter="borderStyle" value="2" title="细虚线">
-                      <input type="radio" name="borderStyle" lay-filter="borderStyle" value="3" title="粗虚线">
+                      <input type="radio" name="mbdStyle" lay-filter="mbdStyle" value="1" title="实线" checked="">
+                      <input type="radio" name="mbdStyle" lay-filter="mbdStyle" value="2" title="细虚线">
+                      <input type="radio" name="mbdStyle" lay-filter="mbdStyle" value="3" title="粗虚线">
                     </div>
                   </div>
                 </div>
@@ -323,6 +324,14 @@ export default class ImgComponent extends Component {
     that.$content.css('background-image', `url(${formData.bgImg})`)
     that.$img.attr('src', formData.bgImg)
     that.$content.css('background-color', formData.bgColor)
+    that.$content.css('border-radius', parseInt(formData.borderRadius))
+    that.$content.css('border-color', formData.borderColor)
+    
+    
+    if(formData.borderT==="true"){
+      that.$content.css('border-top-style', formData.borderStyle)
+      that.$content.css('border-top-width', parseInt(formData.borderWidth)) 
+    } 
     that.$img.bind('load', function() {
       if (formData.bgImgSize === 'true') {
         that.$el.width(that.$img.width())
@@ -377,6 +386,30 @@ export default class ImgComponent extends Component {
       $hrefModeCheckBox.prop('checked', false)
     }
     this.onLinkModeChanged($propPanel, this.formData.linkMode)
+
+    let $borderRadiusInput = $propPanel.find('input[type=text][name=borderRadius]')
+    $borderRadiusInput.val(this.formData.borderRadius)
+    let $borderColorInput = $propPanel.find('input[type=text][name=borderColor]')
+    $borderColorInput.val(this.formData.borderColor)
+    $borderColorInput.prev().find(".sp-preview-inner").css("background-color",this.formData.borderColor)
+    let $borderWidthInput = $propPanel.find('input[type=text][name=borderWidth]')
+    $borderWidthInput.val(this.formData.borderWidth)
+    let $borderStyleRadio = $propPanel.find('input[type=radio][name=borderStyle]')
+    $borderStyleRadio.filter(`[value="${this.formData.borderStyle}"]`).prop('checked', true)
+
+    let $borderTRadio = $propPanel.find('input[type=checkbox][name=borderT]')
+    let $borderTVal=this.formData.borderT === 'true' ? true : false;
+        $borderTRadio.prop('checked', $borderTVal)
+    let $borderBRadio = $propPanel.find('input[type=checkbox][name=borderB]')
+    let $borderBVal=this.formData.borderB === 'true' ? true : false;
+        $borderBRadio.prop('checked', $borderBVal)
+    let $borderLRadio = $propPanel.find('input[type=checkbox][name=borderL]')
+    let $borderLVal=this.formData.borderL === 'true' ? true : false;
+        $borderLRadio.prop('checked', $borderLVal)
+    let $borderRRadio = $propPanel.find('input[type=checkbox][name=borderR]')
+    let $borderRVal=this.formData.borderR === 'true' ? true : false;
+        $borderRRadio.prop('checked', $borderRVal)
+
   }
 
   initPorpPanel() {
@@ -428,12 +461,52 @@ export default class ImgComponent extends Component {
       that.formData.hrefMode = val ? '_blank' : ''
     })
 
-    let $wangIDInput = $propPanel.find('input[type=text][name=wangID]')
+    let $wangIDInput = $propPanel.find('input[type=text][name=wangID]') 
     $wangIDInput.change(function() {
       let val = $(this).val()
       that.formData.wangID = val
     })
-
+    let $borderRadiusInput = $propPanel.find('input[type=text][name=borderRadius]')
+    $borderRadiusInput.change(function() {
+      that.formData.borderRadius = $(this).val()
+      that.update(that.formData)
+    })
+    let $borderWidthInput = $propPanel.find('input[type=text][name=borderWidth]')
+    $borderWidthInput.change(function() {
+      that.formData.borderWidth = $(this).val()
+      that.update(that.formData)
+    })
+    let $borderColorInput = $propPanel.find('input[type=text][name=borderColor]')
+    $borderColorInput.change(function() {
+      that.formData.borderColor = $(this).val()
+      that.update(that.formData)
+    })
+    let $borderStyleRadio = $propPanel.find('input[type=radio][name=borderStyle]')
+    $borderStyleRadio.change(function() {
+      that.formData.borderStyle = $(this).prop('value')
+      that.update(that.formData)
+    })
+    let $borderTCheckBox = $propPanel.find('input[type=checkbox][name=borderT]')
+    $borderTCheckBox.change(function() {
+      let val = $(this).is(':checked')
+      that.formData.borderT = val ? 'true' : 'false'
+      that.update(that.formData)
+    })
+    let $borderBCheckBox = $propPanel.find('input[type=checkbox][name=borderB]')
+    $borderBCheckBox.change(function() {
+      let val = $(this).is(':checked')
+      that.formData.borderB = val ? 'true' : ''
+    })
+    let $borderLCheckBox = $propPanel.find('input[type=checkbox][name=borderL]')
+    $borderLCheckBox.change(function() {
+      let val = $(this).is(':checked')
+      that.formData.borderL = val ? 'true' : ''
+    })
+    let $borderRCheckBox = $propPanel.find('input[type=checkbox][name=borderR]')
+    $borderRCheckBox.change(function() {
+      let val = $(this).is(':checked')
+      that.formData.borderR = val ? 'true' : ''
+    })
     $propPanel.find('.editor-btns').on('click', function() {
       that.openEditDialog()
     })

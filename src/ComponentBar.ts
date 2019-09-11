@@ -2,6 +2,7 @@ import ImgComponent from './ImgComponent'
 import TextComponent from './TextComponent'
 import StageContainer from './StageContainer';
 import Stage from './Stage';
+import WangComponent from './WangComponent';
 export default class ComponentBar {
   stageCt: StageContainer
   $el: JQuery
@@ -19,6 +20,8 @@ export default class ComponentBar {
         component = new ImgComponent();
       } else if (name === 'text-component') {
         component = new TextComponent();
+      } else if (name === 'wang-component') {
+        component = new WangComponent();
       }
       component.$el.css('left', Math.max(initX, 0) + 'px')
       component.$el.css('top', Math.max(initY, 0) + 'px')

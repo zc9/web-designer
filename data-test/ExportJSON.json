@@ -76,6 +76,7 @@
 	      "wangMode": 1, //1 大旺旺 2 小旺旺
 	      "nickName": "", //旺旺昵称
           "nickPos":'11',
+          "bgImgSize": true, 
 	      "fontWeight": "", //昵称文字粗细
 	      "fontSize": "", //昵称文字大小
 	      "fontFamily": "", //昵称字体

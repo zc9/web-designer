@@ -1,0 +1,123 @@
+[33mcommit 784ba5f0c93c6c297cb6e27e1d956a74b5cdebda[m[33m ([m[1;36mHEAD -> [m[1;32mdev1[m[33m)[m
+Merge: 17264f2 04cd310
+Author: YanDong <1720440885@qq.com>
+Date:   Wed Sep 11 12:37:01 2019 +0800
+
+    文字信息
+
+[33mcommit 04cd310655d6f172ab0e5b754bf41bef1ecbf61f[m[33m ([m[1;31morigin/dev1[m[33m)[m
+Author: zc <zouchao0911@gmail.com>
+Date:   Wed Sep 11 10:54:46 2019 +0800
+
+    Update ImgComponent.ts
+
+[33mcommit 9b5204e616c3b3cee8c688b23b21315e1cb0a55a[m
+Author: zc <zouchao0911@gmail.com>
+Date:   Wed Sep 11 10:54:05 2019 +0800
+
+    Update WangComponent.ts
+
+[33mcommit 5e6e937f543ac9392698633839e08b0d76a85b95[m
+Author: zc <zouchao0911@gmail.com>
+Date:   Wed Sep 11 10:53:45 2019 +0800
+
+    Update index.html
+
+[33mcommit a45bf428bfbe555a9f15bd474261543263e0a438[m
+Author: zc <zouchao0911@gmail.com>
+Date:   Wed Sep 11 10:47:56 2019 +0800
+
+    Update rightarea.scss
+
+[33mcommit 53e36bb4ed5b972f9923b08b1bab3e1b49e59b9f[m
+Author: zc <zouchao0911@gmail.com>
+Date:   Wed Sep 11 10:47:24 2019 +0800
+
+    Update index.scss
+
+[33mcommit df05fbf01e0f2e70a41f797723b270f18f48ade4[m
+Author: zc <zouchao0911@gmail.com>
+Date:   Wed Sep 11 10:46:49 2019 +0800
+
+    Update index.html
+
+[33mcommit 4732a1746b5120361293094df5e8846b7b608a12[m
+Author: zc <zouchao0911@gmail.com>
+Date:   Wed Sep 11 10:46:23 2019 +0800
+
+    Update ComponentBar.ts
+
+[33mcommit 438e8139aeaeb95a368260fe00b44fc0c7116e06[m
+Author: zc <zouchao0911@gmail.com>
+Date:   Wed Sep 11 10:45:55 2019 +0800
+
+    Create WangComponent.ts
+
+[33mcommit de26005c9e4bd9b4cca825aadb64159166fbf2d5[m
+Author: zc <zouchao0911@gmail.com>
+Date:   Wed Sep 11 10:44:17 2019 +0800
+
+    Update Component.ts
+    
+    add wang component
+
+[33mcommit 17264f251d64d7487388e4b094fc9ee97951a962[m
+Author: YanDong <1720440885@qq.com>
+Date:   Wed Sep 11 00:06:24 2019 +0800
+
+    侧边属性添加 文子组件 初稿
+
+[33mcommit d2d14cd83c1d0db28959dd0e6069806a0ed21de6[m
+Author: YanDong <1720440885@qq.com>
+Date:   Tue Sep 10 18:06:51 2019 +0800
+
+    热区 旺旺 单图 侧边参数优化
+
+[33mcommit d03d7a717a953f26f4db9e58bd6b72747448c982[m
+Author: YanDong <1720440885@qq.com>
+Date:   Tue Sep 10 08:48:25 2019 +0800
+
+    自己试一下参数
+
+[33mcommit 3f1eceeaef2267ba400ec8569701358c75c106b7[m
+Merge: 49acf2d d983f59
+Author: YanDong <1720440885@qq.com>
+Date:   Mon Sep 9 10:26:22 2019 +0800
+
+    解决冲突
+
+[33mcommit 49acf2d40e738304c62a9de5d67f9191063890e7[m
+Author: YanDong <1720440885@qq.com>
+Date:   Mon Sep 9 09:10:59 2019 +0800
+
+    细节
+
+[33mcommit d983f59c227bfc9293cdc0d5fa9e621da0bf4066[m
+Author: zc9 <zouchao911@163.com>
+Date:   Mon Sep 9 00:15:47 2019 +0800
+
+    add function
+
+[33mcommit fb4eb9da65221326cc97250ea0556d9b7c1d77d6[m
+Author: YanDong <1720440885@qq.com>
+Date:   Fri Sep 6 00:24:16 2019 +0800
+
+    更新 高级选项 窗口属性表单样式
+
+[33mcommit 3e7a4b28357516e40ab8b351d6a2a98b5328e5b1[m
+Author: YanDong <1720440885@qq.com>
+Date:   Thu Sep 5 13:35:02 2019 +0800
+
+    重大皮肤风格 更新 统一颜色
+
+[33mcommit d38919ad5ed98a80b35c68ddf46ad8684664c571[m
+Author: YanDong <1720440885@qq.com>
+Date:   Thu Sep 5 00:24:59 2019 +0800
+
+    更新旺旺 侧边属性 他没有高级选项
+
+[33mcommit 6ccf66da2e3f508d095d5c86f3061bf91d74d91f[m
+Author: YanDong <1720440885@qq.com>
+Date:   Wed Sep 4 23:03:56 2019 +0800
+
+    单图 右侧细节 更新

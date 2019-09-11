@@ -195,7 +195,6 @@
         height: 22px;
         border:solid 1px #141619;
         background-color: #fff;
-
         input[type="text"] {
           text-indent:27px;
           height: 20px;
@@ -239,6 +238,21 @@
           border-top:0px;
           margin-right: 7px; 
           background-color:#fff;
+      }
+      .font-synchronous{
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        background: #f7f7f7;
+        border: solid 1px #393939;
+        border-top: none;
+        cursor: pointer;
+        color: #666666;
+        margin-right: 7px;
+        icon{
+          font-size: 15px;
+          color: #1a8cff;
+        }
       }
       .font-setting{
         clear: both;

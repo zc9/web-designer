@@ -7,13 +7,6 @@ export default class ImgComponent extends Component {
     this.$content = $('<a><img src="" style="display:none"></a>')
     this.$img = this.$content.find('img')
     this.$contentBox.append(this.$content)
-    let that = this;
-    this.$topBar.find('.setting').bind('click', function() {
-      that.openEditDialog();
-    })
-    this.$el.dblclick(function() {
-      that.openEditDialog();
-    })
     this.initFormData()
   }
 
@@ -382,6 +375,7 @@ export default class ImgComponent extends Component {
   initPorpPanel() {
     console.log('initPorpPanel')
     let that = this
+    $('.prop-setting-ct > div').hide()
     let $propPanel = $('.img-com-prop-panel')
     this.$propPanel = $propPanel
 

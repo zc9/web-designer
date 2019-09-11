@@ -32,13 +32,13 @@
 
     .align-btn-group {
       padding-left: 10px;
-      background: #282e32;
-      border-bottom: 1px #141619 solid;
+      background: #535353;
+      // border-bottom: 1px #141619 solid;
       color: #b8c2cc;
       .space-line {
         height: 1px;
         background: #343941;
-        border-top: 1px #141619 solid;
+        // border-top: 1px #535353 solid;
         margin-top: 8px;
         clear: both;
         float: left;
@@ -74,7 +74,7 @@
         line-height: 20px;
         text-align: center;
         float: left;
-        background: url("../assets/icon.png") -126px -192px;
+        // background: url("../assets/icon.png") -126px -192px;
         margin-top: 8px;
         margin-right: 4px;
         icon {
@@ -133,7 +133,7 @@
           width: 200px;
           height: 22px;
           outline:0px;
- 
+
         }
         select,
         input[type="radio"],
@@ -160,7 +160,7 @@
         }
         .radio-medium[type="radio"]{
           width:13px;
-          height:13px; 
+          height:13px;
         }
         select{
           height:24px;
@@ -177,7 +177,7 @@
         }
         .check-medium[type="checkbox"]{
           width:15px;
-          height:15px; 
+          height:15px;
         }
       }
       .nromal-field{
@@ -329,13 +329,13 @@
         padding:0px;
       }
     }
-    .editor-btns{ 
-      text-align: center; 
+    .editor-btns{
+      text-align: center;
       padding:15px 0px;
       span{
         background-color: #454545;
         border:solid 1px #575757;
-        outline:solid 1px #5D5D5D; 
+        outline:solid 1px #5D5D5D;
         color:#F0F0F0;
         padding:3px 15px;
         display:inline-block;
@@ -345,11 +345,11 @@
         }
       }
     }
- 
 
- 
+
+
     .img-com-prop-panel {
-     
+
 
       .item {
         margin-top: 20px;

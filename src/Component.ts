@@ -18,9 +18,13 @@ export default abstract class Component {
   formData: any = {}
   name: string
   id: string
+  enableResize: boolean = true
   selected: boolean = false
-  constructor(name = '') {
+  constructor(name = '', prop = {}) {
     this.name = name;
+    for (let k in prop) {
+      this[k] = prop[k]
+    }
     let $el = $(`
       <div class="component-box">
         <div class="top-bar">
@@ -33,8 +37,7 @@ export default abstract class Component {
         <div class="bottom-bar">
           <span>X:<input type="text" value="0"></span>
           <span>Y:<input type="text" value="0"></span>
-          <span>宽:<input type="text" value="0"></span>
-          <span>高:<input type="text" value="0"></span>
+          ${this.enableResize ? '<span>宽:<input type="text" value="0"></span><span>高:<input type="text" value="0"></span>' : ''}
           <span class="confirm">确定</span>
         </div>
       </div>
@@ -54,6 +57,13 @@ export default abstract class Component {
     this.$inputWidth = this.$bottomBar.find('span:nth-child(3) input');
     this.$inputHeight = this.$bottomBar.find('span:nth-child(4) input');
 
+    let that = this;
+    this.$topBar.find('.setting').bind('click', function() {
+      that.openEditDialog();
+    })
+    this.$el.dblclick(function() {
+      that.openEditDialog();
+    })
   }
 
   width() {
@@ -113,14 +123,17 @@ export default abstract class Component {
     this.id = stage.getRandomStr(4)
     let $canvas = stage.$canvas;
     $canvas.append(this.$el)
-    // @ts-ignore
-    this.$el.resizable({
-      // containment: $canvas[0],
-      classes: {
-        'ui-resizable-se': '',
-      },
-      handles: 'all',
-    })
+    if (this.enableResize) {
+      // @ts-ignore
+      this.$el.resizable({
+        // containment: $canvas[0],
+        classes: {
+          'ui-resizable-se': '',
+        },
+        handles: 'all',
+      })
+    }
+
     let drag = new Draggable(this.$el[0], {
       minWidth: this.minWidth,
       minHeight: this.minHeight,

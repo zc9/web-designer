@@ -16,6 +16,14 @@ export default class WangComponent extends Component {
     return ''
   }
   initPorpPanel() {
+    console.log('initPorpPanel')
+    let that = this
+    $('.prop-setting-ct > div').hide()
+    let $propPanel = $('.ww-com-prop-panel')
+    this.$propPanel = $propPanel
+
+    $propPanel.show()
+    $propPanel.find('*').off()
   }
   openEditDialog() {
     let layer = layui.layer;

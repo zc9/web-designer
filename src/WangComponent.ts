@@ -2,18 +2,47 @@ import Component from './Component'
 require('./assets/wang2.gif')
 require('./assets/wang1.gif')
 export default class WangComponent extends Component {
+  $content: JQuery
+  $nickSpan: JQuery
+  $cphoto: JQuery
   constructor() {
     super('wang-component', {enableResize: false})
-    let content = `
-        <a class="wang-box"><img src="./assets/wang2.gif"><span>璇子</span></a>
+   /* let content = `
+        <a class="wang-box"><img src="./assets/wang1.gif"><span>璇子</span></a>
       `
-    this.$contentBox.append(content)
+   // this.$contentBox.append(content) */
+    this.$content = $('<a class="wang-box"><img class="cphoto" src="//sc01.alicdn.com/kf/HTB1gXlQXDjxK1Rjy0Fnq6yBaFXao.jpg"><img src="./assets/wang1.gif"><span>璇子</span></a>')
+    this.$nickSpan = this.$content.find('span')
+    this.$cphoto = this.$content.find('.cphoto')
+    this.$contentBox.append(this.$content)
+    this.initFormData()
   }
-  getProps() {
-    return {}
-  }
+
   toHtml() {
     return ''
+  }
+  initFormData() {
+    this.formData.appLabel = ''
+    this.formData.wangMode = '22'
+    this.formData.wangID = ''
+    this.formData.bgImg = '//sc01.alicdn.com/kf/HTB1gXlQXDjxK1Rjy0Fnq6yBaFXao.jpg'
+    this.formData.bgColor = ''
+    this.formData.bgImgSize = false
+
+    this.formData.nickName = '璇子'
+    this.formData.nickPos = ''
+    this.formData.color = ''
+    this.formData.fontSize = 15
+    this.formData.fontFamily = 'arial'
+    this.formData.fontWeight = 400
+    this.formData.fontStyle = 'normal'
+    this.formData.tipText = ''
+ 
+ 
+ 
+    this.$content.css('background-color', this.formData.bgColor)
+    this.$content.css('font-size', this.formData.fontSize)
+    this.$cphoto.attr('src', this.formData.bgImg) 
   }
   initPorpPanel() {
     console.log('initPorpPanel')
@@ -24,6 +53,19 @@ export default class WangComponent extends Component {
 
     $propPanel.show()
     $propPanel.find('*').off()
+    this.updatePropPanel()
+
+    let $wangIDInput = $propPanel.find('input[type=text][name=wangID]') 
+    $wangIDInput.change(function() {
+      let val = $(this).val()
+      that.formData.wangID = val
+    })
+    let $nickNameInput = $propPanel.find('input[type=text][name=nickName]') 
+    $nickNameInput.change(function() {
+      let val = $(this).val()
+      that.formData.nickName = val
+      that.update(that.formData)
+    })
   }
   openEditDialog() {
     let layer = layui.layer;
@@ -72,6 +114,62 @@ export default class WangComponent extends Component {
     });
   }
   update(formData) {
+    let that = this
+    that.$nickSpan.text(formData.nickName)
+  }
+  updatePropPanel() {
+    let $propPanel = this.$propPanel
 
+    let $wangModeRadio = $propPanel.find('input[type=radio][name=wangMode]')
+    $wangModeRadio.filter(`[value="${this.formData.wangMode}"]`).prop('checked', true)
+
+    let $wangIDInput = $propPanel.find('input[type=text][name=wangID]')
+    $wangIDInput.val(this.formData.wangID)
+
+    let $bgImgInput = $propPanel.find('input[type=text][name=bgImg]')
+    $bgImgInput.val(this.formData.bgImg)
+    let $bgImgSizeCheckBox = $propPanel.find('input[type=checkbox][name=bgImgSize]')
+    if (this.formData.bgImgSize === 'true') {
+      $bgImgSizeCheckBox.prop('checked', true)
+    } else {
+      $bgImgSizeCheckBox.prop('checked', false)
+    }
+    let $nickNameInput = $propPanel.find('input[type=text][name=nickName]')
+    $nickNameInput.val(this.formData.nickName)
+
+    let $colorInput = $propPanel.find('input[type=text][name=color]')
+    $colorInput.val(this.formData.color)
+
+    let $bgColorInput = $propPanel.find('input[type=text][name=bgColor]')
+    $bgColorInput.val(this.formData.bgColor)
+
+    let $fontSizeInput = $propPanel.find('input[type=text][name=fontSize]')
+    $fontSizeInput.val(this.formData.fontSize)
+
+    let $fontFamilySelect = $propPanel.find('select[name=fontFamily]')
+    $fontFamilySelect.val(this.formData.fontFamily)
+
+    let $fontWeightInput = $propPanel.find('input[type=text][name=fontWeight]')
+    $fontWeightInput.val(this.formData.fontWeight)
+
+    let $fontStyleSelect = $propPanel.find('select[name=fontStyle]')
+    $fontStyleSelect.val(this.formData.fontStyle)
+
+    let $tipTextInput = $propPanel.find('input[type=text][name=tipText]')
+    $tipTextInput.val(this.formData.tipText)
+  }
+  getProps() {
+    let config = this.formData;
+    config.appID = `${this.stage.id}-${this.id}`
+    return {
+      'appType': 'wangh',
+      'config': config,
+      'pos': {
+        l: parseInt(this.$el.css('left')),
+        t: parseInt(this.$el.css('top'))
+      }
+    }
   }
 }
+ 
+ 

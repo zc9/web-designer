@@ -372,30 +372,20 @@
               <label class="label-con">旺旺账号</label>
               <input name="wangID"  type="text" placeholder="输入主旺旺或子旺旺号 不是邮箱号" />
             </div>
-              <div class="nromal-wrap"> 
-                <label class="label-con">图片地址</label>
-                <input class="input-medium" name="bgImg" type="text" />
-                <input class="chkBox" type="checkbox" name="bgImgSize" value="true"  id="autoSize">
-                <label for="autoSize" class="chkLabel">自动高宽</label>
-              </div>
+            <div class="nromal-wrap"> 
+                <label class="label-con">图像地址</label>
+                <input  name="bgImg" type="text" />
+            </div>
+            <div class="nromal-wrap">
+              <label class="label-con">图像与昵称距离</label>
+              <input name="bgImgMg"  type="text" class="input-medium" placeholder="" />
+            </div>
             <div class="nromal-wrap">
               <label class="label-con">旺旺昵称</label>
-              <input  name="nickName"  type="text" placeholder="可以为空" />
-            </div>
-            <div class="nromal-wrap">
-              <label class="label-con">昵称位置</label>
-              <input class="radio-medium" type="radio" name="nickPos" id="nkp_1" value="1">
-              <label for="nkp_1" >左边</label>
-              <input class="radio-medium" type="radio" name="nickPos" id="nkp_2" value="2" checked="checked" style="margin-left:10px;">
-              <label for="nkp_2" >右边 </label>
-              <input class="radio-medium" type="radio" name="nickPos" id="nkp_3" value="3">
-              <label for="nkp_3" >上边</label>
-              <input class="radio-medium" type="radio" name="nickPos" id="nkp_4" value="4"   style="margin-left:10px;">
-              <label for="nkp_4" >下边 </label>
+              <input  name="nickName"  type="text"   placeholder="可以为空" />
             </div>
 
-
-
+ 
             <div class="nromal-wrap">
               <label class="label-con">昵称颜色</label>
               <div class="pagecolorpanel">
@@ -425,6 +415,12 @@
                   <option value="times new roman" >Times New Roman</option>
                   <option value="trebuchet ms" >Trebuchet MS</option>
               </select>
+            </div>
+            <div class="nromal-wrap">
+              <label class="label-con">昵称距离</label>
+              <input class="input-short" type="text" name="nickMl"  />
+              <label class="label-con" style="margin-left:5px;">文字大小</label>
+              <input class="input-short" type="text" name="fontSize" />
             </div>
             <div class="nromal-wrap">
               <label class="label-con">昵称粗体</label>

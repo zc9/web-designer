@@ -374,7 +374,7 @@ export default class ImgComponent extends Component {
       that.$img.show()
     }
   }
-
+ 
   updatePropPanel() {
     let $propPanel = this.$propPanel
     let $bgImgInput = $propPanel.find('#bgImgInput')

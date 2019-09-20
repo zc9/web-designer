@@ -267,7 +267,7 @@
                   </div>
                   <div class="nromal-wrap">
                     <label class="label-con col2">字  体</label>
-                    <select class="select-medium" name="fontFamilyHover" >
+                    <select class="select-medium" name="ffFamily" >
                         <option value="宋体" >宋体</option>
                         <option value="黑体" >黑体</option>
                         <option value="微软雅黑" >雅黑</option>
@@ -283,27 +283,27 @@
                       <label class="label-con col2">颜  色</label>
                       <div class="pagecolorpanel"  >
                           <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner" style="background-color:transparent;"></div></div></div>
-                          <input class="pagecolor"   type="text" style="width: 73px;" />
+                          <input class="pagecolor"   type="text" name="fcolor" style="width: 73px;" />
                           <span class="clear-color-button"></span>
                       </div>
                       <label class="label-con" style="margin-left: 5px;">背景颜色</label>
                       <div class="pagecolorpanel" >
                           <div class="sp-replacer sp-light"  ><div class="sp-preview"><div class="sp-preview-inner" style="background-color:transparent;"></div></div></div>
-                          <input class="pagecolor"   type="text"  style="width: 73px;" />
+                          <input class="pagecolor"   type="text" name="fbgColor"  style="width: 73px;" />
                           <span class="clear-color-button"></span>
                       </div>
                   </div>
                   <div class="nromal-wrap">
                     <label class="label-con col2">大  小</label>
-                    <input class="input-short" type="text" />
+                    <input class="input-short" type="text" name="ffontSize"  />
                     <label class="label-con col2" style="margin-left:5px;">行  高</label>
-                    <input class="input-short" type="text" />
+                    <input class="input-short" type="text" name="flineHg"  />
                   </div>
                   <div class="nromal-wrap">
                     <label class="label-con col2">字  距</label>
-                    <input class="input-short"  type="text" />
+                    <input class="input-short"  type="text" name="fspacing"  />
                     <label class="label-con col2" style="margin-left:5px;">缩  进</label>
-                    <input class="input-short" type="text" />
+                    <input class="input-short" type="text" name="findent"  />
                   </div>
                   <div class=" nromal-wrap">
                     <div class="font-setting">
@@ -317,7 +317,7 @@
                       <span  title="文字右对齐" class="font-item" data-l="radio" ><icon>ꕑ</icon></span>
                     </div>
                     <div class="font-textarea">
-                      <textarea   name="characterContent"  style=" width:100%; height: 76px;vertical-align: -8px;outline: 0px;border: 0px;"  ></textarea>
+                      <textarea   name="fcontent"  style=" width:100%; height: 76px;vertical-align: -8px;outline: 0px;border: 0px;"  ></textarea>
                     </div>
                     <div class="font-synchronous">
                       <icon>ꕦ</icon><span>同步默认文字样式</span>
@@ -329,10 +329,29 @@
             <div class="nromal-wrap">
               <label class="label-con">链接地址</label>
               <input class="input-medium" autocomplete="off" name="href" type="text" />
-              <input  type="checkbox" name="hrefMode" value="_blank" id="autoSize" >
-              <label for="autoSize" class="chkLabel">新窗口打开</label>
+              <input  type="checkbox" name="hrefMode" value="_blank" id="hrefMode" >
+              <label for="hrefMode" class="chkLabel">新窗口打开</label>
             </div>
+            <div class="layui-collapse" lay-accordion>
+              <div class="layui-colla-item">
+                <h2 class="layui-colla-title">鼠标划过</h2>            
+                <div class="layui-colla-content layui-show">
+                   dd
+                </div>
+              </div>
+              <div class="layui-colla-item">
+                <h2 class="layui-colla-title">边框设置</h2>            
+                <div class="layui-colla-content">
+                   2222222222222
+                </div>
+              </div>
+
+            </div>
+
+
           </div>
+
+
           <div class="editor-btns clear"><span>更多设置...</span></div>
         </div>
         <div class="area-com-prop-panel" >

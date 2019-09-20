@@ -1019,12 +1019,12 @@ icon {
         }
         &:hover{
           background: #dadada;
-          outline: solid 1px #393939;
+          outline: solid 1px #bdb9b9;
         }
       }
       .active{
           background: #dadada;
-          outline: solid 1px #393939;
+          outline: solid 1px #bdb9b9;
           icon{
           color:#000;
           }
@@ -1039,7 +1039,20 @@ icon {
         height: 18px;
       }
     }
-
+    .font-synchronous{
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+ 
+      border-top: solid 1px #e1e1e1;
+      cursor: pointer;
+      color: #666666;
+      margin-right: 7px;
+      icon{
+        font-size: 15px;
+        color: #1a8cff;
+      }
+    }
 
 
   }

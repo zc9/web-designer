@@ -196,7 +196,7 @@
         border:solid 1px #141619;
         background-color: #fff;
         input[type="text"] {
-          text-indent:27px;
+          text-indent:23px;
           height: 20px;
           border:none;
           outline:none;
@@ -343,6 +343,26 @@
         padding:0px;
       }
     }
+    .layui-collapse{
+      border:0px;
+      .layui-colla-title{
+        height: 24px;
+        line-height: 24px;
+        background: #434343;
+        font-size: 12px;
+        border-bottom: 1px #393939 solid;
+        border-top: 1px #393939 solid;
+        box-sizing: border-box;
+        color: #8fa1b3;
+      }
+      .layui-colla-item{
+        border: 0px;
+      }
+      .layui-colla-content{
+        border:0px;
+      }
+    }
+
     .editor-btns{
       text-align: center;
       padding:15px 0px;

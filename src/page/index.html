@@ -192,6 +192,7 @@
       <div class="prop-setting-ct">
         <div class="text-com-prop-panel" >
           <div class="title-bar"><em></em>文字 属性<i class="june-notc-i"></i></div>
+          <div class="title-bar"><em></em>基本设置<i class="june-notc-i"></i></div>
           <div class="engine-app"  style="padding-top:0px;">
             <div class="layui-tab layui-tab-card">
               <ul class="layui-tab-title">
@@ -332,11 +333,92 @@
               <input  type="checkbox" name="hrefMode" value="_blank" id="hrefMode" >
               <label for="hrefMode" class="chkLabel">新窗口打开</label>
             </div>
-            <div class="layui-collapse" lay-accordion>
+            <div class="layui-collapse" lay-accordion  lay-filter="demo-collapse">
               <div class="layui-colla-item">
                 <h2 class="layui-colla-title">鼠标划过</h2>            
                 <div class="layui-colla-content layui-show">
-                   dd
+                  <fieldset  class="nromal-field">
+                    <legend>动画时长                      
+                      <input class="input-short"  type="text" name="antTsDur"  style="width:50px; height:20px;" />
+                      <label class="label-con">秒</label>
+                    </legend>
+                    <div class="nromal-wrap">
+                      <input class="radio-medium" type="radio" name="antTsFun" id="rbks_1" value="linear">
+                      <label for="rbks_1" >匀速</label>
+                      <input class="radio-medium" type="radio" name="antTsFun" id="rbks_2" value="ease"  style="margin-left:10px;">
+                      <label for="rbks_2" >逐渐变慢 </label>
+                      <input class="radio-medium" type="radio" name="antTsFun" id="rbks_3" value="ease-in"   style="margin-left:10px;">
+                      <label for="rbks_3" >减速 </label>
+                      <div class="sepline"></div>
+                      <input class="radio-medium" type="radio" name="antTsFun" id="rbks_4" value="ease-out"   >
+                      <label for="rbks_4" >加速 </label>
+                      <input class="radio-medium" type="radio" name="antTsFun" id="rbks_5" value="ease-in-out"   style="margin-left:10px;">
+                      <label for="rbks_5" >加速后减速 </label>
+                      <input class="radio-medium" type="radio" name="antTsFun" id="rbks_6" value="cubic-bezier"   style="margin-left:10px;">
+                      <label for="rbks_6" >动感弹跳</label>
+                    </div>
+                  </fieldset>
+                  <fieldset  class="nromal-field">
+                    <legend>动画效果</legend>
+                    <div class="nromal-wrap">
+                      <input class="radio-medium" type="radio" name="antTrans" id="antTs_0" value="atrans0">
+                      <label for="antTs_0" >无效果</label>
+                      <input class="radio-medium" type="radio" name="antTrans" id="antTs_1" value="atrans1"  style="margin-left:10px;">
+                      <label for="antTs_1" >右切入 </label>
+                      <input class="radio-medium" type="radio" name="antTrans" id="antTs_2" value="atrans2"   style="margin-left:10px;">
+                      <label for="antTs_2" >下切入 </label>
+
+                      <div class="sepline"></div>
+                      <input class="radio-medium" type="radio" name="antTrans" id="antTs_3" value="atrans3"  >
+                      <label for="antTs_3" >左切入 </label>
+                      <input class="radio-medium" type="radio" name="antTrans" id="antTs_4" value="atrans4"   style="margin-left:10px;">
+                      <label for="antTs_4" >上切入 </label>
+                      <input class="radio-medium" type="radio" name="antTrans" id="antTs_5" value="atrans5"   style="margin-left:10px;">
+                      <label for="antTs_5" >右切出</label>
+
+                      <div class="sepline"></div>
+                      <input class="radio-medium" type="radio" name="antTrans" id="antTs_6" value="atrans6"  >
+                      <label for="antTs_6" >下切出 </label>
+                      <input class="radio-medium" type="radio" name="antTrans" id="antTs_7" value="atrans7"   style="margin-left:10px;">
+                      <label for="antTs_7" >左切出 </label>
+                      <input class="radio-medium" type="radio" name="antTrans" id="antTs_8" value="atrans8"   style="margin-left:10px;">
+                      <label for="antTs_8" >上切出</label>
+
+                      <div class="sepline"></div>
+                      <input class="radio-medium" type="radio" name="antTrans" id="antTs_9" value="atrans9"  >
+                      <label for="antTs_9" >右切入切出 </label>
+                      <input class="radio-medium" type="radio" name="antTrans" id="antTs_10" value="atrans10"   style="margin-left:5px;">
+                      <label for="antTs_10" >下切入切出 </label>
+                      <input class="radio-medium" type="radio" name="antTrans" id="antTs_11" value="atrans11"   style="margin-left:5px;">
+                      <label for="antTs_11" >左切入切出</label>
+
+                      <div class="sepline"></div>
+                      <input class="radio-medium" type="radio" name="antTrans" id="antTs_12" value="atrans12"  >
+                      <label for="antTs_12" >上切入切出 </label>
+                      <input class="radio-medium" type="radio" name="antTrans" id="antTs_13" value="atrans13"   style="margin-left:10px;">
+                      <label for="antTs_13" >放大出现 </label>
+                      <input class="radio-medium" type="radio" name="antTrans" id="antTs_14" value="atrans14"   style="margin-left:10px;">
+                      <label for="antTs_14" >缩小出现</label>
+
+                      <div class="sepline"></div>
+                      <input class="radio-medium" type="radio" name="antTrans" id="antTs_15" value="atrans15"  >
+                      <label for="antTs_15" >翻转出现 </label>
+                      <input class="radio-medium" type="radio" name="antTrans" id="antTs_16" value="atrans16"   style="margin-left:10px;">
+                      <label for="antTs_16" >缩放出现1 </label>
+                      <input class="radio-medium" type="radio" name="antTrans" id="antTs_17" value="atrans17"   style="margin-left:10px;">
+                      <label for="antTs_17" >缩放出现2</label>
+
+                      <div class="sepline"></div>
+                      <input class="radio-medium" type="radio" name="antTrans" id="antTs_18" value="atrans18"  >
+                      <label for="antTs_18" >旋转放大 </label>
+                      <input class="radio-medium" type="radio" name="antTrans" id="antTs_19" value="atrans19"   style="margin-left:10px;">
+                      <label for="antTs_19" >旋转缩小 </label>
+                      <input class="radio-medium" type="radio" name="antTrans" id="antTs_20" value="atrans20"   style="margin-left:10px;">
+                      <label for="antTs_20" >渐隐渐显</label>
+                    </div>
+                  </fieldset>
+ 
+
                 </div>
               </div>
               <div class="layui-colla-item">

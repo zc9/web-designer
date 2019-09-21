@@ -87,6 +87,11 @@
   .prop-setting-ct {
     color: #b8c2cc;
     font-size: 12px;
+    .sepline{
+      clear: both;
+      height:1px;
+      overflow:hidden;
+    }
     input {
       color: #525c66;
       background: #fff;
@@ -354,12 +359,19 @@
         border-top: 1px #393939 solid;
         box-sizing: border-box;
         color: #8fa1b3;
+        padding:0 15px 0 25px;
+        .layui-colla-icon{
+          left:7px;
+          font-size:12px;
+        }
       }
       .layui-colla-item{
         border: 0px;
       }
       .layui-colla-content{
         border:0px;
+        color: #b8c2cc;
+        padding:10px 5px;
       }
     }
 
@@ -396,4 +408,6 @@
     }
   }
 }
+
+
 

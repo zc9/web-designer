@@ -1,11 +1,13 @@
 import Component from './Component';
 export default class TextComponent extends Component {
+　$content: JQuery
   constructor() {
     super('text-component')
     let content = `
-      <a><div class="on">请设置文本内容</div></a>
+      <a class="ant-text"><div class="on">请设置文本内容</div></a>
       `
     this.$contentBox.append(content)
+    this.$content = this.$contentBox.find('.ant-text')
     this.initFormData() 
   }
   initFormData() {
@@ -13,8 +15,8 @@ export default class TextComponent extends Component {
 
     this.formData.fFamily = 'arial' //字体
     this.formData.fontSize = 12
-    this.formData.color = ''
-    this.formData.bgColor = ''
+    this.formData.color = '#fff'
+    this.formData.bgColor = '#000'
     this.formData.lineHg =24  //行距
     this.formData.spacing =''  //letterSpacing // 字  距
     this.formData.indent =''  //textIndent 缩进
@@ -40,8 +42,8 @@ export default class TextComponent extends Component {
 
     this.formData.ffFamily = 'arial' //字体
     this.formData.ffontSize = 12
-    this.formData.fcolor = ''
-    this.formData.fbgColor = ''
+    this.formData.fcolor = '#000'
+    this.formData.fbgColor = '#fff'
     this.formData.flineHg =24  //行距
     this.formData.fspacing =''  //letterSpacing // 字  距
     this.formData.findent =''  //textIndent 缩进
@@ -57,10 +59,14 @@ export default class TextComponent extends Component {
     this.formData.fbgImg = '//sc01.alicdn.com/kf/HTB1gXlQXDjxK1Rjy0Fnq6yBaFXao.jpg'
     this.formData.fbgRep =''  //背景平铺方式
     this.formData.fbgPos ='' //背景对齐位置
+    this.formData.antTsDur ='0.2'   //动画时长                      
+    this.formData.antTsFun ='ease'  //速度曲线
+    this.formData.antTrans ='atrans5'  //动画效果
 
    
 
     this.update(this.formData)
+    
   }
   getProps() {
     let config = this.formData;
@@ -88,6 +94,7 @@ export default class TextComponent extends Component {
 
     $propPanel.show()
     $propPanel.find('*').off()
+    this.updatePropPanel();
 
     let $fFamilySelect = $propPanel.find('select[name=fFamily]')
     $fFamilySelect.change(function() {
@@ -196,6 +203,25 @@ export default class TextComponent extends Component {
     $fcontentTextarea.change(function() {
       let val = $(this).val()
       that.formData.fcontent = val
+      that.update(that.formData)
+    })
+    //以下是动画
+    let $antTsDurInput = $propPanel.find('input[type=text][name=antTsDur]') 
+    $antTsDurInput.change(function() {
+      let val = $(this).val()
+      that.formData.antTsDur = val
+      that.update(that.formData)
+    })
+    let $antTsFunRadio = $propPanel.find('input[type=radio][name=antTsFun]')
+    $antTsFunRadio.change(function() {
+      let val = $(this).prop('value')
+      that.formData.antTsFun = val
+      that.update(that.formData)
+    })
+    let $antTransRadio = $propPanel.find('input[type=radio][name=antTrans]')
+    $antTransRadio.change(function() {
+      let val = $(this).prop('value')
+      that.formData.antTrans = val
       that.update(that.formData)
     })
 
@@ -503,11 +529,21 @@ export default class TextComponent extends Component {
     // $defPanel.css("font-style",this.formData.fontStyle)
     $defPanel.text(formData.content)
 
-    let $offPanel=this.$contentBox.find(".off")
+    
     if(this.formData.hoverMode==="on"){
-      if($offPanel.length<=0){
+      let $offPanel=this.$contentBox.find(".off")
+      $offPanel.remove()
+      let $_antTrans=this.formData.antTrans
+
+      if($_antTrans=='atrans5' || $_antTrans=='atrans6' || $_antTrans==='atrans7' || $_antTrans==='atrans8' || $_antTrans==='atrans9' ){
+        this.$contentBox.find(".on").before("<div class='off'></div>")
+      }else{
         this.$contentBox.find(".on").after("<div class='off'></div>")
       }
+
+
+
+
       $offPanel=this.$contentBox.find(".off")
       $offPanel.text(formData.fcontent)
       $offPanel.css("font-family",this.formData.ffFamily)
@@ -517,18 +553,32 @@ export default class TextComponent extends Component {
       $offPanel.css('line-height', this.formData.flineHg+'px')
       $offPanel.css('letter-spacing', parseInt(this.formData.fspacing))
       $offPanel.css('text-indent', parseInt(this.formData.findent))
+      if(this.formData.antTsFun==='cubic-bezier'){
+        $defPanel.css('transition-timing-function', 'cubic-bezier(0.52, 1.64, 0.37, 0.66)')
+        $offPanel.css('transition-timing-function', 'cubic-bezier(0.52, 1.64, 0.37, 0.66)')
+      }else{
+        $defPanel.css('transition-timing-function', this.formData.antTsFun)
+        $offPanel.css('transition-timing-function', this.formData.antTsFun)
+      }
+      $defPanel.css('transition-duration', this.formData.antTsDur+'s')
+      $offPanel.css('transition-duration', this.formData.antTsDur+'s')
 
-    }else{
-      $offPanel.remove();
-    }
+      this.$content.attr("class","");
+      this.$content.addClass("ant-text");
+      this.$content.addClass(this.formData.antTrans)
+
+    } 
+
+
+
+     
+     
 
   }
   updatePropPanel(){
     let $propPanel = this.$propPanel
 
-
-    let $appLabelInput = $propPanel.find('input[type=text][name=appLabel]')
-    $appLabelInput.val(this.formData.appLabel)
+ 
 
     let $fFamilySelect = $propPanel.find('select[name=fFamily]')
     $fFamilySelect.val(this.formData.fFamily)
@@ -612,5 +662,15 @@ export default class TextComponent extends Component {
       $fbgColorInput.prev().find(".sp-preview-inner").css("background-color",'')
     } 
 
+   　//动画信息
+    let $antTsDurInput = $propPanel.find('input[type=text][name=antTsDur]')
+    $antTsDurInput.val(this.formData.antTsDur)
+    let $antTsFunModeRadio = $propPanel.find('input[type=radio][name=antTsFun]')
+    $antTsFunModeRadio.filter(`[value="${this.formData.antTsFun}"]`).prop('checked', true)
+    let $antTransModeRadio = $propPanel.find('input[type=radio][name=antTrans]')
+    $antTransModeRadio.filter(`[value="${this.formData.antTrans}"]`).prop('checked', true)
+
   }
 }
+
+

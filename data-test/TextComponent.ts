@@ -546,7 +546,7 @@ export default class TextComponent extends Component {
                <div class="layui-tab layui-side-card">
                 <ul class="layui-tab-title"  >
                   <li class="layui-this" style="margin-top: 110px;">默认边框</li>
-                  <li class="">鼠标划过边框</li>
+                  <li class="">鼠标划过</li>
                
  
                 </ul>
@@ -554,7 +554,7 @@ export default class TextComponent extends Component {
                   <div class="layui-tab-item layui-show">
                         <div class="layui-form-item"  >
                           <label class="layui-form-label">边框显示</label>
-                          <div class="layui-input-inline">
+                          <div class="layui-input-block">
                             <input type="checkbox" name="borderT" value="true" lay-skin="primary" title="上边"  >
                             <input type="checkbox" name="borderB" value="true" lay-skin="primary" title="下边">
                             <input type="checkbox" name="borderL" value="true" lay-skin="primary" title="左边" >
@@ -564,10 +564,6 @@ export default class TextComponent extends Component {
                         <div class="layui-form-item"  >
                           <label class="layui-form-label">边框粗细</label>
                           <div class="layui-input-inline input-short"><input name="borderWidth" type="text" class="layui-input"></div>
-                          
-
-                        </div>
-                        <div class="layui-form-item"  >
                           <label class="layui-form-label">边框颜色</label>
                           <div class="layui-input-inline pagecolorpanel input-short"  >
                             <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner"></div></div></div>
@@ -577,57 +573,15 @@ export default class TextComponent extends Component {
                         </div>
                         <div class="layui-form-item">
                           <label class="layui-form-label">边框样式</label>
-                          <div class="layui-input-inline">
+                          <div class="layui-input-block">
                             <input type="radio" name="borderStyle" lay-filter="borderStyle" value="solid" title="实线" checked="">
                             <input type="radio" name="borderStyle" lay-filter="borderStyle" value="dotted" title="细虚线">
                             <input type="radio" name="borderStyle" lay-filter="borderStyle" value="dashed" title="粗虚线">
                           </div>
                         </div>
                   </div>
-                  <div class="layui-tab-item ">
-
-                    <fieldset  class="layui-elem-field" style="margin-top:25px;">
-                      <legend>
-                        动画时长                      
-                        <input class="input-short"  type="text" name="antTsDur"  style="width:50px; height:20px; margin-left:10px; padding-left:5px;" />
-                        <label class="label-con">秒</label>
-                      </legend>
-                      <div class="layui-field-box">
-                        <input class="radio-medium" type="radio" name="antTsFun" value="linear"  title="匀速">
-                        <input class="radio-medium" type="radio" name="antTsFun" value="ease"  title="逐渐变慢">
-                        <input class="radio-medium" type="radio" name="antTsFun" value="ease-in"   title="减速">
-                        <div class="sepline"></div>
-                        <input class="radio-medium" type="radio" name="antTsFun" value="ease-out"   title="加速">
-                        <input class="radio-medium" type="radio" name="antTsFun" value="ease-in-out"   title="加速后减速">
-                        <input class="radio-medium" type="radio" name="antTsFun" value="cubic-bezier"   title="动感弹跳">
-                      </div>
-                    </fieldset>
-                    <fieldset  class="layui-elem-field" style="margin-top:25px;">
-                      <legend>动画效果</legend>
-                      <div class="layui-form-item"  style="margin-top:15px;margin-bottom:0px;">
-                        <label class="layui-form-label">边框颜色</label>
-                        <div class="layui-input-inline pagecolorpanel input-short"  style="width: 190px;">
-                          <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner"></div></div></div>
-                          <input name="borderColor" type="text" class="layui-input pagecolor">
-                          <span class="clear-color-button"></span>
-                        </div>
-                      </div>
-                      <div class="layui-field-box">
-                        <input class="radio-medium" type="radio" name="antTrans"  value="atrans0" title="直接切换">
-                        <input class="radio-medium" type="radio" name="antTrans"  value="atrans1" title="渐隐渐显">
-                        <div class="sepline"></div>
-                        <input class="radio-medium" type="radio" name="antTrans"  value="atrans2"  title="左对角线切入">
-                        <input class="radio-medium" type="radio" name="antTrans"  value="atrans3"  title="右对角线切入">
-                        <div class="sepline"></div>
-                        <input class="radio-medium" type="radio" name="antTrans"  value="atrans4"  title="顺时针出现">
-                        <input class="radio-medium" type="radio" name="antTrans"  value="atrans5"  title="逆时针出现">
-                        <div class="sepline"></div>
-                        <input class="radio-medium" type="radio" name="antTrans"  value="atrans6"  title="由点到线">
-                        <input class="radio-medium" type="radio" name="antTrans"  value="atrans7"  title="由点到面">
-                      </div>
-                    </fieldset>
-
-                  </div>
+               
+                  <div class="layui-tab-item ">3</div>
              
  
                 </div>
@@ -635,8 +589,57 @@ export default class TextComponent extends Component {
 
 
 
+              <fieldset  class="layui-elem-field">
+                <legend>
+                  动画时长                      
+                  <input class="input-short"  type="text" name="antTsDur"  style="width:50px; height:20px; margin-left:10px; padding-left:5px;" />
+                  <label class="label-con">秒</label>
+                </legend>
+                <div class="layui-field-box">
+                  <input class="radio-medium" type="radio" name="antTsFun" value="linear"  title="匀速">
+                  <input class="radio-medium" type="radio" name="antTsFun" value="ease"  title="逐渐变慢">
+                  <input class="radio-medium" type="radio" name="antTsFun" value="ease-in"   title="减速">
+                  <div class="sepline"></div>
+                  <input class="radio-medium" type="radio" name="antTsFun" value="ease-out"   title="加速">
+                  <input class="radio-medium" type="radio" name="antTsFun" value="ease-in-out"   title="加速后减速">
+                  <input class="radio-medium" type="radio" name="antTsFun" value="cubic-bezier"   title="动感弹跳">
+                </div>
+              </fieldset>
+              <fieldset  class="layui-elem-field" style="margin-top:15px;">
+                <legend>动画效果</legend>
+                <div class="layui-field-box">
+                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans0" title="无效果">
+                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans1" title="右切入">
+                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans2"  title="下切入">
+                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans3"  title="左切入">
+                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans4"  title="上切入">
+                  <div class="sepline"></div>
+                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans5"  title="右切出">
+                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans6"  title="下切出">
+                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans7"  title="左切出">
+                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans8"  title="上切出">
 
+                  <div class="sepline"></div>
+                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans9"  title="右切入切出">
+                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans10"   title="下切入切出">
+                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans11"   title="左切入切出">
 
+                  <div class="sepline"></div>
+                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans12"  title="上切入切出">
+                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans13"  title="放大出现">
+                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans14"  title="缩小出现">
+
+                  <div class="sepline"></div>
+                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans15"  title="翻转出现">
+                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans16"  title="缩放出现1">
+                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans17"  title="缩放出现2">
+
+                  <div class="sepline"></div>
+                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans18"  title="旋转放大">
+                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans19"  title="旋转缩小">
+                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans20"  title="渐隐渐显">
+                </div>
+              </fieldset>
 
 
             </div>

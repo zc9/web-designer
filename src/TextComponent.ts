@@ -4,7 +4,7 @@ export default class TextComponent extends Component {
   constructor() {
     super('text-component')
     let content = `
-      <a class="ant-text"><div class="on">请设置文本内容</div></a>
+      <a class="ant-text"   antTrans=""  antBc=""><div class="on">请设置文本内容</div></a>
       `
     this.$contentBox.append(content)
     this.$content = this.$contentBox.find('.ant-text')
@@ -35,7 +35,7 @@ export default class TextComponent extends Component {
     this.formData.bgImg = '//sc01.alicdn.com/kf/HTB1gXlQXDjxK1Rjy0Fnq6yBaFXao.jpg'
     this.formData.bgRep =''  //背景平铺方式
     this.formData.bgPos ='' //背景对齐位置
-    this.formData.bRadius =20 //圆角
+    this.formData.bRadius ='' //圆角
 
     this.formData.hoverMode ='off' //鼠标移上开启 off 关  on  开
  
@@ -63,7 +63,18 @@ export default class TextComponent extends Component {
     this.formData.antTsFun ='ease'  //速度曲线
     this.formData.antTrans ='atrans5'  //动画效果
 
-   
+    this.formData.borderT ='show'
+    this.formData.borderB ='show' 
+    this.formData.borderL ='show' 
+    this.formData.borderR ='show' 
+
+    this.formData.borderWidth =5  
+    this.formData.borderColor ='#FFFF00'  
+    this.formData.borderStyle ='solid'  
+    this.formData.antTsDurB ='0.2'  
+    this.formData.antTsFunB ='ease-out'  
+    this.formData.antBcolor ='#00FFFF' 
+    this.formData.antBc ='bdtx1'   
 
     this.update(this.formData)
     
@@ -250,8 +261,6 @@ export default class TextComponent extends Component {
       that.update(that.formData)
     })
 
-
-
     let $borderWidthInput = $propPanel.find('input[type=text][name=borderWidth]') 
     $borderWidthInput.change(function() {
       let val = $(this).val()
@@ -329,16 +338,24 @@ export default class TextComponent extends Component {
          let $fbgColorInput=$layerElem.find('input[type=text][name=fbgColor]')
          $fbgColorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.fbgColor)
         } 
-
+        //边框
+        if (that.formData.borderColor) {
+         let $borderColorInput=$layerElem.find('input[type=text][name=borderColor]')
+         $borderColorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.borderColor)
+        } 
+        if (that.formData.antBcolor) {
+         let $antBcolorInput=$layerElem.find('input[type=text][name=antBcolor]')
+         $antBcolorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.antBcolor)
+        } 
       },
       content: `<form class="layui-form" lay-filter="textComponentForm">
         <div class="layui-tab layui-tab-brief">
           <ul class="layui-tab-title">
             <li class="layui-this">默认设置</li>
-             <li>鼠标经过</li>
-             <li>动画设置</li>
+            <li>鼠标经过</li>
+            <li>动画设置</li>
             <li>边框</li>
-            <li>阴影</li>
+             
 
           </ul>
           <div class="layui-tab-content">
@@ -616,8 +633,6 @@ export default class TextComponent extends Component {
                 <ul class="layui-tab-title"  >
                   <li class="layui-this" style="margin-top: 110px;">默认边框</li>
                   <li class="">鼠标划过边框</li>
-                   
- 
                 </ul>
                 <div class="layui-tab-content" style="height: 400px;">
                   <div class="layui-tab-item layui-show">
@@ -699,12 +714,7 @@ export default class TextComponent extends Component {
  
                 </div>
             </div>
-            <div class="layui-tab-item">
-               <div class="layui-form-item">
-                <label class="layui-form-label">水平偏移</label>
-                <div class="layui-input-inline"><input type="text" name="appLabel" class="layui-input"></div>
-              </div>
-            </div>
+ 
 
             </div>
           </div>
@@ -739,14 +749,15 @@ export default class TextComponent extends Component {
     $defPanel.css('line-height', this.formData.lineHg+'px')
     $defPanel.css('letter-spacing', parseInt(this.formData.spacing))
     $defPanel.css('text-indent', parseInt(this.formData.indent))
-    $defPanel.css('border-radius', this.formData.bRadius)
+    $defPanel.css('border-radius',parseInt(this.formData.bRadius))
  
     
     // $defPanel.css("font-weight",this.formData.weight)
     // $defPanel.css("font-style",this.formData.fontStyle)
     $defPanel.text(formData.content)
 
-      let $offPanel=this.$contentBox.find(".off")
+    let $offPanel=this.$contentBox.find(".off")
+    let _antTransAttr=this.$content.attr("antTrans")
     if(this.formData.hoverMode==="on"){
       $offPanel.remove()
       let $_antTrans=this.formData.antTrans
@@ -776,14 +787,107 @@ export default class TextComponent extends Component {
       $defPanel.css('transition-duration', this.formData.antTsDur+'s')
       $offPanel.css('transition-duration', this.formData.antTsDur+'s')
 
-      this.$content.attr("class","");
-      this.$content.addClass("ant-text");
+      
+      this.$content.removeClass(_antTransAttr);
       this.$content.addClass(this.formData.antTrans)
+      this.$content.attr("antTrans",this.formData.antTrans)
     }else{
       $offPanel.remove();
+      this.$content.removeClass(_antTransAttr);
+      this.$content.attr("antTrans",'')
     }
 
+    //处理边框
+    let $textPanel=this.$contentBox.find(".ant-text")
+   
+    let $alPanel=this.$contentBox.find(".bk-aline")
+    if (this.formData.borderT==="show"){
+      if($alPanel.length <=0)
+        $textPanel.append("<div class='bk-aline'></div>")
+      $alPanel=this.$contentBox.find(".bk-aline")
+      $alPanel.css('border-width', this.formData.borderWidth)
+      $alPanel.css('border-style', this.formData.borderStyle)
+      $alPanel.css('border-color', this.formData.borderColor)
+    }else{
+        $alPanel.remove()
+    }
  
+    let _antBc=this.$content.attr("antBc")
+    this.$content.removeClass(_antBc);
+    this.$content.addClass(this.formData.antBc)
+    this.$content.attr("antBc",this.formData.antBc)
+
+    if(this.formData.antBc !="hide"){
+      let _antTsFunBV=this.formData.antTsFunB
+      if(this.formData.antTsFunB==='cubic-bezier') 
+        _antTsFunBV='cubic-bezier(0.52, 1.64, 0.37, 0.66)'
+      let _antTsDurBV=this.formData.antTsDurB+'s'
+
+      let $ltPanel=this.$contentBox.find(".w-lt")
+      if(this.formData.borderT==="show"){
+        if($ltPanel.length <=0)
+          $textPanel.append("<div class='bk-line  w-lt'></div>")
+          $ltPanel=this.$contentBox.find(".w-lt")
+          $ltPanel.css('border-top-width',parseInt(this.formData.borderWidth))
+          $ltPanel.css('border-top-style',this.formData.borderStyle)
+          $ltPanel.css('border-top-color',this.formData.antBcolor)
+          $ltPanel.css('transition-timing-function',_antTsFunBV)
+          $ltPanel.css('transition-duration',_antTsDurBV)
+          
+      }else{
+        $ltPanel.remove()
+      }
+      let $lbPanel=this.$contentBox.find(".w-lb")
+      if(this.formData.borderB==="show"){
+        if($lbPanel.length <=0)
+          $textPanel.append("<div class='bk-line  w-lb'></div>")
+          $lbPanel=this.$contentBox.find(".w-lb")
+          $lbPanel.css('border-Bottom-width',parseInt(this.formData.borderWidth))
+          $lbPanel.css('border-Bottom-style',this.formData.borderStyle)
+          $lbPanel.css('border-Bottom-color',this.formData.antBcolor)
+          $lbPanel.css('transition-timing-function',_antTsFunBV)
+          $lbPanel.css('transition-duration',_antTsDurBV)
+          
+      }else{
+        $lbPanel.remove()
+      }
+      let $llPanel=this.$contentBox.find(".w-ll")
+      if(this.formData.borderL==="show"){
+        if($llPanel.length <=0)
+          $textPanel.append("<div class='bk-line  w-ll'></div>")
+          $llPanel=this.$contentBox.find(".w-ll")
+          $llPanel.css('border-left-width',parseInt(this.formData.borderWidth))
+          $llPanel.css('border-left-style',this.formData.borderStyle)
+          $llPanel.css('border-left-color',this.formData.antBcolor)
+          $llPanel.css('transition-timing-function',_antTsFunBV)
+          $llPanel.css('transition-duration',_antTsDurBV)
+          
+      }else{
+        $llPanel.remove()
+      }
+      let $lrPanel=this.$contentBox.find(".w-lr")
+      if(this.formData.borderR==="show"){
+        if($lrPanel.length <=0)
+          $textPanel.append("<div class='bk-line  w-lr'></div>")
+          $lrPanel=this.$contentBox.find(".w-lr")
+          $lrPanel.css('border-right-width',parseInt(this.formData.borderWidth))
+          $lrPanel.css('border-right-style',this.formData.borderStyle)
+          $lrPanel.css('border-right-color',this.formData.antBcolor)
+          $lrPanel.css('transition-timing-function',_antTsFunBV)
+          $lrPanel.css('transition-duration',_antTsDurBV)
+          
+      }else{
+        $lrPanel.remove()
+      }
+
+      
+     
+
+
+   
+    }
+
+
   }
   updatePropPanel(){
     let $propPanel = this.$propPanel

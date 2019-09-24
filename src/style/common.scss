@@ -411,4 +411,255 @@
     }
 }
 
+//文字边框
+//默认边框
+.bk-aline{
+  position: absolute;
+  top:0px;
+  left:0px;
+  width:100%;
+  height:100%;
+}
+.bk-line {
+    position: absolute;
+    border-width: 0;
+    width: 0;
+    height: 0;
+    -webkit-transition: all .5s ease-in 0s;
+    transition: all .5s ease-in 0s
+}
+
+.bk-line.w-lt{
+    left: 0;
+    top: 0;
+    width: 100%
+}
+
+.bk-line.w-lr {
+    right: 0;
+    top: 0;
+    height: 100%
+}
+
+.bk-line.w-lb {
+    left: 0;
+    bottom: 0;
+    width: 100%
+}
+
+.bk-line.w-ll {
+    left: 0;
+    top: 0;
+    height: 100%
+}
+//直接切换
+.bdtx0{
+  .bk-line {
+    display: none
+  }
+  &:hover{
+    .bk-line{
+      display: block
+    }
+  }
+}
+//渐隐渐显
+.bdtx1{
+  .bk-line {
+    filter: alpha(opacity=0);
+    opacity: 0
+  }
+  &:hover{
+    .bk-line{
+      filter: alpha(opacity=100);
+      opacity: 1
+    }
+  }
+}
+//左对角线切入
+.bdtx4{
+  .w-lt {
+    width: 0
+  }
+  .w-lb {
+    left: auto;
+    right: 0;
+    width: 0
+  }
+  .w-ll {
+    height: 0
+  }
+  .w-lr {
+    height: 0;
+    top: auto;
+    bottom: 0
+  }
+}
+//右对角线切入
+.bdtx5{
+  .w-lt {
+    left: auto;
+    right: 0;
+    width: 0
+  }
+  .w-ll {
+    height: 0;
+    top: auto;
+    bottom: 0
+  }
+  .w-lr {
+    height: 0
+  }
+  .w-lb {
+    left: 0;
+    width: 0
+  }
+}
+//顺时针出现
+.bdtx6{
+  .w-lt {
+    width: 0
+  }
+  .w-ll {
+    height: 0;
+    top: auto;
+    bottom: 0
+  }
+  .w-lr {
+    height: 0
+  }
+  .w-lb {
+    left: auto;
+    right: 0;
+    width: 0
+  }
+}
+//逆时针出现
+.bdtx7{
+  .w-lt {
+    width: 0;
+    left: auto;
+    right: 0
+  }
+  .w-ll {
+    height: 0
+  }
+  .w-lr {
+    height: 0;
+    top: auto;
+    bottom: 0
+  }
+  .w-lb {
+    width: 0
+  }
+}
+.bdtx4:hover .w-lt,
+.bdtx5:hover .w-lt,
+.bdtx6:hover .w-lt,
+.bdtx7:hover .w-lt {
+  width: 100%
+} 
+.bdtx4:hover .w-ll,
+.bdtx5:hover .w-ll,
+.bdtx6:hover .w-ll,
+.bdtx7:hover .w-ll {
+  height: 100%
+}
+.bdtx4:hover .w-lr,
+.bdtx5:hover .w-lr,
+.bdtx6:hover .w-lr,
+.bdtx7:hover .w-lr {
+  height: 100%
+}
+
+.bdtx4:hover .w-lb,
+.bdtx5:hover .w-lb,
+.bdtx6:hover .w-lb,
+.bdtx7:hover .w-lb {
+    width: 100%
+}
+
+//由点到线
+.bdtx8{
+  .w-lt {
+    width: 0;
+    left: 50%
+  }
+  .w-lr {
+    height: 0;
+    top: 50%
+  }
+  .w-lb {
+    width: 0;
+    left: 50%
+  }
+  .w-ll {
+    height: 0;
+    top: 50%
+  }
+  &:hover{
+    .w-lt {
+      width: 100%;
+      left: 0
+    }
+    .w-lr {
+      height: 100%;
+      top: 0
+    }
+    .w-lb {
+      width: 100%;
+      left: 0
+    }
+    .w-ll {
+      height: 100%;
+      top: 0
+    }
+  }
+}
+//由点到面
+.bdtx9{
+  .w-lt {
+    width: 0;
+    left: 50%;
+    top: 50%
+  }
+  .w-lr {
+    height: 0;
+    top: 50%;
+    right: 50%
+  }
+  .w-lb {
+    width: 0;
+    left: 50%;
+    bottom: 50%
+  }
+  .w-ll {
+    height: 0;
+    top: 50%;
+    left: 50%
+  }
+  &:hover{
+    .w-lt {
+      width: 100%;
+      left: 0;
+      top: 0
+    }
+    .w-lr {
+      height: 100%;
+      top: 0;
+      right: 0
+    }
+    .w-lb {
+      width: 100%;
+      left: 0;
+      bottom: 0
+    }
+    .w-ll {
+      height: 100%;
+      top: 0;
+      left: 0
+    }
+  }
+}
+
  

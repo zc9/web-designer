@@ -159,7 +159,7 @@
     </div>
     <div class="right-area">
       <div class="align-panel" style="display:none">
-        <div class="title-bar"><em></em>对齐与分布<i class="june-notc-i" data-patype="switchBtn" data-paval="rightDq"></i></div>
+        <div class="title-bar"><em></em>对齐与分布<i class="r-icon-i" data-patype="switchBtn" data-paval="rightDq"></i></div>
         <div class="align-btn-group clearfix">
           <span data-aligntype="top" title="所选应用顶部对齐"><icon>ꔤ</icon></span>
           <span data-aligntype="HorizontalMiddle" title="所选应用垂直中部对齐"><icon>ꔥ</icon></span>
@@ -191,152 +191,13 @@
 
       <div class="prop-setting-ct">
         <div class="text-com-prop-panel" >
-          <div class="title-bar"><em></em>文字 属性<i class="june-notc-i"></i></div>
-          <div class="title-bar"><em></em>基本设置<i class="june-notc-i"></i></div>
+          <div class="title-bar"><em></em>文字 属性<i class="r-icon-i"></i></div>
+          <div class="title-bar"><em></em>基本设置<i class="r-icon-i"></i></div>
           <div class="engine-app"  style="padding-top:0px;">
-            <div class="layui-tab layui-tab-card">
-              <ul class="layui-tab-title">
-                <li class="layui-this">默认样式</li>
-                <li>鼠标经过样式</li>
-              </ul>
-              <div class="layui-tab-content"  >
-                <div class="layui-tab-item layui-show">
-                  <div class="nromal-wrap">
-                    <label class="label-con col2">字  体</label>
-                    <select class="select-medium" name="fFamily" >
-                        <option value="宋体" >宋体</option>
-                        <option value="黑体" >黑体</option>
-                        <option value="微软雅黑" >雅黑</option>
-                        <option value="楷体" >楷体</option>
-                        <option value="arial" >Arial</option>
-                        <option value="verdana" >Verdana</option>
-                        <option value="georgia" >Georgia</option>
-                        <option value="times new roman" >Times New Roman</option>
-                        <option value="trebuchet ms" >Trebuchet MS</option>
-                    </select>
-                  </div>
-                  <div class="nromal-wrap">
-                      <label class="label-con col2">颜  色</label>
-                      <div class="pagecolorpanel"  >
-                          <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner" style="background-color:transparent;"></div></div></div>
-                          <input class="pagecolor" name="color"  type="text" style="width: 73px;" />
-                          <span class="clear-color-button"></span>
-                      </div>
-                      <label class="label-con" style="margin-left: 5px;">背景颜色</label>
-                      <div class="pagecolorpanel" >
-                          <div class="sp-replacer sp-light"  ><div class="sp-preview"><div class="sp-preview-inner" style="background-color:transparent;"></div></div></div>
-                          <input class="pagecolor" name="bgColor"   type="text"  style="width: 73px;" />
-                          <span class="clear-color-button"></span>
-                      </div> 
-                  </div>
-                  <div class="nromal-wrap">
-                    <label class="label-con col2">大  小</label>
-                    <input class="input-short" type="text" name="fontSize" />
-                    <label class="label-con col2" style="margin-left:5px;">行  高</label>
-                    <input class="input-short" type="text" name="lineHg" />
-                  </div>
-                  <div class="nromal-wrap">
-                    <label class="label-con col2">字  距</label>
-                    <input class="input-short"  type="text" name="spacing"/>
-                    <label class="label-con col2" style="margin-left:5px;">缩  进</label>
-                    <input class="input-short" type="text" name="indent"/>
-                  </div>
-                  <div class=" nromal-wrap">
-                    <div class="font-setting">
-                      <span  title="加粗" class="font-item" data-l="checkbox" ><icon>ꕅ</icon></span>
-                      <span  title="斜体" class="font-item" data-l="checkbox" ><icon>ꕆ</icon></span>
-                      <span  title="上划线" class="font-item" data-l="checkbox" ><icon>ꔣ</icon></span>
-                      <span  title="中划线" class="font-item active" data-l="checkbox"><icon>ꕇ</icon></span>
-                      <span  title="下划线" class="font-item" data-l="checkbox" ><icon>ꕈ</icon></span>
-                      <i class="spaceline"></i>
-                      <span  title="文字左对齐" class="font-item" data-l="radio" ><icon>ꕉ</icon></span>
-                      <span  title="文字居中对齐" class="font-item" data-l="radio" ><icon>ꕐ</icon></span>
-                      <span  title="文字右对齐" class="font-item" data-l="radio" ><icon>ꕑ</icon></span>
-                    </div>
-                    <div class="font-textarea">
-                      <textarea   name="content"  style="  margin-left:1px;margin-bottom:1px;  width:260px; height: 76px;vertical-align: -8px;outline: 0px;border: 0px;"  ></textarea>
-                    </div>
-                  </div>
-                </div>
-                <div class="layui-tab-item">
-                  <div class="nromal-wrap">
-                    <label class="label-con">鼠标经过状态</label>
-                    <input type="radio"   value="on" name="hoverMode" >
-                    <label>开启</label>
-                    <input type="radio" value="off" name="hoverMode" style="margin-left:10px;">
-                    <label>关闭</label>
-                  </div>
-                  <div class="nromal-wrap">
-                    <label class="label-con col2">字  体</label>
-                    <select class="select-medium" name="ffFamily" >
-                        <option value="宋体" >宋体</option>
-                        <option value="黑体" >黑体</option>
-                        <option value="微软雅黑" >雅黑</option>
-                        <option value="楷体" >楷体</option>
-                        <option value="arial" >Arial</option>
-                        <option value="verdana" >Verdana</option>
-                        <option value="georgia" >Georgia</option>
-                        <option value="times new roman" >Times New Roman</option>
-                        <option value="trebuchet ms" >Trebuchet MS</option>
-                    </select>
-                  </div>
-                  <div class="nromal-wrap">
-                      <label class="label-con col2">颜  色</label>
-                      <div class="pagecolorpanel"  >
-                          <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner" style="background-color:transparent;"></div></div></div>
-                          <input class="pagecolor"   type="text" name="fcolor" style="width: 73px;" />
-                          <span class="clear-color-button"></span>
-                      </div>
-                      <label class="label-con" style="margin-left: 5px;">背景颜色</label>
-                      <div class="pagecolorpanel" >
-                          <div class="sp-replacer sp-light"  ><div class="sp-preview"><div class="sp-preview-inner" style="background-color:transparent;"></div></div></div>
-                          <input class="pagecolor"   type="text" name="fbgColor"  style="width: 73px;" />
-                          <span class="clear-color-button"></span>
-                      </div>
-                  </div>
-                  <div class="nromal-wrap">
-                    <label class="label-con col2">大  小</label>
-                    <input class="input-short" type="text" name="ffontSize"  />
-                    <label class="label-con col2" style="margin-left:5px;">行  高</label>
-                    <input class="input-short" type="text" name="flineHg"  />
-                  </div>
-                  <div class="nromal-wrap">
-                    <label class="label-con col2">字  距</label>
-                    <input class="input-short"  type="text" name="fspacing"  />
-                    <label class="label-con col2" style="margin-left:5px;">缩  进</label>
-                    <input class="input-short" type="text" name="findent"  />
-                  </div>
-                  <div class=" nromal-wrap">
-                    <div class="font-setting">
-                      <span  title="加粗" class="font-item" data-l="checkbox" ><icon>ꕅ</icon></span>
-                      <span  title="斜体" class="font-item" data-l="checkbox" ><icon>ꕆ</icon></span>
-                      <span  title="中划线" class="font-item active" data-l="checkbox"><icon>ꕇ</icon></span>
-                      <span  title="下划线" class="font-item" data-l="checkbox" ><icon>ꕈ</icon></span>
-                      <i class="spaceline"></i>
-                      <span  title="文字左对齐" class="font-item" data-l="radio" ><icon>ꕉ</icon></span>
-                      <span  title="文字居中对齐" class="font-item" data-l="radio" ><icon>ꕐ</icon></span>
-                      <span  title="文字右对齐" class="font-item" data-l="radio" ><icon>ꕑ</icon></span>
-                    </div>
-                    <div class="font-textarea">
-                      <textarea   name="fcontent"  style=" width:100%; height: 76px;vertical-align: -8px;outline: 0px;border: 0px;"  ></textarea>
-                    </div>
-                    <div class="font-synchronous">
-                      <icon>ꕦ</icon><span>同步默认文字样式</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="nromal-wrap">
-              <label class="label-con">链接地址</label>
-              <input class="input-medium" autocomplete="off" name="href" type="text" />
-              <input  type="checkbox" name="hrefMode" value="_blank" id="hrefMode" >
-              <label for="hrefMode" class="chkLabel">新窗口打开</label>
-            </div>
             <div class="layui-collapse" lay-accordion  lay-filter="demo-collapse">
-              <div class="layui-colla-item">
+              <div class="layui-colla-item" >
                 <h2 class="layui-colla-title">鼠标划过</h2>            
-                <div class="layui-colla-content layui-show">
+                <div class="layui-colla-content layui-show" >
                   <fieldset  class="nromal-field">
                     <legend>动画时长                      
                       <input class="input-short"  type="text" name="antTsDur"  style="width:50px; height:20px;" />
@@ -423,12 +284,257 @@
               </div>
               <div class="layui-colla-item">
                 <h2 class="layui-colla-title">边框设置</h2>            
-                <div class="layui-colla-content">
-                   2222222222222
+                <div class="layui-colla-content" style="display:block">
+                  <div class="layui-tab layui-tab-card">
+                    <ul class="layui-tab-title">
+                      <li class="layui-this">默认样式</li>
+                      <li>鼠标经过样式</li>
+                    </ul>
+                    <div class="layui-tab-content"  >
+                      <div class="layui-tab-item layui-show">
+                        <div class="nromal-wrap"  >
+                          <label class="label-con">边框显示</label>
+                          <div class="layui-input-inline">
+                            <input type="checkbox" name="borderT" value="show" id="border_s1" title="上边"  >
+                            <label for="border_s1" >上边</label>
+                            <input type="checkbox" name="borderB" value="show" id="border_s2" title="下边" style="margin-left:10px;">
+                            <label for="border_s2" >下边</label>
+                            <input type="checkbox" name="borderL" value="show" id="border_s3" title="左边" style="margin-left:10px;">
+                            <label for="border_s3" >左边</label>
+                            <input type="checkbox" name="borderR" value="show" id="border_s4" title="右边"  style="margin-left:10px;">
+                            <label for="border_s4" >右边</label>
+                          </div>
+                        </div>
+                        <div class="nromal-wrap"  >
+                          <label class="label-con">边框粗细</label>
+                          <input  class="input-medium" name="borderWidth" type="text"> 
+                        </div>
+                        <div class="nromal-wrap"  >
+                          <label class="label-con">边框颜色</label>
+                          <div class="pagecolorpanel"  >
+                            <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner"></div></div></div>
+                            <input name="borderColor" type="text" class="pagecolor">
+                            <span class="clear-color-button"></span>
+                          </div>
+                        </div>
+                        <div class="nromal-wrap">
+                          <label class="label-con">边框样式</label>
+                          <div class="layui-input-inline">
+                            <input type="radio" name="borderStyle" id="border_se1" value="solid" title="实线"  >
+                            <label for="border_se1" >实线</label>
+                            <input type="radio" name="borderStyle" id="border_se2" value="dotted" title="细虚线">
+                            <label for="border_se2" >细虚线</label>
+                            <input type="radio" name="borderStyle" id="border_se3" value="dashed" title="粗虚线">
+                            <label for="border_se3" >粗虚线</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="layui-tab-item">
+                        <fieldset  class="nromal-field">
+                          <legend>
+                            动画时长                      
+                            <input class="input-short"  type="text" name="antTsDurB"  style="width:50px; height:20px; margin-left:10px; padding-left:5px;" />
+                            <label class="label-con" style="margin-right:10px;">秒</label>
+                          </legend>
+                          <div class="layui-field-box">
+                            <input class="radio-medium" type="radio" name="antTsFunB" id="antTsF_1" value="linear"  title="匀速">
+                            <label for="antTsF_1" >匀速</label>
+                            <input class="radio-medium" type="radio" name="antTsFunB" id="antTsF_2" value="ease"  title="逐渐变慢">
+                            <label for="antTsF_2" >逐渐变慢</label>
+                            <input class="radio-medium" type="radio" name="antTsFunB" id="antTsF_3" value="ease-in"   title="减速" style="margin-left: 12px;">
+                            <label for="antTsF_3" >减速</label>
+                            <div class="sepline"></div>
+                            <input class="radio-medium" type="radio" name="antTsFunB" id="antTsF_4" value="ease-out"   title="加速">
+                            <label for="antTsF_4" >加速</label>
+                            <input class="radio-medium" type="radio" name="antTsFunB" id="antTsF_5" value="ease-in-out"   title="加速后减速">
+                            <label for="antTsF_5" >加速后减速</label>
+                            <input class="radio-medium" type="radio" name="antTsFunB" id="antTsF_6" value="cubic-bezier"   title="动感弹跳">
+                            <label for="antTsF_6" >动感弹跳</label>
+                          </div>
+                        </fieldset>
+                        <fieldset  class="nromal-field">
+                          <legend>
+                            动画效果
+                            <label class="label-con" style="margin-left:10px;">颜色</label>
+                            <div class="pagecolorpanel"  style="margin-right:10px;">
+                              <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner"></div></div></div>
+                              <input name="antBcolor" type="text" class="pagecolor" style="width:90px;">
+                              <span class="clear-color-button"></span>
+                            </div>
+                          </legend>
+                          <div class="layui-field-box">
+                            <input class="radio-medium" type="radio" name="antBc" id="antBc_0"  value="hide" itle="无效果">
+                            <label for="antBc_0">无效果</label>
+                            <input class="radio-medium" type="radio" name="antBc" id="antBc_1"  value="bdtx0" title="直接切换" style="margin-left: 35px;">
+                            <label for="antBc_1" >直接切换</label>
+                            <input class="radio-medium" type="radio" name="antBc" id="antBc_2"  value="bdtx1" title="渐隐渐显" style="margin-left: 12px;">
+                            <label for="antBc_2" >渐隐渐显</label>
+                            <div class="sepline"></div>
+                            <input class="radio-medium" type="radio" name="antBc" id="antBc_3" value="bdtx4"  title="左对角线切入">
+                            <label for="antBc_3" >左对角线切入</label>
+                            <input class="radio-medium" type="radio" name="antBc" id="antBc_4"  value="bdtx5"  title="右对角线切入">
+                            <label for="antBc_4" >右对角线切入</label>
+                            <div class="sepline"></div>
+                            <input class="radio-medium" type="radio" name="antBc" id="antBc_5"  value="bdtx6"  title="顺时针出现">
+                            <label for="antBc_5" >顺时针出现</label>
+                            <input class="radio-medium" type="radio" name="antBc" id="antBc_6"  value="bdtx7"  title="逆时针出现" style="margin-left: 12px;">
+                            <label for="antBc_6" >逆时针出现</label>
+                            <div class="sepline"></div>
+                            <input class="radio-medium" type="radio" name="antBc" id="antBc_7"  value="bdtx8"  title="由点到线">
+                            <label for="antBc_7" >由点到线</label>
+                            <input class="radio-medium" type="radio" name="antBc" id="antBc_8"  value="bdtx9"  title="由点到面"  style="margin-left: 24px;">
+                            <label for="antBc_8" >由点到面</label>
+                          </div>
+                        </fieldset>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
             </div>
+
+            <div class="layui-tab layui-tab-card">
+              <ul class="layui-tab-title">
+                <li class="layui-this">默认样式</li>
+                <li>鼠标经过样式</li>
+              </ul>
+              <div class="layui-tab-content"  >
+                <div class="layui-tab-item layui-show">
+                  <div class="nromal-wrap">
+                    <label class="label-con col2">字  体</label>
+                    <select class="select-medium" name="fFamily" >
+                        <option value="宋体" >宋体</option>
+                        <option value="黑体" >黑体</option>
+                        <option value="微软雅黑" >雅黑</option>
+                        <option value="楷体" >楷体</option>
+                        <option value="arial" >Arial</option>
+                        <option value="verdana" >Verdana</option>
+                        <option value="georgia" >Georgia</option>
+                        <option value="times new roman" >Times New Roman</option>
+                        <option value="trebuchet ms" >Trebuchet MS</option>
+                    </select>
+                  </div>
+                  <div class="nromal-wrap">
+                      <label class="label-con col2">颜  色</label>
+                      <div class="pagecolorpanel"  >
+                          <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner" style="background-color:transparent;"></div></div></div>
+                          <input class="pagecolor" name="color"  type="text" style="width: 73px;" />
+                          <span class="clear-color-button"></span>
+                      </div>
+                      <label class="label-con" style="margin-left: 5px;">背景颜色</label>
+                      <div class="pagecolorpanel" >
+                          <div class="sp-replacer sp-light"  ><div class="sp-preview"><div class="sp-preview-inner" style="background-color:transparent;"></div></div></div>
+                          <input class="pagecolor" name="bgColor"   type="text"  style="width: 73px;" />
+                          <span class="clear-color-button"></span>
+                      </div> 
+                  </div>
+                  <div class="nromal-wrap">
+                    <label class="label-con col2">大  小</label>
+                    <input class="input-short" type="text" name="fontSize" />
+                    <label class="label-con col2" style="margin-left:5px;">行  高</label>
+                    <input class="input-short" type="text" name="lineHg" />
+                  </div>
+                  <div class="nromal-wrap">
+                    <label class="label-con col2">字  距</label>
+                    <input class="input-short"  type="text" name="spacing"/>
+                    <label class="label-con col2" style="margin-left:5px;">缩  进</label>
+                    <input class="input-short" type="text" name="indent"/>
+                  </div>
+                  <div class=" nromal-wrap">
+                    <div class="font-setting">
+                      <span  title="加粗" class="font-item" data-l="checkbox" ><icon>ꕅ</icon></span>
+                      <span  title="斜体" class="font-item" data-l="checkbox" ><icon>ꕆ</icon></span>
+                      <span  title="上划线" class="font-item" data-l="checkbox" ><icon>ꔣ</icon></span>
+                      <span  title="中划线" class="font-item active" data-l="checkbox"><icon>ꕇ</icon></span>
+                      <span  title="下划线" class="font-item" data-l="checkbox" ><icon>ꕈ</icon></span>
+                      <i class="spaceline"></i>
+                      <span  title="文字左对齐" class="font-item" data-l="radio" ><icon>ꕉ</icon></span>
+                      <span  title="文字居中对齐" class="font-item" data-l="radio" ><icon>ꕐ</icon></span>
+                      <span  title="文字右对齐" class="font-item" data-l="radio" ><icon>ꕑ</icon></span>
+                    </div>
+                    <div class="font-textarea">
+                      <textarea   name="content"  style="  margin-left:1px;margin-bottom:1px;  width:260px; height: 76px;vertical-align: -8px;outline: 0px;border: 0px;"  ></textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="layui-tab-item">
+                  <div class="nromal-wrap">
+                    <label class="label-con">鼠标经过状态</label>
+                    <input type="radio" value="on" name="hoverMode" id="hoverModeOn">
+                    <label for="hoverModeOn">开启</label>
+                    <input type="radio" value="off" name="hoverMode" id="hoverModeOff" style="margin-left:10px;">
+                    <label for="hoverModeOff">关闭</label>
+                  </div>
+                  <div class="nromal-wrap">
+                    <label class="label-con col2">字  体</label>
+                    <select class="select-medium" name="ffFamily" >
+                        <option value="宋体" >宋体</option>
+                        <option value="黑体" >黑体</option>
+                        <option value="微软雅黑" >雅黑</option>
+                        <option value="楷体" >楷体</option>
+                        <option value="arial" >Arial</option>
+                        <option value="verdana" >Verdana</option>
+                        <option value="georgia" >Georgia</option>
+                        <option value="times new roman" >Times New Roman</option>
+                        <option value="trebuchet ms" >Trebuchet MS</option>
+                    </select>
+                  </div>
+                  <div class="nromal-wrap">
+                      <label class="label-con col2">颜  色</label>
+                      <div class="pagecolorpanel"  >
+                          <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner" style="background-color:transparent;"></div></div></div>
+                          <input class="pagecolor"   type="text" name="fcolor" style="width: 73px;" />
+                          <span class="clear-color-button"></span>
+                      </div>
+                      <label class="label-con" style="margin-left: 5px;">背景颜色</label>
+                      <div class="pagecolorpanel" >
+                          <div class="sp-replacer sp-light"  ><div class="sp-preview"><div class="sp-preview-inner" style="background-color:transparent;"></div></div></div>
+                          <input class="pagecolor"   type="text" name="fbgColor"  style="width: 73px;" />
+                          <span class="clear-color-button"></span>
+                      </div>
+                  </div>
+                  <div class="nromal-wrap">
+                    <label class="label-con col2">大  小</label>
+                    <input class="input-short" type="text" name="ffontSize"  />
+                    <label class="label-con col2" style="margin-left:5px;">行  高</label>
+                    <input class="input-short" type="text" name="flineHg"  />
+                  </div>
+                  <div class="nromal-wrap">
+                    <label class="label-con col2">字  距</label>
+                    <input class="input-short"  type="text" name="fspacing"  />
+                    <label class="label-con col2" style="margin-left:5px;">缩  进</label>
+                    <input class="input-short" type="text" name="findent"  />
+                  </div>
+                  <div class=" nromal-wrap">
+                    <div class="font-setting">
+                      <span  title="加粗" class="font-item" data-l="checkbox" ><icon>ꕅ</icon></span>
+                      <span  title="斜体" class="font-item" data-l="checkbox" ><icon>ꕆ</icon></span>
+                      <span  title="上划线" class="font-item" data-l="checkbox" ><icon>ꔣ</icon></span>
+                      <span  title="中划线" class="font-item active" data-l="checkbox"><icon>ꕇ</icon></span>
+                      <span  title="下划线" class="font-item" data-l="checkbox" ><icon>ꕈ</icon></span>
+                      <i class="spaceline"></i>
+                      <span  title="文字左对齐" class="font-item" data-l="radio" ><icon>ꕉ</icon></span>
+                      <span  title="文字居中对齐" class="font-item" data-l="radio" ><icon>ꕐ</icon></span>
+                      <span  title="文字右对齐" class="font-item" data-l="radio" ><icon>ꕑ</icon></span>
+                    </div>
+                    <div class="font-textarea">
+                      <textarea   name="fcontent"  style=" width:100%; height: 76px;vertical-align: -8px;outline: 0px;border: 0px;"  ></textarea>
+                    </div>
+                    <div class="font-synchronous">
+                      <icon>ꕦ</icon><span>同步默认文字样式</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="nromal-wrap">
+              <label class="label-con">链接地址</label>
+              <input class="input-medium" autocomplete="off" name="href" type="text" />
+              <input  type="checkbox" name="hrefMode" value="_blank" id="hrefMode" >
+              <label for="hrefMode" class="chkLabel">新窗口打开</label>
+            </div>
+
 
 
           </div>
@@ -437,7 +543,7 @@
           <div class="editor-btns clear"><span>更多设置...</span></div>
         </div>
         <div class="area-com-prop-panel" >
-          <div class="title-bar"><em></em>热区 属性<i class="june-notc-i"></i></div>
+          <div class="title-bar"><em></em>热区 属性<i class="r-icon-i"></i></div>
           <div class="engine-app">
               <div class="nromal-wrap">
                 <label class="label-con">链接类型</label>
@@ -461,7 +567,7 @@
           </div>
         </div>
         <div class="ww-com-prop-panel" >
-          <div class="title-bar"><em></em>旺旺 属性<i class="june-notc-i"></i></div>
+          <div class="title-bar"><em></em>旺旺 属性<i class="r-icon-i"></i></div>
           <div class="engine-app">
             <div class="nromal-wrap">
               <label class="label-con">旺旺样式</label>
@@ -545,7 +651,7 @@
           </div>
         </div>
         <div class="img-com-prop-panel" style="display:none">
-            <div class="title-bar"><em></em>单图 属性<i class="june-notc-i"></i></div>
+            <div class="title-bar"><em></em>单图 属性<i class="r-icon-i"></i></div>
             <div class="engine-app">
               <div class="nromal-wrap">
                 <label class="label-con">图片地址</label>
@@ -580,7 +686,7 @@
               <div class="nromal-wrap wang-box">
                 <label class="label-con">旺旺账号</label>
                 <input class="input-medium" autocomplete="off" name="wangID" type="text" placeholder="输入主旺旺或子旺旺号" />
-                <label for="autoSize" class="chkLabel">不是邮箱号</label>
+                <label   class="label-con">不是邮箱号</label>
               </div>
               <div class="nromal-wrap">
                 <label class="label-con">圆角度数</label>

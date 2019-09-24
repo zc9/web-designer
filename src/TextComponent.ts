@@ -59,7 +59,7 @@ export default class TextComponent extends Component {
     this.formData.fbgImg = '//sc01.alicdn.com/kf/HTB1gXlQXDjxK1Rjy0Fnq6yBaFXao.jpg'
     this.formData.fbgRep =''  //背景平铺方式
     this.formData.fbgPos ='' //背景对齐位置
-    this.formData.antTsDur ='0.2'   //动画时长                      
+    this.formData.antTsDur ='0.4'   //动画时长                      
     this.formData.antTsFun ='ease'  //速度曲线
     this.formData.antTrans ='atrans5'  //动画效果
 
@@ -224,9 +224,76 @@ export default class TextComponent extends Component {
       that.formData.antTrans = val
       that.update(that.formData)
     })
+// 以下是边框 
+    let $borderTCheckBox = $propPanel.find('input[type=checkbox][name=borderT]')
+    $borderTCheckBox.change(function() {
+      let val = $(this).is(':checked')
+      that.formData.borderT = val ? 'show' : ''
+      that.update(that.formData)
+    })
+    let $borderBCheckBox = $propPanel.find('input[type=checkbox][name=borderB]')
+    $borderBCheckBox.change(function() {
+      let val = $(this).is(':checked')
+      that.formData.borderB = val ? 'show' : ''
+      that.update(that.formData)
+    })
+    let $borderLCheckBox = $propPanel.find('input[type=checkbox][name=borderL]')
+    $borderLCheckBox.change(function() {
+      let val = $(this).is(':checked')
+      that.formData.borderL = val ? 'show' : ''
+      that.update(that.formData)
+    })
+    let $borderRCheckBox = $propPanel.find('input[type=checkbox][name=borderR]')
+    $borderRCheckBox.change(function() {
+      let val = $(this).is(':checked')
+      that.formData.borderR = val ? 'show' : ''
+      that.update(that.formData)
+    })
 
 
 
+    let $borderWidthInput = $propPanel.find('input[type=text][name=borderWidth]') 
+    $borderWidthInput.change(function() {
+      let val = $(this).val()
+      that.formData.borderWidth = val
+      that.update(that.formData)
+    })
+    let $borderColorInput = $propPanel.find('input[type=text][name=borderColor]') 
+    $borderColorInput.change(function() {
+      let val = $(this).val()
+      that.formData.borderColor = val
+      that.update(that.formData)
+    })
+    let $borderStyleRadio = $propPanel.find('input[type=radio][name=borderStyle]')
+    $borderStyleRadio.change(function() {
+      let val = $(this).prop('value')
+      that.formData.borderStyle = val
+      that.update(that.formData)
+    })
+    let $antBcolorInput = $propPanel.find('input[type=text][name=antBcolor]') 
+    $antBcolorInput.change(function() {
+      let val = $(this).val()
+      that.formData.antBcolor = val
+      that.update(that.formData)
+    })
+    
+    let $antTsDurBInput = $propPanel.find('input[type=text][name=antTsDurB]') 
+    $antTsDurBInput.change(function() {
+      let val = $(this).val()
+      that.formData.antTsDurB = val
+    })
+    let $antTsFunBRadio = $propPanel.find('input[type=radio][name=antTsFunB]')
+    $antTsFunBRadio.change(function() {
+      let val = $(this).prop('value')
+      that.formData.antTsFunB = val
+      that.update(that.formData)
+    })
+    let $antBcRadio = $propPanel.find('input[type=radio][name=antBc]')
+    $antBcRadio.change(function() {
+      let val = $(this).prop('value')
+      that.formData.antBc = val
+      that.update(that.formData)
+    })
 
     $propPanel.find('.editor-btns').on('click', function() {
       that.openEditDialog()
@@ -268,9 +335,11 @@ export default class TextComponent extends Component {
         <div class="layui-tab layui-tab-brief">
           <ul class="layui-tab-title">
             <li class="layui-this">默认设置</li>
-             <li>鼠标经过变换</li>
+             <li>鼠标经过</li>
              <li>动画设置</li>
-            <li>边框阴影</li>
+            <li>边框</li>
+            <li>阴影</li>
+
           </ul>
           <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
@@ -324,7 +393,7 @@ export default class TextComponent extends Component {
                     <div class="labelpanel"   style="width: 65px; ">
                       <input type="text" name="indent" class="layui-input">
                     </div>
-                    <div class="font-setting">
+                    <div class="font-setting font-on">
                       <span  title="加粗" class="font-item" data-l="checkbox" ><icon>ꕅ</icon></span>
                       <span  title="斜体" class="font-item" data-l="checkbox" ><icon>ꕆ</icon></span>
                       <span  title="上划线" class="font-item" data-l="checkbox" ><icon>ꔣ</icon></span>
@@ -547,7 +616,7 @@ export default class TextComponent extends Component {
                 <ul class="layui-tab-title"  >
                   <li class="layui-this" style="margin-top: 110px;">默认边框</li>
                   <li class="">鼠标划过边框</li>
-               
+                   
  
                 </ul>
                 <div class="layui-tab-content" style="height: 400px;">
@@ -555,17 +624,15 @@ export default class TextComponent extends Component {
                         <div class="layui-form-item"  >
                           <label class="layui-form-label">边框显示</label>
                           <div class="layui-input-inline">
-                            <input type="checkbox" name="borderT" value="true" lay-skin="primary" title="上边"  >
-                            <input type="checkbox" name="borderB" value="true" lay-skin="primary" title="下边">
-                            <input type="checkbox" name="borderL" value="true" lay-skin="primary" title="左边" >
-                            <input type="checkbox" name="borderR" value="true" lay-skin="primary" title="右边"  >
+                            <input type="checkbox" name="borderT" value="show" lay-skin="primary" title="上边"  >
+                            <input type="checkbox" name="borderB" value="show" lay-skin="primary" title="下边">
+                            <input type="checkbox" name="borderL" value="show" lay-skin="primary" title="左边" >
+                            <input type="checkbox" name="borderR" value="show" lay-skin="primary" title="右边"  >
                           </div>
                         </div>
                         <div class="layui-form-item"  >
                           <label class="layui-form-label">边框粗细</label>
                           <div class="layui-input-inline input-short"><input name="borderWidth" type="text" class="layui-input"></div>
-                          
-
                         </div>
                         <div class="layui-form-item"  >
                           <label class="layui-form-label">边框颜色</label>
@@ -589,17 +656,17 @@ export default class TextComponent extends Component {
                     <fieldset  class="layui-elem-field" style="margin-top:25px;">
                       <legend>
                         动画时长                      
-                        <input class="input-short"  type="text" name="antTsDur"  style="width:50px; height:20px; margin-left:10px; padding-left:5px;" />
+                        <input class="input-short"  type="text" name="antTsDurB"  style="width:50px; height:20px; margin-left:10px; padding-left:5px;" />
                         <label class="label-con">秒</label>
                       </legend>
                       <div class="layui-field-box">
-                        <input class="radio-medium" type="radio" name="antTsFun" value="linear"  title="匀速">
-                        <input class="radio-medium" type="radio" name="antTsFun" value="ease"  title="逐渐变慢">
-                        <input class="radio-medium" type="radio" name="antTsFun" value="ease-in"   title="减速">
+                        <input class="radio-medium" type="radio" name="antTsFunB" value="linear"  title="匀速">
+                        <input class="radio-medium" type="radio" name="antTsFunB" value="ease"  title="逐渐变慢">
+                        <input class="radio-medium" type="radio" name="antTsFunB" value="ease-in"   title="减速">
                         <div class="sepline"></div>
-                        <input class="radio-medium" type="radio" name="antTsFun" value="ease-out"   title="加速">
-                        <input class="radio-medium" type="radio" name="antTsFun" value="ease-in-out"   title="加速后减速">
-                        <input class="radio-medium" type="radio" name="antTsFun" value="cubic-bezier"   title="动感弹跳">
+                        <input class="radio-medium" type="radio" name="antTsFunB" value="ease-out"   title="加速">
+                        <input class="radio-medium" type="radio" name="antTsFunB" value="ease-in-out"   title="加速后减速">
+                        <input class="radio-medium" type="radio" name="antTsFunB" value="cubic-bezier"   title="动感弹跳">
                       </div>
                     </fieldset>
                     <fieldset  class="layui-elem-field" style="margin-top:25px;">
@@ -608,22 +675,22 @@ export default class TextComponent extends Component {
                         <label class="layui-form-label">边框颜色</label>
                         <div class="layui-input-inline pagecolorpanel input-short"  style="width: 190px;">
                           <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner"></div></div></div>
-                          <input name="borderColor" type="text" class="layui-input pagecolor">
+                          <input name="antBcolor" type="text" class="layui-input pagecolor">
                           <span class="clear-color-button"></span>
                         </div>
                       </div>
                       <div class="layui-field-box">
-                        <input class="radio-medium" type="radio" name="antTrans"  value="atrans0" title="直接切换">
-                        <input class="radio-medium" type="radio" name="antTrans"  value="atrans1" title="渐隐渐显">
+                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx0" title="直接切换">
+                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx1" title="渐隐渐显">
                         <div class="sepline"></div>
-                        <input class="radio-medium" type="radio" name="antTrans"  value="atrans2"  title="左对角线切入">
-                        <input class="radio-medium" type="radio" name="antTrans"  value="atrans3"  title="右对角线切入">
+                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx4"  title="左对角线切入">
+                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx5"  title="右对角线切入">
                         <div class="sepline"></div>
-                        <input class="radio-medium" type="radio" name="antTrans"  value="atrans4"  title="顺时针出现">
-                        <input class="radio-medium" type="radio" name="antTrans"  value="atrans5"  title="逆时针出现">
+                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx6"  title="顺时针出现">
+                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx7"  title="逆时针出现">
                         <div class="sepline"></div>
-                        <input class="radio-medium" type="radio" name="antTrans"  value="atrans6"  title="由点到线">
-                        <input class="radio-medium" type="radio" name="antTrans"  value="atrans7"  title="由点到面">
+                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx8"  title="由点到线">
+                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx9"  title="由点到面">
                       </div>
                     </fieldset>
 
@@ -631,13 +698,13 @@ export default class TextComponent extends Component {
              
  
                 </div>
+            </div>
+            <div class="layui-tab-item">
+               <div class="layui-form-item">
+                <label class="layui-form-label">水平偏移</label>
+                <div class="layui-input-inline"><input type="text" name="appLabel" class="layui-input"></div>
               </div>
-
-
-
-
-
-
+            </div>
 
             </div>
           </div>
@@ -663,6 +730,7 @@ export default class TextComponent extends Component {
   }
   update(formData) {
     let that = this
+    
     let $defPanel=this.$contentBox.find(".on")
     $defPanel.css("font-family",this.formData.fFamily)
     $defPanel.css('color', this.formData.color)
@@ -671,24 +739,23 @@ export default class TextComponent extends Component {
     $defPanel.css('line-height', this.formData.lineHg+'px')
     $defPanel.css('letter-spacing', parseInt(this.formData.spacing))
     $defPanel.css('text-indent', parseInt(this.formData.indent))
+    $defPanel.css('border-radius', this.formData.bRadius)
+ 
     
     // $defPanel.css("font-weight",this.formData.weight)
     // $defPanel.css("font-style",this.formData.fontStyle)
     $defPanel.text(formData.content)
 
-    
-    if(this.formData.hoverMode==="on"){
       let $offPanel=this.$contentBox.find(".off")
+    if(this.formData.hoverMode==="on"){
       $offPanel.remove()
       let $_antTrans=this.formData.antTrans
 
-      if($_antTrans=='atrans5' || $_antTrans=='atrans6' || $_antTrans==='atrans7' || $_antTrans==='atrans8' || $_antTrans==='atrans9' ){
+      if($_antTrans=='atrans5' || $_antTrans=='atrans6' || $_antTrans==='atrans7' || $_antTrans==='atrans8' || $_antTrans==='atrans9' || $_antTrans==='atrans19' ){
         this.$contentBox.find(".on").before("<div class='off'></div>")
       }else{
         this.$contentBox.find(".on").after("<div class='off'></div>")
       }
-
-  
       $offPanel=this.$contentBox.find(".off")
       $offPanel.text(formData.fcontent)
       $offPanel.css("font-family",this.formData.ffFamily)
@@ -698,6 +765,7 @@ export default class TextComponent extends Component {
       $offPanel.css('line-height', this.formData.flineHg+'px')
       $offPanel.css('letter-spacing', parseInt(this.formData.fspacing))
       $offPanel.css('text-indent', parseInt(this.formData.findent))
+      $offPanel.css('border-radius', this.formData.bRadius)
       if(this.formData.antTsFun==='cubic-bezier'){
         $defPanel.css('transition-timing-function', 'cubic-bezier(0.52, 1.64, 0.37, 0.66)')
         $offPanel.css('transition-timing-function', 'cubic-bezier(0.52, 1.64, 0.37, 0.66)')
@@ -711,19 +779,14 @@ export default class TextComponent extends Component {
       this.$content.attr("class","");
       this.$content.addClass("ant-text");
       this.$content.addClass(this.formData.antTrans)
+    }else{
+      $offPanel.remove();
+    }
 
-    } 
-
-
-
-     
-     
-
+ 
   }
   updatePropPanel(){
     let $propPanel = this.$propPanel
-
- 
 
     let $fFamilySelect = $propPanel.find('select[name=fFamily]')
     $fFamilySelect.val(this.formData.fFamily)
@@ -814,6 +877,62 @@ export default class TextComponent extends Component {
     $antTsFunModeRadio.filter(`[value="${this.formData.antTsFun}"]`).prop('checked', true)
     let $antTransModeRadio = $propPanel.find('input[type=radio][name=antTrans]')
     $antTransModeRadio.filter(`[value="${this.formData.antTrans}"]`).prop('checked', true)
+
+    //边框信息
+    let $borderTCheckBox = $propPanel.find('input[type=checkbox][name=borderT]')
+    if (this.formData.borderT === 'show') {
+      $borderTCheckBox.prop('checked', true)
+    } else {
+      $borderTCheckBox.prop('checked', false)
+    }
+    let $borderBCheckBox = $propPanel.find('input[type=checkbox][name=borderB]')
+    if (this.formData.borderB === 'show') {
+      $borderBCheckBox.prop('checked', true)
+    } else {
+      $borderBCheckBox.prop('checked', false)
+    }
+    let $borderLCheckBox = $propPanel.find('input[type=checkbox][name=borderL]')
+    if (this.formData.borderL === 'show') {
+      $borderLCheckBox.prop('checked', true)
+    } else {
+      $borderLCheckBox.prop('checked', false)
+    }
+    let $borderRCheckBox = $propPanel.find('input[type=checkbox][name=borderR]')
+    if (this.formData.borderR === 'show') {
+      $borderRCheckBox.prop('checked', true)
+    } else {
+      $borderRCheckBox.prop('checked', false)
+    }
+
+    let $borderWidthInput = $propPanel.find('input[type=text][name=borderWidth]')
+    $borderWidthInput.val(this.formData.borderWidth)
+    let $borderColorInput = $propPanel.find('input[type=text][name=borderColor]')
+    $borderColorInput.val(this.formData.borderColor)
+    let $borderStyleRadio = $propPanel.find('input[type=radio][name=borderStyle]')
+    $borderStyleRadio.filter(`[value="${this.formData.borderStyle}"]`).prop('checked', true)
+
+    if (this.formData.borderColor) {
+      $borderColorInput.prev().find(".sp-preview-inner").css("background-color",this.formData.borderColor)
+    }else{
+      $borderColorInput.prev().find(".sp-preview-inner").css("background-color",'')
+    }
+    //移上边框
+    let $antTsDurBInput = $propPanel.find('input[type=text][name=antTsDurB]')
+    $antTsDurBInput.val(this.formData.antTsDurB)
+    let $antTsFunBRadio = $propPanel.find('input[type=radio][name=antTsFunB]')
+    $antTsFunBRadio.filter(`[value="${this.formData.antTsFunB}"]`).prop('checked', true)
+    let $antBcolorInput = $propPanel.find('input[type=text][name=antBcolor]')
+    $antBcolorInput.val(this.formData.antBcolor)
+    let $antBcRadio = $propPanel.find('input[type=radio][name=antBc]')
+    $antBcRadio.filter(`[value="${this.formData.antBc}"]`).prop('checked', true)
+
+    if (this.formData.antBcolor) {
+       $antBcolorInput.prev().find(".sp-preview-inner").css("background-color",this.formData.antBcolor)
+    }else{
+      $antBcolorInput.prev().find(".sp-preview-inner").css("background-color",'')
+    }
+
+
 
   }
 }

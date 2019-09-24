@@ -371,7 +371,15 @@
       .layui-colla-content{
         border:0px;
         color: #b8c2cc;
-        padding:10px 5px;
+        padding:0px;
+        .nromal-field{
+          margin-top:5px;
+          margin-bottom:5px;
+        }
+        .layui-tab-card{
+          margin-bottom:0px;
+          border-bottom:0px;
+        }
       }
     }
 

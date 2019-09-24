@@ -157,7 +157,7 @@
           text-indent: 2px;
           border: 1px solid #141619;
           width: 200px;
-          height: 22px;
+          height: 24px;
         }
         .input-medium[type="text"]{
           width:133px;
@@ -193,7 +193,7 @@
       .pagecolorpanel {
         display:inline-block;
         position:relative;
-        height: 22px;
+        height: 24px;
         border:solid 1px #141619;
         background-color: #fff;
         input[type="text"] {
@@ -237,7 +237,7 @@
       //文字样式
       .font-setting{
         clear: both;
-        height:27px;
+        height:35px;
         padding-top: 5px;
         padding-bottom: 5px;
         border: solid 1px #393939;
@@ -311,6 +311,9 @@
       legend{
         margin-left:10px;
         font-size:12px;
+      }
+      .layui-field-box{
+        padding:10px  10px;
       }
     }
     .layui-tab-card{
@@ -408,7 +411,7 @@
         border:solid 1px #575757;
         outline:solid 1px #5D5D5D;
         color:#F0F0F0;
-        padding:3px 15px;
+        padding:5px 15px;
         display:inline-block;
         &:hover{
           background-color:#1a8cff;

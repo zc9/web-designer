@@ -126,36 +126,38 @@
     .engine-app{
       padding-top:5px;
       padding-bottom:5px;
+      select,
+      input[type="radio"],
+      input[type="checkbox"]{
+         vertical-align:-2px;
+         outline:0px;
+      }
+      label{
+        display:inline-block;
+        margin-right:3px;;
+      }
+      .nrlabel{
+        margin-right:0px;;
+      }
+      label.col2{
+        letter-spacing:8px;
+        margin-right: 0px;
+      }
+      .label-ckb{
+        margin-left: 5px;
+      }
       .nromal-wrap{
         padding: 5px 0px;
         line-height:24px;
         padding-left:8px;
         clear:both;
+        text-align: left;
         input[type="text"]{
           background: #fff;
           text-indent: 2px;
           border: 1px solid #141619;
           width: 200px;
           height: 22px;
-          outline:0px;
-
-        }
-        select,
-        input[type="radio"],
-        input[type="checkbox"]{
-           vertical-align:-2px;
-           outline:0px;
-        }
-        .label-con{
-          display:inline-block;
-          margin-right:3px;;
-        }
-        .label-con.col2{
-          letter-spacing:8px;
-          margin-right: 0px;
-        }
-        .label-ckb{
-          margin-left: 5px;
         }
         .input-medium[type="text"]{
           width:133px;
@@ -171,7 +173,7 @@
           height:24px;
           border: 1px solid #141619;
           option{
-             line-height:23px;
+            line-height:23px;
           }
         }
         .select-short{
@@ -184,15 +186,9 @@
           width:15px;
           height:15px;
         }
+
       }
-      .nromal-field{
-        margin-left:5px;
-        margin-right:5px;
-        border:solid 1px #666666;
-        legend{
-          margin-left:10px;
-        }
-      }
+
       /*颜色选择器*/
       .pagecolorpanel {
         display:inline-block;
@@ -238,27 +234,7 @@
           cursor:pointer;
         }
       } 
-      .font-textarea{
-          border: solid 1px #393939;
-          border-top:0px;
-          margin-right: 7px; 
-          background-color:#fff;
-      }
-      .font-synchronous{
-        height: 30px;
-        line-height: 30px;
-        text-align: center;
-        background: #f7f7f7;
-        border: solid 1px #393939;
-        border-top: none;
-        cursor: pointer;
-        color: #666666;
-        margin-right: 7px;
-        icon{
-          font-size: 15px;
-          color: #1a8cff;
-        }
-      }
+      //文字样式
       .font-setting{
         clear: both;
         height:27px;
@@ -302,6 +278,40 @@
           height: 18px;
         }
       }
+      //文字 文本框
+      .font-textarea{
+        border: solid 1px #393939;
+        border-top:0px;
+        margin-right: 7px; 
+        background-color:#fff;
+      }
+      //同步默认文字样式
+      .font-synchronous{
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        background: #f7f7f7;
+        border: solid 1px #393939;
+        border-top: none;
+        cursor: pointer;
+        color: #666666;
+        margin-right: 7px;
+        icon{
+          font-size: 15px;
+          color: #1a8cff;
+        }
+      }
+    }
+    .layui-elem-field{
+      margin-top:5px;
+      margin-left:5px;
+      margin-right:5px;
+      margin-bottom:0px;
+      border:solid 1px #666666;
+      legend{
+        margin-left:10px;
+        font-size:12px;
+      }
     }
     .layui-tab-card{
       border:0px;
@@ -309,8 +319,9 @@
       border-radius:0px;
       margin:0px;
       border-bottom: 1px #393939 solid;
-      margin-bottom: 5px;
-      padding-bottom: 6px;
+      margin-bottom: 0px;
+      padding-bottom: 0px;
+      box-shadow:0 0px 0px 0 rgba(0, 0, 0, 0);
       .layui-tab-title{
         background-color: #424242;
         border:0px;
@@ -372,8 +383,9 @@
         border:0px;
         color: #b8c2cc;
         padding:0px;
+        padding-bottom:5px;
         .nromal-field{
-          margin-top:5px;
+          margin-top:8px;
           margin-bottom:5px;
         }
         .layui-tab-card{
@@ -381,11 +393,16 @@
           border-bottom:0px;
         }
       }
-    }
+      .p-content{
+        padding:8px 0px;
 
+      }
+    }
+    //更多操作
     .editor-btns{
       text-align: center;
       padding:15px 0px;
+      box-shadow: 1px -3px 7px 0px rgba(0,0,0,.1);
       span{
         background-color: #454545;
         border:solid 1px #575757;
@@ -399,9 +416,6 @@
         }
       }
     }
-
-
-
     .img-com-prop-panel {
 
 

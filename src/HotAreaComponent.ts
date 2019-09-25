@@ -13,7 +13,18 @@ export default class HotAreaComponent extends Component {
   toHtml() {
     return ''
   }
+  updatePropPanel() {
+  }
   initPorpPanel() {
+    let that = this
+    $('.prop-setting-ct > div').hide()
+    let $propPanel = $('.area-com-prop-panel')
+    this.$propPanel = $propPanel
+
+    $propPanel.show()
+    $propPanel.find('*').off()
+
+    this.updatePropPanel()
   }
   openEditDialog() {
 

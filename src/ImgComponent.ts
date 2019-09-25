@@ -320,29 +320,29 @@ export default class ImgComponent extends Component {
     that.$content.css('background-color', formData.bgColor)
     that.$content.css('border-radius', parseInt(formData.borderRadius))
     that.$content.css('border-color', formData.borderColor)
-    
-    
+
+
     if(formData.borderT==="true" && typeof(formData.borderWidth) !="undefined"){
       that.$content.css('border-top-style', formData.borderStyle)
-      that.$content.css('border-top-width', parseInt(formData.borderWidth)) 
+      that.$content.css('border-top-width', parseInt(formData.borderWidth))
     }else{
       that.$content.css('border-top-width',0)
     }
     if(formData.borderB==="true" && typeof(formData.borderWidth) !="undefined"){
       that.$content.css('border-bottom-style', formData.borderStyle)
-      that.$content.css('border-bottom-width', parseInt(formData.borderWidth)) 
+      that.$content.css('border-bottom-width', parseInt(formData.borderWidth))
     }else{
       that.$content.css('border-bottom-width',0)
     }
     if(formData.borderL==="true" && typeof(formData.borderWidth) !="undefined"){
       that.$content.css('border-left-style', formData.borderStyle)
-      that.$content.css('border-left-width', parseInt(formData.borderWidth)) 
+      that.$content.css('border-left-width', parseInt(formData.borderWidth))
     }else{
       that.$content.css('border-left-width',0)
     }
     if(formData.borderR==="true" && typeof(formData.borderWidth) !="undefined"){
       that.$content.css('border-right-style', formData.borderStyle)
-      that.$content.css('border-right-width', parseInt(formData.borderWidth)) 
+      that.$content.css('border-right-width', parseInt(formData.borderWidth))
     }else{
       that.$content.css('border-right-width',0)
     }
@@ -374,7 +374,7 @@ export default class ImgComponent extends Component {
       that.$img.show()
     }
   }
- 
+
   updatePropPanel() {
     let $propPanel = this.$propPanel
     let $bgImgInput = $propPanel.find('#bgImgInput')
@@ -428,7 +428,6 @@ export default class ImgComponent extends Component {
   }
 
   initPorpPanel() {
-    console.log('initPorpPanel')
     let that = this
     $('.prop-setting-ct > div').hide()
     let $propPanel = $('.img-com-prop-panel')
@@ -477,7 +476,7 @@ export default class ImgComponent extends Component {
       that.formData.hrefMode = val ? '_blank' : ''
     })
 
-    let $wangIDInput = $propPanel.find('input[type=text][name=wangID]') 
+    let $wangIDInput = $propPanel.find('input[type=text][name=wangID]')
     $wangIDInput.change(function() {
       let val = $(this).val()
       that.formData.wangID = val

@@ -26,7 +26,7 @@ export default class TextComponent extends Component {
     this.formData.oLine = '' //文字上边线 overline
     this.formData.lThrough = '' //文字中间线 line-through  
     this.formData.uLine = '' //文字下边线 underline 
-    this.formData.align = 'left' //对齐
+    this.formData.align = 'center' //对齐
     this.formData.content = '请设置文件内容' //反面内容
 
     this.formData.href = ''
@@ -76,6 +76,7 @@ export default class TextComponent extends Component {
     this.formData.antBcolor ='#00FFFF' 
     this.formData.antBc ='bdtx1'   
 
+ 
     this.update(this.formData)
     
   }
@@ -303,6 +304,17 @@ export default class TextComponent extends Component {
       that.formData.antBc = val
       that.update(that.formData)
     })
+    let $alignRadio = $propPanel.find('.fnt-z .font-item-radio')
+    $alignRadio.click(function() {
+      let val = $(this).prop('data-val')
+      that.formData.align = val
+      that.update(that.formData)
+      $alignRadio.removeClass("active")
+      $(this).addClass("active")
+    })
+
+ 
+
 
     $propPanel.find('.editor-btns').on('click', function() {
       that.openEditDialog()
@@ -750,7 +762,8 @@ export default class TextComponent extends Component {
     $defPanel.css('letter-spacing', parseInt(this.formData.spacing))
     $defPanel.css('text-indent', parseInt(this.formData.indent))
     $defPanel.css('border-radius',parseInt(this.formData.bRadius))
- 
+    
+    $defPanel.css('text-align', this.formData.align)
     
     // $defPanel.css("font-weight",this.formData.weight)
     // $defPanel.css("font-style",this.formData.fontStyle)
@@ -890,6 +903,7 @@ export default class TextComponent extends Component {
 
   }
   updatePropPanel(){
+    let that = this
     let $propPanel = this.$propPanel
 
     let $fFamilySelect = $propPanel.find('select[name=fFamily]')
@@ -1036,6 +1050,15 @@ export default class TextComponent extends Component {
       $antBcolorInput.prev().find(".sp-preview-inner").css("background-color",'')
     }
 
+
+    $propPanel.find(`.font-z .font-item-radio[data-val="${that.formData.align}"]`).addClass('active')
+    let sss= $propPanel.find(`.fnt-z .font-item-radio[data-val="${that.formData.align}"]`);
+ 
+        /*
+        $layerElem.find('.animselect > div').on('click', function() {
+          $layerElem.find('.animselect > div.active').removeClass('active')
+          $(this).addClass('active')
+        })*/
 
 
   }

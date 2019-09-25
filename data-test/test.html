@@ -1,17 +1,1 @@
-      let $ltPanel=this.$contentBox.find(".w-lt")
-      let $lbPanel=this.$contentBox.find(".w-lb")
-      let $llPanel=this.$contentBox.find(".w-ll")
-      let $lrPanel=this.$contentBox.find(".w-lr")
-      if(this.formData.borderT==="show"){
-        if($ltPanel.length <=0)
-          $textPanel.append("<div class='bk-line  w-lt'></div>")
-          $ltPanel=this.$contentBox.find(".w-lt")
-          $ltPanel.css('border-top-width',parseInt(this.formData.borderWidth))
-          $ltPanel.css('border-top-style',this.formData.borderStyle)
-          $ltPanel.css('border-top-color',this.formData.antBcolor)
-          $ltPanel.css('transition-timing-function',_antTsFunBV)
-          $ltPanel.css('transition-duration',_antTsDurBV)
-          
-      }else{
-        $ltPanel.remove()
-      }
+ 

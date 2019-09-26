@@ -53,7 +53,24 @@
 .animselect div.shaken:hover i em{-webkit-transform:scale(0.8,1.25);transform:scale(0.8,1.25);}
 
 /*旺旺*/
-.wang-box{display: block; text-align:center;}
+.wang-box{
+  display: block; 
+  text-align:center;
+  .wang-line{
+    vertical-align:middle
+  }
+  .w-short{
+    background-size: 20px;
+  }
+  .w-medium{
+    width:20px;
+    height:20px;
+  }
+  .w-big{
+    background-size: 20px;
+  }
+}
+
 /*以下 是动画CSS*/
 
 //文字 鼠标经过 画动

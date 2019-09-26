@@ -814,16 +814,41 @@ export default class TextComponent extends Component {
     let $textPanel=this.$contentBox.find(".ant-text")
    
     let $alPanel=this.$contentBox.find(".bk-aline")
-    if (this.formData.borderT==="show"){
+    if (this.formData.borderT==="show" || this.formData.borderB==="show" ||this.formData.borderL==="show"||this.formData.borderR==="show"){
       if($alPanel.length <=0)
         $textPanel.append("<div class='bk-aline'></div>")
       $alPanel=this.$contentBox.find(".bk-aline")
-      $alPanel.css('border-width', this.formData.borderWidth)
+
+      if(this.formData.borderT==="show"){
+        $alPanel.css('border-top-width', this.formData.borderWidth)
+      }else{
+        $alPanel.css('border-top-width', 0)
+      }
+      if(this.formData.borderB==="show"){
+        $alPanel.css('border-bottom-width', this.formData.borderWidth)
+      }else{
+        $alPanel.css('border-bottom-width', 0)
+      }
+      if(this.formData.borderL==="show"){
+        $alPanel.css('border-Left-width', this.formData.borderWidth)
+      }else{
+        $alPanel.css('border-Left-width', 0)
+      }
+      if(this.formData.borderR==="show"){
+        $alPanel.css('border-right-width', this.formData.borderWidth)
+      }else{
+        $alPanel.css('border-right-width', 0)
+      }
       $alPanel.css('border-style', this.formData.borderStyle)
       $alPanel.css('border-color', this.formData.borderColor)
+
+
     }else{
         $alPanel.remove()
     }
+
+
+
  
     let _antBc=this.$content.attr("antBc")
     this.$content.removeClass(_antBc);

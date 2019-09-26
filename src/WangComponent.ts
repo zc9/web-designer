@@ -10,7 +10,7 @@ export default class WangComponent extends Component {
         <a class="wang-box"><img src="./assets/wang1.gif"><span>璇子</span></a>
       `
    // this.$contentBox.append(content) */
-    this.$content = $('<a class="wang-box"><img class="cphoto" src="//sc01.alicdn.com/kf/HTB1gXlQXDjxK1Rjy0Fnq6yBaFXao.jpg"><div class="wang-info" > <img class="wang-line" src="./assets/wang1.gif"><span>John Deao</span></div></a>')
+   this.$content = $('<a class="wang-box"><img class="cphoto" src="//sc01.alicdn.com/kf/HTB1gXlQXDjxK1Rjy0Fnq6yBaFXao.jpg"><div class="wang-info" > <img class="wang-line" src="./assets/wang1.gif"><span>John Deao</span></div></a>')
     this.$wangImg = this.$content.find('.wang-line')
     this.$contentBox.append(this.$content)
     this.initFormData()
@@ -21,7 +21,7 @@ export default class WangComponent extends Component {
   }
   initFormData() {
     this.formData.appLabel = ''
-    this.formData.wangMode = '22'
+    this.formData.wangMode = '1'
     this.formData.wangID = ''
     this.formData.bgImg = '//sc01.alicdn.com/kf/HTB1gXlQXDjxK1Rjy0Fnq6yBaFXao.jpg'
     this.formData.bgColor = ''
@@ -174,8 +174,9 @@ export default class WangComponent extends Component {
     this.$content.find(".wang-info").css("margin-top",parseInt(this.formData.bgImgMg))
     this.$content.attr('title', this.formData.tipText) 
 
-    let lineImg=this.formData.wangMode =="22" ?  './assets/wang1.gif': './assets/wang2.gif';
+    let lineImg=this.formData.wangMode =="1" ?  './assets/wang1.gif': './assets/wang2.gif';
     that.$wangImg.attr('src', lineImg)
+    that.$wangImg.attr('data-val', this.formData.wangMode)
 
     if(this.formData.bgImg){
       if($cphoto.length<=0){

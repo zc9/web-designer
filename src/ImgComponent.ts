@@ -29,7 +29,7 @@ export default class ImgComponent extends Component {
       </a>
     `
   }
-
+ 
   initFormData() {
     this.formData.bgImg = 'https://img.alicdn.com/imgextra/i2/280837244/TB2orubcrJmpuFjSZFwXXaE4VXa-280837244.jpg'
     this.formData.bgColor = ''
@@ -39,7 +39,7 @@ export default class ImgComponent extends Component {
     this.formData.href = ''
     this.formData.tipText = ''
     this.formData.animType = ''
-    this.formData.hrefMode = true
+    this.formData.hrefMode = '_blank'
     this.formData.bgImgSize = false
     this.formData.animSpeed = '1s'
     this.formData.animRange = '-s'

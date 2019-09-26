@@ -304,7 +304,7 @@
                   </div>
                 </div>
               </div>
-              <div class="layui-colla-item">
+              <div class="layui-colla-item" style="display:block">
                 <h2 class="layui-colla-title">基本设置</h2> 
                 <div class="layui-colla-content layui-show">
                   <div class="layui-tab layui-tab-card">
@@ -541,10 +541,7 @@
 
             </div>
 
-
-
-
-
+ 
           </div>
 
 
@@ -555,22 +552,22 @@
           <div class="engine-app">
               <div class="nromal-wrap">
                 <label >链接类型</label>
-                <input type="radio" checked="checked" value="urlink" name="linkMode" >
-                <label>普通</label>
-                <input type="radio" value="wwlink" name="linkMode" style="margin-left:10px;">
-                <label>旺旺</label>
+                <input type="radio" checked="checked" value="urlink" name="linkMode" id="urlink" >
+                <label for="urlink">普通</label>
+                <input type="radio" value="wwlink" name="linkMode" id="wwlink" style="margin-left:10px;">
+                <label for="wwlink">旺旺</label>
               </div>
 
               <div class="nromal-wrap link-box">
                 <label >链接地址</label>
                 <input class="input-medium" autocomplete="off" name="href" type="text" />
-                <input  type="checkbox" name="hrefMode" value="_blank" id="autoSize" >
-                <label for="autoSize" class="nrlabel">新窗口打开</label>
+                <input  type="checkbox" name="hrefMode" value="_blank" id="hrefMode" >
+                <label for="hrefMode" class="nrlabel">新窗口打开</label>
               </div>
               <div class="nromal-wrap wang-box">
                 <label >旺旺账号</label>
-                <input class="input-medium" autocomplete="off" name="wangID" type="text" placeholder="输入主旺旺或子旺旺号" />
-                <label>不是邮箱号</label>
+                <input class="input-medium" autocomplete="off" name="wangID" type="text" placeholder="主旺旺或子旺旺号" />
+                <label  >*不是邮箱名称</label>
               </div>
           </div>
         </div>

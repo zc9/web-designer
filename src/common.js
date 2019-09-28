@@ -4,12 +4,12 @@ Array.prototype.remove = function (val) {
     this.splice(index, 1);
   }
 };
-window.parseIntNative = window.parseInt
-function parseInt(num) {
-  if (num) {
-     return window.parseIntNative(num)
-  }
-  return ''
-}
-window.parseInt = parseInt
+// window.parseIntNative = window.parseInt
+// function parseInt(num) {
+//   if (num) {
+//      return window.parseIntNative(num)
+//   }
+//   return ''
+// }
+// window.parseInt = parseInt
 

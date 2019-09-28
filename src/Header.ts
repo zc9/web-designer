@@ -10,7 +10,9 @@ export default class Header {
     this.$el.find('.export-btn').bind('click', function() {
       that.openExportDialog()
     })
-
+    this.$el.find('.import-btn').bind('click', function() {
+      that.openImportDialog()
+    })
     this.$el.find('.preview-btn').bind('click', function() {
       let previewWin = window.open('')
       let url = window.location.href
@@ -25,6 +27,54 @@ export default class Header {
 
   generateJsonCode() {
     let curStage = this.stageCt.curStage
+  }
+
+  openImportDialog() {
+    let that = this;
+    let layer = layui.layer;
+    let layerNo = layer.open({
+      type: 1,
+      title: '导入代码',
+      skin: 'layui-layer-rim', //加上边框
+      area: ['600px', '550px'],
+      success: function(layerElem, index) {
+        let $layerElem = $(layerElem)
+        let $jsonTextArea = $layerElem.find('#jsonTextArea')
+        $layerElem.find('.confirm-btn').bind('click', function() {
+          let jsonStr = $jsonTextArea.val().toString()
+          let jsonObj = JSON.parse(jsonStr)
+          that.stageCt.curStage.loadProp(jsonObj)
+          layer.close(index)
+        })
+        $layerElem.find('.cancel-btn').on('click', function() {
+          layer.close(index)
+        })
+      },
+      content: `
+        <div class="codegen" style="padding: 15px 10px">
+          <div class="layui-tab">
+            <ul class="layui-tab-title" style="font-size: 12px">
+              <li style="font-size: 12px" class="layui-this">覆盖导入</li>
+              <li style="font-size: 12px">追加导入</li>
+            </ul>
+            <div class="layui-tab-content">
+              <div class="layui-tab-item layui-show">
+                <textarea id="jsonTextArea"style="float:left;width:100%;height:320px;" spellcheck="false"></textarea>
+              </div>
+              <div class="layui-tab-item">
+                <textarea id="htmlTextArea"style="float:left;width:100%;height:320px;" spellcheck="false"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="layui-form-item" style="margin-top:15px;">
+            <div class="layui-ft-btn" style="text-align:center;padding-top: 20px">
+              <button class="layui-btn confirm-btn">确定</button>
+              <button type="button" class="cancel-btn layui-btn layui-btn-primary">取消</button>
+            </div>
+          </div>
+        </div>`
+    });
+
   }
 
   openExportDialog() {

@@ -2,6 +2,9 @@ import Draggable from './Draggable';
 import Ruler from './Ruler';
 import Component from './Component';
 import HotAreaComponent from './HotAreaComponent';
+import ImgComponent from './ImgComponent';
+import TextComponent from './TextComponent';
+import WangComponent from './WangComponent';
 
 export default class Stage {
   static STATE: Array<string> = ['hotarea', 'selection', 'handle']
@@ -23,6 +26,7 @@ export default class Stage {
   pageWidth: number = 1920
   pageHeight: number = 2561
   state: string = Stage.STATE[0]
+  propPanel: any = {}
   props: any = {
     bgColor: '#FFFFFF',
     position: '50% 0%',
@@ -124,6 +128,7 @@ export default class Stage {
     });
     this.setupEvent();
 
+    this.initPorpPanel()
   }
 
   createIScroll(disableMouse = true, x = 0, y = 0) {
@@ -375,4 +380,175 @@ export default class Stage {
     return charArr.join('')
   }
 
+  clear() {
+    this.components.forEach((component) => {
+      component.remove()
+    })
+    this.components = []
+  }
+
+  loadProp(props) {
+    this.props = props;
+    let propPanel = this.propPanel
+    let { $el, $inputWidth, $alignSelect, $inputHeight, $allowOverstep } = propPanel
+    $inputWidth.val(props.width)
+    $inputHeight.val(props.height)
+    $alignSelect.val(props.position)
+    if (props.bgColor === 'transparent') {
+      this.$canvasBox.addClass('bg-trans')
+      this.$canvas.css('background-color', 'transparent')
+      $('#inputBgColor').val('').change()
+    } else {
+      this.$canvasBox.removeClass('bg-trans')
+      this.$canvas.css('background-color', props.bgColor)
+      $('#inputBgColor').val(props.bgColor).change()
+    }
+    this.$canvas.css('background-position', `${props.position}`)
+    this.$canvas.css('background-image',  `url("${props.bgImg}")`)
+    if (props.overflow === 'hidden') {
+      $allowOverstep.removeClass('active')
+      this.setComponentAllowOverstep(false)
+    } else if (props.overflow === 'visible')  {
+      $allowOverstep.addClass('active')
+      this.setComponentAllowOverstep(true)
+    }
+    if (props.repeat === 'repeat') {
+      $el.find('.page-check[data-val=repeat]').addClass('active')
+      this.$canvas.css('background-repeat', 'repeat')
+    }
+    if (props.attachment) {
+      $el.find('.page-check[data-val=fixed]').addClass('active')
+      this.$canvas.css('background-attachment', 'fixed')
+    }
+    this.setCanvasSize(props.width, props.height)
+    this.loadApp(props.app)
+  }
+  loadApp(apps) {
+    this.clear()
+    apps.forEach(app => {
+      let component: Component = null
+      if (app.appType === 'xdtb') {
+        component = new ImgComponent
+      } else if (app.appType === 'xwzb') {
+        component = new TextComponent
+      } else if (app.appType === 'wangh') {
+        component = new WangComponent
+      }
+      component.formData = app.config
+      component.update(component.formData)
+      component.setPosition(app.pos)
+      this.addComponent(component)
+    })
+  }
+  initPorpPanel() {
+    let $el = $('.page-config');
+    let $inputWidth = $el.find('.input-width');
+    let $inputHeight = $el.find('.input-height');
+    let $inputBg = $el.find('.input-bg');
+    let $calcWidth = $el.find('.calc-width');
+    let $calcHeight = $el.find('.calc-height');
+    let $alignSelect = $el.find('.align-select');
+    let $allowOverstep = $el.find('#allowOverstep')
+    this.propPanel = {
+      $el: $el,
+      $inputWidth: $inputWidth,
+      $inputHeight: $inputHeight,
+      $alignSelect: $alignSelect,
+      $allowOverstep: $allowOverstep
+    }
+    $inputWidth.val(this.pageWidth)
+    $inputHeight.val(this.pageHeight)
+    let align = '50% 0'
+    let that = this;
+    // @ts-ignore
+    //颜色选择器
+    $(document).spectrum({
+      showPalette : !0,
+      maxSelectionSize : 18,
+      showInitial : !0,
+      preferredFormat : 'hex',
+      showButtons : !1,
+      palette: [
+          ['#000','#444','#666','#999','#ccc','#eee'],
+          ['#f00','#f90','#ff0','#0f0','#0ff','#00f'],
+          ['#900','#b45f06','#bf9000','#38761d','#134f5c','#0b5394']
+      ],
+      move: function(color, $input) {
+        let id = $input.attr('id')
+        if (id === 'inputBgColor' && that) {
+          if (!color) {
+            that.$canvasBox.addClass('bg-trans');
+            that.$canvas.css('background-color', 'transparent');
+            that.props.bgColor = 'transparent'
+          }
+          if (typeof color === 'object') {
+            let colorHex = color.toHexString()
+            that.$canvasBox.removeClass('bg-trans')
+            that.$canvas.css('background-color', colorHex + '');
+            that.props.bgColor = colorHex
+          }
+        }
+      }
+    }).spectrum.freshSpan();
+
+    $inputWidth.bind('input', function() {
+      that.pageWidth = +$(this).val();
+      that.setCanvasSize(that.pageWidth, that.pageHeight)
+    });
+
+    $inputHeight.bind('input', function() {
+      that.pageHeight = +$(this).val();
+      that.setCanvasSize(that.pageWidth, that.pageHeight)
+    });
+
+    $inputBg.bind('input', function() {
+      let img = $(this).val()
+      that.props.bgImg = img
+      that.$canvas.css('background-image',  `url("${img}")`)
+    })
+    $alignSelect.change(function() {
+      let alignValue = $(this).val()
+      that.$canvas.css('background-position', `${alignValue}`)
+      that.props.position = alignValue
+    })
+
+    $allowOverstep.bind('click', function() {
+      if ($allowOverstep.hasClass('active')) {
+        $allowOverstep.removeClass('active')
+        that.props.overflow = 'hidden'
+        that.setComponentAllowOverstep(false)
+      } else {
+        $allowOverstep.addClass('active')
+        that.props.overflow = 'visible'
+        that.setComponentAllowOverstep(true)
+      }
+    })
+    $el.find('.bgImg-box .page-check').bind('click', function() {
+      let $this = $(this)
+      let val = $this.data('val')
+      console.log(val)
+      if ($this.hasClass('active')) {
+        $this.removeClass('active')
+        if (val === 'repeat') {
+          that.$canvas.css('background-repeat', '')
+          that.props.repeat = ''
+        }
+        if (val === 'fixed') {
+          that.$canvas.css('background-attachment', '')
+          that.props.attachment = ''
+        }
+
+      } else {
+        $this.addClass('active')
+        if (val === 'repeat') {
+          that.$canvas.css('background-repeat', 'repeat')
+          that.props.repeat = 'repeat'
+        }
+        if (val === 'fixed') {
+          that.$canvas.css('background-attachment', 'fixed')
+          that.props.attachment = 'fixed'
+        }
+      }
+    })
+  }
 }

@@ -12,8 +12,8 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 $(function() {
-  let pageConfig = new PageConfig()
-  let stageCt = new StageContainer(pageConfig);
+  // let pageConfig = new PageConfig()
+  let stageCt = new StageContainer();
   stageCt.createStage();
   let componentBar = new ComponentBar(stageCt)
   let toolbar = new ToolBar(stageCt)

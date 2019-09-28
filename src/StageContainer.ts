@@ -4,9 +4,7 @@ export default class StageContainer {
   $el: JQuery
   stages: Array<Stage> = []
   curStage: Stage = null
-  pageConfig: PageConfig
-  constructor(pageConfig) {
-    this.pageConfig = pageConfig
+  constructor() {
     let $stageCt = $('.stage-ct');
     this.stages = [];
     this.$el = $stageCt;
@@ -16,6 +14,5 @@ export default class StageContainer {
     stage.create(this.$el);
     this.curStage = stage;
     this.stages.push(stage);
-    this.pageConfig.setStage(stage)
   }
 }

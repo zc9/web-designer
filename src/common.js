@@ -4,6 +4,7 @@ Array.prototype.remove = function (val) {
     this.splice(index, 1);
   }
 };
+ 
 /*
 window.parseIntNative = window.parseInt
 function parseInt(num) {
@@ -14,4 +15,5 @@ function parseInt(num) {
 }
 window.parseInt = parseInt
 */
+ 
 

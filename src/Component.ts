@@ -111,6 +111,13 @@ export default abstract class Component {
     this.$inputHeight.val(this.height());
   }
 
+  setPosition({ l, t, w, h }) {
+    this.$el.width(w)
+    this.$el.height(h)
+    this.$el.css('left', l + 'px')
+    this.$el.css('top', t + 'px')
+  }
+
   unselect() {
     this.$topBar.hide();
     this.$bottomBar.hide();

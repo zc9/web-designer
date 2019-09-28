@@ -420,14 +420,52 @@
       }
     }
     .img-com-prop-panel {
-
-
       .item {
         margin-top: 20px;
         padding: 0 10px;
         > div {
           float: left;
           margin-right: 5px;
+        }
+      }
+    }
+    .slice-group{
+      padding-left:0px;
+      .group-hd{
+        height:35px;
+        line-height:35px;
+        border-bottom: 1px #393939 solid;
+        border-top: 1px #393939 solid;
+        div{
+          display:inline-block;
+          height:35px;
+          border-left: 1px #393939 solid;
+          text-align:center;
+          &:first-child{
+            border-left:0; 
+          }
+        }
+      }
+      .group-bd{
+        .item{
+          padding-left:5px;
+          border-bottom: 1px #393939 solid;
+          div{
+           display:inline-block;  
+          }
+          .input-s{
+            display:inline-block;
+            padding:8px 0px;
+            width:221px;
+            border-right: 1px #393939 solid;
+            
+          }
+        }
+      }
+      .operate{
+        width:45px;
+        i{
+          font-size:15px;
         }
       }
     }

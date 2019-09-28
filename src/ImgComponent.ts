@@ -113,6 +113,7 @@ export default class ImgComponent extends Component {
                 <label class="layui-form-label">图片地址</label>
                 <div class="layui-input-inline">
                   <input name="bgImg" type="text" class="layui-input">
+                   
                 </div>
                 <div><input name="bgImgSize" value="true" type="checkbox" lay-skin="primary" title="自动宽高"></div>
               </div>

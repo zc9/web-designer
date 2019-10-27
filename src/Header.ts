@@ -13,6 +13,17 @@ export default class Header {
     this.$el.find('.import-btn').bind('click', function() {
       that.openImportDialog()
     })
+    this.$el.find('.undo-btn').bind('click', function() {
+      that.stageCt.curStage.backOps()
+      console.log(that.stageCt.curStage.history.curIndex)
+    })
+
+    this.$el.find('.redo-btn').bind('click', function() {
+
+      that.stageCt.curStage.forwardOps()
+      console.log(that.stageCt.curStage.history.curIndex)
+    })
+
     this.$el.find('.preview-btn').bind('click', function() {
       let previewWin = window.open('')
       let url = window.location.href

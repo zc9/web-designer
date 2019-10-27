@@ -27,6 +27,7 @@ export default class ComponentBar {
       component.$el.css('top', Math.max(initY, 0) + 'px')
       curStage.addComponent(component)
       curStage.selectComponent(component)
+      curStage.recordOps()
     })
   }
 }

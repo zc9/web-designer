@@ -5,7 +5,7 @@ import HotAreaComponent from './HotAreaComponent';
 import ImgComponent from './ImgComponent';
 import TextComponent from './TextComponent';
 import WangComponent from './WangComponent';
-
+import History from './History'
 export default class Stage {
   static STATE: Array<string> = ['hotarea', 'selection', 'handle']
   EVENTS: Array<string> = []
@@ -27,6 +27,7 @@ export default class Stage {
   pageHeight: number = 2561
   state: string = Stage.STATE[0]
   propPanel: any = {}
+  history: History = new History()
   props: any = {
     bgColor: '#FFFFFF',
     position: '50% 0%',
@@ -129,6 +130,10 @@ export default class Stage {
     this.setupEvent();
 
     this.initPorpPanel()
+
+    this.recordOps()
+    this.checkStore()
+    this.autoStore()
   }
 
   createIScroll(disableMouse = true, x = 0, y = 0) {
@@ -369,6 +374,52 @@ export default class Stage {
     return `<div style="position: relative; overflow: hidden;width: ${this.pageWidth}px; height: ${this.pageHeight}px;background: ${this.props.bgColor};">
       ${appsHtml.join('')}
     </div>`
+  }
+
+  checkStore() {
+    let data = localStorage.getItem('data')
+    let that = this
+    if (data) {
+      let layer = layui.layer;
+      layer.confirm('检测到您之前有正在编辑的内容，是否继续上次的操作？',  {
+        btn: ['确定','关闭'],
+        icon: 3,
+        title:'提示'
+      }, function(idx) {
+        layer.close(idx)
+        let jsonObj = JSON.parse(data)
+        that.loadProp(jsonObj)
+        that.recordOps()
+      }, function() {
+      });
+    }
+  }
+
+  autoStore() {
+    let that = this
+    setInterval(function() {
+      if (that.components.length > 0) {
+        let jsonCode = that.generateJsonCode()
+        localStorage.setItem('data', jsonCode)
+      }
+    }, 3000)
+  }
+  recordOps() {
+    this.history.add(this.generateJsonCode())
+  }
+
+  backOps() {
+    let data = this.history.back()
+    if (data) {
+      this.loadProp(JSON.parse(data))
+    }
+  }
+
+  forwardOps() {
+    let data = this.history.forward()
+    if (data) {
+      this.loadProp(JSON.parse(data))
+    }
   }
 
   getRandomStr(len) {

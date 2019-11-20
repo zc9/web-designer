@@ -133,113 +133,19 @@ export default class TextComponent extends Component {
     let $indentInput = $layerElem.find('input[type=text][name=indent]')
     let $findentInput = $layerElem.find('input[type=text][name=findent]')
     $findentInput.val($indentInput.val())
-    
-    //对齐
-    let $alignRadioActive = $layerElem.find('.font-z .font-item-radio.active')
-    let $falignRadio = $layerElem.find('.font-f .font-item-radio')
-    let $alingVal=$alignRadioActive.attr('data-val')
-    $falignRadio.removeClass("active")
-    $layerElem.find('.font-f .font-item-radio[data-val='+$alingVal+']').addClass('active')
 
-  
+    let $alignRadio = $layerElem.find('.font-z .font-item-radio')
+    let $falignRadio = $layerElem.find('.font-f .font-item-radio')
+    lef $alingVal=$alignRadio.attr('data-val')
+    $falignRadio.removeClass("active")
+    
+ 
+    $layerElem.find(`.font-f .font-item-radio[data-val="$alingVal"]`).addClass('active')
+
+
     console.log('onTongBu')
  
   }
- //弹出来设置文字选中
-  getFontActive($objElem){
-    let val = $objElem.attr('data-val')
-    let attrName=$objElem.find('input[type=hidden]').attr('name')
-    
-    if($objElem.hasClass("active")){
-      $objElem.removeClass("active")
-      switch(attrName) {
-       case 'weight':
-        $objElem.find('input[type=hidden][name=weight]').val(400)
-        break;
-       case 'fontStyle':
-         $objElem.find('input[type=hidden][name=fontStyle]').val('normal')
-        break;
-       case 'oLine':
-        $objElem.find('input[type=hidden][name=oLine]').val('')
-        break;
-       case 'lThrough':
-        $objElem.find('input[type=hidden][name=lThrough]').val('')
-        break;
-       case 'uLine':
-        $objElem.find('input[type=hidden][name=uLine]').val('')
-        break;
-      } 
-    }else{
-      $objElem.addClass("active")
-      switch(attrName) {
-       case 'weight':
-        $objElem.find('input[type=hidden][name=weight]').val(600)
-        break;
-       case 'fontStyle':
-         $objElem.find('input[type=hidden][name=fontStyle]').val('italic')
-        break;
-       case 'oLine':
-        $objElem.find('input[type=hidden][name=oLine]').val('overline')
- 
-        break;
-       case 'lThrough':
-        $objElem.find('input[type=hidden][name=lThrough]').val('line-through')
-
-        break;
-       case 'uLine':
-        $objElem.find('input[type=hidden][name=uLine]').val('underline')
-        break;
-      } 
-    }
-  }
-
-  //正面文字
-  getFontCheckbox($objElem){
-    let that = this
-    let val = $objElem.attr('data-val')
-    if($objElem.hasClass("active")){
-      $objElem.removeClass("active")
-      switch(val) {
-       case '600':
-        that.formData.weight =600
-        break;
-       case 'italic':
-        that.formData.fontStyle ='normal'
-        break;
-       case 'overline':
-        that.formData.oLine =''
-        break;
-       case 'line-through':
-        that.formData.lThrough = ''
-        break;
-       case 'underline':
-        that.formData.uLine = ''
-        break;
-      } 
-    }else{
-      $objElem.addClass("active")
-      switch(val) {
-       case '600':
-        that.formData.weight =val
-        break;
-       case 'italic':
-        that.formData.fontStyle =val
-        break;
-       case 'overline':
-        that.formData.oLine =val
-        break;
-       case 'line-through':
-        that.formData.lThrough = val
-        break;
-       case 'underline':
-        that.formData.uLine = val
-        break;
-      } 
-    }
-  }
- 
-  
-
   initPorpPanel() { 
     console.log('initPorpPanel')
     let that = this
@@ -379,7 +285,7 @@ export default class TextComponent extends Component {
       that.formData.antTrans = val
       that.update(that.formData)
     })
-    // 以下是边框 
+// 以下是边框 
     let $borderTCheckBox = $propPanel.find('input[type=checkbox][name=borderT]')
     $borderTCheckBox.change(function() {
       let val = $(this).is(':checked')
@@ -452,13 +358,51 @@ export default class TextComponent extends Component {
       let val = $(this).attr('data-val')
       that.formData.align = val
       $alignRadio.removeClass("active")
-      $(this).addClass("active")
+      $(this).addClass("active") 
       that.update(that.formData)
     })
     let $fontCheckbox = $propPanel.find('.font-z .font-item-checkbox')
     $fontCheckbox.click(function() {
- 
-      that.getFontCheckbox($(this))
+      let val = $(this).attr('data-val')
+      if($(this).hasClass("active")){
+        $(this).removeClass("active")
+        switch(val) {
+         case '600':
+          that.formData.weight =400
+          break;
+         case 'italic':
+          that.formData.fontStyle ='normal'
+          break;
+         case 'overline':
+          that.formData.oLine =''
+          break;
+         case 'line-through':
+          that.formData.lThrough = ''
+          break;
+         case 'underline':
+          that.formData.uLine = ''
+          break;
+        } 
+      }else{
+        $(this).addClass("active")
+        switch(val) {
+         case '600':
+          that.formData.weight =val
+          break;
+         case 'italic':
+          that.formData.fontStyle =val
+          break;
+         case 'overline':
+          that.formData.oLine =val
+          break;
+         case 'line-through':
+          that.formData.lThrough = val
+          break;
+         case 'underline':
+          that.formData.uLine = val
+          break;
+        } 
+      }
       that.update(that.formData)
     })
    //反面文字
@@ -560,40 +504,6 @@ export default class TextComponent extends Component {
          let $antBcolorInput=$layerElem.find('input[type=text][name=antBcolor]')
          $antBcolorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.antBcolor)
         } 
-        if(that.formData.weight==600){
-          $layerElem.find('.font-z .font-item-checkbox:eq(0)').addClass('active')
-        }
-        if(that.formData.fontStyle=='italic'){
-          $layerElem.find('.font-z .font-item-checkbox:eq(1)').addClass('active')
-        }
-        if(that.formData.oLine=='overline'){
-          $layerElem.find('.font-z .font-item-checkbox:eq(2)').addClass('active')
-        }
-        if(that.formData.lThrough=='line-through'){
-          $layerElem.find('.font-z .font-item-checkbox:eq(3)').addClass('active')
-        }
-        if(that.formData.uLine=='underline'){
-          $layerElem.find('.font-z .font-item-checkbox:eq(4)').addClass('active')
-        }
-
-        $layerElem.find(`.font-z .font-item-radio[data-val="${that.formData.align}"]`).addClass('active')
-
-        $layerElem.find('.font-z .font-item-checkbox').on('click', function() {
-           that.getFontActive($(this));
-        })
-
-
-
-        $layerElem.find('.font-z .font-item-radio').on('click', function() {
-          let $alignRadio = $layerElem.find('.font-z .font-item-radio')
-          $alignRadio.removeClass("active")
-          $(this).addClass("active")
-        })
-        $layerElem.find('.font-f .font-item-radio').on('click', function() {
-          let $falignRadio = $layerElem.find('.font-f .font-item-radio')
-          $falignRadio.removeClass("active")
-          $(this).addClass("active")
-        })
 
         $layerElem.find('.font-synchronous').on('click', function() {
           that.onTongBu($layerElem);
@@ -660,15 +570,15 @@ export default class TextComponent extends Component {
                       <input type="text" name="indent" class="layui-input">
                     </div>
                     <div class="font-setting font-z">
-                      <span  title="加粗" class="font-item-checkbox" data-val="" ><icon>ꕅ</icon><input name="weight" type="hidden"   value="" /></span>
-                      <span  title="斜体" class="font-item-checkbox" data-val="" ><icon>ꕆ</icon><input name="fontStyle" type="hidden"   value="" /></span>
-                      <span  title="上划线" class="font-item-checkbox" data-val="" ><icon>ꔣ</icon><input name="oLine" type="hidden"   value="" /></span>
-                      <span  title="中划线" class="font-item-checkbox" data-val=""><icon>ꕇ</icon><input name="lThrough" type="hidden"   value="" /></span>
-                      <span  title="下划线" class="font-item-checkbox" data-val="" ><icon>ꕈ</icon><input name="uLine" type="hidden"   value="" /></span>
+                      <span  title="加粗" class="font-item-checkbox" data-l="checkbox" ><icon>ꕅ</icon></span>
+                      <span  title="斜体" class="font-item-checkbox" data-l="checkbox" ><icon>ꕆ</icon></span>
+                      <span  title="上划线" class="font-item-checkbox" data-l="checkbox" ><icon>ꔣ</icon></span>
+                      <span  title="中划线" class="font-item-checkbox active" data-l="checkbox"><icon>ꕇ</icon></span>
+                      <span  title="下划线" class="font-item-checkbox" data-l="checkbox" ><icon>ꕈ</icon></span>
                       <i class="spaceline"></i>
-                      <span  title="文字左对齐" class="font-item-radio" data-val="left" ><icon>ꕉ</icon></span>
-                      <span  title="文字居中对齐" class="font-item-radio"  data-val="center" ><icon>ꕐ</icon></span>
-                      <span  title="文字右对齐" class="font-item-radio"  data-val="right" ><icon>ꕑ</icon></span>
+                      <span  title="文字左对齐" class="font-item-radio active" data-val="left" ><icon>ꕉ</icon></span>
+                      <span  title="文字居中对齐" class="font-item-radio" data-val="center" ><icon>ꕐ</icon></span>
+                      <span  title="文字右对齐" class="font-item-radio" data-val="right" ><icon>ꕑ</icon></span>
                     </div>
                     <textarea   name="content"  ></textarea>
                 </div>
@@ -774,16 +684,15 @@ export default class TextComponent extends Component {
                       <input type="text" name="findent" class="layui-input">
                     </div>
                     <div class="font-setting font-f">
-                      <span  title="加粗" class="font-item-checkbox" data-val="" ><icon>ꕅ</icon></span>
-                      <span  title="斜体" class="font-item-checkbox" data-val="" ><icon>ꕆ</icon></span>
-                      <span  title="上划线" class="font-item-checkbox" data-val="" ><icon>ꔣ</icon></span>
-                      <span  title="中划线" class="font-item-checkbox" data-val=""><icon>ꕇ</icon></span>
-                      <span  title="下划线" class="font-item-checkbox" data-val="" ><icon>ꕈ</icon></span>
+                      <span  title="加粗" class="font-item-checkbox" data-l="checkbox" ><icon>ꕅ</icon></span>
+                      <span  title="斜体" class="font-item-checkbox" data-l="checkbox" ><icon>ꕆ</icon></span>
+                      <span  title="上划线" class="font-item-checkbox" data-l="checkbox" ><icon>ꔣ</icon></span>
+                      <span  title="中划线" class="font-item-checkbox active" data-l="checkbox"><icon>ꕇ</icon></span>
+                      <span  title="下划线" class="font-item-checkbox" data-l="checkbox" ><icon>ꕈ</icon></span>
                       <i class="spaceline"></i>
-                      <span  title="文字左对齐" class="font-item-radio" data-val="left" ><icon>ꕉ</icon></span>
-                      <span  title="文字居中对齐" class="font-item-radio"  data-val="center" ><icon>ꕐ</icon></span>
-                      <span  title="文字右对齐" class="font-item-radio"  data-val="right" ><icon>ꕑ</icon></span>
-
+                      <span  title="文字左对齐" class="font-item-radio active" data-l="radio" ><icon>ꕉ</icon></span>
+                      <span  title="文字居中对齐" class="font-item-radio" data-l="radio" ><icon>ꕐ</icon></span>
+                      <span  title="文字右对齐" class="font-item-radio" data-l="radio" ><icon>ꕑ</icon></span>
                     </div>
                     <textarea   name="fcontent"  ></textarea>
                     <div class="font-synchronous">
@@ -981,22 +890,8 @@ export default class TextComponent extends Component {
     form.render();
     form.on('submit(textComponentForm)', function(data) {
       that.formData = data.field;
-      that.formData.align = $layerElem.find('.font-z .font-item-radio.active').data('val')
-      /*
-      that.formData.weight = $layerElem.find('.font-z .font-item-checkbox:eq(0)').data('val')
-      that.formData.fontStyle = $layerElem.find('.font-z .font-item-checkbox:eq(1)').data('val')
-      that.formData.oLine = $layerElem.find('.font-z .font-item-checkbox:eq(2)').data('val')
-      that.formData.lThrough = $layerElem.find('.font-z .font-item-checkbox:eq(3)').data('val')
-      that.formData.uLine = $layerElem.find('.font-z .font-item-checkbox:eq(4)').data('val')
-       */
- 
-
-
       that.update(that.formData)
       that.updatePropPanel()
-
-      
- 
       layer.close(layerNo)
       return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
     });

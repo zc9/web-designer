@@ -18,6 +18,7 @@ export default abstract class Component {
   formData: any = {}
   name: string
   id: string
+  isLockedPos: boolean = false
   enableResize: boolean = true
   selected: boolean = false
   constructor(name = '', prop = {}) {
@@ -29,8 +30,8 @@ export default abstract class Component {
       <div class="component-box">
         <div class="top-bar">
           <span class="setting" title="编辑"></span>
-          <span class="lock"></span>
-          <span class="delete"></span>
+          <span class="lock" title="锁定位置"></span>
+          <span class="delete" title="删除"></span>
         </div>
         <div class="content-box">
         </div>
@@ -61,8 +62,38 @@ export default abstract class Component {
     this.$topBar.find('.setting').bind('click', function() {
       that.openEditDialog();
     })
-    this.$el.dblclick(function() {
+    this.$contentBox.dblclick(function() {
       that.openEditDialog();
+    })
+
+    this.$bottomBar.find('.confirm').bind('click', function() {
+      let x = that.$inputX.val()
+      let y = that.$inputY.val()
+      let width = that.$inputWidth.val()
+      let height = that.$inputHeight.val()
+      that.setPosition({
+        w: width,
+        h: height,
+        l: x,
+        t: y
+      })
+    })
+
+    this.$topBar.find('span:nth-child(2)').bind('click', function() {
+      let $this = $(this)
+      if (that.isLockedPos) {
+        that.isLockedPos = false
+        $this.removeClass('unlock')
+        $this.addClass('lock')
+        $this.attr('title', '锁定位置')
+        that.drag.enable()
+      } else {
+        that.isLockedPos = true
+        $this.removeClass('lock')
+        $this.addClass('unlock')
+        $this.attr('title', '解除锁定')
+        that.drag.disable()
+      }
     })
   }
 
@@ -138,6 +169,9 @@ export default abstract class Component {
           'ui-resizable-se': '',
         },
         handles: 'all',
+        resize: () => {
+          this.resetPositionInfo();
+        }
       })
     }
 

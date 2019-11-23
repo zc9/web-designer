@@ -1,6 +1,7 @@
 import './style/index.scss';
 import './style/common.scss';
 import './style/patch.scss';
+import './style/component.scss';
 require('./common')
 import StageContainer from './StageContainer'
 import ComponentBar from './ComponentBar'

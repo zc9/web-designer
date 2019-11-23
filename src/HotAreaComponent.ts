@@ -14,7 +14,7 @@ export default class HotAreaComponent extends Component {
     this.formData.linkMode = 'urlink'
     this.formData.href = ''
     this.formData.hrefMode ='_blank'
-    this.formData.wangID = 'sss'
+    this.formData.wangID = ''
   }
   onLinkModeChanged($boxElem, linkMode) {
     let $wangBox = $boxElem.find('.wang-box')

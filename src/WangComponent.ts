@@ -21,7 +21,7 @@ export default class WangComponent extends Component {
   }
   initFormData() {
     this.formData.appLabel = ''
-    this.formData.wangMode = '1'
+    this.formData.wangMode = '22'
     this.formData.wangID = ''
     this.formData.bgImg = '//sc01.alicdn.com/kf/HTB1gXlQXDjxK1Rjy0Fnq6yBaFXao.jpg'
     this.formData.bgColor = ''
@@ -29,12 +29,13 @@ export default class WangComponent extends Component {
     this.formData.color = ''
     this.formData.fontSize = 12
     this.formData.fontFamily = 'arial'
-    this.formData.fontWeight = 400
+    this.formData.fontWeight = ''
     this.formData.fontStyle = 'normal'
     this.formData.tipText = '24Hours Service Online'
     this.formData.nickMl = 5
     this.formData.bgImgMg = 5
     this.update(this.formData)
+
   }
   initPorpPanel() {
     console.log('initPorpPanel')
@@ -174,7 +175,7 @@ export default class WangComponent extends Component {
     this.$content.find(".wang-info").css("margin-top",parseInt(this.formData.bgImgMg))
     this.$content.attr('title', this.formData.tipText) 
 
-    let lineImg=this.formData.wangMode =="1" ?  './assets/wang1.gif': './assets/wang2.gif';
+    let lineImg=this.formData.wangMode =="22" ?  './assets/wang1.gif': './assets/wang2.gif';
     that.$wangImg.attr('src', lineImg)
     that.$wangImg.attr('data-val', this.formData.wangMode)
 

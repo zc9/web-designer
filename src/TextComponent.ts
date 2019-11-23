@@ -96,7 +96,7 @@ export default class TextComponent extends Component {
   toHtml() {
     return ''
   }
-  //同步
+  //弹出来同步
   onTongBu($layerElem) {
     let $fFamilySelect = $layerElem.find('select[name=fFamily] option:selected')
     let $fFamilyVal=$fFamilySelect.val()
@@ -189,35 +189,62 @@ export default class TextComponent extends Component {
   }
   //文本框预览样式
   updatePreviewStyle($objElem){
-    let $defElem=''
+    let $defElem=$objElem.parent().parent().parent().find('.font-textarea .multi-textarea')
     if($objElem.parent().hasClass("nromal-wrap")){
-       $defElem=$objElem.parent().parent().find('.font-textarea')
-    }else{
-       $defElem=$objElem.parent().parent().parent().find('.font-textarea')
+       $defElem=$objElem.parent().parent().find('.font-textarea .multi-textarea')
     }
-    if($defElem.length>0){
-      let deline=this.formData.uLine
-      if(this.formData.oLine){
-        deline+=' '+this.formData.oLine
-      }
-      if(this.formData.lThrough){
-        deline+=' '+this.formData.lThrough
-      }
-      if(deline ==="") deline='none'
+    let $fontElem=$defElem.parent().prev()  //查找上一个兄弟节点，不是所有的兄弟节点
+    let isfontF= $fontElem.hasClass("font-f")  ? true :false
 
-      $defElem.css("font-family",this.formData.fFamily)
-      $defElem.css('color', this.formData.color)
-      $defElem.css('background-color', this.formData.bgColor)
-      $defElem.css('font-size', parseInt(this.formData.fontSize))
-      $defElem.css('line-height', this.formData.lineHg+'px')
-      $defElem.css('letter-spacing', parseInt(this.formData.spacing))
-      $defElem.css('text-indent', parseInt(this.formData.indent))
-   
-      
-      $defElem.css('text-align', this.formData.align)
-      $defElem.css("font-weight",this.formData.weight)
-      $defElem.css("font-style",this.formData.fontStyle)
-      $defElem.css("text-decoration",deline)
+
+    if($defElem.length>0){
+      if(isfontF){
+        let deline=this.formData.fuLine
+        if(this.formData.foLine){
+          deline+=' '+this.formData.foLine
+        }else{
+          if(this.formData.flThrough){
+            deline+=' '+this.formData.flThrough
+          }
+          if(deline ==="") deline='none'
+
+          $defElem.css("font-family",this.formData.ffFamily)
+          $defElem.css('color', this.formData.fcolor)
+          $defElem.css('background-color', this.formData.fbgColor)
+          $defElem.css('font-size', parseInt(this.formData.ffontSize))
+          $defElem.css('line-height', this.formData.flineHg+'px')
+          $defElem.css('letter-spacing', parseInt(this.formData.fspacing))
+          $defElem.css('text-indent', parseInt(this.formData.findent))
+       
+          $defElem.css('text-align', this.formData.falign)
+          $defElem.css("font-weight",this.formData.fweight)
+          $defElem.css("font-style",this.formData.ffontStyle)
+          $defElem.css("text-decoration",deline)
+        }
+      }else{
+        let deline=this.formData.uLine
+        if(this.formData.oLine){
+          deline+=' '+this.formData.oLine
+        }else{
+          if(this.formData.lThrough){
+            deline+=' '+this.formData.lThrough
+          }
+          if(deline ==="") deline='none'
+
+          $defElem.css("font-family",this.formData.fFamily)
+          $defElem.css('color', this.formData.color)
+          $defElem.css('background-color', this.formData.bgColor)
+          $defElem.css('font-size', parseInt(this.formData.fontSize))
+          $defElem.css('line-height', this.formData.lineHg+'px')
+          $defElem.css('letter-spacing', parseInt(this.formData.spacing))
+          $defElem.css('text-indent', parseInt(this.formData.indent))
+       
+          $defElem.css('text-align', this.formData.align)
+          $defElem.css("font-weight",this.formData.weight)
+          $defElem.css("font-style",this.formData.fontStyle)
+          $defElem.css("text-decoration",deline)
+        }
+      }
     }
 
 
@@ -373,30 +400,35 @@ export default class TextComponent extends Component {
       let val = $(this).val()
       that.formData.fbgColor = val
       that.update(that.formData)
+      that.updatePreviewStyle($(this))
     })
     let $ffontSizeInput = $propPanel.find('input[type=text][name=ffontSize]') 
     $ffontSizeInput.change(function() {
       let val = $(this).val()
       that.formData.ffontSize = val
       that.update(that.formData)
+      that.updatePreviewStyle($(this))
     })
     let $flineHgInput = $propPanel.find('input[type=text][name=flineHg]') 
     $flineHgInput.change(function() {
       let val = $(this).val()
       that.formData.flineHg = val
       that.update(that.formData)
+      that.updatePreviewStyle($(this))
     })
     let $fspacingInput = $propPanel.find('input[type=text][name=fspacing]') 
     $fspacingInput.change(function() {
       let val = $(this).val()
       that.formData.fspacing = val
       that.update(that.formData)
+      that.updatePreviewStyle($(this))
     })
     let $findentInput = $propPanel.find('input[type=text][name=findent]') 
     $findentInput.change(function() {
       let val = $(this).val()
       that.formData.findent = val
       that.update(that.formData)
+      that.updatePreviewStyle($(this))
     })
     let $fcontentTextarea = $propPanel.find('textarea[name=fcontent]') 
     $fcontentTextarea.change(function() {
@@ -565,6 +597,7 @@ export default class TextComponent extends Component {
       $falignRadio.removeClass("active")
       $(this).addClass("active")
       that.update(that.formData)
+      that.updatePreviewStyle($(this))
     })
     let $ffontCheckbox = $propPanel.find('.font-f .font-item-checkbox')
     $ffontCheckbox.click(function() {
@@ -620,15 +653,18 @@ export default class TextComponent extends Component {
         } 
       }
       that.update(that.formData)
+      that.updatePreviewStyle($(this))
     })
     $propPanel.find('.font-synchronous').on('click', function() {
-      let layer = layui.layer;
+      let mthat=$(this)
+      let layer = layui.layer
       layer.msg('你确定  同步默文 文字样式么？', {
         time: 0 //不自动关闭
         ,btn: ['同步', '取消']
         ,yes: function(index){
           that.onTongBu($propPanel)
           that.update(that.formData)
+          that.updatePreviewStyle(mthat)
           layer.close(index)
         }
       })
@@ -1224,7 +1260,7 @@ export default class TextComponent extends Component {
       this.$content.removeClass(_antTransAttr);
       this.$content.attr("antTrans",'')
     }
-
+      $offPanel=this.$contentBox.find(".off")
 
 
     //处理边框
@@ -1238,23 +1274,39 @@ export default class TextComponent extends Component {
 
       if(this.formData.borderT==="show"){
         $alPanel.css('border-top-width', this.formData.borderWidth)
+        $defPanel.css('padding-top', this.formData.borderWidth)
+        $offPanel.css('padding-top', this.formData.borderWidth)
       }else{
         $alPanel.css('border-top-width', 0)
+        $defPanel.css('padding-top', 0)
+        $offPanel.css('padding-top', 0)
       }
       if(this.formData.borderB==="show"){
         $alPanel.css('border-bottom-width', this.formData.borderWidth)
+        $defPanel.css('padding-bottom', this.formData.borderWidth)
+        $offPanel.css('padding-bottom', this.formData.borderWidth)
       }else{
         $alPanel.css('border-bottom-width', 0)
+        $defPanel.css('padding-bottom', 0)
+        $offPanel.css('padding-bottom', 0)
       }
       if(this.formData.borderL==="show"){
         $alPanel.css('border-Left-width', this.formData.borderWidth)
+        $defPanel.css('padding-Left', this.formData.borderWidth)
+        $offPanel.css('padding-Left', this.formData.borderWidth)
       }else{
         $alPanel.css('border-Left-width', 0)
+        $defPanel.css('padding-Left', 0)
+        $offPanel.css('padding-Left', 0)
       }
       if(this.formData.borderR==="show"){
         $alPanel.css('border-right-width', this.formData.borderWidth)
+        $defPanel.css('padding-right', this.formData.borderWidth)
+        $offPanel.css('padding-right', this.formData.borderWidth)
       }else{
         $alPanel.css('border-right-width', 0)
+        $defPanel.css('padding-right', 0)
+        $offPanel.css('padding-right', 0)
       }
       $alPanel.css('border-style', this.formData.borderStyle)
       $alPanel.css('border-color', this.formData.borderColor)

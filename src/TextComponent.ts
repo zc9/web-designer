@@ -17,7 +17,7 @@ export default class TextComponent extends Component {
     this.formData.fontSize = 12
     this.formData.color = '#000'
     this.formData.bgColor = '#fff'
-    this.formData.lineHg =24  //行距
+    this.formData.lineHg =''  //行距
     this.formData.spacing =''  //letterSpacing // 字  距
     this.formData.indent =''  //textIndent 缩进
     
@@ -44,7 +44,7 @@ export default class TextComponent extends Component {
     this.formData.ffontSize = 12
     this.formData.fcolor = '#fff'
     this.formData.fbgColor = '#000'
-    this.formData.flineHg =24  //行距
+    this.formData.flineHg =''  //行距
     this.formData.fspacing =''  //letterSpacing // 字  距
     this.formData.findent =''  //textIndent 缩进
     
@@ -75,7 +75,6 @@ export default class TextComponent extends Component {
     this.formData.antTsFunB ='ease-out'  
     this.formData.antBcolor ='#00FFFF' 
     this.formData.antBc ='bdtx1'   
-
  
     this.update(this.formData)
     
@@ -99,14 +98,10 @@ export default class TextComponent extends Component {
   }
   //同步
   onTongBu($layerElem) {
-    let $fFamilySelect = $layerElem.find('select[name=fFamily]')
-    let $fFamilyVal=$fFamilySelect.val();
-    let $ffFamilySelect = $layerElem.find('select[name=ffFamily]')
-   // let $ffFamilySelect = $layerElem.find('select[name=ffFamily] option[value='+$fFamilyVal+']')
-     //$ffFamilySelect.attr("selected",true);
-    $layerElem.find('select[name=ffFamily] option:selected').val($fFamilyVal)
-    let  vss=$ffFamilySelect.val();
-   
+    let $fFamilySelect = $layerElem.find('select[name=fFamily] option:selected')
+    let $fFamilyVal=$fFamilySelect.val()
+    $layerElem.find('select[name=ffFamily] option[value='+$fFamilyVal+']').attr("selected",true);
+
   
     let $colorInput = $layerElem.find('input[type=text][name=color]')
     let $fcolorInput = $layerElem.find('input[type=text][name=fcolor]')
@@ -140,121 +135,161 @@ export default class TextComponent extends Component {
     let $alingVal=$alignRadioActive.attr('data-val')
     $falignRadio.removeClass("active")
     $layerElem.find('.font-f .font-item-radio[data-val='+$alingVal+']').addClass('active')
+   
 
-  
+    let $weightInput = $layerElem.find('.font-z input[type=hidden][name=weight]')
+    let $fweightInput = $layerElem.find('.font-f input[type=hidden][name=fweight]')
+    if($weightInput.val()=="600"){
+      $fweightInput.val("600")
+      $fweightInput.parent().addClass("active")
+    }else{
+      $fweightInput.val("")
+      $fweightInput.parent().removeClass("active")
+    }
+    let $fontStyleInput = $layerElem.find('.font-z input[type=hidden][name=fontStyle]')
+    let $ffontStyleInput = $layerElem.find('.font-f input[type=hidden][name=ffontStyle]')
+    if($fontStyleInput.val()=="italic"){
+      $ffontStyleInput.val('italic')
+      $ffontStyleInput.parent().addClass("active")
+    }else{
+      $ffontStyleInput.val("normal")
+      $ffontStyleInput.parent().removeClass("active")
+    }
+    let $oLineInput = $layerElem.find('.font-z input[type=hidden][name=oLine]')
+    let $foLineInput = $layerElem.find('.font-f input[type=hidden][name=foLine]')
+    if($oLineInput.val()=="overline"){
+      $foLineInput.val('overline')
+      $foLineInput.parent().addClass("active")
+    }else{
+      $foLineInput.val("")
+      $foLineInput.parent().removeClass("active")
+    }
+    let $lThroughInput = $layerElem.find('.font-z input[type=hidden][name=lThrough]')
+    let $flThroughInput= $layerElem.find('.font-f input[type=hidden][name=flThrough]')
+    if($lThroughInput.val()=="line-through"){
+      $flThroughInput.val('line-through')
+      $flThroughInput.parent().addClass("active")
+    }else{
+      $flThroughInput.val("")
+      $flThroughInput.parent().removeClass("active")
+    }
+    let $uLineInput = $layerElem.find('.font-z input[type=hidden][name=uLine]')
+    let $fuLineInput = $layerElem.find('.font-f input[type=hidden][name=fuLine]')
+    if($uLineInput.val()=="underline"){
+      $fuLineInput.val('underline')
+      $fuLineInput.parent().addClass("active")
+    }else{
+      $fuLineInput.val("")
+      $fuLineInput.parent().removeClass("active")
+    }
+
+
     console.log('onTongBu')
  
   }
- //弹出来设置文字选中
+  //文本框预览样式
+  updatePreviewStyle($objElem){
+    let $defElem=''
+    if($objElem.parent().hasClass("nromal-wrap")){
+       $defElem=$objElem.parent().parent().find('.font-textarea')
+    }else{
+       $defElem=$objElem.parent().parent().parent().find('.font-textarea')
+    }
+    if($defElem.length>0){
+      let deline=this.formData.uLine
+      if(this.formData.oLine){
+        deline+=' '+this.formData.oLine
+      }
+      if(this.formData.lThrough){
+        deline+=' '+this.formData.lThrough
+      }
+      if(deline ==="") deline='none'
+
+      $defElem.css("font-family",this.formData.fFamily)
+      $defElem.css('color', this.formData.color)
+      $defElem.css('background-color', this.formData.bgColor)
+      $defElem.css('font-size', parseInt(this.formData.fontSize))
+      $defElem.css('line-height', this.formData.lineHg+'px')
+      $defElem.css('letter-spacing', parseInt(this.formData.spacing))
+      $defElem.css('text-indent', parseInt(this.formData.indent))
+   
+      
+      $defElem.css('text-align', this.formData.align)
+      $defElem.css("font-weight",this.formData.weight)
+      $defElem.css("font-style",this.formData.fontStyle)
+      $defElem.css("text-decoration",deline)
+    }
+
+
+  }
+ //弹出来设置文字选中 转换成小写：toLowerCase()
   getFontActive($objElem){
-    let val = $objElem.attr('data-val')
-    let attrName=$objElem.find('input[type=hidden]').attr('name')
-    
+    let $elemInput=$objElem.find('input[type=hidden]')
+    let $attrName=$elemInput.attr('name').toLowerCase()
+    if($objElem.parent().hasClass("font-f")){
+      $attrName = $attrName.substr(1)
+    }
     if($objElem.hasClass("active")){
       $objElem.removeClass("active")
-      switch(attrName) {
-       case 'weight':
-        $objElem.find('input[type=hidden][name=weight]').val(400)
-        break;
-       case 'fontStyle':
-         $objElem.find('input[type=hidden][name=fontStyle]').val('normal')
-        break;
-       case 'oLine':
-        $objElem.find('input[type=hidden][name=oLine]').val('')
-        break;
-       case 'lThrough':
-        $objElem.find('input[type=hidden][name=lThrough]').val('')
-        break;
-       case 'uLine':
-        $objElem.find('input[type=hidden][name=uLine]').val('')
-        break;
+      switch($attrName) {
+        case 'weight':
+          $elemInput.val('')
+          break;
+        case 'fontstyle':
+          $elemInput.val('normal')
+          break;
+        case 'oline':
+          $elemInput.val('')
+          break;
+        case 'lthrough':
+          $elemInput.val('')
+          break;
+        case 'uline':
+          $elemInput.val('')
+          break;
       } 
     }else{
       $objElem.addClass("active")
-      switch(attrName) {
-       case 'weight':
-        $objElem.find('input[type=hidden][name=weight]').val(600)
-        break;
-       case 'fontStyle':
-         $objElem.find('input[type=hidden][name=fontStyle]').val('italic')
-        break;
-       case 'oLine':
-        $objElem.find('input[type=hidden][name=oLine]').val('overline')
- 
-        break;
-       case 'lThrough':
-        $objElem.find('input[type=hidden][name=lThrough]').val('line-through')
-
-        break;
-       case 'uLine':
-        $objElem.find('input[type=hidden][name=uLine]').val('underline')
-        break;
+      switch($attrName) {
+        case 'weight':
+          $elemInput.val("600")
+          break;
+        case 'fontstyle':
+          $elemInput.val('italic')
+          break;
+        case 'oline':
+          $elemInput.val('overline')
+          break;
+        case 'lthrough':
+          $elemInput.val('line-through')
+          break;
+        case 'uline':
+          $elemInput.val('underline')
+          break;
       } 
     }
   }
 
-  //正面文字
-  getFontCheckbox($objElem){
-    let that = this
-    let val = $objElem.attr('data-val')
-    if($objElem.hasClass("active")){
-      $objElem.removeClass("active")
-      switch(val) {
-       case '600':
-        that.formData.weight =600
-        break;
-       case 'italic':
-        that.formData.fontStyle ='normal'
-        break;
-       case 'overline':
-        that.formData.oLine =''
-        break;
-       case 'line-through':
-        that.formData.lThrough = ''
-        break;
-       case 'underline':
-        that.formData.uLine = ''
-        break;
-      } 
-    }else{
-      $objElem.addClass("active")
-      switch(val) {
-       case '600':
-        that.formData.weight =val
-        break;
-       case 'italic':
-        that.formData.fontStyle =val
-        break;
-       case 'overline':
-        that.formData.oLine =val
-        break;
-       case 'line-through':
-        that.formData.lThrough = val
-        break;
-       case 'underline':
-        that.formData.uLine = val
-        break;
-      } 
-    }
-  }
- 
-  
 
   initPorpPanel() { 
     console.log('initPorpPanel')
     let that = this
+    
     $('.prop-setting-ct > div').hide()
     let $propPanel = $('.text-com-prop-panel')
     this.$propPanel = $propPanel
-    
     $propPanel.show()
     $propPanel.find('*').off()
     this.updatePropPanel();
+    //收缩 重新加载
+    let element = layui.element
+    element.render("collapse")
 
     let $fFamilySelect = $propPanel.find('select[name=fFamily]')
     $fFamilySelect.change(function() {
       that.formData.fFamily = $(this).prop('value')
       that.update(that.formData)
+      that.updatePreviewStyle($(this))
     })
 
     let $colorInput = $propPanel.find('input[type=text][name=color]') 
@@ -262,36 +297,42 @@ export default class TextComponent extends Component {
       let val = $(this).val()
       that.formData.color = val
       that.update(that.formData)
+      that.updatePreviewStyle($(this))
     })
     let $bgColorInput = $propPanel.find('input[type=text][name=bgColor]') 
     $bgColorInput.change(function() {
       let val = $(this).val()
       that.formData.bgColor = val
       that.update(that.formData)
+      that.updatePreviewStyle($(this))
     })
     let $fontSizeInput = $propPanel.find('input[type=text][name=fontSize]') 
     $fontSizeInput.change(function() {
       let val = $(this).val()
       that.formData.fontSize = val
       that.update(that.formData)
+      that.updatePreviewStyle($(this))
     })
     let $lineHgInput = $propPanel.find('input[type=text][name=lineHg]') 
     $lineHgInput.change(function() {
       let val = $(this).val()
       that.formData.lineHg = val
       that.update(that.formData)
+      that.updatePreviewStyle($(this))
     })
     let $spacingInput = $propPanel.find('input[type=text][name=spacing]') 
     $spacingInput.change(function() {
       let val = $(this).val()
       that.formData.spacing = val
       that.update(that.formData)
+      that.updatePreviewStyle($(this))
     })
     let $indentInput = $propPanel.find('input[type=text][name=indent]') 
     $indentInput.change(function() {
       let val = $(this).val()
       that.formData.indent = val
       that.update(that.formData)
+      that.updatePreviewStyle($(this))
     })
     let $contentTextarea = $propPanel.find('textarea[name=content]') 
     $contentTextarea.change(function() {
@@ -316,6 +357,8 @@ export default class TextComponent extends Component {
     $ffFamilySelect.change(function() {
       that.formData.ffFamily = $(this).prop('value')
       that.update(that.formData)
+      
+       
     })
 
     let $fcolorInput = $propPanel.find('input[type=text][name=fcolor]') 
@@ -323,6 +366,7 @@ export default class TextComponent extends Component {
       let val = $(this).val()
       that.formData.fcolor = val
       that.update(that.formData)
+      that.updatePreviewStyle($(this))
     })
     let $fbgColorInput = $propPanel.find('input[type=text][name=fbgColor]') 
     $fbgColorInput.change(function() {
@@ -454,12 +498,64 @@ export default class TextComponent extends Component {
       $alignRadio.removeClass("active")
       $(this).addClass("active")
       that.update(that.formData)
+      that.updatePreviewStyle($(this))
     })
+    //转换成小写：toLowerCase()
     let $fontCheckbox = $propPanel.find('.font-z .font-item-checkbox')
     $fontCheckbox.click(function() {
- 
-      that.getFontCheckbox($(this))
+      let $elemInput=$(this).find('input[type=hidden]')
+      let $attrName = $elemInput.attr('name').toLowerCase()
+      if($(this).hasClass("active")){
+        $(this).removeClass("active")
+        switch($attrName) {
+          case 'weight':
+            that.formData.weight =""
+            $elemInput.val("")
+            break;
+          case 'fontstyle':
+            that.formData.fontStyle ='normal'
+            $elemInput.val("normal")
+            break;
+          case 'oline':
+            that.formData.oLine =''
+            $elemInput.val("")
+            break;
+          case 'lthrough':
+            that.formData.lThrough = ''
+            $elemInput.val("")
+            break;
+          case 'uline':
+            that.formData.uLine = ''
+            $elemInput.val("")
+            break;
+        } 
+      }else{
+        $(this).addClass("active")
+        switch($attrName) {
+          case 'weight':
+            that.formData.weight ="600"
+            $elemInput.val("600")
+            break;
+          case 'fontstyle':
+            that.formData.fontStyle ='italic'
+            $elemInput.val("italic")
+            break;
+          case 'oline':
+            that.formData.oLine ='overline'
+            $elemInput.val("overline")
+            break;
+          case 'lthrough':
+            that.formData.lThrough = 'line-through'
+            $elemInput.val("line-through")
+            break;
+          case 'uline':
+            that.formData.uLine = 'underline'
+            $elemInput.val("underline")
+            break;
+        } 
+      }
       that.update(that.formData)
+      that.updatePreviewStyle($(this))
     })
    //反面文字
     let $falignRadio = $propPanel.find('.font-f .font-item-radio')
@@ -472,49 +568,71 @@ export default class TextComponent extends Component {
     })
     let $ffontCheckbox = $propPanel.find('.font-f .font-item-checkbox')
     $ffontCheckbox.click(function() {
-      let val = $(this).attr('data-val')
+      let $elemInput=$(this).find('input[type=hidden]')
+      let $attrName = $elemInput.attr('name').toLowerCase()
       if($(this).hasClass("active")){
         $(this).removeClass("active")
-        switch(val) {
-         case '600':
-          that.formData.fweight =400
-          break;
-         case 'italic':
-          that.formData.ffontStyle ='normal'
-          break;
-         case 'overline':
-          that.formData.foLine =''
-          break;
-         case 'line-through':
-          that.formData.flThrough = ''
-          break;
-         case 'underline':
-          that.formData.fuLine = ''
-          break;
+        switch($attrName) {
+          case 'fweight':
+            that.formData.fweight =""
+            $elemInput.val("")
+            break;
+          case 'ffontstyle':
+            that.formData.ffontStyle ='normal'
+            $elemInput.val("normal")
+            break;
+          case 'foline':
+            that.formData.foLine =''
+            $elemInput.val("")
+            break;
+          case 'flthrough':
+            that.formData.flThrough = ''
+            $elemInput.val("")
+            break;
+          case 'fuline':
+            that.formData.fuLine = ''
+            $elemInput.val("")
+            break;
         } 
       }else{
         $(this).addClass("active")
-        switch(val) {
-         case '600':
-          that.formData.fweight =val
-          break;
-         case 'italic':
-          that.formData.ffontStyle =val
-          break;
-         case 'overline':
-          that.formData.foLine =val
-          break;
-         case 'line-through':
-          that.formData.flThrough = val
-          break;
-         case 'underline':
-          that.formData.fuLine = val
-          break;
+        switch($attrName) {
+          case 'fweight':
+            that.formData.fweight ="600"
+            $elemInput.val("600")
+            break;
+          case 'ffontstyle':
+            that.formData.ffontStyle ='italic'
+            $elemInput.val("italic")
+            break;
+          case 'foline':
+            that.formData.foLine ='overline'
+            $elemInput.val("overline")
+            break;
+          case 'flthrough':
+            that.formData.flThrough = 'line-through'
+            $elemInput.val("line-through")
+            break;
+          case 'fuline':
+            that.formData.fuLine = 'underline'
+            $elemInput.val("underline")
+            break;
         } 
       }
       that.update(that.formData)
     })
- 
+    $propPanel.find('.font-synchronous').on('click', function() {
+      let layer = layui.layer;
+      layer.msg('你确定  同步默文 文字样式么？', {
+        time: 0 //不自动关闭
+        ,btn: ['同步', '取消']
+        ,yes: function(index){
+          that.onTongBu($propPanel)
+          that.update(that.formData)
+          layer.close(index)
+        }
+      })
+   })
  
 
     $propPanel.find('.editor-btns').on('click', function() {
@@ -560,9 +678,10 @@ export default class TextComponent extends Component {
          let $antBcolorInput=$layerElem.find('input[type=text][name=antBcolor]')
          $antBcolorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.antBcolor)
         } 
-        if(that.formData.weight==600){
+        if(that.formData.weight=="600"){
           $layerElem.find('.font-z .font-item-checkbox:eq(0)').addClass('active')
         }
+
         if(that.formData.fontStyle=='italic'){
           $layerElem.find('.font-z .font-item-checkbox:eq(1)').addClass('active')
         }
@@ -577,26 +696,43 @@ export default class TextComponent extends Component {
         }
 
         $layerElem.find(`.font-z .font-item-radio[data-val="${that.formData.align}"]`).addClass('active')
+        $layerElem.find(`.font-f .font-item-radio[data-val="${that.formData.align}"]`).addClass('active')
 
-        $layerElem.find('.font-z .font-item-checkbox').on('click', function() {
+        if(that.formData.ffontStyle=='italic'){
+          $layerElem.find('.font-f .font-item-checkbox:eq(1)').addClass('active')
+        }
+        if(that.formData.foLine=='overline'){
+          $layerElem.find('.font-f .font-item-checkbox:eq(2)').addClass('active')
+        }
+        if(that.formData.flThrough=='line-through'){
+          $layerElem.find('.font-f .font-item-checkbox:eq(3)').addClass('active')
+        }
+        if(that.formData.fuLine=='underline'){
+          $layerElem.find('.font-f .font-item-checkbox:eq(4)').addClass('active')
+        }
+        
+        $layerElem.find('.font-setting .font-item-checkbox').on('click', function() {
            that.getFontActive($(this));
         })
 
-
-
-        $layerElem.find('.font-z .font-item-radio').on('click', function() {
-          let $alignRadio = $layerElem.find('.font-z .font-item-radio')
-          $alignRadio.removeClass("active")
-          $(this).addClass("active")
+        $layerElem.find('.font-setting .font-item-radio').on('click', function() {
+          let $objElem=$(this)
+          $objElem.parent().find('.font-item-radio').removeClass("active")
+          $objElem.addClass("active")
         })
-        $layerElem.find('.font-f .font-item-radio').on('click', function() {
-          let $falignRadio = $layerElem.find('.font-f .font-item-radio')
-          $falignRadio.removeClass("active")
-          $(this).addClass("active")
-        })
+ 
 
         $layerElem.find('.font-synchronous').on('click', function() {
-          that.onTongBu($layerElem);
+          let form = layui.form
+          layer.msg('你确定  同步默文 文字样式么？', {
+            time: 0 //不自动关闭
+            ,btn: ['同步', '取消']
+            ,yes: function(index){
+              that.onTongBu($layerElem);
+              form.render('select');
+              layer.close(index)
+            }
+          });
         })
       },
       content: `<form class="layui-form" lay-filter="textComponentForm">
@@ -774,11 +910,12 @@ export default class TextComponent extends Component {
                       <input type="text" name="findent" class="layui-input">
                     </div>
                     <div class="font-setting font-f">
-                      <span  title="加粗" class="font-item-checkbox" data-val="" ><icon>ꕅ</icon></span>
-                      <span  title="斜体" class="font-item-checkbox" data-val="" ><icon>ꕆ</icon></span>
-                      <span  title="上划线" class="font-item-checkbox" data-val="" ><icon>ꔣ</icon></span>
-                      <span  title="中划线" class="font-item-checkbox" data-val=""><icon>ꕇ</icon></span>
-                      <span  title="下划线" class="font-item-checkbox" data-val="" ><icon>ꕈ</icon></span>
+                      <span  title="加粗" class="font-item-checkbox" data-val="" ><icon>ꕅ</icon><input name="fweight" type="hidden"   value="" /></span>
+                      <span  title="斜体" class="font-item-checkbox" data-val="" ><icon>ꕆ</icon><input name="ffontStyle" type="hidden"   value="" /></span>
+                      <span  title="上划线" class="font-item-checkbox" data-val="" ><icon>ꔣ</icon><input name="foLine" type="hidden"   value="" /></span>
+                      <span  title="中划线" class="font-item-checkbox" data-val=""><icon>ꕇ</icon><input name="flThrough" type="hidden"   value="" /></span>
+                      <span  title="下划线" class="font-item-checkbox" data-val="" ><icon>ꕈ</icon><input name="fuLine" type="hidden"   value="" /></span>
+
                       <i class="spaceline"></i>
                       <span  title="文字左对齐" class="font-item-radio" data-val="left" ><icon>ꕉ</icon></span>
                       <span  title="文字居中对齐" class="font-item-radio"  data-val="center" ><icon>ꕐ</icon></span>
@@ -1354,21 +1491,88 @@ export default class TextComponent extends Component {
     }else{
       $antBcolorInput.prev().find(".sp-preview-inner").css("background-color",'')
     }
-
+    
+    //右侧  正面字体样式设置
     $propPanel.find(`.font-setting span`).removeClass('active')
-    $propPanel.find(`.font-z .font-item-radio[data-val="${that.formData.align}"]`).addClass('active')
-    $propPanel.find(`.font-z .font-item-checkbox[data-val="${that.formData.weight}"]`).addClass('active')
-    $propPanel.find(`.font-z .font-item-checkbox[data-val="${that.formData.fontStyle}"]`).addClass('active')
-    $propPanel.find(`.font-z .font-item-checkbox[data-val="${that.formData.oLine}"]`).addClass('active')
-    $propPanel.find(`.font-z .font-item-checkbox[data-val="${that.formData.lThrough}"]`).addClass('active')
-    $propPanel.find(`.font-z .font-item-checkbox[data-val="${that.formData.uLine}"]`).addClass('active')
+ 
+    let $weightInput = $propPanel.find('.font-z input[type=hidden][name=weight]')
+    if(that.formData.weight=="600"){
+      $weightInput.val("600")
+      $weightInput.parent().addClass("active")
+    }else{
+      $weightInput.val("")
+    }
+    let $fontStyleInput = $propPanel.find('.font-z input[type=hidden][name=fontStyle]')
+    if(that.formData.fontStyle=="italic"){
+      $fontStyleInput.val("italic")
+      $fontStyleInput.parent().addClass("active")
+    }else{
+      $fontStyleInput.val("normal")
+    }
+    let $oLineInput = $propPanel.find('.font-z input[type=hidden][name=oLine]')
+    if(that.formData.oLine=="overline"){
+      $oLineInput.val("overline")
+      $oLineInput.parent().addClass("active")
+    }else{
+      $oLineInput.val("")
+    }
 
+    let $lThroughInput = $propPanel.find('.font-z input[type=hidden][name=lThrough]')
+    if(that.formData.lThrough=="line-through"){
+      $lThroughInput.val("line-through")
+      $lThroughInput.parent().addClass("active")
+    }else{
+      $lThroughInput.val("")
+    }
+    let $uLineInput = $propPanel.find('.font-z input[type=hidden][name=uLine]')
+    if(that.formData.uLine=="underline"){
+      $uLineInput.val("underline")
+      $uLineInput.parent().addClass("active")
+    }else{
+      $uLineInput.val("")
+    }
+
+    //右侧 反面字体样式设置
+    let $fweightInput = $propPanel.find('.font-f input[type=hidden][name=fweight]')
+    if(that.formData.fweight=="600"){
+      $fweightInput.val("600")
+      $fweightInput.parent().addClass("active")
+    }else{
+      $fweightInput.val("")
+    }
+    let $ffontStyleInput = $propPanel.find('.font-f input[type=hidden][name=ffontStyle]')
+    if(that.formData.ffontStyle=="italic"){
+      $ffontStyleInput.val("italic")
+      $ffontStyleInput.parent().addClass("active")
+    }else{
+      $ffontStyleInput.val("normal")
+    }
+    let $foLineInput = $propPanel.find('.font-f input[type=hidden][name=foLine]')
+    if(that.formData.foLine=="overline"){
+      $foLineInput.val("overline")
+      $foLineInput.parent().addClass("active")
+    }else{
+      $foLineInput.val("")
+    }
+
+    let $flThroughInput = $propPanel.find('.font-f input[type=hidden][name=flThrough]')
+    if(that.formData.flThrough=="line-through"){
+      $flThroughInput.val("line-through")
+      $flThroughInput.parent().addClass("active")
+    }else{
+      $flThroughInput.val("")
+    }
+    let $fuLineInput = $propPanel.find('.font-z input[type=hidden][name=fuLine]')
+    if(that.formData.uLine=="underline"){
+      $fuLineInput.val("underline")
+      $fuLineInput.parent().addClass("active")
+    }else{
+      $fuLineInput.val("")
+    }
+
+    $propPanel.find(`.font-z .font-item-radio[data-val="${that.formData.align}"]`).addClass('active')
     $propPanel.find(`.font-f .font-item-radio[data-val="${that.formData.falign}"]`).addClass('active')
-    $propPanel.find(`.font-f .font-item-checkbox[data-val="${that.formData.fweight}"]`).addClass('active')
-    $propPanel.find(`.font-f .font-item-checkbox[data-val="${that.formData.ffontStyle}"]`).addClass('active')
-    $propPanel.find(`.font-f .font-item-checkbox[data-val="${that.formData.foLine}"]`).addClass('active')
-    $propPanel.find(`.font-f .font-item-checkbox[data-val="${that.formData.flThrough}"]`).addClass('active')
-    $propPanel.find(`.font-f .font-item-checkbox[data-val="${that.formData.fuLine}"]`).addClass('active')
+
  
 
   }

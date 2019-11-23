@@ -341,7 +341,9 @@ export default class Draggable {
     if (this.resizable && this.resizeFlag) {
       this.resize(event)
     } else {
-      this.darg(event)
+      if (!this.disabled) {
+        this.darg(event)
+      }
     }
   }
 
@@ -369,6 +371,12 @@ export default class Draggable {
     }
   }
 
+  enable() {
+    this.disabled = false
+  }
+  disable() {
+    this.disabled = true
+  }
   getStyle(el, styleProp) {
     if(window.getComputedStyle) {
       return document.defaultView.getComputedStyle(el, null).getPropertyValue(styleProp)

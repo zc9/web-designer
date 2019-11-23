@@ -118,7 +118,7 @@ icon {
       cursor: pointer;
       overflow: hidden;
       position: relative;
-  
+
       &.unable {
         color: #CCCCCC;
         cursor: default;
@@ -741,6 +741,9 @@ icon {
         &.lock {
           background-position: -210px -328px;
         }
+        &.unlock {
+          background-position: -210px -357px;
+        }
         &.delete {
           background-position: -210px -387px;
         }
@@ -755,7 +758,6 @@ icon {
       margin-top: 2px;
       white-space: nowrap;
       display: none;
-      user-select: none;
       > span {
         display: inline-block;
         line-height: 14px;
@@ -885,22 +887,22 @@ icon {
       }
     }
     .layui-tab-content{
-      height:400px; 
+      height:400px;
       overflow-y:auto;
       padding:0px;
       .layui-tab-item{
-        height:400px; 
+        height:400px;
         padding:15px;
       }
     }
   }
-  .layui-input, 
+  .layui-input,
   .layui-select,
   .layui-textarea{
     height:36px;
   }
   .layui-ft-btn{
-    border-top:solid 1px #e6e6e6; 
+    border-top:solid 1px #e6e6e6;
     text-align:center;
     padding-top: 15px;
   }
@@ -963,7 +965,7 @@ icon {
       height:28px;
       padding-left:5px;
     }
-   
+
     textarea{
       display:block;
       height: 90px;
@@ -1063,7 +1065,7 @@ icon {
       height: 30px;
       line-height: 30px;
       text-align: center;
- 
+
       border-top: solid 1px #e1e1e1;
       cursor: pointer;
       color: #666666;
@@ -1144,7 +1146,7 @@ icon {
       }
     }
   }
- 
- 
+
+
 
 }

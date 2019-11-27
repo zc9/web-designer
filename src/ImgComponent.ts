@@ -63,19 +63,19 @@ export default class ImgComponent extends Component {
       $wangBox.show()
     }
   }
-  //弹出来 移上边框同步
-  onTongBu($layerElem) {
-    let $bdWidthInput = $layerElem.find('input[type=text][name=bdWidth]')
+ 
+  //同步边框信息
+  onTongBuBd($layerElem,$isVal,that) {
+    let $bdWidthVal = $layerElem.find('input[type=text][name=bdWidth]').val()
     let $mbdWidthInput = $layerElem.find('input[type=text][name=mbdWidth]')
-    $mbdWidthInput.val($bdWidthInput.val())
+    $mbdWidthInput.val($bdWidthVal)
 
     let $bdStyleRadio = $layerElem.find('input[type=radio][name=bdStyle]:checked')
     let $bdStyleVal=$bdStyleRadio.val()
     $layerElem.find('input[type=radio][name=mbdStyle][value='+$bdStyleVal+']').prop('checked', true)
 
-    let $bdColorInput = $layerElem.find('input[type=text][name=bdColor]')
+    let $bdColorVal = $layerElem.find('input[type=text][name=bdColor]').val()
     let $mbdColorInput = $layerElem.find('input[type=text][name=mbdColor]')
-    let $bdColorVal=$bdColorInput.val()
     $mbdColorInput.val($bdColorVal)
     $mbdColorInput.prev().find(".sp-preview-inner").css("background-color",$bdColorVal)
 
@@ -83,22 +83,31 @@ export default class ImgComponent extends Component {
     let $bdTCheckBox = $layerElem.find('input[type=checkbox][name=bdT]')
     let $mbdTCheckBox = $layerElem.find('input[type=checkbox][name=mbdT]')
     let $bdTVal=$bdTCheckBox.is(':checked')
-    $mbdTCheckBox.attr('checked',$bdTVal);
+    $mbdTCheckBox.prop('checked',$bdTVal);
 
     let $bdBCheckBox = $layerElem.find('input[type=checkbox][name=bdB]')
     let $mbdBCheckBox = $layerElem.find('input[type=checkbox][name=mbdB]')
     let $bdBVal=$bdBCheckBox.is(':checked')
-    $mbdBCheckBox.attr('checked',$bdBVal);
+    $mbdBCheckBox.prop('checked',$bdBVal);
 
     let $bdLCheckBox = $layerElem.find('input[type=checkbox][name=bdL]')
     let $mbdLCheckBox = $layerElem.find('input[type=checkbox][name=mbdL]')
     let $bdLVal=$bdLCheckBox.is(':checked')
-    $mbdLCheckBox.attr('checked',$bdLVal);
+    $mbdLCheckBox.prop('checked',$bdLVal);
 
     let $bdRCheckBox = $layerElem.find('input[type=checkbox][name=bdR]')
     let $mbdRCheckBox = $layerElem.find('input[type=checkbox][name=mbdR]')
     let $bdRVal=$bdRCheckBox.is(':checked')
-    $mbdRCheckBox.attr('checked',$bdRVal);
+    $mbdRCheckBox.prop('checked',$bdRVal);
+    if($isVal){
+     that.formData.mbdT=$layerElem.find('input[type=checkbox][name=mbdT]:checked').val();
+     that.formData.mbdB=$layerElem.find('input[type=checkbox][name=mbdB]:checked').val();
+     that.formData.mbdL=$layerElem.find('input[type=checkbox][name=mbdL]:checked').val();
+     that.formData.mbdR=$layerElem.find('input[type=checkbox][name=mbdR]:checked').val();
+     that.formData.mbdWidth=$bdWidthVal;
+     that.formData.mbdColor=$bdColorVal;
+     that.formData.mbdStyle=$bdStyleVal;
+    }
 
   }
   openEditDialog() {
@@ -124,18 +133,27 @@ export default class ImgComponent extends Component {
         if (that.formData.bgColor) {
           $layerElem.find('.sp-preview-inner').css('background-color', that.formData.bgColor)
         }
+        //边框
+        if (that.formData.bdColor) {
+         let $bdColorInput=$layerElem.find('input[type=text][name=bdColor]')
+         $bdColorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.bdColor)
+        } 
+        if (that.formData.mbdColor) {
+         let $mbdColorInput=$layerElem.find('input[type=text][name=mbdColor]')
+         $mbdColorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.mbdColor)
+        } 
+
         $layerElem.find('.cancel-btn').on('click', function() {
           layer.close(index)
         })
         that.onLinkModeChanged($layerElem, that.formData.linkMode)
-
         $layerElem.find('.layui-btn-sm').on('click', function() {
           let form = layui.form
           layer.msg('你确定  同步默文 边框样式么？', {
             time: 0 //不自动关闭
             ,btn: ['同步', '取消']
             ,yes: function(index){
-              that.onTongBu($layerElem);
+              that.onTongBuBd($layerElem,false,that);
               form.render();
               layer.close(index)
             }
@@ -223,8 +241,8 @@ export default class ImgComponent extends Component {
             <div  class="layui-tab-item">
               <div class="layui-tab layui-side-card">
                 <ul class="layui-tab-title"  >
-                  <li class="layui-this" style="margin-top: 110px;">边框信息</li>
-                  <li class="">鼠标移上动画</li>
+                  <li class="layui-this" style="margin-top: 110px;">默认边框</li>
+                  <li class="">鼠标划过动画</li>
                 </ul>
                 <div class="layui-tab-content" style="height: 400px;">
                   <div class="layui-tab-item layui-show">
@@ -300,41 +318,33 @@ export default class ImgComponent extends Component {
                     <fieldset  class="layui-elem-field" style="margin-top:25px;">
                       <legend>
                         动画时长                      
-                        <input class="input-short"  type="text" name="antTsDurB"  style="width:50px; height:20px; margin-left:10px; padding-left:5px;" />
+                        <input class="input-short"  type="text" name="mbdTsDur"  style="width:50px; height:23px; margin-left:10px; padding-left:5px;" />
                         <label class="label-con">秒</label>
                       </legend>
                       <div class="layui-field-box">
-                        <input class="radio-medium" type="radio" name="antTsFunB" value="linear"  title="匀速">
-                        <input class="radio-medium" type="radio" name="antTsFunB" value="ease"  title="逐渐变慢">
-                        <input class="radio-medium" type="radio" name="antTsFunB" value="ease-in"   title="减速">
+                        <input class="radio-medium" type="radio" name="mbdTsFun" value="linear"  title="匀速">
+                        <input class="radio-medium" type="radio" name="mbdTsFun" value="ease"  title="逐渐变慢">
+                        <input class="radio-medium" type="radio" name="mbdTsFun" value="ease-in"   title="减速">
                         <div class="sepline"></div>
-                        <input class="radio-medium" type="radio" name="antTsFunB" value="ease-out"   title="加速">
-                        <input class="radio-medium" type="radio" name="antTsFunB" value="ease-in-out"   title="加速后减速">
-                        <input class="radio-medium" type="radio" name="antTsFunB" value="cubic-bezier"   title="动感弹跳">
+                        <input class="radio-medium" type="radio" name="mbdTsFun" value="ease-out"   title="加速">
+                        <input class="radio-medium" type="radio" name="mbdTsFun" value="ease-in-out"   title="加速后减速">
+                        <input class="radio-medium" type="radio" name="mbdTsFun" value="cubic-bezier"   title="动感弹跳">
                       </div>
                     </fieldset>
                     <fieldset  class="layui-elem-field" style="margin-top:25px;">
                       <legend>动画效果</legend>
-                      <div class="layui-form-item"  style="margin-top:15px;margin-bottom:0px;">
-                        <label class="layui-form-label">边框颜色</label>
-                        <div class="layui-input-inline pagecolorpanel input-short"  style="width: 190px;">
-                          <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner"></div></div></div>
-                          <input name="antBcolor" type="text" class="layui-input pagecolor">
-                          <span class="clear-color-button"></span>
-                        </div>
-                      </div>
                       <div class="layui-field-box">
-                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx0" title="直接切换">
-                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx1" title="渐隐渐显">
+                        <input class="radio-medium" type="radio" name="mbdTsAnt"  value="bdtx0" title="直接切换">
+                        <input class="radio-medium" type="radio" name="mbdTsAnt"  value="bdtx1" title="渐隐渐显" >
                         <div class="sepline"></div>
-                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx4"  title="左对角线切入">
-                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx5"  title="右对角线切入">
+                        <input class="radio-medium" type="radio" name="mbdTsAnt"  value="bdtx4"  title="左对角线切入">
+                        <input class="radio-medium" type="radio" name="mbdTsAnt"  value="bdtx5"  title="右对角线切入">
                         <div class="sepline"></div>
-                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx6"  title="顺时针出现">
-                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx7"  title="逆时针出现">
+                        <input class="radio-medium" type="radio" name="mbdTsAnt"  value="bdtx6"  title="顺时针出现">
+                        <input class="radio-medium" type="radio" name="mbdTsAnt"  value="bdtx7"  title="逆时针出现">
                         <div class="sepline"></div>
-                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx8"  title="由点到线">
-                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx9"  title="由点到面">
+                        <input class="radio-medium" type="radio" name="mbdTsAnt"  value="bdtx8"  title="由点到线">
+                        <input class="radio-medium" type="radio" name="mbdTsAnt"  value="bdtx9"  title="由点到面">
                       </div>
                     </fieldset>
                   </div>
@@ -627,6 +637,20 @@ export default class ImgComponent extends Component {
       that.formData.bdR = val ? 'on' : 'off'
       that.update(that.formData)
     })
+    $propPanel.find('.layui-btn-sm').on('click', function() {
+      let layer = layui.layer
+      layer.msg('你确定  同步默文 边框样式么？', {
+        time: 0 //不自动关闭
+        ,btn: ['同步', '取消']
+        ,yes: function(index){
+          that.onTongBuBd($propPanel,true,that);
+          that.update(that.formData)
+          layer.close(index)
+        }
+      });
+    })
+
+
     $propPanel.find('.editor-btns').on('click', function() {
       that.openEditDialog()
     })

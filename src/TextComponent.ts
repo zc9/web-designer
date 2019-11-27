@@ -107,17 +107,16 @@ export default class TextComponent extends Component {
   }
   //同步边框信息
   onTongBuBd($layerElem,$isVal,that) {
-    let $bdWidthInput = $layerElem.find('input[type=text][name=bdWidth]')
+    let $bdWidthVal = $layerElem.find('input[type=text][name=bdWidth]').val()
     let $mbdWidthInput = $layerElem.find('input[type=text][name=mbdWidth]')
-    $mbdWidthInput.val($bdWidthInput.val())
+    $mbdWidthInput.val($bdWidthVal)
 
     let $bdStyleRadio = $layerElem.find('input[type=radio][name=bdStyle]:checked')
     let $bdStyleVal=$bdStyleRadio.val()
     $layerElem.find('input[type=radio][name=mbdStyle][value='+$bdStyleVal+']').prop('checked', true)
 
-    let $bdColorInput = $layerElem.find('input[type=text][name=bdColor]')
+    let $bdColorVal = $layerElem.find('input[type=text][name=bdColor]').val()
     let $mbdColorInput = $layerElem.find('input[type=text][name=mbdColor]')
-    let $bdColorVal=$bdColorInput.val()
     $mbdColorInput.val($bdColorVal)
     $mbdColorInput.prev().find(".sp-preview-inner").css("background-color",$bdColorVal)
 
@@ -146,101 +145,114 @@ export default class TextComponent extends Component {
      that.formData.mbdB=$layerElem.find('input[type=checkbox][name=mbdB]:checked').val();
      that.formData.mbdL=$layerElem.find('input[type=checkbox][name=mbdL]:checked').val();
      that.formData.mbdR=$layerElem.find('input[type=checkbox][name=mbdR]:checked').val();
-
-     that.formData.mbdWidth=$layerElem.find('input[type=text][name=mbdWidth]').val();
-     that.formData.mbdColor=$layerElem.find('input[type=text][name=mbdColor]').val();
-     that.formData.mbdStyle=$layerElem.find('input[type=radio][name=mbdStyle]:checked').val();
+     that.formData.mbdWidth=$bdWidthVal;
+     that.formData.mbdColor=$bdColorVal;
+     that.formData.mbdStyle=$bdStyleVal;
     }
 
   }
   //弹出来同步
-  onTongBu($layerElem) {
+  onTongBu($layerElem,$isVal,that) {
     let $familySelect = $layerElem.find('select[name=family] option:selected')
     let $familyVal=$familySelect.val()
     $layerElem.find('select[name=mfamily] option[value='+$familyVal+']').attr("selected",true);
-
   
-    let $colorInput = $layerElem.find('input[type=text][name=color]')
+    let $colorVal = $layerElem.find('input[type=text][name=color]').val()
+
     let $mcolorInput = $layerElem.find('input[type=text][name=mcolor]')
-    $mcolorInput.val($colorInput.val())
-    $mcolorInput.prev().find(".sp-preview-inner").css("background-color",$colorInput.val())
+    $mcolorInput.val($colorVal)
+    $mcolorInput.prev().find(".sp-preview-inner").css("background-color",$colorVal)
     
-    let $bgColorInput = $layerElem.find('input[type=text][name=bgColor]')
+    let $bgColorVal = $layerElem.find('input[type=text][name=bgColor]').val()
     let $mbgColorInput = $layerElem.find('input[type=text][name=mbgColor]')
-    $mbgColorInput.val($bgColorInput.val())
-    $mbgColorInput.prev().find(".sp-preview-inner").css("background-color",$bgColorInput.val())
+    $mbgColorInput.val($bgColorVal)
+    $mbgColorInput.prev().find(".sp-preview-inner").css("background-color",$bgColorVal)
 
-    let $fSizeInput = $layerElem.find('input[type=text][name=fSize]')
+    let $fSizeVal = $layerElem.find('input[type=text][name=fSize]').val()
     let $mfSizeInput = $layerElem.find('input[type=text][name=mfSize]')
-    $mfSizeInput.val($fSizeInput.val())
+    $mfSizeInput.val($fSizeVal)
 
-    let $lHeightInput = $layerElem.find('input[type=text][name=lHeight]')
+    let $lHeightVal = $layerElem.find('input[type=text][name=lHeight]').val()
     let $mlHeightInput = $layerElem.find('input[type=text][name=mlHeight]')
-    $mlHeightInput.val($lHeightInput.val())
+    $mlHeightInput.val($lHeightVal)
 
-    let $spacingInput = $layerElem.find('input[type=text][name=spacing]')
+    let $spacingVal = $layerElem.find('input[type=text][name=spacing]').val()
     let $mspacingInput = $layerElem.find('input[type=text][name=mspacing]')
-    $mspacingInput.val($spacingInput.val())
+    $mspacingInput.val($spacingVal)
 
-    let $indentInput = $layerElem.find('input[type=text][name=indent]')
+    let $indentVal = $layerElem.find('input[type=text][name=indent]').val()
     let $mindentInput = $layerElem.find('input[type=text][name=mindent]')
-    $mindentInput.val($indentInput.val())
+    $mindentInput.val($indentVal)
     
     //对齐
     let $alignRadioActive = $layerElem.find('.font-z .font-item-radio.active')
     let $malignRadio = $layerElem.find('.font-f .font-item-radio')
-    let $alingVal=$alignRadioActive.attr('data-val')
+    let $alignVal=$alignRadioActive.attr('data-val')
     $malignRadio.removeClass("active")
-    $layerElem.find('.font-f .font-item-radio[data-val='+$alingVal+']').addClass('active')
+    $layerElem.find('.font-f .font-item-radio[data-val='+$alignVal+']').addClass('active')
    
 
-    let $weightInput = $layerElem.find('.font-z input[type=hidden][name=weight]')
+    let $weightVal= $layerElem.find('.font-z input[type=hidden][name=weight]').val()
     let $mweightInput = $layerElem.find('.font-f input[type=hidden][name=mweight]')
-    if($weightInput.val()=="600"){
+    if($weightVal=="600"){
       $mweightInput.val("600")
       $mweightInput.parent().addClass("active")
     }else{
       $mweightInput.val("")
       $mweightInput.parent().removeClass("active")
     }
-    let $fStyleInput = $layerElem.find('.font-z input[type=hidden][name=fStyle]')
+    let $fStyleVal = $layerElem.find('.font-z input[type=hidden][name=fStyle]').val()
     let $mfStyleInput = $layerElem.find('.font-f input[type=hidden][name=mfStyle]')
-    if($fStyleInput.val()=="italic"){
+    if($fStyleVal=="italic"){
       $mfStyleInput.val('italic')
       $mfStyleInput.parent().addClass("active")
     }else{
       $mfStyleInput.val("normal")
       $mfStyleInput.parent().removeClass("active")
     }
-    let $oLineInput = $layerElem.find('.font-z input[type=hidden][name=oLine]')
+    let $oLineVal = $layerElem.find('.font-z input[type=hidden][name=oLine]').val()
     let $moLineInput = $layerElem.find('.font-f input[type=hidden][name=moLine]')
-    if($oLineInput.val()=="overline"){
+    if($oLineVal=="overline"){
       $moLineInput.val('overline')
       $moLineInput.parent().addClass("active")
     }else{
       $moLineInput.val("")
       $moLineInput.parent().removeClass("active")
     }
-    let $throughInput = $layerElem.find('.font-z input[type=hidden][name=through]')
+    let $throughVal = $layerElem.find('.font-z input[type=hidden][name=through]').val()
     let $mthroughInput= $layerElem.find('.font-f input[type=hidden][name=mthrough]')
-    if($throughInput.val()=="line-through"){
+    if($throughVal=="line-through"){
       $mthroughInput.val('line-through')
       $mthroughInput.parent().addClass("active")
     }else{
       $mthroughInput.val("")
       $mthroughInput.parent().removeClass("active")
     }
-    let $uLineInput = $layerElem.find('.font-z input[type=hidden][name=uLine]')
+    let $uLineVal = $layerElem.find('.font-z input[type=hidden][name=uLine]').val()
     let $muLineInput = $layerElem.find('.font-f input[type=hidden][name=muLine]')
-    if($uLineInput.val()=="underline"){
+    if($uLineVal=="underline"){
       $muLineInput.val('underline')
       $muLineInput.parent().addClass("active")
     }else{
       $muLineInput.val("")
       $muLineInput.parent().removeClass("active")
     }
-
-
+    // 右侧同步的时候 直接更新数据
+    if($isVal){
+     that.formData.family=$familyVal
+     that.formData.mcolor=$colorVal
+     that.formData.mbgColor=$bgColorVal
+     that.formData.mfSize=$fSizeVal
+     that.formData.mlHeight=$lHeightVal
+     that.formData.mspacing=$spacingVal
+     that.formData.mindent=$indentVal
+     that.formData.mweight=$weightVal
+     that.formData.mfStyle=$fStyleVal
+     that.formData.moLine=$oLineVal
+     that.formData.mthrough=$throughVal
+     that.formData.muLine=$uLineVal
+     that.formData.malign=$alignVal
+    }
     console.log('onTongBu')
  
   }
@@ -252,7 +264,6 @@ export default class TextComponent extends Component {
     }
     let $fontElem=$defElem.parent().prev()  //查找上一个兄弟节点，不是所有的兄弟节点
     let isfontF= $fontElem.hasClass("font-f")  ? true :false
-
 
     if($defElem.length>0){
       if(isfontF){
@@ -353,8 +364,6 @@ export default class TextComponent extends Component {
       } 
     }
   }
-
-
   initPorpPanel() { 
     console.log('initPorpPanel')
     let that = this
@@ -503,6 +512,8 @@ export default class TextComponent extends Component {
       that.formData.mcontent = val
       that.update(that.formData)
     })
+
+
     //以下是动画
     let $mTsDurInput = $propPanel.find('input[type=text][name=mTsDur]') 
     $mTsDurInput.change(function() {
@@ -567,74 +578,18 @@ export default class TextComponent extends Component {
       that.update(that.formData)
     })
 
-    // 以下是经过边框 
-    let $mbdTCheckBox = $propPanel.find('input[type=checkbox][name=mbdT]')
-    $mbdTCheckBox.change(function() {
-      let val = $(this).is(':checked')
-      that.formData.mbdT = val ? 'on' : ''
-      that.update(that.formData)
-    })
-    let $mbdBCheckBox = $propPanel.find('input[type=checkbox][name=mbdB]')
-    $mbdBCheckBox.change(function() {
-      let val = $(this).is(':checked')
-      that.formData.mbdB = val ? 'on' : ''
-      that.update(that.formData)
-    })
-    let $mbdLCheckBox = $propPanel.find('input[type=checkbox][name=mbdL]')
-    $mbdLCheckBox.change(function() {
-      let val = $(this).is(':checked')
-      that.formData.mbdL = val ? 'on' : ''
-      that.update(that.formData)
-    })
-    let $mbdRCheckBox = $propPanel.find('input[type=checkbox][name=mbdR]')
-    $mbdRCheckBox.change(function() {
-      let val = $(this).is(':checked')
-      that.formData.mbdR = val ? 'on' : ''
-      that.update(that.formData)
-    })
-    let $mbdWidthInput = $propPanel.find('input[type=text][name=mbdWidth]') 
-    $mbdWidthInput.change(function() {
-      let val = $(this).val()
-      that.formData.mbdWidth = val
-      that.update(that.formData)
-    })
-    let $mbdColorInput = $propPanel.find('input[type=text][name=mbdColor]') 
-    $mbdColorInput.change(function() {
-      let val = $(this).val()
-      that.formData.mbdColor = val
-      that.update(that.formData)
-    })
-    let $mbdStyleRadio = $propPanel.find('input[type=radio][name=mbdStyle]')
-    $mbdStyleRadio.change(function() {
-      let val = $(this).prop('value')
-      that.formData.mbdStyle = val
-      that.update(that.formData)
-    })
-
-    let $mbdTsDurInput = $propPanel.find('input[type=text][name=mbdTsDur]') 
-    $mbdTsDurInput.change(function() {
-      let val = $(this).val()
-      that.formData.mbdTsDur = val
-    })
-    let $mbdTsFunRadio = $propPanel.find('input[type=radio][name=mbdTsFun]')
-    $mbdTsFunRadio.change(function() {
-      let val = $(this).prop('value')
-      that.formData.mbdTsFun = val
-      that.update(that.formData)
-    })
-    let $mbdTsAntRadio = $propPanel.find('input[type=radio][name=mbdTsAnt]')
-    $mbdTsAntRadio.change(function() {
-      let val = $(this).prop('value')
-      that.formData.mbdTsAnt = val
-      that.update(that.formData)
-    })
-
-
-    let $alignRadio = $propPanel.find('.font-z .font-item-radio')
+    //正反  文字对齐 事件
+    let $alignRadio = $propPanel.find('.font-setting .font-item-radio')
     $alignRadio.click(function() {
       let val = $(this).attr('data-val')
-      that.formData.align = val
-      $alignRadio.removeClass("active")
+      let $alignParent=$(this).parent()
+      let isOff= $alignParent.hasClass("font-f")  ? true :false
+      if(isOff){
+        that.formData.malign = val
+      }else{
+        that.formData.align = val
+      }
+      $alignParent.find('.font-item-radio').removeClass("active")
       $(this).addClass("active")
       that.update(that.formData)
       that.updatePreviewStyle($(this))
@@ -696,16 +651,7 @@ export default class TextComponent extends Component {
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
-   //反面文字
-    let $malignRadio = $propPanel.find('.font-f .font-item-radio')
-    $malignRadio.click(function() {
-      let val = $(this).attr('data-val')
-      that.formData.malign = val
-      $malignRadio.removeClass("active")
-      $(this).addClass("active")
-      that.update(that.formData)
-      that.updatePreviewStyle($(this))
-    })
+ 
     let $ffontCheckbox = $propPanel.find('.font-f .font-item-checkbox')
     $ffontCheckbox.click(function() {
       let $elemInput=$(this).find('input[type=hidden]')
@@ -762,6 +708,72 @@ export default class TextComponent extends Component {
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
+
+
+    // 以下是经过边框 
+    let $mbdTCheckBox = $propPanel.find('input[type=checkbox][name=mbdT]')
+    $mbdTCheckBox.change(function() {
+      let val = $(this).is(':checked')
+      that.formData.mbdT = val ? 'on' : ''
+      that.update(that.formData)
+    })
+    let $mbdBCheckBox = $propPanel.find('input[type=checkbox][name=mbdB]')
+    $mbdBCheckBox.change(function() {
+      let val = $(this).is(':checked')
+      that.formData.mbdB = val ? 'on' : ''
+      that.update(that.formData)
+    })
+    let $mbdLCheckBox = $propPanel.find('input[type=checkbox][name=mbdL]')
+    $mbdLCheckBox.change(function() {
+      let val = $(this).is(':checked')
+      that.formData.mbdL = val ? 'on' : ''
+      that.update(that.formData)
+    })
+    let $mbdRCheckBox = $propPanel.find('input[type=checkbox][name=mbdR]')
+    $mbdRCheckBox.change(function() {
+      let val = $(this).is(':checked')
+      that.formData.mbdR = val ? 'on' : ''
+      that.update(that.formData)
+    })
+    let $mbdWidthInput = $propPanel.find('input[type=text][name=mbdWidth]') 
+    $mbdWidthInput.change(function() {
+      let val = $(this).val()
+      that.formData.mbdWidth = val
+      that.update(that.formData)
+    })
+    let $mbdColorInput = $propPanel.find('input[type=text][name=mbdColor]') 
+    $mbdColorInput.change(function() {
+      let val = $(this).val()
+      that.formData.mbdColor = val
+      that.update(that.formData)
+    })
+    let $mbdStyleRadio = $propPanel.find('input[type=radio][name=mbdStyle]')
+    $mbdStyleRadio.change(function() {
+      let val = $(this).prop('value')
+      that.formData.mbdStyle = val
+      that.update(that.formData)
+    })
+    //边框动画
+    let $mbdTsDurInput = $propPanel.find('input[type=text][name=mbdTsDur]') 
+    $mbdTsDurInput.change(function() {
+      let val = $(this).val()
+      that.formData.mbdTsDur = val
+      that.update(that.formData)
+    })
+    let $mbdTsFunRadio = $propPanel.find('input[type=radio][name=mbdTsFun]')
+    $mbdTsFunRadio.change(function() {
+      let val = $(this).prop('value')
+      that.formData.mbdTsFun = val
+      that.update(that.formData)
+    })
+    let $mbdTsAntRadio = $propPanel.find('input[type=radio][name=mbdTsAnt]')
+    $mbdTsAntRadio.change(function() {
+      let val = $(this).prop('value')
+      that.formData.mbdTsAnt = val
+      that.update(that.formData)
+    })
+
+    //同步文字样式
     $propPanel.find('.font-synchronous').on('click', function() {
       let mthat=$(this)
       let layer = layui.layer
@@ -769,7 +781,7 @@ export default class TextComponent extends Component {
         time: 0 //不自动关闭
         ,btn: ['同步', '取消']
         ,yes: function(index){
-          that.onTongBu($propPanel)
+          that.onTongBu($propPanel,true,that)
           that.update(that.formData)
           that.updatePreviewStyle(mthat)
           layer.close(index)
@@ -777,19 +789,18 @@ export default class TextComponent extends Component {
       })
     })
  
-   $propPanel.find('.layui-btn-sm').on('click', function() {
-    let layer = layui.layer
-    layer.msg('你确定  同步默文 边框样式么？', {
-      time: 0 //不自动关闭
-      ,btn: ['同步', '取消']
-      ,yes: function(index){
-        that.onTongBuBd($propPanel,true,that);
-        that.update(that.formData)
-        layer.close(index)
-      }
-    });
-  })
-
+    $propPanel.find('.layui-btn-sm').on('click', function() {
+      let layer = layui.layer
+      layer.msg('你确定  同步默文 边框样式么？', {
+        time: 0 //不自动关闭
+        ,btn: ['同步', '取消']
+        ,yes: function(index){
+          that.onTongBuBd($propPanel,true,that);
+          that.update(that.formData)
+          layer.close(index)
+        }
+      });
+    })
 
     $propPanel.find('.editor-btns').on('click', function() {
       that.openEditDialog()
@@ -884,7 +895,7 @@ export default class TextComponent extends Component {
             time: 0 //不自动关闭
             ,btn: ['同步', '取消']
             ,yes: function(index){
-              that.onTongBu($layerElem);
+              that.onTongBu($layerElem,false,that)
               form.render('select');
               layer.close(index)
             }
@@ -1310,21 +1321,11 @@ export default class TextComponent extends Component {
     form.on('submit(textComponentForm)', function(data) {
       that.formData = data.field;
       that.formData.align = $layerElem.find('.font-z .font-item-radio.active').data('val')
-      /*
-      that.formData.weight = $layerElem.find('.font-z .font-item-checkbox:eq(0)').data('val')
-      that.formData.fStyle = $layerElem.find('.font-z .font-item-checkbox:eq(1)').data('val')
-      that.formData.oLine = $layerElem.find('.font-z .font-item-checkbox:eq(2)').data('val')
-      that.formData.through = $layerElem.find('.font-z .font-item-checkbox:eq(3)').data('val')
-      that.formData.uLine = $layerElem.find('.font-z .font-item-checkbox:eq(4)').data('val')
-       */
- 
-
+      that.formData.malign = $layerElem.find('.font-f .font-item-radio.active').data('val')
 
       that.update(that.formData)
       that.updatePropPanel()
 
-      
- 
       layer.close(layerNo)
       return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
     });
@@ -1639,7 +1640,8 @@ export default class TextComponent extends Component {
        $bgColorInput.prev().find(".sp-preview-inner").css("background-color",this.formData.bgColor)
     }else{
       $bgColorInput.prev().find(".sp-preview-inner").css("background-color",'')
-    } 
+    }
+
     //以下是移上信息
     let $hoverModeRadio = $propPanel.find('input[type=radio][name=hoverMode]')
     $hoverModeRadio.filter(`[value="${this.formData.hoverMode}"]`).prop('checked', true)
@@ -1678,103 +1680,8 @@ export default class TextComponent extends Component {
       $mbgColorInput.prev().find(".sp-preview-inner").css("background-color",'')
     } 
 
-   　//动画信息
-    let $mTsDurInput = $propPanel.find('input[type=text][name=mTsDur]')
-    $mTsDurInput.val(this.formData.mTsDur)
-    let $mTsFunRadio = $propPanel.find('input[type=radio][name=mTsFun]')
-    $mTsFunRadio.filter(`[value="${this.formData.mTsFun}"]`).prop('checked', true)
-    let $mTsAntRadio = $propPanel.find('input[type=radio][name=mTsAnt]')
-    $mTsAntRadio.filter(`[value="${this.formData.mTsAnt}"]`).prop('checked', true)
-
-    //边框信息
-    let $bdTCheckBox = $propPanel.find('input[type=checkbox][name=bdT]')
-    if (this.formData.bdT === 'on') {
-      $bdTCheckBox.prop('checked', true)
-    } else {
-      $bdTCheckBox.prop('checked', false)
-    }
-    let $bdBCheckBox = $propPanel.find('input[type=checkbox][name=bdB]')
-    if (this.formData.bdB === 'on') {
-      $bdBCheckBox.prop('checked', true)
-    } else {
-      $bdBCheckBox.prop('checked', false)
-    }
-    let $bdLCheckBox = $propPanel.find('input[type=checkbox][name=bdL]')
-    if (this.formData.bdL === 'on') {
-      $bdLCheckBox.prop('checked', true)
-    } else {
-      $bdLCheckBox.prop('checked', false)
-    }
-    let $bdRCheckBox = $propPanel.find('input[type=checkbox][name=bdR]')
-    if (this.formData.bdR === 'on') {
-      $bdRCheckBox.prop('checked', true)
-    } else {
-      $bdRCheckBox.prop('checked', false)
-    }
-
-    let $bdWidthInput = $propPanel.find('input[type=text][name=bdWidth]')
-    $bdWidthInput.val(this.formData.bdWidth)
-    let $bdColorInput = $propPanel.find('input[type=text][name=bdColor]')
-    $bdColorInput.val(this.formData.bdColor)
-    let $bdStyleRadio = $propPanel.find('input[type=radio][name=bdStyle]')
-    $bdStyleRadio.filter(`[value="${this.formData.bdStyle}"]`).prop('checked', true)
-
-    if (this.formData.bdColor) {
-      $bdColorInput.prev().find(".sp-preview-inner").css("background-color",this.formData.bdColor)
-    }else{
-      $bdColorInput.prev().find(".sp-preview-inner").css("background-color",'')
-    }
-    //移上边框
-
-    let $mbdTCheckBox = $propPanel.find('input[type=checkbox][name=mbdT]')
-    if (this.formData.mbdT === 'on') {
-      $mbdTCheckBox.prop('checked', true)
-    } else {
-      $mbdTCheckBox.prop('checked', false)
-    }
-    let $mbdBCheckBox = $propPanel.find('input[type=checkbox][name=mbdB]')
-    if (this.formData.mbdB === 'on') {
-      $mbdBCheckBox.prop('checked', true)
-    } else {
-      $mbdBCheckBox.prop('checked', false)
-    }
-    let $mbdLCheckBox = $propPanel.find('input[type=checkbox][name=mbdL]')
-    if (this.formData.mbdL === 'on') {
-      $mbdLCheckBox.prop('checked', true)
-    } else {
-      $mbdLCheckBox.prop('checked', false)
-    }
-    let $mbdRCheckBox = $propPanel.find('input[type=checkbox][name=mbdR]')
-    if (this.formData.mbdR === 'on') {
-      $mbdRCheckBox.prop('checked', true)
-    } else {
-      $mbdRCheckBox.prop('checked', false)
-    }
-
-    let $mbdWidthInput = $propPanel.find('input[type=text][name=mbdWidth]')
-    $mbdWidthInput.val(this.formData.mbdWidth)
-    let $mbdColorInput = $propPanel.find('input[type=text][name=mbdColor]')
-    $mbdColorInput.val(this.formData.mbdColor)
-    let $mbdStyleRadio = $propPanel.find('input[type=radio][name=mbdStyle]')
-    $mbdStyleRadio.filter(`[value="${this.formData.mbdStyle}"]`).prop('checked', true)
-
-    let $mbdTsDurInput = $propPanel.find('input[type=text][name=mbdTsDur]')
-    $mbdTsDurInput.val(this.formData.mbdTsDur)
-    let $mbdTsFunRadio = $propPanel.find('input[type=radio][name=mbdTsFun]')
-    $mbdTsFunRadio.filter(`[value="${this.formData.mbdTsFun}"]`).prop('checked', true)
-
-    let $mbdTsAntRadio = $propPanel.find('input[type=radio][name=mbdTsAnt]')
-    $mbdTsAntRadio.filter(`[value="${this.formData.mbdTsAnt}"]`).prop('checked', true)
-
-    if (this.formData.mbdColor) {
-       $mbdColorInput.prev().find(".sp-preview-inner").css("background-color",this.formData.mbdColor)
-    }else{
-      $mbdColorInput.prev().find(".sp-preview-inner").css("background-color",'')
-    }
-    
-    //右侧  正面字体样式设置
+   //右侧  正面字体样式设置
     $propPanel.find(`.font-setting span`).removeClass('active')
- 
     let $weightInput = $propPanel.find('.font-z input[type=hidden][name=weight]')
     if(that.formData.weight=="600"){
       $weightInput.val("600")
@@ -1853,8 +1760,97 @@ export default class TextComponent extends Component {
     $propPanel.find(`.font-z .font-item-radio[data-val="${that.formData.align}"]`).addClass('active')
     $propPanel.find(`.font-f .font-item-radio[data-val="${that.formData.malign}"]`).addClass('active')
 
- 
+    //移上动画信息
+    let $mTsDurInput = $propPanel.find('input[type=text][name=mTsDur]')
+    $mTsDurInput.val(this.formData.mTsDur)
+    let $mTsFunRadio = $propPanel.find('input[type=radio][name=mTsFun]')
+    $mTsFunRadio.filter(`[value="${this.formData.mTsFun}"]`).prop('checked', true)
+    let $mTsAntRadio = $propPanel.find('input[type=radio][name=mTsAnt]')
+    $mTsAntRadio.filter(`[value="${this.formData.mTsAnt}"]`).prop('checked', true)
 
+    //边框信息
+    let $bdTCheckBox = $propPanel.find('input[type=checkbox][name=bdT]')
+    if (this.formData.bdT === 'on') {
+      $bdTCheckBox.prop('checked', true)
+    } else {
+      $bdTCheckBox.prop('checked', false)
+    }
+    let $bdBCheckBox = $propPanel.find('input[type=checkbox][name=bdB]')
+    if (this.formData.bdB === 'on') {
+      $bdBCheckBox.prop('checked', true)
+    } else {
+      $bdBCheckBox.prop('checked', false)
+    }
+    let $bdLCheckBox = $propPanel.find('input[type=checkbox][name=bdL]')
+    if (this.formData.bdL === 'on') {
+      $bdLCheckBox.prop('checked', true)
+    } else {
+      $bdLCheckBox.prop('checked', false)
+    }
+    let $bdRCheckBox = $propPanel.find('input[type=checkbox][name=bdR]')
+    if (this.formData.bdR === 'on') {
+      $bdRCheckBox.prop('checked', true)
+    } else {
+      $bdRCheckBox.prop('checked', false)
+    }
+
+    let $bdWidthInput = $propPanel.find('input[type=text][name=bdWidth]')
+    $bdWidthInput.val(this.formData.bdWidth)
+    let $bdStyleRadio = $propPanel.find('input[type=radio][name=bdStyle]')
+    $bdStyleRadio.filter(`[value="${this.formData.bdStyle}"]`).prop('checked', true)
+    let $bdColorInput = $propPanel.find('input[type=text][name=bdColor]')
+    $bdColorInput.val(this.formData.bdColor)
+    if (this.formData.bdColor) {
+      $bdColorInput.prev().find(".sp-preview-inner").css("background-color",this.formData.bdColor)
+    }else{
+      $bdColorInput.prev().find(".sp-preview-inner").css("background-color",'')
+    }
+
+    //移上边框
+    let $mbdTCheckBox = $propPanel.find('input[type=checkbox][name=mbdT]')
+    if (this.formData.mbdT === 'on') {
+      $mbdTCheckBox.prop('checked', true)
+    } else {
+      $mbdTCheckBox.prop('checked', false)
+    }
+    let $mbdBCheckBox = $propPanel.find('input[type=checkbox][name=mbdB]')
+    if (this.formData.mbdB === 'on') {
+      $mbdBCheckBox.prop('checked', true)
+    } else {
+      $mbdBCheckBox.prop('checked', false)
+    }
+    let $mbdLCheckBox = $propPanel.find('input[type=checkbox][name=mbdL]')
+    if (this.formData.mbdL === 'on') {
+      $mbdLCheckBox.prop('checked', true)
+    } else {
+      $mbdLCheckBox.prop('checked', false)
+    }
+    let $mbdRCheckBox = $propPanel.find('input[type=checkbox][name=mbdR]')
+    if (this.formData.mbdR === 'on') {
+      $mbdRCheckBox.prop('checked', true)
+    } else {
+      $mbdRCheckBox.prop('checked', false)
+    }
+
+    let $mbdWidthInput = $propPanel.find('input[type=text][name=mbdWidth]')
+    $mbdWidthInput.val(this.formData.mbdWidth)
+    let $mbdStyleRadio = $propPanel.find('input[type=radio][name=mbdStyle]')
+    $mbdStyleRadio.filter(`[value="${this.formData.mbdStyle}"]`).prop('checked', true)
+    let $mbdColorInput = $propPanel.find('input[type=text][name=mbdColor]')
+    $mbdColorInput.val(this.formData.mbdColor)
+    if (this.formData.mbdColor) {
+      $mbdColorInput.prev().find(".sp-preview-inner").css("background-color",this.formData.mbdColor)
+    }else{
+      $mbdColorInput.prev().find(".sp-preview-inner").css("background-color",'')
+    }
+
+    let $mbdTsDurInput = $propPanel.find('input[type=text][name=mbdTsDur]')
+    $mbdTsDurInput.val(this.formData.mbdTsDur)
+    let $mbdTsFunRadio = $propPanel.find('input[type=radio][name=mbdTsFun]')
+    $mbdTsFunRadio.filter(`[value="${this.formData.mbdTsFun}"]`).prop('checked', true)
+
+    let $mbdTsAntRadio = $propPanel.find('input[type=radio][name=mbdTsAnt]')
+    $mbdTsAntRadio.filter(`[value="${this.formData.mbdTsAnt}"]`).prop('checked', true)
   }
 }
 

@@ -25,15 +25,15 @@ export default class WangComponent extends Component {
     this.formData.wangID = ''
     this.formData.bgImg = '//sc01.alicdn.com/kf/HTB1gXlQXDjxK1Rjy0Fnq6yBaFXao.jpg'
     this.formData.bgColor = ''
-    this.formData.nickName = 'John Deao'
+    this.formData.eName = 'John Deao'
     this.formData.color = ''
-    this.formData.fontSize = 12
-    this.formData.fontFamily = 'arial'
-    this.formData.fontWeight = ''
-    this.formData.fontStyle = 'normal'
+    this.formData.fSize = 12
+    this.formData.family = 'arial'
+    this.formData.weight = ''
+    this.formData.fStyle = 'normal'
     this.formData.tipText = '24Hours Service Online'
-    this.formData.nickMl = 5
-    this.formData.bgImgMg = 5
+    this.formData.nameMl = 5
+    this.formData.nameMt = 5 // 
     this.update(this.formData)
 
   }
@@ -65,16 +65,16 @@ export default class WangComponent extends Component {
       that.formData.bgImg = val
       that.update(that.formData)
     })
-    let $bgImgMgInput = $propPanel.find('input[type=text][name=bgImgMg]') 
-    $bgImgMgInput.change(function() {
+    let $nameMtInput = $propPanel.find('input[type=text][name=nameMt]') 
+    $nameMtInput.change(function() {
       let val = $(this).val()
-      that.formData.bgImgMg = val
+      that.formData.nameMt = val
       that.update(that.formData)
     })
-    let $nickNameInput = $propPanel.find('input[type=text][name=nickName]') 
-    $nickNameInput.change(function() {
+    let $eNameInput = $propPanel.find('input[type=text][name=eName]') 
+    $eNameInput.change(function() {
       let val = $(this).val()
-      that.formData.nickName = val
+      that.formData.eName = val
       that.update(that.formData)
     })
     let $colorInput = $propPanel.find('input[type=text][name=color]') 
@@ -89,30 +89,30 @@ export default class WangComponent extends Component {
       that.formData.bgColor = val
       that.update(that.formData)
     })
-    let $nickMlInput= $propPanel.find('input[type=text][name=nickMl]')
-    $nickMlInput.change(function() {
-      that.formData.nickMl =$(this).val()
+    let $nameMlInput= $propPanel.find('input[type=text][name=nameMl]')
+    $nameMlInput.change(function() {
+      that.formData.nameMl =$(this).val()
       that.update(that.formData)
     })
-    let $fontSizeInput= $propPanel.find('input[type=text][name=fontSize]')
-    $fontSizeInput.change(function() {
-      that.formData.fontSize =$(this).val()
+    let $fSizeInput= $propPanel.find('input[type=text][name=fSize]')
+    $fSizeInput.change(function() {
+      that.formData.fSize =$(this).val()
       that.update(that.formData)
     })
 
-    let $fontWeightSelect = $propPanel.find('select[name=fontWeight]')
-    $fontWeightSelect.change(function() {
-      that.formData.fontWeight = $(this).prop('value')
+    let $weightSelect = $propPanel.find('select[name=weight]')
+    $weightSelect.change(function() {
+      that.formData.weight = $(this).prop('value')
       that.update(that.formData)
     })
-    let $fontStyleSelect = $propPanel.find('select[name=fontStyle]')
-    $fontStyleSelect.change(function() {
-      that.formData.fontStyle = $(this).prop('value')
+    let $fStyleSelect = $propPanel.find('select[name=fStyle]')
+    $fStyleSelect.change(function() {
+      that.formData.fStyle = $(this).prop('value')
       that.update(that.formData)
     })
-    let $fontFamilySelect = $propPanel.find('select[name=fontFamily]')
-    $fontFamilySelect.change(function() {
-      that.formData.fontFamily = $(this).prop('value')
+    let $familySelect = $propPanel.find('select[name=family]')
+    $familySelect.change(function() {
+      that.formData.family = $(this).prop('value')
       that.update(that.formData)
     })
     let $tipTextInput= $propPanel.find('input[type=text][name=tipText]')
@@ -172,12 +172,18 @@ export default class WangComponent extends Component {
     let $cphoto=this.$content.find(".cphoto");
     let $spanName=this.$content.find(".wang-info span");
     this.$content.css('background-color', this.formData.bgColor)
-    this.$content.find(".wang-info").css("margin-top",parseInt(this.formData.bgImgMg))
+    this.$content.find(".wang-info").css("margin-top",parseInt(this.formData.nameMt))
     this.$content.attr('title', this.formData.tipText) 
 
     let lineImg=this.formData.wangMode =="22" ?  './assets/wang1.gif': './assets/wang2.gif';
     that.$wangImg.attr('src', lineImg)
-    that.$wangImg.attr('data-val', this.formData.wangMode)
+    if(this.formData.wangMode=="88"){
+      that.$wangImg.addClass("w-mid")
+    }else{
+      that.$wangImg.removeClass("w-mid")
+    }
+   
+  
 
     if(this.formData.bgImg){
       if($cphoto.length<=0){
@@ -188,25 +194,22 @@ export default class WangComponent extends Component {
     }else{
       $cphoto.remove();
     }
-    if(this.formData.nickName){
+    if(this.formData.eName){
       if($spanName.length<=0){
-        $spanName=this.$content.find(".wang-line").after("<span>"+formData.nickName+"</span>")
+        $spanName=this.$content.find(".wang-line").after("<span>"+formData.eName+"</span>")
       }
       $spanName=this.$content.find(".wang-info span");
-      $spanName.text(formData.nickName)
+      $spanName.text(formData.eName)
       $spanName.css("color",this.formData.color)
-      $spanName.css('font-size', parseInt(this.formData.fontSize))
-      $spanName.css("font-family",this.formData.fontFamily)
-      $spanName.css("font-weight",this.formData.fontWeight)
-      $spanName.css("font-style",this.formData.fontStyle)
-      $spanName.css("margin-left",parseInt(this.formData.nickMl))
+      $spanName.css('font-size', parseInt(this.formData.fSize))
+      $spanName.css("font-family",this.formData.family)
+      $spanName.css("font-weight",this.formData.weight)
+      $spanName.css("font-style",this.formData.fStyle)
+      $spanName.css("margin-left",parseInt(this.formData.nameMl))
        
     }else{
        $spanName.remove();
     }
- 
- 
-    
   }
   updatePropPanel() {
     let $propPanel = this.$propPanel
@@ -221,10 +224,10 @@ export default class WangComponent extends Component {
     $bgImgInput.val(this.formData.bgImg)
 
  
-    let $bgImgMgInput = $propPanel.find('input[type=text][name=bgImgMg]')
-    $bgImgMgInput.val(this.formData.bgImgMg)
-    let $nickNameInput = $propPanel.find('input[type=text][name=nickName]')
-    $nickNameInput.val(this.formData.nickName)
+    let $nameMtInput = $propPanel.find('input[type=text][name=nameMt]')
+    $nameMtInput.val(this.formData.nameMt)
+    let $eNameInput = $propPanel.find('input[type=text][name=eName]')
+    $eNameInput.val(this.formData.eName)
 
     let $colorInput = $propPanel.find('input[type=text][name=color]')
     $colorInput.val(this.formData.color)
@@ -232,21 +235,21 @@ export default class WangComponent extends Component {
     let $bgColorInput = $propPanel.find('input[type=text][name=bgColor]')
     $bgColorInput.val(this.formData.bgColor)
 
-    let $nickMlInput = $propPanel.find('input[type=text][name=nickMl]')
-    $nickMlInput.val(this.formData.nickMl)
+    let $nameMlInput = $propPanel.find('input[type=text][name=nameMl]')
+    $nameMlInput.val(this.formData.nameMl)
 
 
-    let $fontSizeInput = $propPanel.find('input[type=text][name=fontSize]')
-    $fontSizeInput.val(this.formData.fontSize)
+    let $fSizeInput = $propPanel.find('input[type=text][name=fSize]')
+    $fSizeInput.val(this.formData.fSize)
 
-    let $fontFamilySelect = $propPanel.find('select[name=fontFamily]')
-    $fontFamilySelect.val(this.formData.fontFamily)
+    let $familySelect = $propPanel.find('select[name=family]')
+    $familySelect.val(this.formData.family)
 
-    let $fontWeightSelect = $propPanel.find('input[type=text][name=fontWeight]')
-    $fontWeightSelect.val(this.formData.fontWeight)
+    let $weightSelect = $propPanel.find('input[type=text][name=weight]')
+    $weightSelect.val(this.formData.weight)
 
-    let $fontStyleSelect = $propPanel.find('select[name=fontStyle]')
-    $fontStyleSelect.val(this.formData.fontStyle)
+    let $fStyleSelect = $propPanel.find('select[name=fStyle]')
+    $fStyleSelect.val(this.formData.fStyle)
 
     let $tipTextInput = $propPanel.find('input[type=text][name=tipText]')
     $tipTextInput.val(this.formData.tipText)

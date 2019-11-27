@@ -1098,11 +1098,21 @@ icon {
       .layui-elem-field{
         width:450px;
         .layui-field-box{
-          padding:5px 15px;
+          padding:5px 10px;
+          .layui-form-item{
+            .layui-form-label{
+              padding:5px 15px;
+            }
+            .layui-input-block{
+              margin-left:100px;
+            }
+            .input-short{
+              width:120px;
+            }
+          }
         }
-        .layui-form-label{
-          padding:5px 15px;
-        }
+
+
         .layui-input{
           height:30px;
         }

@@ -44,8 +44,8 @@ export default class ImgComponent extends Component {
     this.formData.animSpeed = '1s'
     this.formData.animRange = '-s'
     this.formData.wangID = ''
-    this.formData.borderRadius= ''
-    this.formData.borderStyle= 'solid'
+    this.formData.bdRadius= ''
+    this.formData.bdStyle= 'solid'
 
     this.$content.css('background-image', `url(${this.formData.bgImg})`)
     this.$content.css('background-color', this.formData.bgColor)
@@ -63,7 +63,44 @@ export default class ImgComponent extends Component {
       $wangBox.show()
     }
   }
+  //弹出来 移上边框同步
+  onTongBu($layerElem) {
+    let $bdWidthInput = $layerElem.find('input[type=text][name=bdWidth]')
+    let $mbdWidthInput = $layerElem.find('input[type=text][name=mbdWidth]')
+    $mbdWidthInput.val($bdWidthInput.val())
 
+    let $bdStyleRadio = $layerElem.find('input[type=radio][name=bdStyle]:checked')
+    let $bdStyleVal=$bdStyleRadio.val()
+    $layerElem.find('input[type=radio][name=mbdStyle][value='+$bdStyleVal+']').prop('checked', true)
+
+    let $bdColorInput = $layerElem.find('input[type=text][name=bdColor]')
+    let $mbdColorInput = $layerElem.find('input[type=text][name=mbdColor]')
+    let $bdColorVal=$bdColorInput.val()
+    $mbdColorInput.val($bdColorVal)
+    $mbdColorInput.prev().find(".sp-preview-inner").css("background-color",$bdColorVal)
+
+
+    let $bdTCheckBox = $layerElem.find('input[type=checkbox][name=bdT]')
+    let $mbdTCheckBox = $layerElem.find('input[type=checkbox][name=mbdT]')
+    let $bdTVal=$bdTCheckBox.is(':checked')
+    $mbdTCheckBox.attr('checked',$bdTVal);
+
+    let $bdBCheckBox = $layerElem.find('input[type=checkbox][name=bdB]')
+    let $mbdBCheckBox = $layerElem.find('input[type=checkbox][name=mbdB]')
+    let $bdBVal=$bdBCheckBox.is(':checked')
+    $mbdBCheckBox.attr('checked',$bdBVal);
+
+    let $bdLCheckBox = $layerElem.find('input[type=checkbox][name=bdL]')
+    let $mbdLCheckBox = $layerElem.find('input[type=checkbox][name=mbdL]')
+    let $bdLVal=$bdLCheckBox.is(':checked')
+    $mbdLCheckBox.attr('checked',$bdLVal);
+
+    let $bdRCheckBox = $layerElem.find('input[type=checkbox][name=bdR]')
+    let $mbdRCheckBox = $layerElem.find('input[type=checkbox][name=mbdR]')
+    let $bdRVal=$bdRCheckBox.is(':checked')
+    $mbdRCheckBox.attr('checked',$bdRVal);
+
+  }
   openEditDialog() {
     let that = this;
     let layer = layui.layer;
@@ -92,12 +129,26 @@ export default class ImgComponent extends Component {
         })
         that.onLinkModeChanged($layerElem, that.formData.linkMode)
 
+        $layerElem.find('.layui-btn-sm').on('click', function() {
+          let form = layui.form
+          layer.msg('你确定  同步默文 边框样式么？', {
+            time: 0 //不自动关闭
+            ,btn: ['同步', '取消']
+            ,yes: function(index){
+              that.onTongBu($layerElem);
+              form.render();
+              layer.close(index)
+            }
+          });
+        })
+
       },
       content: `<form class="layui-form" lay-filter="imgComponentForm">
         <div class="layui-tab layui-tab-brief">
           <ul class="layui-tab-title">
             <li class="layui-this">内容设置</li>
              <li>边框设置</li>
+          
              <li>阴影外框</li>
             <li>动画设置</li>
           </ul>
@@ -159,7 +210,7 @@ export default class ImgComponent extends Component {
               <div class="layui-form-item"  >
                 <label class="layui-form-label">圆角度数</label>
                 <div class="layui-input-inline">
-                  <input name="borderRadius" type="text" class="layui-input">
+                  <input name="bdRadius" type="text" class="layui-input">
                 </div>
               </div>
               <div class="layui-form-item">
@@ -169,79 +220,129 @@ export default class ImgComponent extends Component {
                 </div>
               </div>
             </div>
-            <div class="layui-tab-item">
-
-
-              <fieldset class="layui-elem-field">
-                <legend>默认边框</legend>
-                <div class="layui-field-box">
-                  <div class="layui-form-item"  >
-                    <label class="layui-form-label">边框显示</label>
-                    <div class="layui-input-block">
-                      <input type="checkbox" name="borderT" value="true" lay-skin="primary" title="上边"  >
-                      <input type="checkbox" name="borderB" value="true" lay-skin="primary" title="下边">
-                      <input type="checkbox" name="borderL" value="true" lay-skin="primary" title="左边" >
-                      <input type="checkbox" name="borderR" value="true" lay-skin="primary" title="右边"  >
-                    </div>
+            <div  class="layui-tab-item">
+              <div class="layui-tab layui-side-card">
+                <ul class="layui-tab-title"  >
+                  <li class="layui-this" style="margin-top: 110px;">边框信息</li>
+                  <li class="">鼠标移上动画</li>
+                </ul>
+                <div class="layui-tab-content" style="height: 400px;">
+                  <div class="layui-tab-item layui-show">
+                    <fieldset class="layui-elem-field" style="margin-top:20px;">
+                      <legend>默认边框</legend>
+                      <div class="layui-field-box">
+                        <div class="layui-form-item"  >
+                          <label class="layui-form-label">边框显示</label>
+                          <div class="layui-input-block">
+                            <input type="checkbox" name="bdT" value="on" lay-skin="primary" title="上边"  >
+                            <input type="checkbox" name="bdB" value="on" lay-skin="primary" title="下边">
+                            <input type="checkbox" name="bdL" value="on" lay-skin="primary" title="左边" >
+                            <input type="checkbox" name="bdR" value="on" lay-skin="primary" title="右边"  >
+                          </div>
+                        </div>
+                        <div class="layui-form-item"  >
+                          <label class="layui-form-label">边框粗细</label>
+                          <div class="layui-input-inline input-short" style="width:80px;"><input name="bdWidth" type="text" class="layui-input"></div>
+                          <label class="layui-form-label">边框颜色</label>
+                          <div class="layui-input-inline pagecolorpanel input-short"  >
+                            <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner"></div></div></div>
+                            <input name="bdColor" type="text" class="layui-input pagecolor">
+                            <span class="clear-color-button"></span>
+                          </div>
+                        </div>
+                        <div class="layui-form-item">
+                          <label class="layui-form-label">边框样式</label>
+                          <div class="layui-input-block">
+                            <input type="radio" name="bdStyle" lay-filter="bdStyle" value="solid" title="实线" checked="">
+                            <input type="radio" name="bdStyle" lay-filter="bdStyle" value="dotted" title="细虚线">
+                            <input type="radio" name="bdStyle" lay-filter="bdStyle" value="dashed" title="粗虚线">
+                          </div>
+                        </div>
+                      </div>
+                    </fieldset>
+                    <fieldset class="layui-elem-field" style="margin-top:20px;">
+                      <legend>
+                        <span  style="margin-right:15px;  display:inline-block"> 鼠标_移上边框 </span>
+                        <button type="button" class="layui-btn layui-btn-sm">同步默认边框</button>
+                      </legend>
+                      <div class="layui-field-box">
+                        <div class="layui-form-item"  >
+                          <label class="layui-form-label">边框显示</label>
+                          <div class="layui-input-block">
+                            <input type="checkbox" name="mbdT" value="on" lay-skin="primary" title="上边"  >
+                            <input type="checkbox" name="mbdB" value="on" lay-skin="primary" title="下边">
+                            <input type="checkbox" name="mbdL" value="on" lay-skin="primary" title="左边" >
+                            <input type="checkbox" name="mbdR" value="on" lay-skin="primary" title="右边"  >
+                          </div>
+                        </div>
+                        <div class="layui-form-item"  >
+                          <label class="layui-form-label">边框粗细</label>
+                          <div class="layui-input-inline input-short" style="width:80px;"><input name="mbdWidth" type="text" class="layui-input"></div>
+                          <label class="layui-form-label">边框颜色</label>
+                          <div class="layui-input-inline pagecolorpanel input-short"  >
+                            <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner"></div></div></div>
+                            <input name="mbdColor" type="text" class="layui-input pagecolor">
+                            <span class="clear-color-button"></span>
+                          </div>
+                        </div>
+                        <div class="layui-form-item">
+                          <label class="layui-form-label">边框样式</label>
+                          <div class="layui-input-block">
+                            <input type="radio" name="mbdStyle" lay-filter="mbdStyle" value="solid" title="实线" checked="">
+                            <input type="radio" name="mbdStyle" lay-filter="mbdStyle" value="dotted" title="细虚线">
+                            <input type="radio" name="mbdStyle" lay-filter="mbdStyle" value="dashed" title="粗虚线">
+                          </div>
+                        </div>
+                      </div>
+                    </fieldset>
                   </div>
-                  <div class="layui-form-item"  >
-                    <label class="layui-form-label">边框粗细</label>
-                    <div class="layui-input-inline input-short"><input name="borderWidth" type="text" class="layui-input"></div>
-                    <label class="layui-form-label">边框颜色</label>
-                    <div class="layui-input-inline pagecolorpanel input-short"  >
-                      <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner"></div></div></div>
-                      <input name="borderColor" type="text" class="layui-input pagecolor">
-                      <span class="clear-color-button"></span>
-                    </div>
-                  </div>
-                  <div class="layui-form-item">
-                    <label class="layui-form-label">边框样式</label>
-                    <div class="layui-input-block">
-                      <input type="radio" name="borderStyle" lay-filter="borderStyle" value="solid" title="实线" checked="">
-                      <input type="radio" name="borderStyle" lay-filter="borderStyle" value="dotted" title="细虚线">
-                      <input type="radio" name="borderStyle" lay-filter="borderStyle" value="dashed" title="粗虚线">
-                    </div>
+                  <div class="layui-tab-item ">
+                    <fieldset  class="layui-elem-field" style="margin-top:25px;">
+                      <legend>
+                        动画时长                      
+                        <input class="input-short"  type="text" name="antTsDurB"  style="width:50px; height:20px; margin-left:10px; padding-left:5px;" />
+                        <label class="label-con">秒</label>
+                      </legend>
+                      <div class="layui-field-box">
+                        <input class="radio-medium" type="radio" name="antTsFunB" value="linear"  title="匀速">
+                        <input class="radio-medium" type="radio" name="antTsFunB" value="ease"  title="逐渐变慢">
+                        <input class="radio-medium" type="radio" name="antTsFunB" value="ease-in"   title="减速">
+                        <div class="sepline"></div>
+                        <input class="radio-medium" type="radio" name="antTsFunB" value="ease-out"   title="加速">
+                        <input class="radio-medium" type="radio" name="antTsFunB" value="ease-in-out"   title="加速后减速">
+                        <input class="radio-medium" type="radio" name="antTsFunB" value="cubic-bezier"   title="动感弹跳">
+                      </div>
+                    </fieldset>
+                    <fieldset  class="layui-elem-field" style="margin-top:25px;">
+                      <legend>动画效果</legend>
+                      <div class="layui-form-item"  style="margin-top:15px;margin-bottom:0px;">
+                        <label class="layui-form-label">边框颜色</label>
+                        <div class="layui-input-inline pagecolorpanel input-short"  style="width: 190px;">
+                          <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner"></div></div></div>
+                          <input name="antBcolor" type="text" class="layui-input pagecolor">
+                          <span class="clear-color-button"></span>
+                        </div>
+                      </div>
+                      <div class="layui-field-box">
+                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx0" title="直接切换">
+                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx1" title="渐隐渐显">
+                        <div class="sepline"></div>
+                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx4"  title="左对角线切入">
+                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx5"  title="右对角线切入">
+                        <div class="sepline"></div>
+                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx6"  title="顺时针出现">
+                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx7"  title="逆时针出现">
+                        <div class="sepline"></div>
+                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx8"  title="由点到线">
+                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx9"  title="由点到面">
+                      </div>
+                    </fieldset>
                   </div>
                 </div>
-              </fieldset>
-
-              <fieldset class="layui-elem-field"    style="margin-top:15px;">
-                <legend>
-                  <span  style="margin-right:15px;  display:inline-block"> 鼠标_移上边框 </span>
-                  <button type="button" class="layui-btn layui-btn-sm">同步默认边框</button>
-                </legend>
-                <div class="layui-field-box">
-                  <div class="layui-form-item"  >
-                    <label class="layui-form-label">边框显示</label>
-                    <div class="layui-input-block">
-                      <input type="checkbox" name="ddd" lay-skin="primary" title="上边" >
-                      <input type="checkbox" name="like1[read]" lay-skin="primary" title="下边">
-                      <input type="checkbox" name="like1[game]" lay-skin="primary" title="左边" >
-                      <input type="checkbox" name="like1[game]" lay-skin="primary" title="右边"  >
-                    </div>
-                  </div>
-                  <div class="layui-form-item"  >
-                    <label class="layui-form-label">边框粗细</label>
-                    <div class="layui-input-inline input-short"><input name="mbdWidth" type="text" class="layui-input"></div>
-                    <label class="layui-form-label">边框颜色</label>
-                    <div class="layui-input-inline pagecolorpanel input-short"  >
-                      <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner"></div></div></div>
-                      <input name="mbdColor" type="text" class="layui-input pagecolor">
-                      <span class="clear-color-button"></span>
-                    </div>
-                  </div>
-                  <div class="layui-form-item">
-                    <label class="layui-form-label">边框样式</label>
-                    <div class="layui-input-block">
-                      <input type="radio" name="mbdStyle" lay-filter="mbdStyle" value="1" title="实线" checked="">
-                      <input type="radio" name="mbdStyle" lay-filter="mbdStyle" value="2" title="细虚线">
-                      <input type="radio" name="mbdStyle" lay-filter="mbdStyle" value="3" title="粗虚线">
-                    </div>
-                  </div>
-                </div>
-              </fieldset>
-
+              </div>
             </div>
+
+ 
             <div class="layui-tab-item"  >
                阴影外框
             </div>
@@ -319,31 +420,31 @@ export default class ImgComponent extends Component {
     that.$content.css('background-image', `url(${formData.bgImg})`)
     that.$img.attr('src', formData.bgImg)
     that.$content.css('background-color', formData.bgColor)
-    that.$content.css('border-radius', parseInt(formData.borderRadius))
-    that.$content.css('border-color', formData.borderColor)
+    that.$content.css('border-radius', parseInt(formData.bdRadius))
+    that.$content.css('border-color', formData.bdColor)
 
 
-    if(formData.borderT==="true" && typeof(formData.borderWidth) !="undefined"){
-      that.$content.css('border-top-style', formData.borderStyle)
-      that.$content.css('border-top-width', parseInt(formData.borderWidth))
+    if(formData.bdT==="on" && typeof(formData.bdWidth) !="undefined"){
+      that.$content.css('border-top-style', formData.bdStyle)
+      that.$content.css('border-top-width', parseInt(formData.bdWidth))
     }else{
       that.$content.css('border-top-width',0)
     }
-    if(formData.borderB==="true" && typeof(formData.borderWidth) !="undefined"){
-      that.$content.css('border-bottom-style', formData.borderStyle)
-      that.$content.css('border-bottom-width', parseInt(formData.borderWidth))
+    if(formData.bdB==="on" && typeof(formData.bdWidth) !="undefined"){
+      that.$content.css('border-bottom-style', formData.bdStyle)
+      that.$content.css('border-bottom-width', parseInt(formData.bdWidth))
     }else{
       that.$content.css('border-bottom-width',0)
     }
-    if(formData.borderL==="true" && typeof(formData.borderWidth) !="undefined"){
-      that.$content.css('border-left-style', formData.borderStyle)
-      that.$content.css('border-left-width', parseInt(formData.borderWidth))
+    if(formData.bdL==="on" && typeof(formData.bdWidth) !="undefined"){
+      that.$content.css('border-left-style', formData.bdStyle)
+      that.$content.css('border-left-width', parseInt(formData.bdWidth))
     }else{
       that.$content.css('border-left-width',0)
     }
-    if(formData.borderR==="true" && typeof(formData.borderWidth) !="undefined"){
-      that.$content.css('border-right-style', formData.borderStyle)
-      that.$content.css('border-right-width', parseInt(formData.borderWidth))
+    if(formData.bdR==="on" && typeof(formData.bdWidth) !="undefined"){
+      that.$content.css('border-right-style', formData.bdStyle)
+      that.$content.css('border-right-width', parseInt(formData.bdWidth))
     }else{
       that.$content.css('border-right-width',0)
     }
@@ -403,28 +504,28 @@ export default class ImgComponent extends Component {
     }
     this.onLinkModeChanged($propPanel, this.formData.linkMode)
 
-    let $borderRadiusInput = $propPanel.find('input[type=text][name=borderRadius]')
-    $borderRadiusInput.val(this.formData.borderRadius)
-    let $borderColorInput = $propPanel.find('input[type=text][name=borderColor]')
-    $borderColorInput.val(this.formData.borderColor)
-    $borderColorInput.prev().find(".sp-preview-inner").css("background-color",this.formData.borderColor)
-    let $borderWidthInput = $propPanel.find('input[type=text][name=borderWidth]')
-    $borderWidthInput.val(this.formData.borderWidth)
-    let $borderStyleRadio = $propPanel.find('input[type=radio][name=borderStyle]')
-    $borderStyleRadio.filter(`[value="${this.formData.borderStyle}"]`).prop('checked', true)
+    let $bdRadiusInput = $propPanel.find('input[type=text][name=bdRadius]')
+    $bdRadiusInput.val(this.formData.bdRadius)
+    let $bdColorInput = $propPanel.find('input[type=text][name=bdColor]')
+    $bdColorInput.val(this.formData.bdColor)
+    $bdColorInput.prev().find(".sp-preview-inner").css("background-color",this.formData.bdColor)
+    let $bdWidthInput = $propPanel.find('input[type=text][name=bdWidth]')
+    $bdWidthInput.val(this.formData.bdWidth)
+    let $bdStyleRadio = $propPanel.find('input[type=radio][name=bdStyle]')
+    $bdStyleRadio.filter(`[value="${this.formData.bdStyle}"]`).prop('checked', true)
 
-    let $borderTRadio = $propPanel.find('input[type=checkbox][name=borderT]')
-    let $borderTVal=this.formData.borderT === 'true' ? true : false;
-        $borderTRadio.prop('checked', $borderTVal)
-    let $borderBRadio = $propPanel.find('input[type=checkbox][name=borderB]')
-    let $borderBVal=this.formData.borderB === 'true' ? true : false;
-        $borderBRadio.prop('checked', $borderBVal)
-    let $borderLRadio = $propPanel.find('input[type=checkbox][name=borderL]')
-    let $borderLVal=this.formData.borderL === 'true' ? true : false;
-        $borderLRadio.prop('checked', $borderLVal)
-    let $borderRRadio = $propPanel.find('input[type=checkbox][name=borderR]')
-    let $borderRVal=this.formData.borderR === 'true' ? true : false;
-        $borderRRadio.prop('checked', $borderRVal)
+    let $bdTRadio = $propPanel.find('input[type=checkbox][name=bdT]')
+    let $bdTVal=this.formData.bdT === 'on' ? true : false;
+        $bdTRadio.prop('checked', $bdTVal)
+    let $bdBRadio = $propPanel.find('input[type=checkbox][name=bdB]')
+    let $bdBVal=this.formData.bdB === 'on' ? true : false;
+        $bdBRadio.prop('checked', $bdBVal)
+    let $bdLRadio = $propPanel.find('input[type=checkbox][name=bdL]')
+    let $bdLVal=this.formData.bdL === 'on' ? true : false;
+        $bdLRadio.prop('checked', $bdLVal)
+    let $bdRRadio = $propPanel.find('input[type=checkbox][name=bdR]')
+    let $bdRVal=this.formData.bdR === 'on' ? true : false;
+        $bdRRadio.prop('checked', $bdRVal)
 
   }
 
@@ -482,48 +583,48 @@ export default class ImgComponent extends Component {
       let val = $(this).val()
       that.formData.wangID = val
     })
-    let $borderRadiusInput = $propPanel.find('input[type=text][name=borderRadius]')
-    $borderRadiusInput.change(function() {
-      that.formData.borderRadius = $(this).val()
+    let $bdRadiusInput = $propPanel.find('input[type=text][name=bdRadius]')
+    $bdRadiusInput.change(function() {
+      that.formData.bdRadius = $(this).val()
       that.update(that.formData)
     })
-    let $borderWidthInput = $propPanel.find('input[type=text][name=borderWidth]')
-    $borderWidthInput.change(function() {
-      that.formData.borderWidth = $(this).val()
+    let $bdWidthInput = $propPanel.find('input[type=text][name=bdWidth]')
+    $bdWidthInput.change(function() {
+      that.formData.bdWidth = $(this).val()
       that.update(that.formData)
     })
-    let $borderColorInput = $propPanel.find('input[type=text][name=borderColor]')
-    $borderColorInput.change(function() {
-      that.formData.borderColor = $(this).val()
+    let $bdColorInput = $propPanel.find('input[type=text][name=bdColor]')
+    $bdColorInput.change(function() {
+      that.formData.bdColor = $(this).val()
       that.update(that.formData)
     })
-    let $borderStyleRadio = $propPanel.find('input[type=radio][name=borderStyle]')
-    $borderStyleRadio.change(function() {
-      that.formData.borderStyle = $(this).prop('value')
+    let $bdStyleRadio = $propPanel.find('input[type=radio][name=bdStyle]')
+    $bdStyleRadio.change(function() {
+      that.formData.bdStyle = $(this).prop('value')
       that.update(that.formData)
     })
-    let $borderTCheckBox = $propPanel.find('input[type=checkbox][name=borderT]')
-    $borderTCheckBox.change(function() {
+    let $bdTCheckBox = $propPanel.find('input[type=checkbox][name=bdT]')
+    $bdTCheckBox.change(function() {
       let val = $(this).is(':checked')
-      that.formData.borderT = val ? 'true' : 'false'
+      that.formData.bdT = val ? 'on' : 'off'
       that.update(that.formData)
     })
-    let $borderBCheckBox = $propPanel.find('input[type=checkbox][name=borderB]')
-    $borderBCheckBox.change(function() {
+    let $bdBCheckBox = $propPanel.find('input[type=checkbox][name=bdB]')
+    $bdBCheckBox.change(function() {
       let val = $(this).is(':checked')
-      that.formData.borderB = val ? 'true' : ''
+      that.formData.bdB = val ? 'on' : 'off'
       that.update(that.formData)
     })
-    let $borderLCheckBox = $propPanel.find('input[type=checkbox][name=borderL]')
-    $borderLCheckBox.change(function() {
+    let $bdLCheckBox = $propPanel.find('input[type=checkbox][name=bdL]')
+    $bdLCheckBox.change(function() {
       let val = $(this).is(':checked')
-      that.formData.borderL = val ? 'true' : ''
+      that.formData.bdL = val ? 'on' : 'off'
       that.update(that.formData)
     })
-    let $borderRCheckBox = $propPanel.find('input[type=checkbox][name=borderR]')
-    $borderRCheckBox.change(function() {
+    let $bdRCheckBox = $propPanel.find('input[type=checkbox][name=bdR]')
+    $bdRCheckBox.change(function() {
       let val = $(this).is(':checked')
-      that.formData.borderR = val ? 'true' : ''
+      that.formData.bdR = val ? 'on' : 'off'
       that.update(that.formData)
     })
     $propPanel.find('.editor-btns').on('click', function() {

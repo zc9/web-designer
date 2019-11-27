@@ -4,7 +4,7 @@ export default class TextComponent extends Component {
   constructor() {
     super('text-component')
     let content = `
-      <a class="ant-text"   antTrans=""  antBc=""><div class="on">请设置文本内容</div></a>
+      <a class="ant-text"   mTsAnt=""  mbdTsAnt=""><div class="on">请设置文本内容</div></a>
       `
     this.$contentBox.append(content)
     this.$content = this.$contentBox.find('.ant-text')
@@ -13,18 +13,18 @@ export default class TextComponent extends Component {
   initFormData() {
     this.formData.appLabel = ''
 
-    this.formData.fFamily = 'arial' //字体
-    this.formData.fontSize = 12
+    this.formData.family = 'arial' //字体
+    this.formData.fSize = 12
     this.formData.color = '#000'
     this.formData.bgColor = '#fff'
-    this.formData.lineHg =''  //行距
+    this.formData.lHeight =''  //行距 line-height
     this.formData.spacing =''  //letterSpacing // 字  距
     this.formData.indent =''  //textIndent 缩进
     
     this.formData.weight = 600 //加粗
-    this.formData.fontStyle = 'normal' //斜体
+    this.formData.fStyle = 'normal' //斜体
     this.formData.oLine = '' //文字上边线 overline
-    this.formData.lThrough = '' //文字中间线 line-through  
+    this.formData.through = '' //文字中间线 line-through  
     this.formData.uLine = '' //文字下边线 underline 
     this.formData.align = 'center' //对齐
     this.formData.content = '请设置文件内容' //反面内容
@@ -40,41 +40,50 @@ export default class TextComponent extends Component {
     this.formData.hoverMode ='off' //鼠标移上开启 off 关  on  开
  
 
-    this.formData.ffFamily = 'arial' //字体
-    this.formData.ffontSize = 12
-    this.formData.fcolor = '#fff'
-    this.formData.fbgColor = '#000'
-    this.formData.flineHg =''  //行距
-    this.formData.fspacing =''  //letterSpacing // 字  距
-    this.formData.findent =''  //textIndent 缩进
+    this.formData.mfamily = 'arial' //字体
+    this.formData.mfSize = 12   
+    this.formData.mcolor = '#fff'
+    this.formData.mbgColor = '#000'
+    this.formData.mlHeight =''  //行距   
+    this.formData.mspacing =''  //letterSpacing // 字  距
+    this.formData.mindent =''  //textIndent 缩进
     
-    this.formData.fweight = 600 //加粗
-    this.formData.ffontStyle = 'normal' //斜体
-    this.formData.foLine = '' //文字上边线 overline
-    this.formData.flThrough = '' //文字中间线 line-through  
-    this.formData.fuLine = '' //文字下边线 underline 
-    this.formData.falign = 'left' //对齐
-    this.formData.fContent = '' //反面内容
+    this.formData.mweight = 600 //加粗
+    this.formData.mfStyle = 'normal' //斜体
+    this.formData.moLine = '' //文字上边线 overline
+    this.formData.mthrough = '' //文字中间线 line-through  
+    this.formData.muLine = '' //文字下边线 underline 
+    this.formData.malign = 'left' //对齐
+    this.formData.mcontent = '' //反面内容
 
-    this.formData.fbgImg = '//sc01.alicdn.com/kf/HTB1gXlQXDjxK1Rjy0Fnq6yBaFXao.jpg'
-    this.formData.fbgRep =''  //背景平铺方式
-    this.formData.fbgPos ='' //背景对齐位置
-    this.formData.antTsDur ='0.4'   //动画时长                      
-    this.formData.antTsFun ='ease'  //速度曲线
-    this.formData.antTrans ='atrans5'  //动画效果
+    this.formData.mbgImg = '//sc01.alicdn.com/kf/HTB1gXlQXDjxK1Rjy0Fnq6yBaFXao.jpg'
+    this.formData.mbgRep =''  //背景平铺方式
+    this.formData.mbgPos ='' //背景对齐位置
 
-    this.formData.borderT ='show'
-    this.formData.borderB ='show' 
-    this.formData.borderL ='show' 
-    this.formData.borderR ='show' 
+    this.formData.mTsDur ='0.4'   //动画时长                      
+    this.formData.mTsFun ='ease'  //速度曲线
+    this.formData.mTsAnt ='atrans5'  //动画效果
 
-    this.formData.borderWidth =5  
-    this.formData.borderColor ='#FFFF00'  
-    this.formData.borderStyle ='solid'  
-    this.formData.antTsDurB ='0.2'  
-    this.formData.antTsFunB ='ease-out'  
-    this.formData.antBcolor ='#00FFFF' 
-    this.formData.antBc ='bdtx1'   
+    this.formData.bdT ='on'
+    this.formData.bdB ='on' 
+    this.formData.bdL ='on' 
+    this.formData.bdR ='on' 
+
+    this.formData.bdWidth =5  
+    this.formData.bdColor ='#FFFF00'  
+    this.formData.bdStyle ='solid'
+
+
+    this.formData.mbdT =''
+    this.formData.mbdB ='' 
+    this.formData.mbdL ='' 
+    this.formData.mbdR =''
+    this.formData.mbdStyle ='solid' 
+
+    this.formData.mbdTsDur ='0.5'  
+    this.formData.mbdTsFun ='ease-out'  
+    this.formData.mbdColor ='#00FFFF' 
+    this.formData.mbdTsAnt ='bdtx1'   
  
     this.update(this.formData)
     
@@ -96,91 +105,139 @@ export default class TextComponent extends Component {
   toHtml() {
     return ''
   }
+  //同步边框信息
+  onTongBuBd($layerElem,$isVal,that) {
+    let $bdWidthInput = $layerElem.find('input[type=text][name=bdWidth]')
+    let $mbdWidthInput = $layerElem.find('input[type=text][name=mbdWidth]')
+    $mbdWidthInput.val($bdWidthInput.val())
+
+    let $bdStyleRadio = $layerElem.find('input[type=radio][name=bdStyle]:checked')
+    let $bdStyleVal=$bdStyleRadio.val()
+    $layerElem.find('input[type=radio][name=mbdStyle][value='+$bdStyleVal+']').prop('checked', true)
+
+    let $bdColorInput = $layerElem.find('input[type=text][name=bdColor]')
+    let $mbdColorInput = $layerElem.find('input[type=text][name=mbdColor]')
+    let $bdColorVal=$bdColorInput.val()
+    $mbdColorInput.val($bdColorVal)
+    $mbdColorInput.prev().find(".sp-preview-inner").css("background-color",$bdColorVal)
+
+
+    let $bdTCheckBox = $layerElem.find('input[type=checkbox][name=bdT]')
+    let $mbdTCheckBox = $layerElem.find('input[type=checkbox][name=mbdT]')
+    let $bdTVal=$bdTCheckBox.is(':checked')
+    $mbdTCheckBox.prop('checked',$bdTVal);
+
+    let $bdBCheckBox = $layerElem.find('input[type=checkbox][name=bdB]')
+    let $mbdBCheckBox = $layerElem.find('input[type=checkbox][name=mbdB]')
+    let $bdBVal=$bdBCheckBox.is(':checked')
+    $mbdBCheckBox.prop('checked',$bdBVal);
+
+    let $bdLCheckBox = $layerElem.find('input[type=checkbox][name=bdL]')
+    let $mbdLCheckBox = $layerElem.find('input[type=checkbox][name=mbdL]')
+    let $bdLVal=$bdLCheckBox.is(':checked')
+    $mbdLCheckBox.prop('checked',$bdLVal);
+
+    let $bdRCheckBox = $layerElem.find('input[type=checkbox][name=bdR]')
+    let $mbdRCheckBox = $layerElem.find('input[type=checkbox][name=mbdR]')
+    let $bdRVal=$bdRCheckBox.is(':checked')
+    $mbdRCheckBox.prop('checked',$bdRVal);
+    if($isVal){
+     that.formData.mbdT=$layerElem.find('input[type=checkbox][name=mbdT]:checked').val();
+     that.formData.mbdB=$layerElem.find('input[type=checkbox][name=mbdB]:checked').val();
+     that.formData.mbdL=$layerElem.find('input[type=checkbox][name=mbdL]:checked').val();
+     that.formData.mbdR=$layerElem.find('input[type=checkbox][name=mbdR]:checked').val();
+
+     that.formData.mbdWidth=$layerElem.find('input[type=text][name=mbdWidth]').val();
+     that.formData.mbdColor=$layerElem.find('input[type=text][name=mbdColor]').val();
+     that.formData.mbdStyle=$layerElem.find('input[type=radio][name=mbdStyle]:checked').val();
+    }
+
+  }
   //弹出来同步
   onTongBu($layerElem) {
-    let $fFamilySelect = $layerElem.find('select[name=fFamily] option:selected')
-    let $fFamilyVal=$fFamilySelect.val()
-    $layerElem.find('select[name=ffFamily] option[value='+$fFamilyVal+']').attr("selected",true);
+    let $familySelect = $layerElem.find('select[name=family] option:selected')
+    let $familyVal=$familySelect.val()
+    $layerElem.find('select[name=mfamily] option[value='+$familyVal+']').attr("selected",true);
 
   
     let $colorInput = $layerElem.find('input[type=text][name=color]')
-    let $fcolorInput = $layerElem.find('input[type=text][name=fcolor]')
-    $fcolorInput.val($colorInput.val())
-    $fcolorInput.prev().find(".sp-preview-inner").css("background-color",$colorInput.val())
+    let $mcolorInput = $layerElem.find('input[type=text][name=mcolor]')
+    $mcolorInput.val($colorInput.val())
+    $mcolorInput.prev().find(".sp-preview-inner").css("background-color",$colorInput.val())
     
     let $bgColorInput = $layerElem.find('input[type=text][name=bgColor]')
-    let $fbgColorInput = $layerElem.find('input[type=text][name=fbgColor]')
-    $fbgColorInput.val($bgColorInput.val())
-    $fbgColorInput.prev().find(".sp-preview-inner").css("background-color",$bgColorInput.val())
+    let $mbgColorInput = $layerElem.find('input[type=text][name=mbgColor]')
+    $mbgColorInput.val($bgColorInput.val())
+    $mbgColorInput.prev().find(".sp-preview-inner").css("background-color",$bgColorInput.val())
 
-    let $fontSizeInput = $layerElem.find('input[type=text][name=fontSize]')
-    let $ffontSizeInput = $layerElem.find('input[type=text][name=ffontSize]')
-    $ffontSizeInput.val($fontSizeInput.val())
+    let $fSizeInput = $layerElem.find('input[type=text][name=fSize]')
+    let $mfSizeInput = $layerElem.find('input[type=text][name=mfSize]')
+    $mfSizeInput.val($fSizeInput.val())
 
-    let $lineHgInput = $layerElem.find('input[type=text][name=lineHg]')
-    let $flineHgInput = $layerElem.find('input[type=text][name=flineHg]')
-    $flineHgInput.val($lineHgInput.val())
+    let $lHeightInput = $layerElem.find('input[type=text][name=lHeight]')
+    let $mlHeightInput = $layerElem.find('input[type=text][name=mlHeight]')
+    $mlHeightInput.val($lHeightInput.val())
 
     let $spacingInput = $layerElem.find('input[type=text][name=spacing]')
-    let $fspacingInput = $layerElem.find('input[type=text][name=fspacing]')
-    $fspacingInput.val($spacingInput.val())
+    let $mspacingInput = $layerElem.find('input[type=text][name=mspacing]')
+    $mspacingInput.val($spacingInput.val())
 
     let $indentInput = $layerElem.find('input[type=text][name=indent]')
-    let $findentInput = $layerElem.find('input[type=text][name=findent]')
-    $findentInput.val($indentInput.val())
+    let $mindentInput = $layerElem.find('input[type=text][name=mindent]')
+    $mindentInput.val($indentInput.val())
     
     //对齐
     let $alignRadioActive = $layerElem.find('.font-z .font-item-radio.active')
-    let $falignRadio = $layerElem.find('.font-f .font-item-radio')
+    let $malignRadio = $layerElem.find('.font-f .font-item-radio')
     let $alingVal=$alignRadioActive.attr('data-val')
-    $falignRadio.removeClass("active")
+    $malignRadio.removeClass("active")
     $layerElem.find('.font-f .font-item-radio[data-val='+$alingVal+']').addClass('active')
    
 
     let $weightInput = $layerElem.find('.font-z input[type=hidden][name=weight]')
-    let $fweightInput = $layerElem.find('.font-f input[type=hidden][name=fweight]')
+    let $mweightInput = $layerElem.find('.font-f input[type=hidden][name=mweight]')
     if($weightInput.val()=="600"){
-      $fweightInput.val("600")
-      $fweightInput.parent().addClass("active")
+      $mweightInput.val("600")
+      $mweightInput.parent().addClass("active")
     }else{
-      $fweightInput.val("")
-      $fweightInput.parent().removeClass("active")
+      $mweightInput.val("")
+      $mweightInput.parent().removeClass("active")
     }
-    let $fontStyleInput = $layerElem.find('.font-z input[type=hidden][name=fontStyle]')
-    let $ffontStyleInput = $layerElem.find('.font-f input[type=hidden][name=ffontStyle]')
-    if($fontStyleInput.val()=="italic"){
-      $ffontStyleInput.val('italic')
-      $ffontStyleInput.parent().addClass("active")
+    let $fStyleInput = $layerElem.find('.font-z input[type=hidden][name=fStyle]')
+    let $mfStyleInput = $layerElem.find('.font-f input[type=hidden][name=mfStyle]')
+    if($fStyleInput.val()=="italic"){
+      $mfStyleInput.val('italic')
+      $mfStyleInput.parent().addClass("active")
     }else{
-      $ffontStyleInput.val("normal")
-      $ffontStyleInput.parent().removeClass("active")
+      $mfStyleInput.val("normal")
+      $mfStyleInput.parent().removeClass("active")
     }
     let $oLineInput = $layerElem.find('.font-z input[type=hidden][name=oLine]')
-    let $foLineInput = $layerElem.find('.font-f input[type=hidden][name=foLine]')
+    let $moLineInput = $layerElem.find('.font-f input[type=hidden][name=moLine]')
     if($oLineInput.val()=="overline"){
-      $foLineInput.val('overline')
-      $foLineInput.parent().addClass("active")
+      $moLineInput.val('overline')
+      $moLineInput.parent().addClass("active")
     }else{
-      $foLineInput.val("")
-      $foLineInput.parent().removeClass("active")
+      $moLineInput.val("")
+      $moLineInput.parent().removeClass("active")
     }
-    let $lThroughInput = $layerElem.find('.font-z input[type=hidden][name=lThrough]')
-    let $flThroughInput= $layerElem.find('.font-f input[type=hidden][name=flThrough]')
-    if($lThroughInput.val()=="line-through"){
-      $flThroughInput.val('line-through')
-      $flThroughInput.parent().addClass("active")
+    let $throughInput = $layerElem.find('.font-z input[type=hidden][name=through]')
+    let $mthroughInput= $layerElem.find('.font-f input[type=hidden][name=mthrough]')
+    if($throughInput.val()=="line-through"){
+      $mthroughInput.val('line-through')
+      $mthroughInput.parent().addClass("active")
     }else{
-      $flThroughInput.val("")
-      $flThroughInput.parent().removeClass("active")
+      $mthroughInput.val("")
+      $mthroughInput.parent().removeClass("active")
     }
     let $uLineInput = $layerElem.find('.font-z input[type=hidden][name=uLine]')
-    let $fuLineInput = $layerElem.find('.font-f input[type=hidden][name=fuLine]')
+    let $muLineInput = $layerElem.find('.font-f input[type=hidden][name=muLine]')
     if($uLineInput.val()=="underline"){
-      $fuLineInput.val('underline')
-      $fuLineInput.parent().addClass("active")
+      $muLineInput.val('underline')
+      $muLineInput.parent().addClass("active")
     }else{
-      $fuLineInput.val("")
-      $fuLineInput.parent().removeClass("active")
+      $muLineInput.val("")
+      $muLineInput.parent().removeClass("active")
     }
 
 
@@ -199,26 +256,26 @@ export default class TextComponent extends Component {
 
     if($defElem.length>0){
       if(isfontF){
-        let deline=this.formData.fuLine
-        if(this.formData.foLine){
-          deline+=' '+this.formData.foLine
+        let deline=this.formData.muLine
+        if(this.formData.moLine){
+          deline+=' '+this.formData.moLine
         }else{
-          if(this.formData.flThrough){
-            deline+=' '+this.formData.flThrough
+          if(this.formData.mthrough){
+            deline+=' '+this.formData.mthrough
           }
           if(deline ==="") deline='none'
 
-          $defElem.css("font-family",this.formData.ffFamily)
-          $defElem.css('color', this.formData.fcolor)
-          $defElem.css('background-color', this.formData.fbgColor)
-          $defElem.css('font-size', parseInt(this.formData.ffontSize))
-          $defElem.css('line-height', this.formData.flineHg+'px')
-          $defElem.css('letter-spacing', parseInt(this.formData.fspacing))
-          $defElem.css('text-indent', parseInt(this.formData.findent))
+          $defElem.css("font-family",this.formData.mfamily)
+          $defElem.css('color', this.formData.mcolor)
+          $defElem.css('background-color', this.formData.mbgColor)
+          $defElem.css('font-size', parseInt(this.formData.mfSize))
+          $defElem.css('line-height', this.formData.mlHeight+'px')
+          $defElem.css('letter-spacing', parseInt(this.formData.mspacing))
+          $defElem.css('text-indent', parseInt(this.formData.mindent))
        
-          $defElem.css('text-align', this.formData.falign)
-          $defElem.css("font-weight",this.formData.fweight)
-          $defElem.css("font-style",this.formData.ffontStyle)
+          $defElem.css('text-align', this.formData.malign)
+          $defElem.css("font-weight",this.formData.mweight)
+          $defElem.css("font-style",this.formData.mfStyle)
           $defElem.css("text-decoration",deline)
         }
       }else{
@@ -226,22 +283,22 @@ export default class TextComponent extends Component {
         if(this.formData.oLine){
           deline+=' '+this.formData.oLine
         }else{
-          if(this.formData.lThrough){
-            deline+=' '+this.formData.lThrough
+          if(this.formData.through){
+            deline+=' '+this.formData.through
           }
           if(deline ==="") deline='none'
 
-          $defElem.css("font-family",this.formData.fFamily)
+          $defElem.css("font-family",this.formData.family)
           $defElem.css('color', this.formData.color)
           $defElem.css('background-color', this.formData.bgColor)
-          $defElem.css('font-size', parseInt(this.formData.fontSize))
-          $defElem.css('line-height', this.formData.lineHg+'px')
+          $defElem.css('font-size', parseInt(this.formData.fSize))
+          $defElem.css('line-height', this.formData.lHeight+'px')
           $defElem.css('letter-spacing', parseInt(this.formData.spacing))
           $defElem.css('text-indent', parseInt(this.formData.indent))
        
           $defElem.css('text-align', this.formData.align)
           $defElem.css("font-weight",this.formData.weight)
-          $defElem.css("font-style",this.formData.fontStyle)
+          $defElem.css("font-style",this.formData.fStyle)
           $defElem.css("text-decoration",deline)
         }
       }
@@ -262,13 +319,13 @@ export default class TextComponent extends Component {
         case 'weight':
           $elemInput.val('')
           break;
-        case 'fontstyle':
+        case 'fstyle':
           $elemInput.val('normal')
           break;
         case 'oline':
           $elemInput.val('')
           break;
-        case 'lthrough':
+        case 'through':
           $elemInput.val('')
           break;
         case 'uline':
@@ -281,13 +338,13 @@ export default class TextComponent extends Component {
         case 'weight':
           $elemInput.val("600")
           break;
-        case 'fontstyle':
+        case 'fstyle':
           $elemInput.val('italic')
           break;
         case 'oline':
           $elemInput.val('overline')
           break;
-        case 'lthrough':
+        case 'through':
           $elemInput.val('line-through')
           break;
         case 'uline':
@@ -312,9 +369,27 @@ export default class TextComponent extends Component {
     let element = layui.element
     element.render("collapse")
 
-    let $fFamilySelect = $propPanel.find('select[name=fFamily]')
-    $fFamilySelect.change(function() {
-      that.formData.fFamily = $(this).prop('value')
+    let $hrefModeCheckBox = $propPanel.find('input[type=checkbox][name=hrefMode]')
+    $hrefModeCheckBox.change(function() {
+      let val = $(this).is(':checked')
+      that.formData.hrefMode = val ? '_blank' : ''
+    })
+    let $hrefInput = $propPanel.find('input[type=text][name=href]') 
+    $hrefInput.change(function() {
+      let val = $(this).val()
+      that.formData.href = val
+      that.update(that.formData)
+    })
+    let $bRadiusInput = $propPanel.find('input[type=text][name=bRadius]') 
+    $bRadiusInput.change(function() {
+      let val = $(this).val()
+      that.formData.bRadius = val
+      that.update(that.formData)
+    })
+
+    let $familySelect = $propPanel.find('select[name=family]')
+    $familySelect.change(function() {
+      that.formData.family = $(this).prop('value')
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
@@ -333,17 +408,17 @@ export default class TextComponent extends Component {
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
-    let $fontSizeInput = $propPanel.find('input[type=text][name=fontSize]') 
-    $fontSizeInput.change(function() {
+    let $fSizeInput = $propPanel.find('input[type=text][name=fSize]') 
+    $fSizeInput.change(function() {
       let val = $(this).val()
-      that.formData.fontSize = val
+      that.formData.fSize = val
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
-    let $lineHgInput = $propPanel.find('input[type=text][name=lineHg]') 
-    $lineHgInput.change(function() {
+    let $lHeightInput = $propPanel.find('input[type=text][name=lHeight]') 
+    $lHeightInput.change(function() {
       let val = $(this).val()
-      that.formData.lineHg = val
+      that.formData.lHeight = val
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
@@ -368,161 +443,193 @@ export default class TextComponent extends Component {
       that.update(that.formData)
     })
 
-    let $hrefModeCheckBox = $propPanel.find('input[type=checkbox][name=hrefMode]')
-    $hrefModeCheckBox.change(function() {
-      let val = $(this).is(':checked')
-      that.formData.hrefMode = val ? '_blank' : ''
-    })
-
     let $hoverModeRadio = $propPanel.find('input[type=radio][name=hoverMode]')
     $hoverModeRadio.change(function() {
       let val = $(this).prop('value')
       that.formData.hoverMode = val
       that.update(that.formData)
     })
-    let $ffFamilySelect = $propPanel.find('select[name=ffFamily]')
-    $ffFamilySelect.change(function() {
-      that.formData.ffFamily = $(this).prop('value')
+    let $mfamilySelect = $propPanel.find('select[name=mfamily]')
+    $mfamilySelect.change(function() {
+      that.formData.mfamily = $(this).prop('value')
       that.update(that.formData)
-      
-       
     })
 
-    let $fcolorInput = $propPanel.find('input[type=text][name=fcolor]') 
-    $fcolorInput.change(function() {
+    let $mcolorInput = $propPanel.find('input[type=text][name=mcolor]') 
+    $mcolorInput.change(function() {
       let val = $(this).val()
-      that.formData.fcolor = val
+      that.formData.mcolor = val
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
-    let $fbgColorInput = $propPanel.find('input[type=text][name=fbgColor]') 
-    $fbgColorInput.change(function() {
+    let $mbgColorInput = $propPanel.find('input[type=text][name=mbgColor]') 
+    $mbgColorInput.change(function() {
       let val = $(this).val()
-      that.formData.fbgColor = val
+      that.formData.mbgColor = val
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
-    let $ffontSizeInput = $propPanel.find('input[type=text][name=ffontSize]') 
-    $ffontSizeInput.change(function() {
+    let $mfSizeInput = $propPanel.find('input[type=text][name=mfSize]') 
+    $mfSizeInput.change(function() {
       let val = $(this).val()
-      that.formData.ffontSize = val
+      that.formData.mfSize = val
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
-    let $flineHgInput = $propPanel.find('input[type=text][name=flineHg]') 
-    $flineHgInput.change(function() {
+    let $mlHeightInput = $propPanel.find('input[type=text][name=mlHeight]') 
+    $mlHeightInput.change(function() {
       let val = $(this).val()
-      that.formData.flineHg = val
+      that.formData.mlHeight = val
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
-    let $fspacingInput = $propPanel.find('input[type=text][name=fspacing]') 
-    $fspacingInput.change(function() {
+    let $mspacingInput = $propPanel.find('input[type=text][name=mspacing]') 
+    $mspacingInput.change(function() {
       let val = $(this).val()
-      that.formData.fspacing = val
+      that.formData.mspacing = val
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
-    let $findentInput = $propPanel.find('input[type=text][name=findent]') 
-    $findentInput.change(function() {
+    let $mindentInput = $propPanel.find('input[type=text][name=mindent]') 
+    $mindentInput.change(function() {
       let val = $(this).val()
-      that.formData.findent = val
+      that.formData.mindent = val
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
-    let $fcontentTextarea = $propPanel.find('textarea[name=fcontent]') 
-    $fcontentTextarea.change(function() {
+    let $mcontentTextarea = $propPanel.find('textarea[name=mcontent]') 
+    $mcontentTextarea.change(function() {
       let val = $(this).val()
-      that.formData.fcontent = val
+      that.formData.mcontent = val
       that.update(that.formData)
     })
     //以下是动画
-    let $antTsDurInput = $propPanel.find('input[type=text][name=antTsDur]') 
-    $antTsDurInput.change(function() {
+    let $mTsDurInput = $propPanel.find('input[type=text][name=mTsDur]') 
+    $mTsDurInput.change(function() {
       let val = $(this).val()
-      that.formData.antTsDur = val
+      that.formData.mTsDur = val
       that.update(that.formData)
     })
-    let $antTsFunRadio = $propPanel.find('input[type=radio][name=antTsFun]')
-    $antTsFunRadio.change(function() {
+    let $mTsFunRadio = $propPanel.find('input[type=radio][name=mTsFun]')
+    $mTsFunRadio.change(function() {
       let val = $(this).prop('value')
-      that.formData.antTsFun = val
+      that.formData.mTsFun = val
       that.update(that.formData)
     })
-    let $antTransRadio = $propPanel.find('input[type=radio][name=antTrans]')
-    $antTransRadio.change(function() {
+    let $mTsAntRadio = $propPanel.find('input[type=radio][name=mTsAnt]')
+    $mTsAntRadio.change(function() {
       let val = $(this).prop('value')
-      that.formData.antTrans = val
+      that.formData.mTsAnt = val
       that.update(that.formData)
     })
-    // 以下是边框 
-    let $borderTCheckBox = $propPanel.find('input[type=checkbox][name=borderT]')
-    $borderTCheckBox.change(function() {
+    // 以下是默认边框 
+    let $bdTCheckBox = $propPanel.find('input[type=checkbox][name=bdT]')
+    $bdTCheckBox.change(function() {
       let val = $(this).is(':checked')
-      that.formData.borderT = val ? 'show' : ''
+      that.formData.bdT = val ? 'on' : ''
       that.update(that.formData)
     })
-    let $borderBCheckBox = $propPanel.find('input[type=checkbox][name=borderB]')
-    $borderBCheckBox.change(function() {
+    let $bdBCheckBox = $propPanel.find('input[type=checkbox][name=bdB]')
+    $bdBCheckBox.change(function() {
       let val = $(this).is(':checked')
-      that.formData.borderB = val ? 'show' : ''
+      that.formData.bdB = val ? 'on' : ''
       that.update(that.formData)
     })
-    let $borderLCheckBox = $propPanel.find('input[type=checkbox][name=borderL]')
-    $borderLCheckBox.change(function() {
+    let $bdLCheckBox = $propPanel.find('input[type=checkbox][name=bdL]')
+    $bdLCheckBox.change(function() {
       let val = $(this).is(':checked')
-      that.formData.borderL = val ? 'show' : ''
+      that.formData.bdL = val ? 'on' : ''
       that.update(that.formData)
     })
-    let $borderRCheckBox = $propPanel.find('input[type=checkbox][name=borderR]')
-    $borderRCheckBox.change(function() {
+    let $bdRCheckBox = $propPanel.find('input[type=checkbox][name=bdR]')
+    $bdRCheckBox.change(function() {
       let val = $(this).is(':checked')
-      that.formData.borderR = val ? 'show' : ''
+      that.formData.bdR = val ? 'on' : ''
       that.update(that.formData)
     })
 
-    let $borderWidthInput = $propPanel.find('input[type=text][name=borderWidth]') 
-    $borderWidthInput.change(function() {
+    let $bdWidthInput = $propPanel.find('input[type=text][name=bdWidth]') 
+    $bdWidthInput.change(function() {
       let val = $(this).val()
-      that.formData.borderWidth = val
+      that.formData.bdWidth = val
       that.update(that.formData)
     })
-    let $borderColorInput = $propPanel.find('input[type=text][name=borderColor]') 
-    $borderColorInput.change(function() {
+    let $bdColorInput = $propPanel.find('input[type=text][name=bdColor]') 
+    $bdColorInput.change(function() {
       let val = $(this).val()
-      that.formData.borderColor = val
+      that.formData.bdColor = val
       that.update(that.formData)
     })
-    let $borderStyleRadio = $propPanel.find('input[type=radio][name=borderStyle]')
-    $borderStyleRadio.change(function() {
+    let $bdStyleRadio = $propPanel.find('input[type=radio][name=bdStyle]')
+    $bdStyleRadio.change(function() {
       let val = $(this).prop('value')
-      that.formData.borderStyle = val
+      that.formData.bdStyle = val
       that.update(that.formData)
     })
-    let $antBcolorInput = $propPanel.find('input[type=text][name=antBcolor]') 
-    $antBcolorInput.change(function() {
+
+    // 以下是经过边框 
+    let $mbdTCheckBox = $propPanel.find('input[type=checkbox][name=mbdT]')
+    $mbdTCheckBox.change(function() {
+      let val = $(this).is(':checked')
+      that.formData.mbdT = val ? 'on' : ''
+      that.update(that.formData)
+    })
+    let $mbdBCheckBox = $propPanel.find('input[type=checkbox][name=mbdB]')
+    $mbdBCheckBox.change(function() {
+      let val = $(this).is(':checked')
+      that.formData.mbdB = val ? 'on' : ''
+      that.update(that.formData)
+    })
+    let $mbdLCheckBox = $propPanel.find('input[type=checkbox][name=mbdL]')
+    $mbdLCheckBox.change(function() {
+      let val = $(this).is(':checked')
+      that.formData.mbdL = val ? 'on' : ''
+      that.update(that.formData)
+    })
+    let $mbdRCheckBox = $propPanel.find('input[type=checkbox][name=mbdR]')
+    $mbdRCheckBox.change(function() {
+      let val = $(this).is(':checked')
+      that.formData.mbdR = val ? 'on' : ''
+      that.update(that.formData)
+    })
+    let $mbdWidthInput = $propPanel.find('input[type=text][name=mbdWidth]') 
+    $mbdWidthInput.change(function() {
       let val = $(this).val()
-      that.formData.antBcolor = val
+      that.formData.mbdWidth = val
       that.update(that.formData)
     })
-    
-    let $antTsDurBInput = $propPanel.find('input[type=text][name=antTsDurB]') 
-    $antTsDurBInput.change(function() {
+    let $mbdColorInput = $propPanel.find('input[type=text][name=mbdColor]') 
+    $mbdColorInput.change(function() {
       let val = $(this).val()
-      that.formData.antTsDurB = val
-    })
-    let $antTsFunBRadio = $propPanel.find('input[type=radio][name=antTsFunB]')
-    $antTsFunBRadio.change(function() {
-      let val = $(this).prop('value')
-      that.formData.antTsFunB = val
+      that.formData.mbdColor = val
       that.update(that.formData)
     })
-    let $antBcRadio = $propPanel.find('input[type=radio][name=antBc]')
-    $antBcRadio.change(function() {
+    let $mbdStyleRadio = $propPanel.find('input[type=radio][name=mbdStyle]')
+    $mbdStyleRadio.change(function() {
       let val = $(this).prop('value')
-      that.formData.antBc = val
+      that.formData.mbdStyle = val
       that.update(that.formData)
     })
+
+    let $mbdTsDurInput = $propPanel.find('input[type=text][name=mbdTsDur]') 
+    $mbdTsDurInput.change(function() {
+      let val = $(this).val()
+      that.formData.mbdTsDur = val
+    })
+    let $mbdTsFunRadio = $propPanel.find('input[type=radio][name=mbdTsFun]')
+    $mbdTsFunRadio.change(function() {
+      let val = $(this).prop('value')
+      that.formData.mbdTsFun = val
+      that.update(that.formData)
+    })
+    let $mbdTsAntRadio = $propPanel.find('input[type=radio][name=mbdTsAnt]')
+    $mbdTsAntRadio.change(function() {
+      let val = $(this).prop('value')
+      that.formData.mbdTsAnt = val
+      that.update(that.formData)
+    })
+
+
     let $alignRadio = $propPanel.find('.font-z .font-item-radio')
     $alignRadio.click(function() {
       let val = $(this).attr('data-val')
@@ -544,16 +651,16 @@ export default class TextComponent extends Component {
             that.formData.weight =""
             $elemInput.val("")
             break;
-          case 'fontstyle':
-            that.formData.fontStyle ='normal'
+          case 'fstyle':
+            that.formData.fStyle ='normal'
             $elemInput.val("normal")
             break;
           case 'oline':
             that.formData.oLine =''
             $elemInput.val("")
             break;
-          case 'lthrough':
-            that.formData.lThrough = ''
+          case 'through':
+            that.formData.through = ''
             $elemInput.val("")
             break;
           case 'uline':
@@ -568,16 +675,16 @@ export default class TextComponent extends Component {
             that.formData.weight ="600"
             $elemInput.val("600")
             break;
-          case 'fontstyle':
-            that.formData.fontStyle ='italic'
+          case 'fstyle':
+            that.formData.fStyle ='italic'
             $elemInput.val("italic")
             break;
           case 'oline':
             that.formData.oLine ='overline'
             $elemInput.val("overline")
             break;
-          case 'lthrough':
-            that.formData.lThrough = 'line-through'
+          case 'through':
+            that.formData.through = 'line-through'
             $elemInput.val("line-through")
             break;
           case 'uline':
@@ -590,11 +697,11 @@ export default class TextComponent extends Component {
       that.updatePreviewStyle($(this))
     })
    //反面文字
-    let $falignRadio = $propPanel.find('.font-f .font-item-radio')
-    $falignRadio.click(function() {
+    let $malignRadio = $propPanel.find('.font-f .font-item-radio')
+    $malignRadio.click(function() {
       let val = $(this).attr('data-val')
-      that.formData.falign = val
-      $falignRadio.removeClass("active")
+      that.formData.malign = val
+      $malignRadio.removeClass("active")
       $(this).addClass("active")
       that.update(that.formData)
       that.updatePreviewStyle($(this))
@@ -606,48 +713,48 @@ export default class TextComponent extends Component {
       if($(this).hasClass("active")){
         $(this).removeClass("active")
         switch($attrName) {
-          case 'fweight':
-            that.formData.fweight =""
+          case 'mweight':
+            that.formData.mweight =""
             $elemInput.val("")
             break;
-          case 'ffontstyle':
-            that.formData.ffontStyle ='normal'
+          case 'mfstyle':
+            that.formData.mfStyle ='normal'
             $elemInput.val("normal")
             break;
-          case 'foline':
-            that.formData.foLine =''
+          case 'moLine':
+            that.formData.moLine =''
             $elemInput.val("")
             break;
-          case 'flthrough':
-            that.formData.flThrough = ''
+          case 'mthrough':
+            that.formData.mthrough = ''
             $elemInput.val("")
             break;
-          case 'fuline':
-            that.formData.fuLine = ''
+          case 'muLine':
+            that.formData.muLine = ''
             $elemInput.val("")
             break;
         } 
       }else{
         $(this).addClass("active")
         switch($attrName) {
-          case 'fweight':
-            that.formData.fweight ="600"
+          case 'mweight':
+            that.formData.mweight ="600"
             $elemInput.val("600")
             break;
-          case 'ffontstyle':
-            that.formData.ffontStyle ='italic'
+          case 'mfstyle':
+            that.formData.mfStyle ='italic'
             $elemInput.val("italic")
             break;
-          case 'foline':
-            that.formData.foLine ='overline'
+          case 'moline':
+            that.formData.moLine ='overline'
             $elemInput.val("overline")
             break;
-          case 'flthrough':
-            that.formData.flThrough = 'line-through'
+          case 'mthrough':
+            that.formData.mthrough = 'line-through'
             $elemInput.val("line-through")
             break;
-          case 'fuline':
-            that.formData.fuLine = 'underline'
+          case 'muline':
+            that.formData.muLine = 'underline'
             $elemInput.val("underline")
             break;
         } 
@@ -668,8 +775,21 @@ export default class TextComponent extends Component {
           layer.close(index)
         }
       })
-   })
+    })
  
+   $propPanel.find('.layui-btn-sm').on('click', function() {
+    let layer = layui.layer
+    layer.msg('你确定  同步默文 边框样式么？', {
+      time: 0 //不自动关闭
+      ,btn: ['同步', '取消']
+      ,yes: function(index){
+        that.onTongBuBd($propPanel,true,that);
+        that.update(that.formData)
+        layer.close(index)
+      }
+    });
+  })
+
 
     $propPanel.find('.editor-btns').on('click', function() {
       that.openEditDialog()
@@ -697,34 +817,34 @@ export default class TextComponent extends Component {
          let $bgColorInput=$layerElem.find('input[type=text][name=bgColor]')
          $bgColorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.bgColor)
         } 
-        if (that.formData.fcolor) {
-         let $fcolorInput=$layerElem.find('input[type=text][name=fcolor]')
-         $fcolorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.fcolor)
+        if (that.formData.mcolor) {
+         let $mcolorInput=$layerElem.find('input[type=text][name=mcolor]')
+         $mcolorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.mcolor)
         } 
-        if (that.formData.fbgColor) {
-         let $fbgColorInput=$layerElem.find('input[type=text][name=fbgColor]')
-         $fbgColorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.fbgColor)
+        if (that.formData.mbgColor) {
+         let $mbgColorInput=$layerElem.find('input[type=text][name=mbgColor]')
+         $mbgColorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.mbgColor)
         } 
         //边框
-        if (that.formData.borderColor) {
-         let $borderColorInput=$layerElem.find('input[type=text][name=borderColor]')
-         $borderColorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.borderColor)
+        if (that.formData.bdColor) {
+         let $bdColorInput=$layerElem.find('input[type=text][name=bdColor]')
+         $bdColorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.bdColor)
         } 
-        if (that.formData.antBcolor) {
-         let $antBcolorInput=$layerElem.find('input[type=text][name=antBcolor]')
-         $antBcolorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.antBcolor)
+        if (that.formData.mbdColor) {
+         let $mbdColorInput=$layerElem.find('input[type=text][name=mbdColor]')
+         $mbdColorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.mbdColor)
         } 
         if(that.formData.weight=="600"){
           $layerElem.find('.font-z .font-item-checkbox:eq(0)').addClass('active')
         }
 
-        if(that.formData.fontStyle=='italic'){
+        if(that.formData.fStyle=='italic'){
           $layerElem.find('.font-z .font-item-checkbox:eq(1)').addClass('active')
         }
         if(that.formData.oLine=='overline'){
           $layerElem.find('.font-z .font-item-checkbox:eq(2)').addClass('active')
         }
-        if(that.formData.lThrough=='line-through'){
+        if(that.formData.through=='line-through'){
           $layerElem.find('.font-z .font-item-checkbox:eq(3)').addClass('active')
         }
         if(that.formData.uLine=='underline'){
@@ -732,18 +852,18 @@ export default class TextComponent extends Component {
         }
 
         $layerElem.find(`.font-z .font-item-radio[data-val="${that.formData.align}"]`).addClass('active')
-        $layerElem.find(`.font-f .font-item-radio[data-val="${that.formData.align}"]`).addClass('active')
+        $layerElem.find(`.font-f .font-item-radio[data-val="${that.formData.malign}"]`).addClass('active')
 
-        if(that.formData.ffontStyle=='italic'){
+        if(that.formData.mfStyle=='italic'){
           $layerElem.find('.font-f .font-item-checkbox:eq(1)').addClass('active')
         }
-        if(that.formData.foLine=='overline'){
+        if(that.formData.moLine=='overline'){
           $layerElem.find('.font-f .font-item-checkbox:eq(2)').addClass('active')
         }
-        if(that.formData.flThrough=='line-through'){
+        if(that.formData.mthrough=='line-through'){
           $layerElem.find('.font-f .font-item-checkbox:eq(3)').addClass('active')
         }
-        if(that.formData.fuLine=='underline'){
+        if(that.formData.muLine=='underline'){
           $layerElem.find('.font-f .font-item-checkbox:eq(4)').addClass('active')
         }
         
@@ -770,14 +890,26 @@ export default class TextComponent extends Component {
             }
           });
         })
+        $layerElem.find('.layui-btn-sm').on('click', function() {
+          let form = layui.form
+          layer.msg('你确定  同步默文 边框样式么？', {
+            time: 0 //不自动关闭
+            ,btn: ['同步', '取消']
+            ,yes: function(index){
+              that.onTongBuBd($layerElem,false,that);
+              form.render();
+              layer.close(index)
+            }
+          });
+        })
       },
       content: `<form class="layui-form" lay-filter="textComponentForm">
         <div class="layui-tab layui-tab-brief">
           <ul class="layui-tab-title">
             <li class="layui-this">默认设置</li>
             <li>鼠标经过</li>
+            <li>边框设置</li>
             <li>动画设置</li>
-            <li>边框</li>
           </ul>
           <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
@@ -791,7 +923,7 @@ export default class TextComponent extends Component {
                 <div class="layui-input-inline text-panel" style="width:343px;">
                     <label class="label-con" style="letter-spacing:13px;">字体</label>
                     <div class="labelpanel"   style="width: 90px; height: 36px;">
-                      <select   name="fFamily" >
+                      <select   name="family" >
                           <option value="宋体" >宋体</option>
                           <option value="黑体" >黑体</option>
                           <option value="微软雅黑" >雅黑</option>
@@ -811,7 +943,7 @@ export default class TextComponent extends Component {
                     </div>
                     <label class="label-con">文字大小</label>
                     <div class="labelpanel"   style="width: 90px; ">
-                      <input type="text" name="fontSize" class="layui-input">
+                      <input type="text" name="fSize" class="layui-input">
                     </div>
                     <label class="label-con">背景颜色</label>
                     <div class="pagecolorpanel"  >
@@ -821,7 +953,7 @@ export default class TextComponent extends Component {
                     </div>
                     <label class="label-con">行  高</label>
                     <div class="labelpanel"   style="width: 65px; ">
-                      <input type="text" name="lineHg" class="layui-input">
+                      <input type="text" name="lHeight" class="layui-input">
                     </div>
                     <label class="label-con">字  距</label>
                     <div class="labelpanel"   style="width: 65px; ">
@@ -833,9 +965,9 @@ export default class TextComponent extends Component {
                     </div>
                     <div class="font-setting font-z">
                       <span  title="加粗" class="font-item-checkbox" data-val="" ><icon>ꕅ</icon><input name="weight" type="hidden"   value="" /></span>
-                      <span  title="斜体" class="font-item-checkbox" data-val="" ><icon>ꕆ</icon><input name="fontStyle" type="hidden"   value="" /></span>
+                      <span  title="斜体" class="font-item-checkbox" data-val="" ><icon>ꕆ</icon><input name="fStyle" type="hidden"   value="" /></span>
                       <span  title="上划线" class="font-item-checkbox" data-val="" ><icon>ꔣ</icon><input name="oLine" type="hidden"   value="" /></span>
-                      <span  title="中划线" class="font-item-checkbox" data-val=""><icon>ꕇ</icon><input name="lThrough" type="hidden"   value="" /></span>
+                      <span  title="中划线" class="font-item-checkbox" data-val=""><icon>ꕇ</icon><input name="through" type="hidden"   value="" /></span>
                       <span  title="下划线" class="font-item-checkbox" data-val="" ><icon>ꕈ</icon><input name="uLine" type="hidden"   value="" /></span>
                       <i class="spaceline"></i>
                       <span  title="文字左对齐" class="font-item-radio" data-val="left" ><icon>ꕉ</icon></span>
@@ -849,6 +981,12 @@ export default class TextComponent extends Component {
                 <label class="layui-form-label">链接地址</label>
                 <div class="layui-input-inline"><input type="text" name="href" class="layui-input"></div>
                 <div><input name="hrefMode" value="_blank" type="checkbox" lay-skin="primary" title="新窗口打开"></div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">圆角度数</label>
+                <div class="layui-input-inline">
+                  <input name="bRadius" type="text" class="layui-input">
+                </div>
               </div>
               <div class="layui-form-item">
                 <label class="layui-form-label">背景图片</label>
@@ -883,14 +1021,7 @@ export default class TextComponent extends Component {
                  </select>
                 </div>
               </div>
-   
-              
-              <div class="layui-form-item">
-                <label class="layui-form-label">圆角度数</label>
-                <div class="layui-input-inline">
-                  <input name="bRadius" type="text" class="layui-input">
-                </div>
-              </div>
+
             </div>
             <div class="layui-tab-item">
               <div class="layui-form-item">
@@ -905,7 +1036,7 @@ export default class TextComponent extends Component {
                 <div class="layui-input-inline text-panel" style="width:343px;">
                     <label class="label-con" style="letter-spacing:13px;">字体</label>
                     <div class="labelpanel"   style="width: 90px;">
-                      <select   name="ffFamily" >
+                      <select   name="mfamily" >
                           <option value="宋体" >宋体</option>
                           <option value="黑体" >黑体</option>
                           <option value="微软雅黑" >雅黑</option>
@@ -920,37 +1051,37 @@ export default class TextComponent extends Component {
                     <label class="label-con">文字颜色</label>
                     <div class="pagecolorpanel"  >
                         <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner" style="background-color:transparent;"></div></div></div>
-                        <input class="pagecolor" name="fcolor"  type="text"  />
+                        <input class="pagecolor" name="mcolor"  type="text"  />
                         <span class="clear-color-button"></span>
                     </div>
                     <label class="label-con">文字大小</label>
                     <div class="labelpanel"   style="width: 90px; ">
-                      <input type="text" name="ffontSize" class="layui-input">
+                      <input type="text" name="mfSize" class="layui-input">
                     </div>
                     <label class="label-con">背景颜色</label>
                     <div class="pagecolorpanel"  >
                         <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner" style="background-color:transparent;"></div></div></div>
-                        <input class="pagecolor" name="fbgColor"  type="text"  />
+                        <input class="pagecolor" name="mbgColor"  type="text"  />
                         <span class="clear-color-button"></span>
                     </div>
                     <label class="label-con">行  高</label>
                     <div class="labelpanel"   style="width: 65px; ">
-                      <input type="text" name="flineHg" class="layui-input">
+                      <input type="text" name="mlHeight" class="layui-input">
                     </div>
                     <label class="label-con">字  距</label>
                     <div class="labelpanel"   style="width: 65px; ">
-                      <input type="text" name="fspacing" class="layui-input">
+                      <input type="text" name="mspacing" class="layui-input">
                     </div>
                     <label class="label-con">缩  进</label>
                     <div class="labelpanel"   style="width: 65px; ">
-                      <input type="text" name="findent" class="layui-input">
+                      <input type="text" name="mindent" class="layui-input">
                     </div>
                     <div class="font-setting font-f">
-                      <span  title="加粗" class="font-item-checkbox" data-val="" ><icon>ꕅ</icon><input name="fweight" type="hidden"   value="" /></span>
-                      <span  title="斜体" class="font-item-checkbox" data-val="" ><icon>ꕆ</icon><input name="ffontStyle" type="hidden"   value="" /></span>
-                      <span  title="上划线" class="font-item-checkbox" data-val="" ><icon>ꔣ</icon><input name="foLine" type="hidden"   value="" /></span>
-                      <span  title="中划线" class="font-item-checkbox" data-val=""><icon>ꕇ</icon><input name="flThrough" type="hidden"   value="" /></span>
-                      <span  title="下划线" class="font-item-checkbox" data-val="" ><icon>ꕈ</icon><input name="fuLine" type="hidden"   value="" /></span>
+                      <span  title="加粗" class="font-item-checkbox" data-val="" ><icon>ꕅ</icon><input name="mweight" type="hidden"   value="" /></span>
+                      <span  title="斜体" class="font-item-checkbox" data-val="" ><icon>ꕆ</icon><input name="mfStyle" type="hidden"   value="" /></span>
+                      <span  title="上划线" class="font-item-checkbox" data-val="" ><icon>ꔣ</icon><input name="moLine" type="hidden"   value="" /></span>
+                      <span  title="中划线" class="font-item-checkbox" data-val=""><icon>ꕇ</icon><input name="mthrough" type="hidden"   value="" /></span>
+                      <span  title="下划线" class="font-item-checkbox" data-val="" ><icon>ꕈ</icon><input name="muLine" type="hidden"   value="" /></span>
 
                       <i class="spaceline"></i>
                       <span  title="文字左对齐" class="font-item-radio" data-val="left" ><icon>ꕉ</icon></span>
@@ -958,7 +1089,7 @@ export default class TextComponent extends Component {
                       <span  title="文字右对齐" class="font-item-radio"  data-val="right" ><icon>ꕑ</icon></span>
 
                     </div>
-                    <textarea   name="fcontent"  ></textarea>
+                    <textarea   name="mcontent"  ></textarea>
                     <div class="font-synchronous">
                       <icon>ꕦ</icon><span>同步默认文字样式</span>
                     </div>
@@ -967,13 +1098,13 @@ export default class TextComponent extends Component {
               <div class="layui-form-item">
                 <label class="layui-form-label">背景图片</label>
                 <div class="layui-input-inline">
-                  <input name="fbgImg" type="text" class="layui-input">
+                  <input name="mbgImg" type="text" class="layui-input">
                 </div>
               </div>
               <div class="layui-form-item">
                 <label class="layui-form-label">背景平铺</label>
                 <div class="layui-input-inline">
-                  <select   name="fbgRep" >
+                  <select   name="mbgRep" >
                     <option value="repeat" >纵横向</option>
                     <option value="repeat-x" >横向</option>
                     <option value="repeat-y" >纵向</option>
@@ -984,7 +1115,7 @@ export default class TextComponent extends Component {
               <div class="layui-form-item">
                 <label class="layui-form-label">对齐方式</label>
                 <div class="layui-input-inline">
-                  <select   name="fbgPos" >
+                  <select   name="mbgPos" >
                     <option value="0% 0%">左上</option>
                     <option value="0% 50%">左中</option>
                     <option value="0% 100%">左下</option>
@@ -998,147 +1129,171 @@ export default class TextComponent extends Component {
                 </div>
               </div>
             </div>
-            <div class="layui-tab-item">
-              <fieldset  class="layui-elem-field">
-                <legend>
-                  动画时长                      
-                  <input class="input-short"  type="text" name="antTsDur"  style="width:50px; height:20px; margin-left:10px; padding-left:5px;" />
-                  <label class="label-con">秒</label>
-                </legend>
-                <div class="layui-field-box">
-                  <input class="radio-medium" type="radio" name="antTsFun" value="linear"  title="匀速">
-                  <input class="radio-medium" type="radio" name="antTsFun" value="ease"  title="逐渐变慢">
-                  <input class="radio-medium" type="radio" name="antTsFun" value="ease-in"   title="减速">
-                  <div class="sepline"></div>
-                  <input class="radio-medium" type="radio" name="antTsFun" value="ease-out"   title="加速">
-                  <input class="radio-medium" type="radio" name="antTsFun" value="ease-in-out"   title="加速后减速">
-                  <input class="radio-medium" type="radio" name="antTsFun" value="cubic-bezier"   title="动感弹跳">
-                </div>
-              </fieldset>
-              <fieldset  class="layui-elem-field" style="margin-top:15px;">
-                <legend>动画效果</legend>
-                <div class="layui-field-box">
-                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans0" title="无效果">
-                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans1" title="右切入">
-                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans2"  title="下切入">
-                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans3"  title="左切入">
-                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans4"  title="上切入">
-                  <div class="sepline"></div>
-                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans5"  title="右切出">
-                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans6"  title="下切出">
-                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans7"  title="左切出">
-                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans8"  title="上切出">
-
-                  <div class="sepline"></div>
-                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans9"  title="右切入切出">
-                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans10"   title="下切入切出">
-                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans11"   title="左切入切出">
-
-                  <div class="sepline"></div>
-                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans12"  title="上切入切出">
-                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans13"  title="放大出现">
-                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans14"  title="缩小出现">
-
-                  <div class="sepline"></div>
-                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans15"  title="翻转出现">
-                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans16"  title="缩放出现1">
-                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans17"  title="缩放出现2">
-
-                  <div class="sepline"></div>
-                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans18"  title="旋转放大">
-                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans19"  title="旋转缩小">
-                  <input class="radio-medium" type="radio" name="antTrans"  value="atrans20"  title="渐隐渐显">
-                </div>
-              </fieldset>
-            </div>
             <div  class="layui-tab-item">
-               <div class="layui-tab layui-side-card">
+              <div class="layui-tab layui-side-card">
                 <ul class="layui-tab-title"  >
                   <li class="layui-this" style="margin-top: 110px;">默认边框</li>
-                  <li class="">鼠标划过边框</li>
+                  <li class="">鼠标划过动画</li>
                 </ul>
                 <div class="layui-tab-content" style="height: 400px;">
                   <div class="layui-tab-item layui-show">
+                    <fieldset class="layui-elem-field" style="margin-top:20px;">
+                      <legend>默认边框</legend>
+                      <div class="layui-field-box">
                         <div class="layui-form-item"  >
                           <label class="layui-form-label">边框显示</label>
-                          <div class="layui-input-inline">
-                            <input type="checkbox" name="borderT" value="show" lay-skin="primary" title="上边"  >
-                            <input type="checkbox" name="borderB" value="show" lay-skin="primary" title="下边">
-                            <input type="checkbox" name="borderL" value="show" lay-skin="primary" title="左边" >
-                            <input type="checkbox" name="borderR" value="show" lay-skin="primary" title="右边"  >
+                          <div class="layui-input-block">
+                            <input type="checkbox" name="bdT" value="on" lay-skin="primary" title="上边"  >
+                            <input type="checkbox" name="bdB" value="on" lay-skin="primary" title="下边">
+                            <input type="checkbox" name="bdL" value="on" lay-skin="primary" title="左边" >
+                            <input type="checkbox" name="bdR" value="on" lay-skin="primary" title="右边"  >
                           </div>
                         </div>
                         <div class="layui-form-item"  >
                           <label class="layui-form-label">边框粗细</label>
-                          <div class="layui-input-inline input-short"><input name="borderWidth" type="text" class="layui-input"></div>
-                        </div>
-                        <div class="layui-form-item"  >
+                          <div class="layui-input-inline input-short" style="width:80px;"><input name="bdWidth" type="text" class="layui-input"></div>
                           <label class="layui-form-label">边框颜色</label>
                           <div class="layui-input-inline pagecolorpanel input-short"  >
                             <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner"></div></div></div>
-                            <input name="borderColor" type="text" class="layui-input pagecolor">
+                            <input name="bdColor" type="text" class="layui-input pagecolor">
                             <span class="clear-color-button"></span>
                           </div>
                         </div>
                         <div class="layui-form-item">
                           <label class="layui-form-label">边框样式</label>
-                          <div class="layui-input-inline">
-                            <input type="radio" name="borderStyle" lay-filter="borderStyle" value="solid" title="实线" checked="">
-                            <input type="radio" name="borderStyle" lay-filter="borderStyle" value="dotted" title="细虚线">
-                            <input type="radio" name="borderStyle" lay-filter="borderStyle" value="dashed" title="粗虚线">
+                          <div class="layui-input-block">
+                            <input type="radio" name="bdStyle" lay-filter="bdStyle" value="solid" title="实线" checked="">
+                            <input type="radio" name="bdStyle" lay-filter="bdStyle" value="dotted" title="细虚线">
+                            <input type="radio" name="bdStyle" lay-filter="bdStyle" value="dashed" title="粗虚线">
                           </div>
                         </div>
+                      </div>
+                    </fieldset>
+                    <fieldset class="layui-elem-field" style="margin-top:20px;">
+                      <legend>
+                        <span  style="margin-right:15px;  display:inline-block"> 鼠标_移上边框 </span>
+                        <button type="button" class="layui-btn layui-btn-sm">同步默认边框</button>
+                      </legend>
+                      <div class="layui-field-box">
+                        <div class="layui-form-item"  >
+                          <label class="layui-form-label">边框显示</label>
+                          <div class="layui-input-block">
+                            <input type="checkbox" name="mbdT" value="on" lay-skin="primary" title="上边"  >
+                            <input type="checkbox" name="mbdB" value="on" lay-skin="primary" title="下边">
+                            <input type="checkbox" name="mbdL" value="on" lay-skin="primary" title="左边" >
+                            <input type="checkbox" name="mbdR" value="on" lay-skin="primary" title="右边"  >
+                          </div>
+                        </div>
+                        <div class="layui-form-item"  >
+                          <label class="layui-form-label">边框粗细</label>
+                          <div class="layui-input-inline input-short" style="width:80px;"><input name="mbdWidth" type="text" class="layui-input"></div>
+                          <label class="layui-form-label">边框颜色</label>
+                          <div class="layui-input-inline pagecolorpanel input-short"  >
+                            <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner"></div></div></div>
+                            <input name="mbdColor" type="text" class="layui-input pagecolor">
+                            <span class="clear-color-button"></span>
+                          </div>
+                        </div>
+                        <div class="layui-form-item">
+                          <label class="layui-form-label">边框样式</label>
+                          <div class="layui-input-block">
+                            <input type="radio" name="mbdStyle" lay-filter="mbdStyle" value="solid" title="实线" checked="">
+                            <input type="radio" name="mbdStyle" lay-filter="mbdStyle" value="dotted" title="细虚线">
+                            <input type="radio" name="mbdStyle" lay-filter="mbdStyle" value="dashed" title="粗虚线">
+                          </div>
+                        </div>
+                      </div>
+                    </fieldset>
                   </div>
                   <div class="layui-tab-item ">
-
                     <fieldset  class="layui-elem-field" style="margin-top:25px;">
                       <legend>
                         动画时长                      
-                        <input class="input-short"  type="text" name="antTsDurB"  style="width:50px; height:20px; margin-left:10px; padding-left:5px;" />
+                        <input class="input-short"  type="text" name="mbdTsDur"  style="width:50px; height:20px; margin-left:10px; padding-left:5px;" />
                         <label class="label-con">秒</label>
                       </legend>
                       <div class="layui-field-box">
-                        <input class="radio-medium" type="radio" name="antTsFunB" value="linear"  title="匀速">
-                        <input class="radio-medium" type="radio" name="antTsFunB" value="ease"  title="逐渐变慢">
-                        <input class="radio-medium" type="radio" name="antTsFunB" value="ease-in"   title="减速">
+                        <input class="radio-medium" type="radio" name="mbdTsFun" value="linear"  title="匀速">
+                        <input class="radio-medium" type="radio" name="mbdTsFun" value="ease"  title="逐渐变慢">
+                        <input class="radio-medium" type="radio" name="mbdTsFun" value="ease-in"   title="减速">
                         <div class="sepline"></div>
-                        <input class="radio-medium" type="radio" name="antTsFunB" value="ease-out"   title="加速">
-                        <input class="radio-medium" type="radio" name="antTsFunB" value="ease-in-out"   title="加速后减速">
-                        <input class="radio-medium" type="radio" name="antTsFunB" value="cubic-bezier"   title="动感弹跳">
+                        <input class="radio-medium" type="radio" name="mbdTsFun" value="ease-out"   title="加速">
+                        <input class="radio-medium" type="radio" name="mbdTsFun" value="ease-in-out"   title="加速后减速">
+                        <input class="radio-medium" type="radio" name="mbdTsFun" value="cubic-bezier"   title="动感弹跳">
                       </div>
                     </fieldset>
                     <fieldset  class="layui-elem-field" style="margin-top:25px;">
                       <legend>动画效果</legend>
-                      <div class="layui-form-item"  style="margin-top:15px;margin-bottom:0px;">
-                        <label class="layui-form-label">边框颜色</label>
-                        <div class="layui-input-inline pagecolorpanel input-short"  style="width: 190px;">
-                          <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner"></div></div></div>
-                          <input name="antBcolor" type="text" class="layui-input pagecolor">
-                          <span class="clear-color-button"></span>
-                        </div>
-                      </div>
                       <div class="layui-field-box">
-                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx0" title="直接切换">
-                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx1" title="渐隐渐显">
+                        <input class="radio-medium" type="radio" name="mbdTsAnt"  value="bdtx0" title="直接切换">
+                        <input class="radio-medium" type="radio" name="mbdTsAnt"  value="bdtx1" title="渐隐渐显" >
                         <div class="sepline"></div>
-                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx4"  title="左对角线切入">
-                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx5"  title="右对角线切入">
+                        <input class="radio-medium" type="radio" name="mbdTsAnt"  value="bdtx4"  title="左对角线切入">
+                        <input class="radio-medium" type="radio" name="mbdTsAnt"  value="bdtx5"  title="右对角线切入">
                         <div class="sepline"></div>
-                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx6"  title="顺时针出现">
-                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx7"  title="逆时针出现">
+                        <input class="radio-medium" type="radio" name="mbdTsAnt"  value="bdtx6"  title="顺时针出现">
+                        <input class="radio-medium" type="radio" name="mbdTsAnt"  value="bdtx7"  title="逆时针出现">
                         <div class="sepline"></div>
-                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx8"  title="由点到线">
-                        <input class="radio-medium" type="radio" name="antBc"  value="bdtx9"  title="由点到面">
+                        <input class="radio-medium" type="radio" name="mbdTsAnt"  value="bdtx8"  title="由点到线">
+                        <input class="radio-medium" type="radio" name="mbdTsAnt"  value="bdtx9"  title="由点到面">
                       </div>
                     </fieldset>
-
                   </div>
-             
- 
                 </div>
+              </div>
             </div>
- 
+            <div class="layui-tab-item">
+              <fieldset  class="layui-elem-field">
+                <legend>
+                  动画时长                      
+                  <input class="input-short"  type="text" name="mTsDur"  style="width:50px; height:20px; margin-left:10px; padding-left:5px;" />
+                  <label class="label-con">秒</label>
+                </legend>
+                <div class="layui-field-box">
+                  <input class="radio-medium" type="radio" name="mTsFun" value="linear"  title="匀速">
+                  <input class="radio-medium" type="radio" name="mTsFun" value="ease"  title="逐渐变慢">
+                  <input class="radio-medium" type="radio" name="mTsFun" value="ease-in"   title="减速">
+                  <div class="sepline"></div>
+                  <input class="radio-medium" type="radio" name="mTsFun" value="ease-out"   title="加速">
+                  <input class="radio-medium" type="radio" name="mTsFun" value="ease-in-out"   title="加速后减速">
+                  <input class="radio-medium" type="radio" name="mTsFun" value="cubic-bezier"   title="动感弹跳">
+                </div>
+              </fieldset>
+              <fieldset  class="layui-elem-field" style="margin-top:15px;">
+                <legend>动画效果</legend>
+                <div class="layui-field-box">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans0" title="无效果">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans1" title="右切入">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans2"  title="下切入">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans3"  title="左切入">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans4"  title="上切入">
+                  <div class="sepline"></div>
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans5"  title="右切出">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans6"  title="下切出">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans7"  title="左切出">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans8"  title="上切出">
 
+                  <div class="sepline"></div>
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans9"  title="右切入切出">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans10"   title="下切入切出">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans11"   title="左切入切出">
+
+                  <div class="sepline"></div>
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans12"  title="上切入切出">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans13"  title="放大出现">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans14"  title="缩小出现">
+
+                  <div class="sepline"></div>
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans15"  title="翻转出现">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans16"  title="缩放出现1">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans17"  title="缩放出现2">
+
+                  <div class="sepline"></div>
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans18"  title="旋转放大">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans19"  title="旋转缩小">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans20"  title="渐隐渐显">
+                </div>
+              </fieldset>
             </div>
           </div>
         </div>
@@ -1157,9 +1312,9 @@ export default class TextComponent extends Component {
       that.formData.align = $layerElem.find('.font-z .font-item-radio.active').data('val')
       /*
       that.formData.weight = $layerElem.find('.font-z .font-item-checkbox:eq(0)').data('val')
-      that.formData.fontStyle = $layerElem.find('.font-z .font-item-checkbox:eq(1)').data('val')
+      that.formData.fStyle = $layerElem.find('.font-z .font-item-checkbox:eq(1)').data('val')
       that.formData.oLine = $layerElem.find('.font-z .font-item-checkbox:eq(2)').data('val')
-      that.formData.lThrough = $layerElem.find('.font-z .font-item-checkbox:eq(3)').data('val')
+      that.formData.through = $layerElem.find('.font-z .font-item-checkbox:eq(3)').data('val')
       that.formData.uLine = $layerElem.find('.font-z .font-item-checkbox:eq(4)').data('val')
        */
  
@@ -1177,243 +1332,281 @@ export default class TextComponent extends Component {
   }
   update(formData) {
     let that = this
+    let bRadius=this.formData.bRadius;
     let deline=this.formData.uLine;
     if(this.formData.oLine){
       deline+=' '+this.formData.oLine
     }
-    if(this.formData.lThrough){
-      deline+=' '+this.formData.lThrough
+    if(this.formData.through){
+      deline+=' '+this.formData.through
     }
     if(deline ==="") deline='none'
     let $defPanel=this.$contentBox.find(".on")
-    $defPanel.css("font-family",this.formData.fFamily)
+    $defPanel.css("font-family",this.formData.family)
     $defPanel.css('color', this.formData.color)
     $defPanel.css('background-color', this.formData.bgColor)
-    $defPanel.css('font-size', parseInt(this.formData.fontSize))
-    $defPanel.css('line-height', this.formData.lineHg+'px')
+    $defPanel.css('font-size', parseInt(this.formData.fSize))
+    $defPanel.css('line-height', this.formData.lHeight+'px')
     $defPanel.css('letter-spacing', parseInt(this.formData.spacing))
     $defPanel.css('text-indent', parseInt(this.formData.indent))
-    $defPanel.css('border-radius',parseInt(this.formData.bRadius))
+    $defPanel.css('border-radius',parseInt(bRadius))
     
     $defPanel.css('text-align', this.formData.align)
     $defPanel.css("font-weight",this.formData.weight)
-    $defPanel.css("font-style",this.formData.fontStyle)
+    $defPanel.css("font-style",this.formData.fStyle)
     $defPanel.css("text-decoration",deline)
  
 
     $defPanel.text(formData.content)
 
     let $offPanel=this.$contentBox.find(".off")
-    let _antTransAttr=this.$content.attr("antTrans")
+    let _mTsAntAttr=this.$content.attr("mTsAnt")
     if(this.formData.hoverMode==="on"){
       $offPanel.remove()
 
-      let offline=this.formData.fuLine;
-      if(this.formData.foLine){
-        offline+=' '+this.formData.foLine
+      let offline=this.formData.muLine;
+      if(this.formData.moLine){
+        offline+=' '+this.formData.moLine
       }
-      if(this.formData.flThrough){
-        offline+=' '+this.formData.flThrough
+      if(this.formData.mthrough){
+        offline+=' '+this.formData.mthrough
       }
       if(offline ==="") offline='none'
 
-      let $_antTrans=this.formData.antTrans
+      let $_mTsAnt=this.formData.mTsAnt
 
-      if($_antTrans=='atrans5' || $_antTrans=='atrans6' || $_antTrans==='atrans7' || $_antTrans==='atrans8' || $_antTrans==='atrans9' || $_antTrans==='atrans19' ){
+      if($_mTsAnt=='atrans5' || $_mTsAnt=='atrans6' || $_mTsAnt==='atrans7' || $_mTsAnt==='atrans8' || $_mTsAnt==='atrans9' || $_mTsAnt==='atrans19' ){
         this.$contentBox.find(".on").before("<div class='off'></div>")
       }else{
         this.$contentBox.find(".on").after("<div class='off'></div>")
       }
       $offPanel=this.$contentBox.find(".off")
-      $offPanel.text(formData.fcontent)
-      $offPanel.css("font-family",this.formData.ffFamily)
-      $offPanel.css('color', this.formData.fcolor)
-      $offPanel.css('background-color', this.formData.fbgColor)
-      $offPanel.css('font-size', parseInt(this.formData.ffontSize))
-      $offPanel.css('line-height', this.formData.flineHg+'px')
-      $offPanel.css('letter-spacing', parseInt(this.formData.fspacing))
-      $offPanel.css('text-indent', parseInt(this.formData.findent))
+      $offPanel.text(formData.mcontent)
+      $offPanel.css("font-family",this.formData.mfamily)
+      $offPanel.css('color', this.formData.mcolor)
+      $offPanel.css('background-color', this.formData.mbgColor)
+      $offPanel.css('font-size', parseInt(this.formData.mfSize))
+      $offPanel.css('line-height', this.formData.mlHeight+'px')
+      $offPanel.css('letter-spacing', parseInt(this.formData.mspacing))
+      $offPanel.css('text-indent', parseInt(this.formData.mindent))
+
       $offPanel.css('border-radius', this.formData.bRadius)
 
-      $offPanel.css('text-align', this.formData.falign)
-      $offPanel.css("font-weight",this.formData.fweight)
-      $offPanel.css("font-style",this.formData.ffontStyle)
+      $offPanel.css('text-align', this.formData.malign)
+      $offPanel.css("font-weight",this.formData.mweight)
+      $offPanel.css("font-style",this.formData.mfStyle)
       $offPanel.css("text-decoration",offline)
 
 
-      if(this.formData.antTsFun==='cubic-bezier'){
+      if(this.formData.mTsFun==='cubic-bezier'){
         $defPanel.css('transition-timing-function', 'cubic-bezier(0.52, 1.64, 0.37, 0.66)')
         $offPanel.css('transition-timing-function', 'cubic-bezier(0.52, 1.64, 0.37, 0.66)')
       }else{
-        $defPanel.css('transition-timing-function', this.formData.antTsFun)
-        $offPanel.css('transition-timing-function', this.formData.antTsFun)
+        $defPanel.css('transition-timing-function', this.formData.mTsFun)
+        $offPanel.css('transition-timing-function', this.formData.mTsFun)
       }
-      $defPanel.css('transition-duration', this.formData.antTsDur+'s')
-      $offPanel.css('transition-duration', this.formData.antTsDur+'s')
+      $defPanel.css('transition-duration', this.formData.mTsDur+'s')
+      $offPanel.css('transition-duration', this.formData.mTsDur+'s')
 
       
-      this.$content.removeClass(_antTransAttr);
-      this.$content.addClass(this.formData.antTrans)
-      this.$content.attr("antTrans",this.formData.antTrans)
+      this.$content.removeClass(_mTsAntAttr);
+      this.$content.addClass(this.formData.mTsAnt)
+      this.$content.attr("mTsAnt",this.formData.mTsAnt)
     }else{
       $offPanel.remove();
-      this.$content.removeClass(_antTransAttr);
-      this.$content.attr("antTrans",'')
+      this.$content.removeClass(_mTsAntAttr);
+      this.$content.attr("mTsAnt",'')
     }
       $offPanel=this.$contentBox.find(".off")
 
 
     //处理边框
+    let isDefBk=false;
     let $textPanel=this.$contentBox.find(".ant-text")
-   
+    $textPanel.css('border-radius',parseInt(bRadius))
+
+    let bdWidth=this.formData.bdWidth !="" ? parseInt(this.formData.bdWidth) : '';
     let $alPanel=this.$contentBox.find(".bk-aline")
-    if (this.formData.borderT==="show" || this.formData.borderB==="show" ||this.formData.borderL==="show"||this.formData.borderR==="show"){
+    if (this.formData.bdT==="on" || this.formData.bdB==="on" ||this.formData.bdL==="on"||this.formData.bdR==="on"){
       if($alPanel.length <=0)
         $textPanel.append("<div class='bk-aline'></div>")
       $alPanel=this.$contentBox.find(".bk-aline")
+      $alPanel.css('border-radius',parseInt(bRadius))
 
-      if(this.formData.borderT==="show"){
-        $alPanel.css('border-top-width', this.formData.borderWidth)
-        $defPanel.css('padding-top', this.formData.borderWidth)
-        $offPanel.css('padding-top', this.formData.borderWidth)
+
+      if(this.formData.bdT==="on"){
+        $alPanel.css('border-top-width', bdWidth)
+        $defPanel.css('padding-top', bdWidth)
       }else{
         $alPanel.css('border-top-width', 0)
         $defPanel.css('padding-top', 0)
-        $offPanel.css('padding-top', 0)
       }
-      if(this.formData.borderB==="show"){
-        $alPanel.css('border-bottom-width', this.formData.borderWidth)
-        $defPanel.css('padding-bottom', this.formData.borderWidth)
-        $offPanel.css('padding-bottom', this.formData.borderWidth)
+      if(this.formData.bdB==="on"){
+        $alPanel.css('border-bottom-width', bdWidth)
+        $defPanel.css('padding-bottom', bdWidth)
       }else{
         $alPanel.css('border-bottom-width', 0)
         $defPanel.css('padding-bottom', 0)
-        $offPanel.css('padding-bottom', 0)
       }
-      if(this.formData.borderL==="show"){
-        $alPanel.css('border-Left-width', this.formData.borderWidth)
-        $defPanel.css('padding-Left', this.formData.borderWidth)
-        $offPanel.css('padding-Left', this.formData.borderWidth)
+      if(this.formData.bdL==="on"){
+        $alPanel.css('border-Left-width', bdWidth)
+        $defPanel.css('padding-Left', bdWidth)
       }else{
         $alPanel.css('border-Left-width', 0)
         $defPanel.css('padding-Left', 0)
-        $offPanel.css('padding-Left', 0)
       }
-      if(this.formData.borderR==="show"){
-        $alPanel.css('border-right-width', this.formData.borderWidth)
-        $defPanel.css('padding-right', this.formData.borderWidth)
-        $offPanel.css('padding-right', this.formData.borderWidth)
+      if(this.formData.bdR==="on"){
+        $alPanel.css('border-right-width', bdWidth)
+        $defPanel.css('padding-right', bdWidth)
       }else{
         $alPanel.css('border-right-width', 0)
         $defPanel.css('padding-right', 0)
-        $offPanel.css('padding-right', 0)
       }
-      $alPanel.css('border-style', this.formData.borderStyle)
-      $alPanel.css('border-color', this.formData.borderColor)
-
-
+      $alPanel.css('border-style', this.formData.bdStyle)
+      $alPanel.css('border-color', this.formData.bdColor)
     }else{
         $alPanel.remove()
+        isDefBk=true
     }
 
-
-
  
-    let _antBc=this.$content.attr("antBc")
-    this.$content.removeClass(_antBc);
-    this.$content.addClass(this.formData.antBc)
-    this.$content.attr("antBc",this.formData.antBc)
+    let mbdTsAntVal=this.$content.attr("mbdTsAnt")
+    this.$content.removeClass(mbdTsAntVal);
+    this.$content.addClass(this.formData.mbdTsAnt)
+    this.$content.attr("mbdTsAnt",this.formData.mbdTsAnt)
 
-    if(this.formData.antBc !="hide"){
-      let _antTsFunBV=this.formData.antTsFunB
-      if(this.formData.antTsFunB==='cubic-bezier') 
-        _antTsFunBV='cubic-bezier(0.52, 1.64, 0.37, 0.66)'
-      let _antTsDurBV=this.formData.antTsDurB+'s'
+    if(this.formData.mbdT ==="on" || this.formData.mbdB==="on" ||this.formData.mbdL==="on"||this.formData.mbdR==="on" ){
+      let mbdTsFunVal=this.formData.mbdTsFun==='cubic-bezier'  ? 'cubic-bezier(0.52, 1.64, 0.37, 0.66)' : this.formData.mbdTsFun
+      let mbdTsDurVal=this.formData.mbdTsDur+'s'
+      
+      const mbdWidth=this.formData.mbdWidth !="" ? parseInt(this.formData.mbdWidth) : '';
+      const mbdStyle=this.formData.mbdStyle
+      const mbdColor=this.formData.mbdColor
+
+
+
+      let $mlPanel=this.$contentBox.find(".bk-mline")
+      if($mlPanel.length <=0) $textPanel.append("<div class='bk-mline'></div>")
+      $mlPanel=this.$contentBox.find(".bk-mline")
+      $mlPanel.css('border-radius',parseInt(bRadius))
+      $mlPanel.css('border-color', mbdColor)
+      $mlPanel.css('border-style', mbdStyle)
+      $mlPanel.css('transition-timing-function',mbdTsFunVal)
+      $mlPanel.css('transition-duration',mbdTsDurVal)
 
       let $ltPanel=this.$contentBox.find(".w-lt")
-      if(this.formData.borderT==="show"){
+      if(this.formData.mbdT==="on"){
         if($ltPanel.length <=0)
           $textPanel.append("<div class='bk-line  w-lt'></div>")
           $ltPanel=this.$contentBox.find(".w-lt")
-          $ltPanel.css('border-top-width',parseInt(this.formData.borderWidth))
-          $ltPanel.css('border-top-style',this.formData.borderStyle)
-          $ltPanel.css('border-top-color',this.formData.antBcolor)
-          $ltPanel.css('transition-timing-function',_antTsFunBV)
-          $ltPanel.css('transition-duration',_antTsDurBV)
+          $ltPanel.css('border-top-width',mbdWidth)
+          $ltPanel.css('border-top-style',mbdStyle)
+          $ltPanel.css('border-top-color',mbdColor)
+          $ltPanel.css('transition-timing-function',mbdTsFunVal)
+          $ltPanel.css('transition-duration',mbdTsDurVal)
+          $offPanel.css('padding-top', mbdWidth)
+          $mlPanel.css('border-top-width', mbdWidth)
+
+          if(isDefBk) $defPanel.css('padding-top', mbdWidth)
           
       }else{
+        $offPanel.css('padding-top', 0)
+        $mlPanel.css('border-top-width', 0)
+        if(isDefBk) $defPanel.css('padding-top', 0)
         $ltPanel.remove()
+
       }
       let $lbPanel=this.$contentBox.find(".w-lb")
-      if(this.formData.borderB==="show"){
+      if(this.formData.mbdB==="on"){
         if($lbPanel.length <=0)
           $textPanel.append("<div class='bk-line  w-lb'></div>")
           $lbPanel=this.$contentBox.find(".w-lb")
-          $lbPanel.css('border-Bottom-width',parseInt(this.formData.borderWidth))
-          $lbPanel.css('border-Bottom-style',this.formData.borderStyle)
-          $lbPanel.css('border-Bottom-color',this.formData.antBcolor)
-          $lbPanel.css('transition-timing-function',_antTsFunBV)
-          $lbPanel.css('transition-duration',_antTsDurBV)
-          
+          $lbPanel.css('border-bottom-width',mbdWidth)
+          $lbPanel.css('border-bottom-style',mbdStyle)
+          $lbPanel.css('border-bottom-color',mbdColor)
+          $lbPanel.css('transition-timing-function',mbdTsFunVal)
+          $lbPanel.css('transition-duration',mbdTsDurVal)
+          $offPanel.css('padding-bottom', mbdWidth)
+          $mlPanel.css('border-bottom-width', mbdWidth)
+          if(isDefBk) $defPanel.css('padding-bottom', mbdWidth)
       }else{
+        
+        $offPanel.css('padding-bottom', 0)
+        $mlPanel.css('border-bottom-width', 0)
+        if(isDefBk) $defPanel.css('padding-bottom', 0)
         $lbPanel.remove()
       }
       let $llPanel=this.$contentBox.find(".w-ll")
-      if(this.formData.borderL==="show"){
+      if(this.formData.mbdL==="on"){
         if($llPanel.length <=0)
           $textPanel.append("<div class='bk-line  w-ll'></div>")
           $llPanel=this.$contentBox.find(".w-ll")
-          $llPanel.css('border-left-width',parseInt(this.formData.borderWidth))
-          $llPanel.css('border-left-style',this.formData.borderStyle)
-          $llPanel.css('border-left-color',this.formData.antBcolor)
-          $llPanel.css('transition-timing-function',_antTsFunBV)
-          $llPanel.css('transition-duration',_antTsDurBV)
+          $llPanel.css('border-left-width',mbdWidth)
+          $llPanel.css('border-left-style',mbdStyle)
+          $llPanel.css('border-left-color',mbdColor)
+          $llPanel.css('transition-timing-function',mbdTsFunVal)
+          $llPanel.css('transition-duration',mbdTsDurVal)
+          $offPanel.css('padding-left', mbdWidth)
+          $mlPanel.css('border-left-width',mbdWidth)
+          if(isDefBk) $defPanel.css('padding-left', mbdWidth)
           
       }else{
+        
+        $offPanel.css('padding-left', 0)
+        $mlPanel.css('border-left-width',0)
+        if(isDefBk) $defPanel.css('padding-left', 0)
         $llPanel.remove()
       }
       let $lrPanel=this.$contentBox.find(".w-lr")
-      if(this.formData.borderR==="show"){
+      if(this.formData.mbdR==="on"){
         if($lrPanel.length <=0)
           $textPanel.append("<div class='bk-line  w-lr'></div>")
           $lrPanel=this.$contentBox.find(".w-lr")
-          $lrPanel.css('border-right-width',parseInt(this.formData.borderWidth))
-          $lrPanel.css('border-right-style',this.formData.borderStyle)
-          $lrPanel.css('border-right-color',this.formData.antBcolor)
-          $lrPanel.css('transition-timing-function',_antTsFunBV)
-          $lrPanel.css('transition-duration',_antTsDurBV)
+          $lrPanel.css('border-right-width',mbdWidth)
+          $lrPanel.css('border-right-style',mbdStyle)
+          $lrPanel.css('border-right-color',mbdColor)
+          $lrPanel.css('transition-timing-function',mbdTsFunVal)
+          $lrPanel.css('transition-duration',mbdTsDurVal)
+          $offPanel.css('padding-right', mbdWidth)
+          $mlPanel.css('border-right-width',mbdWidth)
+          if(isDefBk) $defPanel.css('padding-right', mbdWidth)
           
       }else{
+        $offPanel.css('padding-right', 0)
+        $mlPanel.css('border-right-width',0)
+        if(isDefBk) $defPanel.css('padding-right', 0)
         $lrPanel.remove()
       }
 
-      
-     
-
-
-   
+      //以上所有边框加上
+      if(this.formData.mbdTsAnt ==="bdtx0" || this.formData.mbdTsAnt ==="bdtx1"){
+        $ltPanel.remove()
+        $lbPanel.remove()
+        $llPanel.remove()
+        $lrPanel.remove()
+      }else{
+        $mlPanel.remove()
+      }
     }
-
-
   }
   updatePropPanel(){
     let that = this
     let $propPanel = this.$propPanel
 
-    let $fFamilySelect = $propPanel.find('select[name=fFamily]')
-    $fFamilySelect.val(this.formData.fFamily)
+    let $familySelect = $propPanel.find('select[name=family]')
+    $familySelect.val(this.formData.family)
 
     let $colorInput = $propPanel.find('input[type=text][name=color]')
     $colorInput.val(this.formData.color)
 
-    let $fontSizeInput = $propPanel.find('input[type=text][name=fontSize]')
-    $fontSizeInput.val(this.formData.fontSize)
+    let $fSizeInput = $propPanel.find('input[type=text][name=fSize]')
+    $fSizeInput.val(this.formData.fSize)
 
     let $bgColorInput = $propPanel.find('input[type=text][name=bgColor]')
     $bgColorInput.val(this.formData.bgColor)
 
-    let $lineHgInput = $propPanel.find('input[type=text][name=lineHg]')
-    $lineHgInput.val(this.formData.lineHg)
+    let $lHeightInput = $propPanel.find('input[type=text][name=lHeight]')
+    $lHeightInput.val(this.formData.lHeight)
 
     let $spacingInput = $propPanel.find('input[type=text][name=spacing]')
     $spacingInput.val(this.formData.spacing)
@@ -1433,6 +1626,9 @@ export default class TextComponent extends Component {
     } else {
       $hrefModeCheckBox.prop('checked', false)
     }
+    let $bRadiusInput = $propPanel.find('input[type=text][name=bRadius]')
+    $bRadiusInput.val(this.formData.bRadius)
+
 
     if (this.formData.color) {
        $colorInput.prev().find(".sp-preview-inner").css("background-color",this.formData.color)
@@ -1448,100 +1644,132 @@ export default class TextComponent extends Component {
     let $hoverModeRadio = $propPanel.find('input[type=radio][name=hoverMode]')
     $hoverModeRadio.filter(`[value="${this.formData.hoverMode}"]`).prop('checked', true)
 
-    let $ffFamilySelect = $propPanel.find('select[name=ffFamily]')
-    $ffFamilySelect.val(this.formData.ffFamily)
+    let $mfamilySelect = $propPanel.find('select[name=mfamily]')
+    $mfamilySelect.val(this.formData.mfamily)
 
-    let $fcolorInput = $propPanel.find('input[type=text][name=fcolor]')
-    $fcolorInput.val(this.formData.fcolor)
+    let $mcolorInput = $propPanel.find('input[type=text][name=mcolor]')
+    $mcolorInput.val(this.formData.mcolor)
 
-    let $ffontSizeInput = $propPanel.find('input[type=text][name=ffontSize]')
-    $ffontSizeInput.val(this.formData.ffontSize)
+    let $mfSizeInput = $propPanel.find('input[type=text][name=mfSize]')
+    $mfSizeInput.val(this.formData.mfSize)
 
-    let $fbgColorInput = $propPanel.find('input[type=text][name=fbgColor]')
-    $fbgColorInput.val(this.formData.fbgColor)
+    let $mbgColorInput = $propPanel.find('input[type=text][name=mbgColor]')
+    $mbgColorInput.val(this.formData.mbgColor)
 
-    let $flineHgInput = $propPanel.find('input[type=text][name=flineHg]')
-    $flineHgInput.val(this.formData.flineHg)
+    let $mlHeightInput = $propPanel.find('input[type=text][name=mlHeight]')
+    $mlHeightInput.val(this.formData.mlHeight)
 
-    let $fspacingInput = $propPanel.find('input[type=text][name=fspacing]')
-    $fspacingInput.val(this.formData.fspacing)
+    let $mspacingInput = $propPanel.find('input[type=text][name=mspacing]')
+    $mspacingInput.val(this.formData.mspacing)
     
-    let $findentInput = $propPanel.find('input[type=text][name=findent]')
-    $findentInput.val(this.formData.findent)
+    let $mindentInput = $propPanel.find('input[type=text][name=mindent]')
+    $mindentInput.val(this.formData.mindent)
 
-    let $fcontentTextarea = $propPanel.find('textarea[name=fcontent]')
-    $fcontentTextarea.val(this.formData.fcontent)
-    if (this.formData.fcolor) {
-       $fcolorInput.prev().find(".sp-preview-inner").css("background-color",this.formData.fcolor)
+    let $mcontentTextarea = $propPanel.find('textarea[name=mcontent]')
+    $mcontentTextarea.val(this.formData.mcontent)
+    if (this.formData.mcolor) {
+       $mcolorInput.prev().find(".sp-preview-inner").css("background-color",this.formData.mcolor)
     }else{
-      $fcolorInput.prev().find(".sp-preview-inner").css("background-color",'')
+      $mcolorInput.prev().find(".sp-preview-inner").css("background-color",'')
     }
-    if (this.formData.fbgColor) {
-       $fbgColorInput.prev().find(".sp-preview-inner").css("background-color",this.formData.fbgColor)
+    if (this.formData.mbgColor) {
+       $mbgColorInput.prev().find(".sp-preview-inner").css("background-color",this.formData.mbgColor)
     }else{
-      $fbgColorInput.prev().find(".sp-preview-inner").css("background-color",'')
+      $mbgColorInput.prev().find(".sp-preview-inner").css("background-color",'')
     } 
 
    　//动画信息
-    let $antTsDurInput = $propPanel.find('input[type=text][name=antTsDur]')
-    $antTsDurInput.val(this.formData.antTsDur)
-    let $antTsFunModeRadio = $propPanel.find('input[type=radio][name=antTsFun]')
-    $antTsFunModeRadio.filter(`[value="${this.formData.antTsFun}"]`).prop('checked', true)
-    let $antTransModeRadio = $propPanel.find('input[type=radio][name=antTrans]')
-    $antTransModeRadio.filter(`[value="${this.formData.antTrans}"]`).prop('checked', true)
+    let $mTsDurInput = $propPanel.find('input[type=text][name=mTsDur]')
+    $mTsDurInput.val(this.formData.mTsDur)
+    let $mTsFunRadio = $propPanel.find('input[type=radio][name=mTsFun]')
+    $mTsFunRadio.filter(`[value="${this.formData.mTsFun}"]`).prop('checked', true)
+    let $mTsAntRadio = $propPanel.find('input[type=radio][name=mTsAnt]')
+    $mTsAntRadio.filter(`[value="${this.formData.mTsAnt}"]`).prop('checked', true)
 
     //边框信息
-    let $borderTCheckBox = $propPanel.find('input[type=checkbox][name=borderT]')
-    if (this.formData.borderT === 'show') {
-      $borderTCheckBox.prop('checked', true)
+    let $bdTCheckBox = $propPanel.find('input[type=checkbox][name=bdT]')
+    if (this.formData.bdT === 'on') {
+      $bdTCheckBox.prop('checked', true)
     } else {
-      $borderTCheckBox.prop('checked', false)
+      $bdTCheckBox.prop('checked', false)
     }
-    let $borderBCheckBox = $propPanel.find('input[type=checkbox][name=borderB]')
-    if (this.formData.borderB === 'show') {
-      $borderBCheckBox.prop('checked', true)
+    let $bdBCheckBox = $propPanel.find('input[type=checkbox][name=bdB]')
+    if (this.formData.bdB === 'on') {
+      $bdBCheckBox.prop('checked', true)
     } else {
-      $borderBCheckBox.prop('checked', false)
+      $bdBCheckBox.prop('checked', false)
     }
-    let $borderLCheckBox = $propPanel.find('input[type=checkbox][name=borderL]')
-    if (this.formData.borderL === 'show') {
-      $borderLCheckBox.prop('checked', true)
+    let $bdLCheckBox = $propPanel.find('input[type=checkbox][name=bdL]')
+    if (this.formData.bdL === 'on') {
+      $bdLCheckBox.prop('checked', true)
     } else {
-      $borderLCheckBox.prop('checked', false)
+      $bdLCheckBox.prop('checked', false)
     }
-    let $borderRCheckBox = $propPanel.find('input[type=checkbox][name=borderR]')
-    if (this.formData.borderR === 'show') {
-      $borderRCheckBox.prop('checked', true)
+    let $bdRCheckBox = $propPanel.find('input[type=checkbox][name=bdR]')
+    if (this.formData.bdR === 'on') {
+      $bdRCheckBox.prop('checked', true)
     } else {
-      $borderRCheckBox.prop('checked', false)
+      $bdRCheckBox.prop('checked', false)
     }
 
-    let $borderWidthInput = $propPanel.find('input[type=text][name=borderWidth]')
-    $borderWidthInput.val(this.formData.borderWidth)
-    let $borderColorInput = $propPanel.find('input[type=text][name=borderColor]')
-    $borderColorInput.val(this.formData.borderColor)
-    let $borderStyleRadio = $propPanel.find('input[type=radio][name=borderStyle]')
-    $borderStyleRadio.filter(`[value="${this.formData.borderStyle}"]`).prop('checked', true)
+    let $bdWidthInput = $propPanel.find('input[type=text][name=bdWidth]')
+    $bdWidthInput.val(this.formData.bdWidth)
+    let $bdColorInput = $propPanel.find('input[type=text][name=bdColor]')
+    $bdColorInput.val(this.formData.bdColor)
+    let $bdStyleRadio = $propPanel.find('input[type=radio][name=bdStyle]')
+    $bdStyleRadio.filter(`[value="${this.formData.bdStyle}"]`).prop('checked', true)
 
-    if (this.formData.borderColor) {
-      $borderColorInput.prev().find(".sp-preview-inner").css("background-color",this.formData.borderColor)
+    if (this.formData.bdColor) {
+      $bdColorInput.prev().find(".sp-preview-inner").css("background-color",this.formData.bdColor)
     }else{
-      $borderColorInput.prev().find(".sp-preview-inner").css("background-color",'')
+      $bdColorInput.prev().find(".sp-preview-inner").css("background-color",'')
     }
     //移上边框
-    let $antTsDurBInput = $propPanel.find('input[type=text][name=antTsDurB]')
-    $antTsDurBInput.val(this.formData.antTsDurB)
-    let $antTsFunBRadio = $propPanel.find('input[type=radio][name=antTsFunB]')
-    $antTsFunBRadio.filter(`[value="${this.formData.antTsFunB}"]`).prop('checked', true)
-    let $antBcolorInput = $propPanel.find('input[type=text][name=antBcolor]')
-    $antBcolorInput.val(this.formData.antBcolor)
-    let $antBcRadio = $propPanel.find('input[type=radio][name=antBc]')
-    $antBcRadio.filter(`[value="${this.formData.antBc}"]`).prop('checked', true)
 
-    if (this.formData.antBcolor) {
-       $antBcolorInput.prev().find(".sp-preview-inner").css("background-color",this.formData.antBcolor)
+    let $mbdTCheckBox = $propPanel.find('input[type=checkbox][name=mbdT]')
+    if (this.formData.mbdT === 'on') {
+      $mbdTCheckBox.prop('checked', true)
+    } else {
+      $mbdTCheckBox.prop('checked', false)
+    }
+    let $mbdBCheckBox = $propPanel.find('input[type=checkbox][name=mbdB]')
+    if (this.formData.mbdB === 'on') {
+      $mbdBCheckBox.prop('checked', true)
+    } else {
+      $mbdBCheckBox.prop('checked', false)
+    }
+    let $mbdLCheckBox = $propPanel.find('input[type=checkbox][name=mbdL]')
+    if (this.formData.mbdL === 'on') {
+      $mbdLCheckBox.prop('checked', true)
+    } else {
+      $mbdLCheckBox.prop('checked', false)
+    }
+    let $mbdRCheckBox = $propPanel.find('input[type=checkbox][name=mbdR]')
+    if (this.formData.mbdR === 'on') {
+      $mbdRCheckBox.prop('checked', true)
+    } else {
+      $mbdRCheckBox.prop('checked', false)
+    }
+
+    let $mbdWidthInput = $propPanel.find('input[type=text][name=mbdWidth]')
+    $mbdWidthInput.val(this.formData.mbdWidth)
+    let $mbdColorInput = $propPanel.find('input[type=text][name=mbdColor]')
+    $mbdColorInput.val(this.formData.mbdColor)
+    let $mbdStyleRadio = $propPanel.find('input[type=radio][name=mbdStyle]')
+    $mbdStyleRadio.filter(`[value="${this.formData.mbdStyle}"]`).prop('checked', true)
+
+    let $mbdTsDurInput = $propPanel.find('input[type=text][name=mbdTsDur]')
+    $mbdTsDurInput.val(this.formData.mbdTsDur)
+    let $mbdTsFunRadio = $propPanel.find('input[type=radio][name=mbdTsFun]')
+    $mbdTsFunRadio.filter(`[value="${this.formData.mbdTsFun}"]`).prop('checked', true)
+
+    let $mbdTsAntRadio = $propPanel.find('input[type=radio][name=mbdTsAnt]')
+    $mbdTsAntRadio.filter(`[value="${this.formData.mbdTsAnt}"]`).prop('checked', true)
+
+    if (this.formData.mbdColor) {
+       $mbdColorInput.prev().find(".sp-preview-inner").css("background-color",this.formData.mbdColor)
     }else{
-      $antBcolorInput.prev().find(".sp-preview-inner").css("background-color",'')
+      $mbdColorInput.prev().find(".sp-preview-inner").css("background-color",'')
     }
     
     //右侧  正面字体样式设置
@@ -1554,12 +1782,12 @@ export default class TextComponent extends Component {
     }else{
       $weightInput.val("")
     }
-    let $fontStyleInput = $propPanel.find('.font-z input[type=hidden][name=fontStyle]')
-    if(that.formData.fontStyle=="italic"){
-      $fontStyleInput.val("italic")
-      $fontStyleInput.parent().addClass("active")
+    let $fStyleInput = $propPanel.find('.font-z input[type=hidden][name=fStyle]')
+    if(that.formData.fStyle=="italic"){
+      $fStyleInput.val("italic")
+      $fStyleInput.parent().addClass("active")
     }else{
-      $fontStyleInput.val("normal")
+      $fStyleInput.val("normal")
     }
     let $oLineInput = $propPanel.find('.font-z input[type=hidden][name=oLine]')
     if(that.formData.oLine=="overline"){
@@ -1569,12 +1797,12 @@ export default class TextComponent extends Component {
       $oLineInput.val("")
     }
 
-    let $lThroughInput = $propPanel.find('.font-z input[type=hidden][name=lThrough]')
-    if(that.formData.lThrough=="line-through"){
-      $lThroughInput.val("line-through")
-      $lThroughInput.parent().addClass("active")
+    let $throughInput = $propPanel.find('.font-z input[type=hidden][name=through]')
+    if(that.formData.through=="line-through"){
+      $throughInput.val("line-through")
+      $throughInput.parent().addClass("active")
     }else{
-      $lThroughInput.val("")
+      $throughInput.val("")
     }
     let $uLineInput = $propPanel.find('.font-z input[type=hidden][name=uLine]')
     if(that.formData.uLine=="underline"){
@@ -1585,45 +1813,45 @@ export default class TextComponent extends Component {
     }
 
     //右侧 反面字体样式设置
-    let $fweightInput = $propPanel.find('.font-f input[type=hidden][name=fweight]')
-    if(that.formData.fweight=="600"){
-      $fweightInput.val("600")
-      $fweightInput.parent().addClass("active")
+    let $mweightInput = $propPanel.find('.font-f input[type=hidden][name=mweight]')
+    if(that.formData.mweight=="600"){
+      $mweightInput.val("600")
+      $mweightInput.parent().addClass("active")
     }else{
-      $fweightInput.val("")
+      $mweightInput.val("")
     }
-    let $ffontStyleInput = $propPanel.find('.font-f input[type=hidden][name=ffontStyle]')
-    if(that.formData.ffontStyle=="italic"){
-      $ffontStyleInput.val("italic")
-      $ffontStyleInput.parent().addClass("active")
+    let $mfStyleInput = $propPanel.find('.font-f input[type=hidden][name=mfStyle]')
+    if(that.formData.mfStyle=="italic"){
+      $mfStyleInput.val("italic")
+      $mfStyleInput.parent().addClass("active")
     }else{
-      $ffontStyleInput.val("normal")
+      $mfStyleInput.val("normal")
     }
-    let $foLineInput = $propPanel.find('.font-f input[type=hidden][name=foLine]')
-    if(that.formData.foLine=="overline"){
-      $foLineInput.val("overline")
-      $foLineInput.parent().addClass("active")
+    let $moLineInput = $propPanel.find('.font-f input[type=hidden][name=moLine]')
+    if(that.formData.moLine=="overline"){
+      $moLineInput.val("overline")
+      $moLineInput.parent().addClass("active")
     }else{
-      $foLineInput.val("")
+      $moLineInput.val("")
     }
 
-    let $flThroughInput = $propPanel.find('.font-f input[type=hidden][name=flThrough]')
-    if(that.formData.flThrough=="line-through"){
-      $flThroughInput.val("line-through")
-      $flThroughInput.parent().addClass("active")
+    let $mthroughInput = $propPanel.find('.font-f input[type=hidden][name=mthrough]')
+    if(that.formData.mthrough=="line-through"){
+      $mthroughInput.val("line-through")
+      $mthroughInput.parent().addClass("active")
     }else{
-      $flThroughInput.val("")
+      $mthroughInput.val("")
     }
-    let $fuLineInput = $propPanel.find('.font-z input[type=hidden][name=fuLine]')
+    let $muLineInput = $propPanel.find('.font-z input[type=hidden][name=muLine]')
     if(that.formData.uLine=="underline"){
-      $fuLineInput.val("underline")
-      $fuLineInput.parent().addClass("active")
+      $muLineInput.val("underline")
+      $muLineInput.parent().addClass("active")
     }else{
-      $fuLineInput.val("")
+      $muLineInput.val("")
     }
 
     $propPanel.find(`.font-z .font-item-radio[data-val="${that.formData.align}"]`).addClass('active')
-    $propPanel.find(`.font-f .font-item-radio[data-val="${that.formData.falign}"]`).addClass('active')
+    $propPanel.find(`.font-f .font-item-radio[data-val="${that.formData.malign}"]`).addClass('active')
 
  
 

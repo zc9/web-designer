@@ -87,6 +87,18 @@
   .prop-setting-ct {
     color: #b8c2cc;
     font-size: 12px;
+    .layui-btn-sm{
+      background-color: #454545;
+      border:solid 1px #575757;
+      outline:solid 1px #5D5D5D;
+      color:#F0F0F0;
+      box-shadow: 1px -3px 7px 0px rgba(0,0,0,.1);
+      height: 28px;
+      line-height: 28px;
+      &:hover{
+        background-color:#1a8cff;
+      }
+    }
     .sepline{
       clear: both;
       height:1px;
@@ -355,7 +367,14 @@
           border-top: 1px #393939 solid;
           border-left: 1px #393939 solid;
           border-right: 1px #393939 solid;
-          
+        }
+      }
+      .layui-tab-row3{
+        li{
+          padding: 0 12px;
+        }
+        .layui-tab-bar{
+          display:none;
         }
       }
       .layui-tab-content{
@@ -381,6 +400,13 @@
       }
       .layui-colla-item{
         border: 0px;
+        .layui-field-box{
+          padding:5px  5px;
+          .nromal-wrap{
+            padding-left:4px;
+          }
+
+        }
       }
       .layui-colla-content{
         border:0px;
@@ -401,6 +427,7 @@
 
       }
     }
+
     //更多操作
     .editor-btns{
       text-align: center;
@@ -415,7 +442,6 @@
         display:inline-block;
         &:hover{
           background-color:#1a8cff;
-
         }
       }
     }

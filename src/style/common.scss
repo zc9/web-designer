@@ -59,15 +59,8 @@
   .wang-line{
     vertical-align:middle
   }
-  .w-short{
-    background-size: 20px;
-  }
-  .w-medium{
-    width:20px;
-    height:20px;
-  }
-  .w-big{
-    background-size: 20px;
+  .w-mid{
+    width:25px;
   }
 }
 
@@ -426,6 +419,7 @@
 
 //文字边框
 //默认边框
+.bk-mline,
 .bk-aline{
   position: absolute;
   top:0px;
@@ -467,23 +461,23 @@
 }
 //直接切换
 .bdtx0{
-  .bk-line {
+  .bk-mline {
     display: none
   }
   &:hover{
-    .bk-line{
+    .bk-mline{
       display: block
     }
   }
 }
 //渐隐渐显
 .bdtx1{
-  .bk-line {
+  .bk-mline {
     filter: alpha(opacity=0);
     opacity: 0
   }
   &:hover{
-    .bk-line{
+    .bk-mline{
       filter: alpha(opacity=100);
       opacity: 1
     }

@@ -549,6 +549,9 @@ export default class ImgComponent extends Component {
     $propPanel.find('*').off()
 
     this.updatePropPanel()
+    //收缩 重新加载
+    let element = layui.element
+    element.render("collapse")
 
     let $bgImgInput = $propPanel.find('#bgImgInput')
     $bgImgInput.change((function() {
@@ -649,7 +652,7 @@ export default class ImgComponent extends Component {
         }
       });
     })
-
+  
 
     $propPanel.find('.editor-btns').on('click', function() {
       that.openEditDialog()

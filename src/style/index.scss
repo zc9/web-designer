@@ -246,8 +246,8 @@ icon {
     }
   }
   .set-panel {
-    height: 41px;
-    line-height: 41px;
+    height: 40px;
+    line-height: 40px;
     font-size: 12px;
     color: #b8c2cc;
     position: absolute;
@@ -309,6 +309,40 @@ icon {
       color: #fff;
       text-align: center;
       margin-top: 5px;
+    }
+  }
+  .set-panel-align{
+    .label {
+      text-indent: 14px;
+      display: inline-block;
+    }
+    span{
+      icon{
+        display:inline-block;
+        width:22px;
+        height:22px;
+        line-height:22px;
+        text-align:center;
+        margin-left:5px;
+        font-size:17px;
+        cursor:pointer;
+        &:hover{
+          background: #434343;
+          outline: solid 1px #393939;
+        }
+      }
+    }
+    input{
+      width: 51px;
+      height: 20px;
+      font-size: 12px;
+      color: #525c66;
+      border: 1px #141619 solid;
+      border-shadow: none;
+      text-indent: 2px;
+      margin-left: 9px;
+      outline: none;
+      background: url(https://img.alicdn.com/imgextra/i2/280837244/TB2dDq2iB0kpuFjSsziXXa.oVXa-280837244.png) -445px -436px no-repeat #fff;
     }
   }
 

@@ -5,6 +5,7 @@ import HotAreaComponent from './HotAreaComponent';
 import ImgComponent from './ImgComponent';
 import TextComponent from './TextComponent';
 import WangComponent from './WangComponent';
+import VideoComponent from './VideoComponent';
 import History from './History'
 export default class Stage {
   static STATE: Array<string> = ['hotarea', 'selection', 'handle']
@@ -484,6 +485,8 @@ export default class Stage {
         component = new TextComponent
       } else if (app.appType === 'wangh') {
         component = new WangComponent
+      } else if (app.appType === 'xvb') {
+        component = new VideoComponent
       }
       component.formData = app.config
       component.update(component.formData)

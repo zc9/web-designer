@@ -1,12 +1,10 @@
 import Component from './Component'
-require('./assets/wang2.gif')
-require('./assets/wang1.gif')
 export default class WangComponent extends Component {
   $content: JQuery
   $wangImg: JQuery
   constructor() {
     super('VideoComponent')
-   this.$content = $('<div class="video-box"><Video style="width: 450, height:200"   src="https://cloud.video.taobao.com/play/u/2780279213/p/1/e/6/t/1/d/ld/36255062.mp4" /></div>')
+   this.$content = $('<div class="video-box"><Video style="width:450,height:200"   src="https://cloud.video.taobao.com/play/u/2780279213/p/1/e/6/t/1/d/ld/36255062.mp4" /></div>')
     this.$contentBox.append(this.$content)
     this.initFormData()
   }
@@ -77,7 +75,7 @@ export default class WangComponent extends Component {
     let $layerElem = null;
     let layerNo = layer.open({
       type: 1,
-      title: '旺旺设置',
+      title: '视频设置',
       skin: 'layui-layer-rim', //加上边框
       area: ['600px', '600px'],
       success: function(layerElem, index) {
@@ -105,7 +103,7 @@ export default class WangComponent extends Component {
         </div>
         <div class="layui-form-item">
           <div class="layui-ft-btn">
-            <button class="layui-btn" lay-submit lay-filter="wangComponentForm">确定</button>
+            <button class="layui-btn" lay-submit lay-filter="videoComponentForm">确定</button>
             <button type="button" class="cancel-btn layui-btn layui-btn-primary">取消</button>
           </div>
         </div>
@@ -152,7 +150,7 @@ export default class WangComponent extends Component {
   }
   updatePropPanel() {
     let $propPanel = this.$propPanel
-    this.onCoverModeChanged($propPanel, this.formData.coverMode)
+     
 
     let $videoIDInput = $propPanel.find('input[type=text][name=videoID]')
     $videoIDInput.val(this.formData.videoID)

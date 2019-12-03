@@ -135,7 +135,7 @@ export default class WangComponent extends Component {
           layer.close(index)
         })
       },
-      content: `<form class="layui-form" lay-filter="imgComponentForm">
+      content: `<form class="layui-form" lay-filter="wangComponentForm">
         <div class="layui-tab layui-tab-brief">
           <ul class="layui-tab-title">
             <li class="layui-this">内容设置</li>

@@ -4,7 +4,7 @@ export default class ImgComponent extends Component {
   $img: JQuery
   constructor() {
     super('img-component')
-    this.$content = $('<a><img src="" style="display:none"></a>')
+    this.$content = $('<a class="xdtb"><img src="" style="display:none"></a>')
     this.$img = this.$content.find('img')
     this.$contentBox.append(this.$content)
     this.initFormData()
@@ -41,12 +41,27 @@ export default class ImgComponent extends Component {
     this.formData.animType = ''
     this.formData.hrefMode = '_blank'
     this.formData.bgImgSize = false
-    this.formData.animSpeed = '1s'
+    this.formData.animTsDur = '0.5'
     this.formData.animRange = '-s'
     this.formData.wangID = ''
     this.formData.bdRadius= ''
     this.formData.bdStyle= 'solid'
 
+    this.formData.shadow= 'off'//box-shadow: h-shadow v-shadow blur spread color inset;
+    this.formData.sdColor= '#666666'
+    this.formData.sdSize= ''  //spread  可选。阴影的大小
+    this.formData.sdBlur= '5'  //可选。模糊距离
+    this.formData.sdX= ''     //必需的。水平阴影的位置
+    this.formData.sdY= ''     //必需的。垂直阴影的位置。
+
+    this.formData.mshadow= 'on'
+    this.formData.msdColor= '#E93030'
+    this.formData.msdSize= ''  
+    this.formData.msdBlur= '5'  
+    this.formData.msdX= ''    
+    this.formData.msdY= '' 
+    this.formData.msdTsDur= '0.5'     
+ 
     this.$content.css('background-image', `url(${this.formData.bgImg})`)
     this.$content.css('background-color', this.formData.bgColor)
     this.$img.attr('src', this.formData.bgImg)
@@ -110,6 +125,15 @@ export default class ImgComponent extends Component {
     }
 
   }
+  boxShadow(sdX,sdY,sdBlur,sdSize,sdColor){
+    let bShadow=sdX+'px'
+    bShadow+=' '+sdY+'px'
+    bShadow+=sdBlur ? ' '+sdBlur+'px': ''
+    bShadow+=sdSize ? ' '+sdSize+'px': ''
+    bShadow+=sdColor ? ' '+sdColor: ''
+    return bShadow
+  }
+ 
   openEditDialog() {
     let that = this;
     let layer = layui.layer;
@@ -131,7 +155,8 @@ export default class ImgComponent extends Component {
         })
 
         if (that.formData.bgColor) {
-          $layerElem.find('.sp-preview-inner').css('background-color', that.formData.bgColor)
+          let $bgColorInput=$layerElem.find('input[type=text][name=bgColor]')
+          $bgColorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.bgColor)
         }
         //边框
         if (that.formData.bdColor) {
@@ -142,7 +167,14 @@ export default class ImgComponent extends Component {
          let $mbdColorInput=$layerElem.find('input[type=text][name=mbdColor]')
          $mbdColorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.mbdColor)
         } 
-
+        if (that.formData.sdColor) {
+         let $sdColorInput=$layerElem.find('input[type=text][name=sdColor]')
+         $sdColorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.sdColor)
+        } 
+        if (that.formData.msdColor) {
+         let $msdColorInput=$layerElem.find('input[type=text][name=msdColor]')
+         $msdColorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.msdColor)
+        } 
         $layerElem.find('.cancel-btn').on('click', function() {
           layer.close(index)
         })
@@ -228,7 +260,7 @@ export default class ImgComponent extends Component {
               <div class="layui-form-item"  >
                 <label class="layui-form-label">圆角度数</label>
                 <div class="layui-input-inline">
-                  <input name="bdRadius" type="text" class="layui-input">
+                  <input name="bRadius" type="text" class="layui-input">
                 </div>
               </div>
               <div class="layui-form-item">
@@ -351,10 +383,109 @@ export default class ImgComponent extends Component {
                 </div>
               </div>
             </div>
+            <div class="layui-tab-item">
+              <div class="layui-tab layui-side-card">
+                <ul class="layui-tab-title"  >
+                  <li class="layui-this" style="margin-top: 110px;">默认阴影</li>
+                  <li class="">鼠标划过阴影</li>
+                </ul>
+                <div class="layui-tab-content" style="height: 400px;">
+                  <div class="layui-tab-item layui-show">
+                       
+                    <div class="layui-form-item" style="margin-top:30px;">
+                      <label class="layui-form-label">阴影</label>
+                      <div class="layui-input-inline">
+                        <input class="radio-medium" type="radio" name="shadow" value="on"  title="显示">
+                        <input class="radio-medium" type="radio" name="shadow" value="off"  title="隐藏">
+                      </div>
+                    </div>
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">阴影大小</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="sdSize" class="layui-input">
+                      </div>
+                    </div>
+                     <div class="layui-form-item">
+                      <label class="layui-form-label">模糊距离</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="sdBlur" class="layui-input">
+                      </div>
+                    </div>
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">水平阴影距离</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="sdX" class="layui-input">
+                      </div>
+                    </div>
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">垂直阴影距离</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="sdY" class="layui-input">
+                      </div>
+                    </div>
+                    <div class="layui-form-item"  >
+                      <label class="layui-form-label">阴影颜色</label>
+                      <div class="layui-input-inline pagecolorpanel"  >
+                        <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner"></div></div></div>
+                        <input name="sdColor" type="text" class="layui-input pagecolor">
+                        <span class="clear-color-button"></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="layui-tab-item">
+                       
+                    <div class="layui-form-item" style="margin-top:30px;">
+                      <label class="layui-form-label">阴影</label>
+                      <div class="layui-input-inline">
+                        <input class="radio-medium" type="radio" name="mshadow" value="on"  title="显示">
+                        <input class="radio-medium" type="radio" name="mshadow" value="off"  title="隐藏">
+                      </div>
+                    </div>
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">阴影大小</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="msdSize" class="layui-input">
+                      </div>
+                    </div>
+                     <div class="layui-form-item">
+                      <label class="layui-form-label">模糊距离</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="msdBlur" class="layui-input">
+                      </div>
+                    </div>
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">水平阴影距离</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="msdX" class="layui-input">
+                      </div>
+                    </div>
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">垂直阴影距离</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="msdY" class="layui-input">
+                      </div>
+                    </div>
+                    <div class="layui-form-item"  >
+                      <label class="layui-form-label">阴影颜色</label>
+                      <div class="layui-input-inline pagecolorpanel"  >
+                        <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner"></div></div></div>
+                        <input name="msdColor" type="text" class="layui-input pagecolor">
+                        <span class="clear-color-button"></span>
+                      </div>
+                    </div>
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">划过显示速度</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="msdTsDur" class="layui-input input-short"  style="width:120px;display:inline-block;">
+                        <label style="color:red;">单位 秒   可以小数点</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
- 
-            <div class="layui-tab-item"  >
-               阴影外框
+
+                 
             </div>
             <div class="layui-tab-item"  >
               <div class="layui-form-item">
@@ -379,19 +510,10 @@ export default class ImgComponent extends Component {
                 </div>
               </div>
               <div class="layui-form-item">
-                <label class="layui-form-label">图片显示方式</label>
+                <label class="layui-form-label">动画时间</label>
                 <div class="layui-input-inline">
-                  <select name="animSpeed">
-                    <option value="1s" selected="">1秒</option>
-                    <option value="2s">2秒</option>
-                    <option value="3s">3秒</option>
-                    <option value="4s">4秒</option>
-                    <option value="5s">5秒</option>
-                    <option value="6s">6秒</option>
-                    <option value="7s">7秒</option>
-                    <option value="8s">8秒</option>
-                    <option value="9s">9秒</option>
-                  </select>
+                  <input type="text" name="animTsDur" class="layui-input input-short"  style="width:120px;display:inline-block;">
+                  <label style="color:red;">单位 秒   可以小数点</label>
                 </div>
               </div>
             </div>
@@ -424,13 +546,44 @@ export default class ImgComponent extends Component {
     });
     form.val('imgComponentForm', that.formData)
   }
-
+  
   update(formData) {
     let that = this
+    let bRadius=parseInt(this.formData.bRadius)
+
+
+    if(this.formData.shadow ==="on"){
+      let sdX=this.formData.sdX ? this.formData.sdX: 0
+      let sdY=this.formData.sdY ? this.formData.sdY: 0
+      let bShadow=that.boxShadow(sdX,sdY,this.formData.sdBlur,this.formData.sdSize,this.formData.sdColor)
+      that.$content.css('box-shadow', bShadow)
+    }
+
+    if(this.formData.mshadow ==="on"){
+      let sdX=this.formData.msdX ? this.formData.msdX: 0
+      let sdY=this.formData.msdY ? this.formData.msdY: 0
+      let mbShadow=that.boxShadow(sdX,sdY,this.formData.msdBlur,this.formData.msdSize,this.formData.msdColor)
+      let $mchildPanel=that.$content.find(".mchild")
+      if($mchildPanel.length <=0)
+        that.$content.append("<div class='abs mchild xins-box-fadein'></div>")
+
+      $mchildPanel=that.$contentBox.find(".mchild")
+
+      $mchildPanel.css('box-shadow', mbShadow)
+      $mchildPanel.css('border-radius', bRadius)
+
+      let msdTsDur=this.formData.msdTsDur ? this.formData.msdTsDur+'s linear': 0
+      $mchildPanel.css('transition', msdTsDur)
+
+         
+      
+    }
+
+
     that.$content.css('background-image', `url(${formData.bgImg})`)
     that.$img.attr('src', formData.bgImg)
     that.$content.css('background-color', formData.bgColor)
-    that.$content.css('border-radius', parseInt(formData.bdRadius))
+    that.$content.css('border-radius', bRadius)
     that.$content.css('border-color', formData.bdColor)
 
 
@@ -513,6 +666,9 @@ export default class ImgComponent extends Component {
       $hrefModeCheckBox.prop('checked', false)
     }
     this.onLinkModeChanged($propPanel, this.formData.linkMode)
+    let $bRadiusInput = $propPanel.find('input[type=text][name=bRadius]')
+    $bRadiusInput.val(this.formData.bRadius)
+
 
     let $bdRadiusInput = $propPanel.find('input[type=text][name=bdRadius]')
     $bdRadiusInput.val(this.formData.bdRadius)
@@ -596,6 +752,12 @@ export default class ImgComponent extends Component {
       let val = $(this).val()
       that.formData.wangID = val
     })
+    let $bRadiusInput = $propPanel.find('input[type=text][name=bRadius]')
+    $bRadiusInput.change(function() {
+      that.formData.bRadius = $(this).val()
+      that.update(that.formData)
+    })
+
     let $bdRadiusInput = $propPanel.find('input[type=text][name=bdRadius]')
     $bdRadiusInput.change(function() {
       that.formData.bdRadius = $(this).val()

@@ -226,7 +226,7 @@
         <li data-name="wang-component"><icon>ꑀ</icon><span>旺旺</span></li>
         <li data-name="video-component"><icon>ꊀ</icon><span>视频/FLASH</span></li>
         <li style="display:none"><icon>ꅀ</icon><span>特效层</span></li>
-        <li style="display:none"><icon>ꅠ</icon><span>正反面图片</span></li>
+        <li><icon>ꅠ</icon><span>正反面图片</span></li>
         <li style="display:none"><icon>ꅰ</icon><span>切片正反面</span></li>
         <li style="display:none"><icon>ꈐ</icon><span>轮播</span></li>
         <li style="display:none"><icon>ꆐ</icon><span>滚动文字/图片</span></li>
@@ -875,7 +875,7 @@
                           </div>
                           <div class="nromal-wrap">
                             <label >圆角度数</label>
-                            <input class="input-short"   type="text" name="bdRadius" />
+                            <input class="input-short"   type="text" name="bRadius" />
                             <label >(填数字)</label>
                           </div>
                         </div>
@@ -912,11 +912,47 @@
                               <option value="xins-box-fromleft">从左进入</option>
                               <option value="xins-box-fromright">从右进入</option>
                             </select>
- 
+                          </div>
+                          <div class="nromal-wrap">
+                            <label>纵向移动</label>
+                            <select  name="css3ModeY" >
+                              <option value="" selected="selected">无效果</option>
+                              <option value="xins-box-lx">向左移动</option>
+                              <option value="xins-box-rx">向右移动</option>
+                              <option value="xins-box-fromleft">从左进入</option>
+                              <option value="xins-box-fromright">从右进入</option>
+                            </select>
+                            <select  name="css3ModeY-x" >
+                              <option value="" selected="selected">无效果</option>
+                              <option value="xins-box-lx">0像素</option>
+                              <option value="xins-box-rx">向右移动</option>
+                              <option value="xins-box-fromleft">从左进入</option>
+                              <option value="xins-box-fromright">从右进入</option>
+                            </select>
+
+                          </div>
+                          <div class="nromal-wrap">
+                            <label>旋转特效</label>
+                            <select   name="css3Mode_xz" >
+                              <option value="" selected="selected">无效果</option>
+                              <option value="xins-box-r">顺时针旋转</option>
+                              <option value="xins-box-fr">逆时针旋转</option>
+                            </select>
+                          </div>
+                          <div class="nromal-wrap">
+                            <label>翻转特效</label>
+                            <select   name="css3Mode_fz"  >
+                              <option value="" selected="selected">无效果</option>
+                              <option value="xins-box-fx">横向翻转</option>
+                              <option value="xins-box-fy">纵向翻转</option>
+                              <option value="xins-box-fxy">横向纵向同时翻转</option>
+                            </select>
                           </div>
 
+
+
+
                         </div>
-                
                       </div>
                     </div>
 

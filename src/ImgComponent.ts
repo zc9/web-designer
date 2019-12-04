@@ -60,10 +60,20 @@ export default class ImgComponent extends Component {
     this.formData.msdBlur= '5'  
     this.formData.msdX= ''    
     this.formData.msdY= '' 
-    this.formData.msdTsDur= '0.5'     
+    this.formData.msdTsDur= '0.5'
+
+    this.formData.bdWidth =5
+    this.formData.bdStyle ='solid'
+
+    this.formData.mbdWidth =5
+    this.formData.mbdStyle ='solid'
+
+    this.formData.mbdTsDur ='0.5'  
+    this.formData.mbdTsFun ='ease-out'  
+    this.formData.mbdTsAnt ='bdtx1'  
+
  
-    this.$content.css('background-image', `url(${this.formData.bgImg})`)
-    this.$content.css('background-color', this.formData.bgColor)
+    this.$content.css('background', `url(${this.formData.bgImg})`)
     this.$img.attr('src', this.formData.bgImg)
   }
 
@@ -78,7 +88,6 @@ export default class ImgComponent extends Component {
       $wangBox.show()
     }
   }
- 
   //同步边框信息
   onTongBuBd($layerElem,$isVal,that) {
     let $bdWidthVal = $layerElem.find('input[type=text][name=bdWidth]').val()
@@ -123,7 +132,6 @@ export default class ImgComponent extends Component {
      that.formData.mbdColor=$bdColorVal;
      that.formData.mbdStyle=$bdStyleVal;
     }
-
   }
   boxShadow(sdX,sdY,sdBlur,sdSize,sdColor){
     let bShadow=sdX+'px'
@@ -549,7 +557,7 @@ export default class ImgComponent extends Component {
   
   update(formData) {
     let that = this
-    let bRadius=parseInt(this.formData.bRadius)
+    let bRadius=this.formData.bRadius ?  parseInt(this.formData.bRadius) :''
 
 
     if(this.formData.shadow ==="on"){
@@ -574,9 +582,6 @@ export default class ImgComponent extends Component {
 
       let msdTsDur=this.formData.msdTsDur ? this.formData.msdTsDur+'s linear': 0
       $mchildPanel.css('transition', msdTsDur)
-
-         
-      
     }
 
 
@@ -584,34 +589,8 @@ export default class ImgComponent extends Component {
     that.$img.attr('src', formData.bgImg)
     that.$content.css('background-color', formData.bgColor)
     that.$content.css('border-radius', bRadius)
-    that.$content.css('border-color', formData.bdColor)
 
-
-    if(formData.bdT==="on" && typeof(formData.bdWidth) !="undefined"){
-      that.$content.css('border-top-style', formData.bdStyle)
-      that.$content.css('border-top-width', parseInt(formData.bdWidth))
-    }else{
-      that.$content.css('border-top-width',0)
-    }
-    if(formData.bdB==="on" && typeof(formData.bdWidth) !="undefined"){
-      that.$content.css('border-bottom-style', formData.bdStyle)
-      that.$content.css('border-bottom-width', parseInt(formData.bdWidth))
-    }else{
-      that.$content.css('border-bottom-width',0)
-    }
-    if(formData.bdL==="on" && typeof(formData.bdWidth) !="undefined"){
-      that.$content.css('border-left-style', formData.bdStyle)
-      that.$content.css('border-left-width', parseInt(formData.bdWidth))
-    }else{
-      that.$content.css('border-left-width',0)
-    }
-    if(formData.bdR==="on" && typeof(formData.bdWidth) !="undefined"){
-      that.$content.css('border-right-style', formData.bdStyle)
-      that.$content.css('border-right-width', parseInt(formData.bdWidth))
-    }else{
-      that.$content.css('border-right-width',0)
-    }
-
+ 
     that.$img.bind('load', function() {
       if (formData.bgImgSize === 'true') {
         that.$el.width(that.$img.width())
@@ -638,6 +617,149 @@ export default class ImgComponent extends Component {
       }
       that.$img.show()
     }
+
+    //处理边框
+    let isDefBk=false;
+    let $textPanel=this.$content;
+ 
+    let bdWidth=this.formData.bdWidth !="" ? parseInt(this.formData.bdWidth) : '';
+    let $alPanel=this.$content.find(".bk-aline")
+    if (this.formData.bdT==="on" || this.formData.bdB==="on" ||this.formData.bdL==="on"||this.formData.bdR==="on"){
+      if($alPanel.length <=0)
+        $textPanel.append("<div class='bk-aline'></div>")
+      $alPanel=this.$content.find(".bk-aline")
+      $alPanel.css('border-radius',bRadius)
+
+
+      if(this.formData.bdT==="on"){
+        $alPanel.css('border-top-width', bdWidth)
+      }else{
+        $alPanel.css('border-top-width', 0)
+      }
+      if(this.formData.bdB==="on"){
+        $alPanel.css('border-bottom-width', bdWidth)
+      }else{
+        $alPanel.css('border-bottom-width', 0)
+      }
+      if(this.formData.bdL==="on"){
+        $alPanel.css('border-Left-width', bdWidth)
+      }else{
+        $alPanel.css('border-Left-width', 0)
+      }
+      if(this.formData.bdR==="on"){
+        $alPanel.css('border-right-width', bdWidth)
+      }else{
+        $alPanel.css('border-right-width', 0)
+      }
+      $alPanel.css('border-style', this.formData.bdStyle)
+      $alPanel.css('border-color', this.formData.bdColor)
+    }else{
+        $alPanel.remove()
+        isDefBk=true
+    }
+
+ 
+    let mbdTsAntVal=this.$content.attr("mbdTsAnt")
+    this.$content.removeClass(mbdTsAntVal);
+    this.$content.addClass(this.formData.mbdTsAnt)
+    this.$content.attr("mbdTsAnt",this.formData.mbdTsAnt)
+
+    if(this.formData.mbdT ==="on" || this.formData.mbdB==="on" ||this.formData.mbdL==="on"||this.formData.mbdR==="on" ){
+      let mbdTsFunVal=this.formData.mbdTsFun==='cubic-bezier'  ? 'cubic-bezier(0.52, 1.64, 0.37, 0.66)' : this.formData.mbdTsFun
+      let mbdTsDurVal=this.formData.mbdTsDur+'s'
+      
+      const mbdWidth=this.formData.mbdWidth !="" ? parseInt(this.formData.mbdWidth) : 0;
+      const mbdStyle=this.formData.mbdStyle
+      const mbdColor=this.formData.mbdColor
+
+
+
+      let $mlPanel=this.$contentBox.find(".bk-mline")
+      if($mlPanel.length <=0) $textPanel.append("<div class='bk-mline'></div>")
+      $mlPanel=this.$contentBox.find(".bk-mline")
+      $mlPanel.css('border-radius',bRadius)
+      $mlPanel.css('border-color', mbdColor)
+      $mlPanel.css('border-style', mbdStyle)
+      $mlPanel.css('transition-timing-function',mbdTsFunVal)
+      $mlPanel.css('transition-duration',mbdTsDurVal)
+
+      let $ltPanel=this.$contentBox.find(".w-lt")
+      if(this.formData.mbdT==="on"){
+        if($ltPanel.length <=0)
+          $textPanel.append("<div class='bk-line  w-lt'></div>")
+          $ltPanel=this.$contentBox.find(".w-lt")
+          $ltPanel.css('border-top-width',mbdWidth)
+          $ltPanel.css('border-top-style',mbdStyle)
+          $ltPanel.css('border-top-color',mbdColor)
+          $ltPanel.css('transition-timing-function',mbdTsFunVal)
+          $ltPanel.css('transition-duration',mbdTsDurVal)
+          $mlPanel.css('border-top-width', mbdWidth)
+          
+      }else{
+        $mlPanel.css('border-top-width', 0)
+        $ltPanel.remove()
+
+      }
+      let $lbPanel=this.$contentBox.find(".w-lb")
+      if(this.formData.mbdB==="on"){
+        if($lbPanel.length <=0)
+          $textPanel.append("<div class='bk-line  w-lb'></div>")
+          $lbPanel=this.$contentBox.find(".w-lb")
+          $lbPanel.css('border-bottom-width',mbdWidth)
+          $lbPanel.css('border-bottom-style',mbdStyle)
+          $lbPanel.css('border-bottom-color',mbdColor)
+          $lbPanel.css('transition-timing-function',mbdTsFunVal)
+          $lbPanel.css('transition-duration',mbdTsDurVal)
+          $mlPanel.css('border-bottom-width', mbdWidth)
+      }else{
+        $mlPanel.css('border-bottom-width', 0)
+        $lbPanel.remove()
+      }
+      let $llPanel=this.$contentBox.find(".w-ll")
+      if(this.formData.mbdL==="on"){
+        if($llPanel.length <=0)
+          $textPanel.append("<div class='bk-line  w-ll'></div>")
+          $llPanel=this.$contentBox.find(".w-ll")
+          $llPanel.css('border-left-width',mbdWidth)
+          $llPanel.css('border-left-style',mbdStyle)
+          $llPanel.css('border-left-color',mbdColor)
+          $llPanel.css('transition-timing-function',mbdTsFunVal)
+          $llPanel.css('transition-duration',mbdTsDurVal)
+          $mlPanel.css('border-left-width',mbdWidth)
+      }else{
+        $mlPanel.css('border-left-width',0)
+        $llPanel.remove()
+      }
+      let $lrPanel=this.$contentBox.find(".w-lr")
+      if(this.formData.mbdR==="on"){
+        if($lrPanel.length <=0)
+          $textPanel.append("<div class='bk-line  w-lr'></div>")
+          $lrPanel=this.$contentBox.find(".w-lr")
+          $lrPanel.css('border-right-width',mbdWidth)
+          $lrPanel.css('border-right-style',mbdStyle)
+          $lrPanel.css('border-right-color',mbdColor)
+          $lrPanel.css('transition-timing-function',mbdTsFunVal)
+          $lrPanel.css('transition-duration',mbdTsDurVal)
+          $mlPanel.css('border-right-width',mbdWidth)
+          
+      }else{
+        $mlPanel.css('border-right-width',0)
+        $lrPanel.remove()
+      }
+
+      //以上所有边框加上
+      if(this.formData.mbdTsAnt ==="bdtx0" || this.formData.mbdTsAnt ==="bdtx1"){
+        $ltPanel.remove()
+        $lbPanel.remove()
+        $llPanel.remove()
+        $lrPanel.remove()
+      }else{
+        $mlPanel.remove()
+      }
+    }
+
+
+
   }
 
   updatePropPanel() {
@@ -670,28 +792,89 @@ export default class ImgComponent extends Component {
     $bRadiusInput.val(this.formData.bRadius)
 
 
-    let $bdRadiusInput = $propPanel.find('input[type=text][name=bdRadius]')
-    $bdRadiusInput.val(this.formData.bdRadius)
-    let $bdColorInput = $propPanel.find('input[type=text][name=bdColor]')
-    $bdColorInput.val(this.formData.bdColor)
-    $bdColorInput.prev().find(".sp-preview-inner").css("background-color",this.formData.bdColor)
+    //边框信息
+    let $bdTCheckBox = $propPanel.find('input[type=checkbox][name=bdT]')
+    if (this.formData.bdT === 'on') {
+      $bdTCheckBox.prop('checked', true)
+    } else {
+      $bdTCheckBox.prop('checked', false)
+    }
+    let $bdBCheckBox = $propPanel.find('input[type=checkbox][name=bdB]')
+    if (this.formData.bdB === 'on') {
+      $bdBCheckBox.prop('checked', true)
+    } else {
+      $bdBCheckBox.prop('checked', false)
+    }
+    let $bdLCheckBox = $propPanel.find('input[type=checkbox][name=bdL]')
+    if (this.formData.bdL === 'on') {
+      $bdLCheckBox.prop('checked', true)
+    } else {
+      $bdLCheckBox.prop('checked', false)
+    }
+    let $bdRCheckBox = $propPanel.find('input[type=checkbox][name=bdR]')
+    if (this.formData.bdR === 'on') {
+      $bdRCheckBox.prop('checked', true)
+    } else {
+      $bdRCheckBox.prop('checked', false)
+    }
+
     let $bdWidthInput = $propPanel.find('input[type=text][name=bdWidth]')
     $bdWidthInput.val(this.formData.bdWidth)
     let $bdStyleRadio = $propPanel.find('input[type=radio][name=bdStyle]')
     $bdStyleRadio.filter(`[value="${this.formData.bdStyle}"]`).prop('checked', true)
+    let $bdColorInput = $propPanel.find('input[type=text][name=bdColor]')
+    $bdColorInput.val(this.formData.bdColor)
+    if (this.formData.bdColor) {
+      $bdColorInput.prev().find(".sp-preview-inner").css("background-color",this.formData.bdColor)
+    }else{
+      $bdColorInput.prev().find(".sp-preview-inner").css("background-color",'')
+    }
 
-    let $bdTRadio = $propPanel.find('input[type=checkbox][name=bdT]')
-    let $bdTVal=this.formData.bdT === 'on' ? true : false;
-        $bdTRadio.prop('checked', $bdTVal)
-    let $bdBRadio = $propPanel.find('input[type=checkbox][name=bdB]')
-    let $bdBVal=this.formData.bdB === 'on' ? true : false;
-        $bdBRadio.prop('checked', $bdBVal)
-    let $bdLRadio = $propPanel.find('input[type=checkbox][name=bdL]')
-    let $bdLVal=this.formData.bdL === 'on' ? true : false;
-        $bdLRadio.prop('checked', $bdLVal)
-    let $bdRRadio = $propPanel.find('input[type=checkbox][name=bdR]')
-    let $bdRVal=this.formData.bdR === 'on' ? true : false;
-        $bdRRadio.prop('checked', $bdRVal)
+    //移上边框
+    let $mbdTCheckBox = $propPanel.find('input[type=checkbox][name=mbdT]')
+    if (this.formData.mbdT === 'on') {
+      $mbdTCheckBox.prop('checked', true)
+    } else {
+      $mbdTCheckBox.prop('checked', false)
+    }
+    let $mbdBCheckBox = $propPanel.find('input[type=checkbox][name=mbdB]')
+    if (this.formData.mbdB === 'on') {
+      $mbdBCheckBox.prop('checked', true)
+    } else {
+      $mbdBCheckBox.prop('checked', false)
+    }
+    let $mbdLCheckBox = $propPanel.find('input[type=checkbox][name=mbdL]')
+    if (this.formData.mbdL === 'on') {
+      $mbdLCheckBox.prop('checked', true)
+    } else {
+      $mbdLCheckBox.prop('checked', false)
+    }
+    let $mbdRCheckBox = $propPanel.find('input[type=checkbox][name=mbdR]')
+    if (this.formData.mbdR === 'on') {
+      $mbdRCheckBox.prop('checked', true)
+    } else {
+      $mbdRCheckBox.prop('checked', false)
+    }
+
+    let $mbdWidthInput = $propPanel.find('input[type=text][name=mbdWidth]')
+    $mbdWidthInput.val(this.formData.mbdWidth)
+    let $mbdStyleRadio = $propPanel.find('input[type=radio][name=mbdStyle]')
+    $mbdStyleRadio.filter(`[value="${this.formData.mbdStyle}"]`).prop('checked', true)
+    let $mbdColorInput = $propPanel.find('input[type=text][name=mbdColor]')
+    $mbdColorInput.val(this.formData.mbdColor)
+    if (this.formData.mbdColor) {
+      $mbdColorInput.prev().find(".sp-preview-inner").css("background-color",this.formData.mbdColor)
+    }else{
+      $mbdColorInput.prev().find(".sp-preview-inner").css("background-color",'')
+    }
+
+    let $mbdTsDurInput = $propPanel.find('input[type=text][name=mbdTsDur]')
+    $mbdTsDurInput.val(this.formData.mbdTsDur)
+    let $mbdTsFunRadio = $propPanel.find('input[type=radio][name=mbdTsFun]')
+    $mbdTsFunRadio.filter(`[value="${this.formData.mbdTsFun}"]`).prop('checked', true)
+
+    let $mbdTsAntRadio = $propPanel.find('input[type=radio][name=mbdTsAnt]')
+    $mbdTsAntRadio.filter(`[value="${this.formData.mbdTsAnt}"]`).prop('checked', true)
 
   }
 
@@ -757,51 +940,114 @@ export default class ImgComponent extends Component {
       that.formData.bRadius = $(this).val()
       that.update(that.formData)
     })
-
-    let $bdRadiusInput = $propPanel.find('input[type=text][name=bdRadius]')
-    $bdRadiusInput.change(function() {
-      that.formData.bdRadius = $(this).val()
-      that.update(that.formData)
-    })
-    let $bdWidthInput = $propPanel.find('input[type=text][name=bdWidth]')
-    $bdWidthInput.change(function() {
-      that.formData.bdWidth = $(this).val()
-      that.update(that.formData)
-    })
-    let $bdColorInput = $propPanel.find('input[type=text][name=bdColor]')
-    $bdColorInput.change(function() {
-      that.formData.bdColor = $(this).val()
-      that.update(that.formData)
-    })
-    let $bdStyleRadio = $propPanel.find('input[type=radio][name=bdStyle]')
-    $bdStyleRadio.change(function() {
-      that.formData.bdStyle = $(this).prop('value')
-      that.update(that.formData)
-    })
+    // 以下是默认边框 
     let $bdTCheckBox = $propPanel.find('input[type=checkbox][name=bdT]')
     $bdTCheckBox.change(function() {
       let val = $(this).is(':checked')
-      that.formData.bdT = val ? 'on' : 'off'
+      that.formData.bdT = val ? 'on' : ''
       that.update(that.formData)
     })
     let $bdBCheckBox = $propPanel.find('input[type=checkbox][name=bdB]')
     $bdBCheckBox.change(function() {
       let val = $(this).is(':checked')
-      that.formData.bdB = val ? 'on' : 'off'
+      that.formData.bdB = val ? 'on' : ''
       that.update(that.formData)
     })
     let $bdLCheckBox = $propPanel.find('input[type=checkbox][name=bdL]')
     $bdLCheckBox.change(function() {
       let val = $(this).is(':checked')
-      that.formData.bdL = val ? 'on' : 'off'
+      that.formData.bdL = val ? 'on' : ''
       that.update(that.formData)
     })
     let $bdRCheckBox = $propPanel.find('input[type=checkbox][name=bdR]')
     $bdRCheckBox.change(function() {
       let val = $(this).is(':checked')
-      that.formData.bdR = val ? 'on' : 'off'
+      that.formData.bdR = val ? 'on' : ''
       that.update(that.formData)
     })
+
+    let $bdWidthInput = $propPanel.find('input[type=text][name=bdWidth]') 
+    $bdWidthInput.change(function() {
+      let val = $(this).val()
+      that.formData.bdWidth = val
+      that.update(that.formData)
+    })
+    let $bdColorInput = $propPanel.find('input[type=text][name=bdColor]') 
+    $bdColorInput.change(function() {
+      let val = $(this).val()
+      that.formData.bdColor = val
+      that.update(that.formData)
+    })
+    let $bdStyleRadio = $propPanel.find('input[type=radio][name=bdStyle]')
+    $bdStyleRadio.change(function() {
+      let val = $(this).prop('value')
+      that.formData.bdStyle = val
+      that.update(that.formData)
+    })
+
+    // 以下是经过边框 
+    let $mbdTCheckBox = $propPanel.find('input[type=checkbox][name=mbdT]')
+    $mbdTCheckBox.change(function() {
+      let val = $(this).is(':checked')
+      that.formData.mbdT = val ? 'on' : ''
+      that.update(that.formData)
+    })
+    let $mbdBCheckBox = $propPanel.find('input[type=checkbox][name=mbdB]')
+    $mbdBCheckBox.change(function() {
+      let val = $(this).is(':checked')
+      that.formData.mbdB = val ? 'on' : ''
+      that.update(that.formData)
+    })
+    let $mbdLCheckBox = $propPanel.find('input[type=checkbox][name=mbdL]')
+    $mbdLCheckBox.change(function() {
+      let val = $(this).is(':checked')
+      that.formData.mbdL = val ? 'on' : ''
+      that.update(that.formData)
+    })
+    let $mbdRCheckBox = $propPanel.find('input[type=checkbox][name=mbdR]')
+    $mbdRCheckBox.change(function() {
+      let val = $(this).is(':checked')
+      that.formData.mbdR = val ? 'on' : ''
+      that.update(that.formData)
+    })
+    let $mbdWidthInput = $propPanel.find('input[type=text][name=mbdWidth]') 
+    $mbdWidthInput.change(function() {
+      let val = $(this).val()
+      that.formData.mbdWidth = val
+      that.update(that.formData)
+    })
+    let $mbdColorInput = $propPanel.find('input[type=text][name=mbdColor]') 
+    $mbdColorInput.change(function() {
+      let val = $(this).val()
+      that.formData.mbdColor = val
+      that.update(that.formData)
+    })
+    let $mbdStyleRadio = $propPanel.find('input[type=radio][name=mbdStyle]')
+    $mbdStyleRadio.change(function() {
+      let val = $(this).prop('value')
+      that.formData.mbdStyle = val
+      that.update(that.formData)
+    })
+    //边框动画
+    let $mbdTsDurInput = $propPanel.find('input[type=text][name=mbdTsDur]') 
+    $mbdTsDurInput.change(function() {
+      let val = $(this).val()
+      that.formData.mbdTsDur = val
+      that.update(that.formData)
+    })
+    let $mbdTsFunRadio = $propPanel.find('input[type=radio][name=mbdTsFun]')
+    $mbdTsFunRadio.change(function() {
+      let val = $(this).prop('value')
+      that.formData.mbdTsFun = val
+      that.update(that.formData)
+    })
+    let $mbdTsAntRadio = $propPanel.find('input[type=radio][name=mbdTsAnt]')
+    $mbdTsAntRadio.change(function() {
+      let val = $(this).prop('value')
+      that.formData.mbdTsAnt = val
+      that.update(that.formData)
+    })
+
     $propPanel.find('.layui-btn-sm').on('click', function() {
       let layer = layui.layer
       layer.msg('你确定  同步默文 边框样式么？', {

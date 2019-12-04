@@ -149,7 +149,6 @@ export default class TextComponent extends Component {
      that.formData.mbdColor=$bdColorVal;
      that.formData.mbdStyle=$bdStyleVal;
     }
-
   }
   //弹出来同步
   onTongBu($layerElem,$isVal,that) {

@@ -17,7 +17,18 @@
     background-repeat: no-repeat;
   }
 }
-
+.img-ant-component{
+  width: 390px;
+  height:490px;
+  a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+}
 .text-component {
   width: 120px;
   height: 24px;

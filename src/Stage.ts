@@ -6,6 +6,7 @@ import ImgComponent from './ImgComponent';
 import TextComponent from './TextComponent';
 import WangComponent from './WangComponent';
 import VideoComponent from './VideoComponent';
+import ImgAntComponent from './ImgAntComponent';
 import History from './History'
 export default class Stage {
   static STATE: Array<string> = ['hotarea', 'selection', 'handle']
@@ -481,6 +482,8 @@ export default class Stage {
       let component: Component = null
       if (app.appType === 'xdtb') {
         component = new ImgComponent
+      } else if (app.appType === 'txdtb') {
+        component = new ImgAntComponent
       } else if (app.appType === 'xwzb') {
         component = new TextComponent
       } else if (app.appType === 'wangh') {

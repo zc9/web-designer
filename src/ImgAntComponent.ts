@@ -1,9 +1,9 @@
 import Component from './Component';
-export default class ImgComponent extends Component {
+export default class ImgAntComponent extends Component {
   $content: JQuery
   $img: JQuery
   constructor() {
-    super('img-component')
+    super('img-ant-component')
     this.$content = $('<a class="xdtb ywimg-box"><img src="" style="display:none"></a>')
     this.$img = this.$content.find('img')
     this.$contentBox.append(this.$content)
@@ -31,7 +31,7 @@ export default class ImgComponent extends Component {
   }
  
   initFormData() {
-    this.formData.bgImg = 'https://img.alicdn.com/imgextra/i2/280837244/TB2orubcrJmpuFjSZFwXXaE4VXa-280837244.jpg'
+    this.formData.bgImg = 'https://img.alicdn.com/imgextra/i4/280837244/TB2b0RbbNdkpuFjy0FbXXaNnpXa-280837244.jpg'
     this.formData.bgColor = ''
     this.formData.appLabel = ''
     this.formData.imgMode = 'cut'
@@ -891,7 +891,7 @@ export default class ImgComponent extends Component {
   initPorpPanel() {
     let that = this
     $('.prop-setting-ct > div').hide()
-    let $propPanel = $('.img-com-prop-panel')
+    let $propPanel = $('.img-ant-com-prop-panel')
     this.$propPanel = $propPanel
 
     $propPanel.show()

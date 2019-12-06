@@ -4,6 +4,7 @@ import StageContainer from './StageContainer';
 import Stage from './Stage';
 import WangComponent from './WangComponent';
 import VideoComponent from './VideoComponent';
+import ImgAntComponent from './ImgAntComponent';
 export default class ComponentBar {
   stageCt: StageContainer
   $el: JQuery
@@ -19,7 +20,9 @@ export default class ComponentBar {
       let initY = Math.abs(curStage.myScroll.y) - curStage.paddingHeight / 2
       if (name === 'img-component') {
         component = new ImgComponent();
-      } else if (name === 'text-component') {
+      } else if (name === 'img-ant-component') {
+        component = new ImgAntComponent();
+      }else if (name === 'text-component') {
         component = new TextComponent();
       } else if (name === 'wang-component') {
         component = new WangComponent();

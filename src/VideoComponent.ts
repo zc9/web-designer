@@ -1,5 +1,5 @@
 import Component from './Component'
-export default class WangComponent extends Component {
+export default class VideoComponent extends Component {
   $content: JQuery
   $wangImg: JQuery
   constructor() {

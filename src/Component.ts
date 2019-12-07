@@ -31,6 +31,7 @@ export default abstract class Component {
         <div class="top-bar">
           <span class="setting" title="编辑"></span>
           <span class="lock" title="锁定位置"></span>
+          <span class="copy" title="复制"></span>
           <span class="delete" title="删除"></span>
         </div>
         <div class="content-box">
@@ -95,6 +96,10 @@ export default abstract class Component {
         that.drag.disable()
       }
     })
+
+    this.$topBar.find('span:nth-child(3)').bind('click', function() {
+      that.clone()
+    })
   }
 
   width() {
@@ -112,7 +117,13 @@ export default abstract class Component {
   remove() {
     this.$el.remove();
   }
-
+  clone() {
+    let component = new (<any>this.constructor)
+    component.formData = this.formData
+    component.update(this.formData)
+    this.stage.addComponent(component)
+    this.stage.selectComponent(component)
+  }
   abstract getProps() : object;
   abstract toHtml() : string;
   abstract openEditDialog(): void
@@ -197,7 +208,17 @@ export default abstract class Component {
 
     this.$topBar.find('.delete').on('mousedown', (event) => {
       event.stopPropagation();
-      stage.removeComponent(this)
+      let layer = layui.layer;
+      let that = this
+      layer.confirm('您确定是否删除该组件吗？',  {
+        btn: ['确定','关闭'],
+        icon: 3,
+        title:'提示'
+      }, function(idx) {
+        layer.close(idx)
+        stage.removeComponent(that)
+      }, function() {
+      });
     })
 
     this.$topBar.on('mousedown', (event) => {

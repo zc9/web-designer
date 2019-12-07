@@ -884,7 +884,24 @@ icon {
   background: #19c2d1;
   border: 1px solid #19c2d1;
 }
-
+.codegen .code-size-box {
+  position: absolute;
+  bottom: 20px;
+  left: 22px;
+  font-size: 12px;
+  background: #19c2d1;
+  color: #FFF;
+  height: 30px;
+  line-height: 30px;
+  z-index: 1;
+  padding: 0 16px;
+  border-radius: 2px;
+}
+.codegen .copy-box {
+  position: absolute;
+  bottom: 20px;
+  right: 22px;
+}
 
 /*弹出表单 样式信息*/
 .layui-form {

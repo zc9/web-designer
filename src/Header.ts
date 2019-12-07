@@ -100,10 +100,40 @@ export default class Header {
         let $layerElem = $(layerElem)
         let $jsonTextArea = $layerElem.find('#jsonTextArea')
         let $htmlTextArea = $layerElem.find('#htmlTextArea')
-        $jsonTextArea.val(that.stageCt.curStage.generateJsonCode())
+        let jsonCodeStr = that.stageCt.curStage.generateJsonCode()
+        let jsonCodeObj = JSON.parse(jsonCodeStr)
+        $jsonTextArea.val(jsonCodeStr)
         $htmlTextArea.val(that.stageCt.curStage.generateHtmlCode())
         $layerElem.find('.page-width').val(that.stageCt.curStage.pageWidth)
         $layerElem.find('.page-height').val(that.stageCt.curStage.pageHeight)
+        let $codeSize = $layerElem.find('.code-size')
+        $codeSize.text((jsonCodeStr.length / 1024).toFixed(2))
+        let $curSelectedRadio = null
+        if (jsonCodeObj.overflow === 'hidden') {
+          $curSelectedRadio = $layerElem.find('.cfgl-radio-hidden')
+          $curSelectedRadio.addClass('cfgl-radio-checked')
+        } else {
+          $curSelectedRadio = $layerElem.find('.cfgl-radio-visible')
+          $curSelectedRadio.addClass('cfgl-radio-checked')
+        }
+        $layerElem.find('.cfgl-radio').bind('click', function() {
+          let $this = $(this)
+          if ($curSelectedRadio == $this) {
+            return
+          }
+          $curSelectedRadio.removeClass('cfgl-radio-checked')
+          $curSelectedRadio = $this
+          $curSelectedRadio.addClass('cfgl-radio-checked')
+          let k = $curSelectedRadio.data('k')
+          jsonCodeObj.overflow = k
+          $jsonTextArea.val(JSON.stringify(jsonCodeObj))
+        })
+
+        $layerElem.find('.copy-box button').bind('click', function() {
+          $jsonTextArea[0].select()
+          document.execCommand('copy')
+        })
+
       },
       content: `
         <div class="codegen" style="padding: 15px 10px">
@@ -117,9 +147,9 @@ export default class Header {
                 <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当内容超出模块范围时：&nbsp;</label>
                 <div id="rm_o1">
                   <input class="cfgl-rr" type="radio" id="m_o2" name="overflowMode" value="visible" spellcheck="false">
-                  <label class="cfgl-radio cfgl-radio-checked" for="m_o2" title="" style="border-right:none;border-radius:2px 0 0 2px;">显示</label>
+                  <label class="cfgl-radio cfgl-radio-visible" for="m_o2" data-k="visible" style="border-right:none;border-radius:2px 0 0 2px;">显示</label>
                   <input class="cfgl-rr" type="radio" id="m_o1" name="overflowMode" checked="checked" value="hidden" spellcheck="false">
-                  <label class="cfgl-radio" for="m_o1" title="" style="border-left:none;border-radius:0 2px 2px 0;">裁掉</label>
+                  <label class="cfgl-radio cfgl-radio-hidden" for="m_o1" data-k="hidden" style="border-left:none;border-radius:0 2px 2px 0;">裁掉</label>
                 </div>
               </li>
             </ul>
@@ -131,13 +161,15 @@ export default class Header {
             </ul>
             <div class="layui-tab-content">
               <div class="layui-tab-item layui-show">
-                <textarea id="jsonTextArea"style="float:left;width:100%;height:320px;" readonly spellcheck="false"></textarea>
+                <textarea id="jsonTextArea"style="float:left;width:100%;height:300px;" readonly spellcheck="false"></textarea>
               </div>
               <div class="layui-tab-item">
-                <textarea id="htmlTextArea"style="float:left;width:100%;height:320px;" readonly spellcheck="false"></textarea>
+                <textarea id="htmlTextArea"style="float:left;width:100%;height:300px;" readonly spellcheck="false"></textarea>
               </div>
             </div>
           </div>
+          <div class="code-size-box"><span>代码量:</span><span><span class="code-size">0</span>KB</span></div>
+          <div class="copy-box"><button type="button" class="layui-btn layui-btn-sm layui-btn-primary">复制代码</button></div>
         </div>`
     });
   }

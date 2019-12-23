@@ -71,6 +71,7 @@ export default class ImgComponent extends Component {
     this.formData.mbdTsDur ='0.5'  
     this.formData.mbdTsFun ='ease-out'  
     this.formData.mbdTsAnt ='bdtx1'  
+ 
 
  
     //this.$content.css('background', `url(${this.formData.bgImg})`)

@@ -1033,7 +1033,7 @@
             <div class="editor-btns clear"><span>更多设置...</span></div>
         </div>
         <div class="img-ant-com-prop-panel" style="display:none">
-            <div class="title-bar"><em></em>单图 属性<i class="r-icon-i"></i></div>
+            <div class="title-bar"><em></em>炫图层 属性<i class="r-icon-i"></i></div>
             <div class="engine-app">
               <div class="layui-collapse" lay-accordion  lay-filter="demo-collapse">
                 <div class="layui-colla-item"  >
@@ -1042,7 +1042,8 @@
                     <div class="layui-tab layui-tab-card">
                       <ul class="layui-tab-title layui-tab-row3" style="overflow:initial">
                         <li class="layui-this">默认样式</li>
-                        <li>鼠标划过样式</li>
+                        <li>默认动画</li>
+                        <li>鼠标划过动画</li>
                       </ul>
                       <div class="layui-tab-content"  >
                         <div class="layui-tab-item layui-show">
@@ -1089,26 +1090,25 @@
                         </div>
                         <div class="layui-tab-item">
                           <div class="nromal-wrap">
+                            <label>旋转特效</label>
+                            <select    name="ant_mr_xz">
+                                <option value="" selected="selected">无效果</option>
+                                <option value="xins-mr-r">顺时针旋转</option>
+                                <option value="xins-mr-fr">逆时针旋转</option>
+                            </select>
+                            <select    name="csmrxzv">
+                            </select>
+                          </div>
+                          <div class="nromal-wrap">
                             <label>缩放特效</label>
-                            <select class="select-medium"   name="css3Mode_mr_sf" >
-                              <option value="" selected="selected">无效果</option>
-                              <option value="xins-mr-sf0">缩小至消失</option>
-                              <option value="xins-mr-sf02">缩小至0.2倍</option>
-                              <option value="xins-mr-sf04">缩小至0.4倍</option>
-                              <option value="xins-mr-sf05">缩小至0.5倍</option>
-                              <option value="xins-mr-sf06">缩小至0.6倍</option>
-                              <option value="xins-mr-sf08">缩小至0.8倍</option>
-                              <option value="xins-mr-sf09">缩小至0.9倍</option>
-                              <option value="xins-mr-sf095">缩小至0.95倍</option>
-                              <option value="xins-mr-sf098">缩小至0.98倍</option>
-                              <option value="xins-mr-sf1">原始尺寸</option>
-                              <option value="xins-mr-sf102">放大至1.02倍</option>
-                              <option value="xins-mr-sf105">放大至1.05倍</option>
-                              <option value="xins-mr-sf110">放大至1.1倍</option>
-                              <option value="xins-mr-sf120">放大至1.2倍</option>
-                              <option value="xins-mr-sf150">放大至1.5倍</option>
-                              <option value="xins-mr-sf180">放大至1.8倍</option>
-                              <option value="xins-mr-sf200">放大至2倍</option>
+                            <select class="select-medium"   name="ant_mr_sf" >
+                            </select>
+                          </div>
+                        </div>
+                        <div class="layui-tab-item">
+                          <div class="nromal-wrap">
+                            <label>缩放特效</label>
+                            <select class="select-medium"   name="ant_mv_sf" >
                             </select>
                           </div>
                           <div class="nromal-wrap">
@@ -1125,12 +1125,12 @@
                             <label>纵向移动</label>
                             <select  name="css3ModeY" >
                               <option value="" selected="selected">无效果</option>
-                              <option value="xins-box-lx">向左移动</option>
-                              <option value="xins-box-rx">向右移动</option>
-                              <option value="xins-box-fromleft">从左进入</option>
-                              <option value="xins-box-fromright">从右进入</option>
+                              <option value="xins-box-uy">向上移动</option>
+                              <option value="xins-box-dy">向下移动</option>
+                              <option value="xins-box-fromtop">从上进入</option>
+                              <option value="xins-box-frombottom">从下进入</option>
                             </select>
-                            <select  name="css3ModeY-x" >
+                            <select  name="css3ModeYv" >
                               <option value="" selected="selected">无效果</option>
                               <option value="xins-box-lx">0像素</option>
                               <option value="xins-box-rx">向右移动</option>
@@ -1156,9 +1156,6 @@
                               <option value="xins-box-fxy">横向纵向同时翻转</option>
                             </select>
                           </div>
-
-
-
 
                         </div>
                       </div>

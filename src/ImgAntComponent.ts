@@ -31,7 +31,7 @@ export default class ImgAntComponent extends Component {
   }
  
   initFormData() {
-    this.formData.bgImg = 'https://img.alicdn.com/imgextra/i4/280837244/TB2b0RbbNdkpuFjy0FbXXaNnpXa-280837244.jpg'
+    this.formData.bgImg = 'http://image.suning.cn/uimg/sop/commodity/192796024482525085891100_x.jpg'
     this.formData.bgColor = ''
     this.formData.appLabel = ''
     this.formData.imgMode = 'cut'
@@ -71,6 +71,8 @@ export default class ImgAntComponent extends Component {
     this.formData.mbdTsDur ='0.5'  
     this.formData.mbdTsFun ='ease-out'  
     this.formData.mbdTsAnt ='bdtx1'  
+    this.formData.csmrxzv='20' 
+    
 
  
     //this.$content.css('background', `url(${this.formData.bgImg})`)
@@ -159,7 +161,7 @@ export default class ImgAntComponent extends Component {
     let $layerElem = null;
     let layerNo = layer.open({
       type: 1,
-      title: '单图设置',
+      title: '炫图层设置',
       skin: 'layui-layer-rim', //加上边框
       area: ['600px', '600px'],
       success: function(layerElem, index) {
@@ -594,10 +596,10 @@ export default class ImgAntComponent extends Component {
       $mchildPanel.css('transition', msdTsDur)
     }
 
- 
+    if(formData.bgImg) that.$img.attr('src', formData.bgImg)
     that.$content.css('border-radius', bRadius)
 
- 
+  
     that.$img.bind('load', function() {
       if (formData.bgImgSize === 'true') {
         that.$el.width(that.$img.width())
@@ -612,7 +614,7 @@ export default class ImgAntComponent extends Component {
         that.$img.hide()
       }
     } else {
-      that.$img.attr('src', formData.bgImg)
+     
       that.$content.css('background', 'none')
       that.$content.css('background-color', formData.bgColor)
       if (imgMode === 'full') {
@@ -901,6 +903,19 @@ export default class ImgAntComponent extends Component {
     //收缩 重新加载
     let element = layui.element
     element.render("collapse")
+
+
+    let $csmrxzvSelect = $propPanel.find('select[name=csmrxzv]')
+    let xzoption=$csmrxzvSelect.find('option')
+    if(xzoption.length<=0){
+      let $options=cssModeXzOption()
+      $csmrxzvSelect.append($options)
+      console.log(xzoption.length)
+    }
+    
+     
+    $propPanel.find('select[name=csmrxzv]').val(this.formData.csmrxzv)
+
 
     let $bgImgInput = $propPanel.find('#bgImgInput')
     $bgImgInput.change((function() {

@@ -498,10 +498,12 @@ export default class Stage {
 
   calcWidth() {
     let width = 0
+    let left = 0
     for (let component of this.components) {
       let l = parseInt(component.$el.css('left'))
       let w = component.width()
-      if (l + w > width) {
+      if (l > left) {
+        left = l
         width = l + w
       }
     }
@@ -510,10 +512,12 @@ export default class Stage {
 
   calcHeight() {
     let height = 0
+    let top = 0
     for (let component of this.components) {
       let t = parseInt(component.$el.css('top'))
       let h = component.height()
-      if (t + h > height) {
+      if (t > top) {
+        top = t
         height = t + h
       }
     }

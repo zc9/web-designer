@@ -1,6 +1,6 @@
 
 export function setFontOption(select) {
-  let data =  [{"value":"宋体", "text":"宋体"},
+  let data =  [{"value":"宋体", "text":"宋体33"},
     {"value":"黑体", "text":"黑体"},
     {"value":"微软雅黑", "text":"雅黑"},
     {"value":"楷体", "text":"楷体"},

@@ -14,27 +14,6 @@ function parseInt(num) {
 }
 window.parseInt = parseInt
 */
-familyOption = function () {
- var html='';
- var josnArry = [
-      {"value":"宋体","text":"宋体"},
-      {"value":"黑体","text":"黑体"},
-      {"value":"微软雅黑","text":"雅黑"},
-      {"value":"楷体","text":"楷体"},
-      {"value":"arial","text":"Arial"},
-      {"value":"verdana","text":"Verdana"},
-      {"value":"georgia","text":"Georgia"},
-      {"value":"times new roman","text":"Times New Roman"},
-      {"value":"trebuchet ms","text":"Trebuchet MS"}];
- 
-      for(var i in josnArry ){ 
-           
-          html+='<option value="'+josnArry[i].value+'">'+josnArry[i].text+'</option>';
-      }
-    return html;
-}
-
-
 Array.prototype.css3MoveMode = function (val) {
 optionJson = [
     {"value":"0","name":"0像素"},

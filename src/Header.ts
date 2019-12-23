@@ -130,6 +130,7 @@ export default class Header {
         })
 
         $layerElem.find('.copy-box button').bind('click', function() {
+          // @ts-ignore 
           $jsonTextArea[0].select()
           document.execCommand('copy')
         })

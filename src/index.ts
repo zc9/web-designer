@@ -2,7 +2,7 @@ import './style/index.scss';
 import './style/common.scss';
 import './style/patch.scss';
 import './style/component.scss';
-require('./common')
+require('./patch')
 import StageContainer from './StageContainer'
 import ComponentBar from './ComponentBar'
 import Header from './Header';
@@ -20,6 +20,3 @@ $(function() {
   let toolbar = new ToolBar(stageCt)
   let header = new Header(stageCt)
 })
-
-
-

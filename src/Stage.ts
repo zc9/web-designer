@@ -443,9 +443,10 @@ export default class Stage {
   loadProp(props) {
     this.props = props;
     let propPanel = this.propPanel
-    let { $el, $inputWidth, $alignSelect, $inputHeight, $allowOverstep } = propPanel
+    let { $el, $inputWidth, $alignSelect, $inputHeight, $allowOverstep, $inputBg } = propPanel
     $inputWidth.val(props.width)
     $inputHeight.val(props.height)
+    $inputBg.val(props.bgColor)
     $alignSelect.val(props.position)
     if (props.bgColor === 'transparent') {
       this.$canvasBox.addClass('bg-trans')
@@ -456,8 +457,6 @@ export default class Stage {
       this.$canvas.css('background-color', props.bgColor)
       $('#inputBgColor').val(props.bgColor).change()
     }
-    this.$canvas.css('background-position', `${props.position}`)
-    this.$canvas.css('background-image',  `url("${props.bgImg}")`)
     if (props.overflow === 'hidden') {
       $allowOverstep.removeClass('active')
       this.setComponentAllowOverstep(false)
@@ -467,12 +466,11 @@ export default class Stage {
     }
     if (props.repeat === 'repeat') {
       $el.find('.page-check[data-val=repeat]').addClass('active')
-      this.$canvas.css('background-repeat', 'repeat')
     }
     if (props.attachment) {
       $el.find('.page-check[data-val=fixed]').addClass('active')
-      this.$canvas.css('background-attachment', 'fixed')
     }
+    this.setBackground()
     this.setCanvasSize(props.width, props.height)
     this.loadApp(props.app)
   }
@@ -497,6 +495,45 @@ export default class Stage {
       this.addComponent(component)
     })
   }
+
+  calcWidth() {
+    let width = 0
+    for (let component of this.components) {
+      let l = parseInt(component.$el.css('left'))
+      let w = component.width()
+      if (l + w > width) {
+        width = l + w
+      }
+    }
+    return width
+  }
+
+  calcHeight() {
+    let height = 0
+    for (let component of this.components) {
+      let t = parseInt(component.$el.css('top'))
+      let h = component.height()
+      if (t + h > height) {
+        height = t + h
+      }
+    }
+    return height
+  }
+
+  setBackground() {
+    let attachment = this.props.attachment ? this.props.attachment : 'scroll'
+    let repeat = this.props.repeat ? this.props.repeat : 'no-repeat'
+    let position = this.props.position
+    let bgImg = this.props.bgImg ? `url("${this.props.bgImg}")` : 'none'
+
+    this.$canvas.css('background-image', bgImg)
+    this.$canvas.css('background-repeat', repeat)
+    this.$canvas.css('background-position', position)
+    // this.$canvas.css('background-attachment', attachment)
+    this.$canvas.css('background-color', this.props.bgColor)
+
+  }
+
   initPorpPanel() {
     let $el = $('.page-config');
     let $inputWidth = $el.find('.input-width');
@@ -511,6 +548,7 @@ export default class Stage {
       $inputWidth: $inputWidth,
       $inputHeight: $inputHeight,
       $alignSelect: $alignSelect,
+      $inputBg: $inputBg,
       $allowOverstep: $allowOverstep
     }
     $inputWidth.val(this.pageWidth)
@@ -535,15 +573,14 @@ export default class Stage {
         if (id === 'inputBgColor' && that) {
           if (!color) {
             that.$canvasBox.addClass('bg-trans');
-            that.$canvas.css('background-color', 'transparent');
             that.props.bgColor = 'transparent'
           }
           if (typeof color === 'object') {
             let colorHex = color.toHexString()
             that.$canvasBox.removeClass('bg-trans')
-            that.$canvas.css('background-color', colorHex + '');
             that.props.bgColor = colorHex
           }
+          that.setBackground()
         }
       }
     }).spectrum.freshSpan();
@@ -561,12 +598,12 @@ export default class Stage {
     $inputBg.bind('input', function() {
       let img = $(this).val()
       that.props.bgImg = img
-      that.$canvas.css('background-image',  `url("${img}")`)
+      that.setBackground()
     })
     $alignSelect.change(function() {
       let alignValue = $(this).val()
-      that.$canvas.css('background-position', `${alignValue}`)
       that.props.position = alignValue
+      that.setBackground()
     })
 
     $allowOverstep.bind('click', function() {
@@ -580,6 +617,7 @@ export default class Stage {
         that.setComponentAllowOverstep(true)
       }
     })
+    that.setBackground()
     $el.find('.bgImg-box .page-check').bind('click', function() {
       let $this = $(this)
       let val = $this.data('val')
@@ -587,25 +625,34 @@ export default class Stage {
       if ($this.hasClass('active')) {
         $this.removeClass('active')
         if (val === 'repeat') {
-          that.$canvas.css('background-repeat', '')
           that.props.repeat = ''
         }
         if (val === 'fixed') {
-          that.$canvas.css('background-attachment', '')
           that.props.attachment = ''
         }
-
       } else {
         $this.addClass('active')
         if (val === 'repeat') {
-          that.$canvas.css('background-repeat', 'repeat')
           that.props.repeat = 'repeat'
         }
         if (val === 'fixed') {
-          that.$canvas.css('background-attachment', 'fixed')
           that.props.attachment = 'fixed'
         }
       }
+      that.setBackground()
+    })
+
+    $calcWidth.bind('click', function() {
+      let w = that.calcWidth()
+      $inputWidth.val(w)
+      that.pageWidth = w;
+      that.setCanvasSize(that.pageWidth, that.pageHeight)
+    })
+    $calcHeight.bind('click', function() {
+      let h = that.calcHeight()
+      $inputHeight.val(h)
+      that.pageHeight = h;
+      that.setCanvasSize(that.pageWidth, that.pageHeight)
     })
   }
 }

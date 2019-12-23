@@ -904,14 +904,14 @@ export default class ImgAntComponent extends Component {
     let element = layui.element
     element.render("collapse")
 
-
+/*
     let $csmrxzvSelect = $propPanel.find('select[name=csmrxzv]')
     let xzoption=$csmrxzvSelect.find('option')
     if(xzoption.length<=0){
       let $options=cssModeXzOption()
       $csmrxzvSelect.append($options)
       console.log(xzoption.length)
-    }
+    } */
     
      
     $propPanel.find('select[name=csmrxzv]').val(this.formData.csmrxzv)

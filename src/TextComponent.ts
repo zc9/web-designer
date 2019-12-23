@@ -1,4 +1,5 @@
 import Component from './Component';
+import { setFontOption } from './common'
 export default class TextComponent extends Component {
 　$content: JQuery
   constructor() {
@@ -8,7 +9,7 @@ export default class TextComponent extends Component {
       `
     this.$contentBox.append(content)
     this.$content = this.$contentBox.find('.ant-text')
-    this.initFormData() 
+    this.initFormData()
   }
   initFormData() {
     this.formData.appLabel = ''
@@ -20,12 +21,12 @@ export default class TextComponent extends Component {
     this.formData.lHeight =''  //行距 line-height
     this.formData.spacing =''  //letterSpacing // 字  距
     this.formData.indent =''  //textIndent 缩进
-    
+
     this.formData.weight = 600 //加粗
     this.formData.fStyle = 'normal' //斜体
     this.formData.oLine = '' //文字上边线 overline
-    this.formData.through = '' //文字中间线 line-through  
-    this.formData.uLine = '' //文字下边线 underline 
+    this.formData.through = '' //文字中间线 line-through
+    this.formData.uLine = '' //文字下边线 underline
     this.formData.align = 'center' //对齐
     this.formData.content = '请设置文件内容' //反面内容
 
@@ -38,21 +39,21 @@ export default class TextComponent extends Component {
     this.formData.bRadius ='' //圆角
 
     this.formData.hoverMode ='off' //鼠标移上开启 off 关  on  开
- 
+
 
     this.formData.mfamily = 'arial' //字体
-    this.formData.mfSize = 12   
+    this.formData.mfSize = 12
     this.formData.mcolor = '#fff'
     this.formData.mbgColor = '#000'
-    this.formData.mlHeight =''  //行距   
+    this.formData.mlHeight =''  //行距
     this.formData.mspacing =''  //letterSpacing // 字  距
     this.formData.mindent =''  //textIndent 缩进
-    
+
     this.formData.mweight = 600 //加粗
     this.formData.mfStyle = 'normal' //斜体
     this.formData.moLine = '' //文字上边线 overline
-    this.formData.mthrough = '' //文字中间线 line-through  
-    this.formData.muLine = '' //文字下边线 underline 
+    this.formData.mthrough = '' //文字中间线 line-through
+    this.formData.muLine = '' //文字下边线 underline
     this.formData.malign = 'left' //对齐
     this.formData.mcontent = '' //反面内容
 
@@ -60,33 +61,33 @@ export default class TextComponent extends Component {
     this.formData.mbgRep =''  //背景平铺方式
     this.formData.mbgPos ='' //背景对齐位置
 
-    this.formData.mTsDur ='0.4'   //动画时长                      
+    this.formData.mTsDur ='0.4'   //动画时长
     this.formData.mTsFun ='ease'  //速度曲线
     this.formData.mTsAnt ='atrans5'  //动画效果
 
     this.formData.bdT ='on'
-    this.formData.bdB ='on' 
-    this.formData.bdL ='on' 
-    this.formData.bdR ='on' 
+    this.formData.bdB ='on'
+    this.formData.bdL ='on'
+    this.formData.bdR ='on'
 
-    this.formData.bdWidth =5  
-    this.formData.bdColor ='#FFFF00'  
+    this.formData.bdWidth =5
+    this.formData.bdColor ='#FFFF00'
     this.formData.bdStyle ='solid'
 
 
     this.formData.mbdT =''
-    this.formData.mbdB ='' 
-    this.formData.mbdL ='' 
+    this.formData.mbdB =''
+    this.formData.mbdL =''
     this.formData.mbdR =''
-    this.formData.mbdStyle ='solid' 
+    this.formData.mbdStyle ='solid'
 
-    this.formData.mbdTsDur ='0.5'  
-    this.formData.mbdTsFun ='ease-out'  
-    this.formData.mbdColor ='#00FFFF' 
-    this.formData.mbdTsAnt ='bdtx1'   
- 
+    this.formData.mbdTsDur ='0.5'
+    this.formData.mbdTsFun ='ease-out'
+    this.formData.mbdColor ='#00FFFF'
+    this.formData.mbdTsAnt ='bdtx1'
+
     this.update(this.formData)
-    
+
   }
   getProps() {
     let config = this.formData;
@@ -155,13 +156,13 @@ export default class TextComponent extends Component {
     let $familySelect = $layerElem.find('select[name=family] option:selected')
     let $familyVal=$familySelect.val()
     $layerElem.find('select[name=mfamily] option[value='+$familyVal+']').attr("selected",true);
-  
+
     let $colorVal = $layerElem.find('input[type=text][name=color]').val()
 
     let $mcolorInput = $layerElem.find('input[type=text][name=mcolor]')
     $mcolorInput.val($colorVal)
     $mcolorInput.prev().find(".sp-preview-inner").css("background-color",$colorVal)
-    
+
     let $bgColorVal = $layerElem.find('input[type=text][name=bgColor]').val()
     let $mbgColorInput = $layerElem.find('input[type=text][name=mbgColor]')
     $mbgColorInput.val($bgColorVal)
@@ -182,14 +183,14 @@ export default class TextComponent extends Component {
     let $indentVal = $layerElem.find('input[type=text][name=indent]').val()
     let $mindentInput = $layerElem.find('input[type=text][name=mindent]')
     $mindentInput.val($indentVal)
-    
+
     //对齐
     let $alignRadioActive = $layerElem.find('.font-z .font-item-radio.active')
     let $malignRadio = $layerElem.find('.font-f .font-item-radio')
     let $alignVal=$alignRadioActive.attr('data-val')
     $malignRadio.removeClass("active")
     $layerElem.find('.font-f .font-item-radio[data-val='+$alignVal+']').addClass('active')
-   
+
 
     let $weightVal= $layerElem.find('.font-z input[type=hidden][name=weight]').val()
     let $mweightInput = $layerElem.find('.font-f input[type=hidden][name=mweight]')
@@ -253,7 +254,7 @@ export default class TextComponent extends Component {
      that.formData.malign=$alignVal
     }
     console.log('onTongBu')
- 
+
   }
   //文本框预览样式
   updatePreviewStyle($objElem){
@@ -282,7 +283,7 @@ export default class TextComponent extends Component {
           $defElem.css('line-height', this.formData.mlHeight+'px')
           $defElem.css('letter-spacing', parseInt(this.formData.mspacing))
           $defElem.css('text-indent', parseInt(this.formData.mindent))
-       
+
           $defElem.css('text-align', this.formData.malign)
           $defElem.css("font-weight",this.formData.mweight)
           $defElem.css("font-style",this.formData.mfStyle)
@@ -305,7 +306,7 @@ export default class TextComponent extends Component {
           $defElem.css('line-height', this.formData.lHeight+'px')
           $defElem.css('letter-spacing', parseInt(this.formData.spacing))
           $defElem.css('text-indent', parseInt(this.formData.indent))
-       
+
           $defElem.css('text-align', this.formData.align)
           $defElem.css("font-weight",this.formData.weight)
           $defElem.css("font-style",this.formData.fStyle)
@@ -341,7 +342,7 @@ export default class TextComponent extends Component {
         case 'uline':
           $elemInput.val('')
           break;
-      } 
+      }
     }else{
       $objElem.addClass("active")
       switch($attrName) {
@@ -360,13 +361,13 @@ export default class TextComponent extends Component {
         case 'uline':
           $elemInput.val('underline')
           break;
-      } 
+      }
     }
   }
-  initPorpPanel() { 
-    console.log('initPorpPanel')
+  initPorpPanel() {
+    console.log('initTextPorpPanel')
     let that = this
-    
+    setFontOption('.font-select')
     $('.prop-setting-ct > div').hide()
     let $propPanel = $('.text-com-prop-panel')
     this.$propPanel = $propPanel
@@ -382,13 +383,13 @@ export default class TextComponent extends Component {
       let val = $(this).is(':checked')
       that.formData.hrefMode = val ? '_blank' : ''
     })
-    let $hrefInput = $propPanel.find('input[type=text][name=href]') 
+    let $hrefInput = $propPanel.find('input[type=text][name=href]')
     $hrefInput.change(function() {
       let val = $(this).val()
       that.formData.href = val
       that.update(that.formData)
     })
-    let $bRadiusInput = $propPanel.find('input[type=text][name=bRadius]') 
+    let $bRadiusInput = $propPanel.find('input[type=text][name=bRadius]')
     $bRadiusInput.change(function() {
       let val = $(this).val()
       that.formData.bRadius = val
@@ -402,49 +403,49 @@ export default class TextComponent extends Component {
       that.updatePreviewStyle($(this))
     })
 
-    let $colorInput = $propPanel.find('input[type=text][name=color]') 
+    let $colorInput = $propPanel.find('input[type=text][name=color]')
     $colorInput.change(function() {
       let val = $(this).val()
       that.formData.color = val
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
-    let $bgColorInput = $propPanel.find('input[type=text][name=bgColor]') 
+    let $bgColorInput = $propPanel.find('input[type=text][name=bgColor]')
     $bgColorInput.change(function() {
       let val = $(this).val()
       that.formData.bgColor = val
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
-    let $fSizeInput = $propPanel.find('input[type=text][name=fSize]') 
+    let $fSizeInput = $propPanel.find('input[type=text][name=fSize]')
     $fSizeInput.change(function() {
       let val = $(this).val()
       that.formData.fSize = val
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
-    let $lHeightInput = $propPanel.find('input[type=text][name=lHeight]') 
+    let $lHeightInput = $propPanel.find('input[type=text][name=lHeight]')
     $lHeightInput.change(function() {
       let val = $(this).val()
       that.formData.lHeight = val
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
-    let $spacingInput = $propPanel.find('input[type=text][name=spacing]') 
+    let $spacingInput = $propPanel.find('input[type=text][name=spacing]')
     $spacingInput.change(function() {
       let val = $(this).val()
       that.formData.spacing = val
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
-    let $indentInput = $propPanel.find('input[type=text][name=indent]') 
+    let $indentInput = $propPanel.find('input[type=text][name=indent]')
     $indentInput.change(function() {
       let val = $(this).val()
       that.formData.indent = val
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
-    let $contentTextarea = $propPanel.find('textarea[name=content]') 
+    let $contentTextarea = $propPanel.find('textarea[name=content]')
     $contentTextarea.change(function() {
       let val = $(this).val()
       that.formData.content = val
@@ -463,49 +464,49 @@ export default class TextComponent extends Component {
       that.update(that.formData)
     })
 
-    let $mcolorInput = $propPanel.find('input[type=text][name=mcolor]') 
+    let $mcolorInput = $propPanel.find('input[type=text][name=mcolor]')
     $mcolorInput.change(function() {
       let val = $(this).val()
       that.formData.mcolor = val
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
-    let $mbgColorInput = $propPanel.find('input[type=text][name=mbgColor]') 
+    let $mbgColorInput = $propPanel.find('input[type=text][name=mbgColor]')
     $mbgColorInput.change(function() {
       let val = $(this).val()
       that.formData.mbgColor = val
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
-    let $mfSizeInput = $propPanel.find('input[type=text][name=mfSize]') 
+    let $mfSizeInput = $propPanel.find('input[type=text][name=mfSize]')
     $mfSizeInput.change(function() {
       let val = $(this).val()
       that.formData.mfSize = val
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
-    let $mlHeightInput = $propPanel.find('input[type=text][name=mlHeight]') 
+    let $mlHeightInput = $propPanel.find('input[type=text][name=mlHeight]')
     $mlHeightInput.change(function() {
       let val = $(this).val()
       that.formData.mlHeight = val
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
-    let $mspacingInput = $propPanel.find('input[type=text][name=mspacing]') 
+    let $mspacingInput = $propPanel.find('input[type=text][name=mspacing]')
     $mspacingInput.change(function() {
       let val = $(this).val()
       that.formData.mspacing = val
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
-    let $mindentInput = $propPanel.find('input[type=text][name=mindent]') 
+    let $mindentInput = $propPanel.find('input[type=text][name=mindent]')
     $mindentInput.change(function() {
       let val = $(this).val()
       that.formData.mindent = val
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
-    let $mcontentTextarea = $propPanel.find('textarea[name=mcontent]') 
+    let $mcontentTextarea = $propPanel.find('textarea[name=mcontent]')
     $mcontentTextarea.change(function() {
       let val = $(this).val()
       that.formData.mcontent = val
@@ -514,7 +515,7 @@ export default class TextComponent extends Component {
 
 
     //以下是动画
-    let $mTsDurInput = $propPanel.find('input[type=text][name=mTsDur]') 
+    let $mTsDurInput = $propPanel.find('input[type=text][name=mTsDur]')
     $mTsDurInput.change(function() {
       let val = $(this).val()
       that.formData.mTsDur = val
@@ -532,7 +533,7 @@ export default class TextComponent extends Component {
       that.formData.mTsAnt = val
       that.update(that.formData)
     })
-    // 以下是默认边框 
+    // 以下是默认边框
     let $bdTCheckBox = $propPanel.find('input[type=checkbox][name=bdT]')
     $bdTCheckBox.change(function() {
       let val = $(this).is(':checked')
@@ -558,13 +559,13 @@ export default class TextComponent extends Component {
       that.update(that.formData)
     })
 
-    let $bdWidthInput = $propPanel.find('input[type=text][name=bdWidth]') 
+    let $bdWidthInput = $propPanel.find('input[type=text][name=bdWidth]')
     $bdWidthInput.change(function() {
       let val = $(this).val()
       that.formData.bdWidth = val
       that.update(that.formData)
     })
-    let $bdColorInput = $propPanel.find('input[type=text][name=bdColor]') 
+    let $bdColorInput = $propPanel.find('input[type=text][name=bdColor]')
     $bdColorInput.change(function() {
       let val = $(this).val()
       that.formData.bdColor = val
@@ -621,7 +622,7 @@ export default class TextComponent extends Component {
             that.formData.uLine = ''
             $elemInput.val("")
             break;
-        } 
+        }
       }else{
         $(this).addClass("active")
         switch($attrName) {
@@ -645,12 +646,12 @@ export default class TextComponent extends Component {
             that.formData.uLine = 'underline'
             $elemInput.val("underline")
             break;
-        } 
+        }
       }
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
- 
+
     let $ffontCheckbox = $propPanel.find('.font-f .font-item-checkbox')
     $ffontCheckbox.click(function() {
       let $elemInput=$(this).find('input[type=hidden]')
@@ -678,7 +679,7 @@ export default class TextComponent extends Component {
             that.formData.muLine = ''
             $elemInput.val("")
             break;
-        } 
+        }
       }else{
         $(this).addClass("active")
         switch($attrName) {
@@ -702,14 +703,14 @@ export default class TextComponent extends Component {
             that.formData.muLine = 'underline'
             $elemInput.val("underline")
             break;
-        } 
+        }
       }
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
 
 
-    // 以下是经过边框 
+    // 以下是经过边框
     let $mbdTCheckBox = $propPanel.find('input[type=checkbox][name=mbdT]')
     $mbdTCheckBox.change(function() {
       let val = $(this).is(':checked')
@@ -734,13 +735,13 @@ export default class TextComponent extends Component {
       that.formData.mbdR = val ? 'on' : ''
       that.update(that.formData)
     })
-    let $mbdWidthInput = $propPanel.find('input[type=text][name=mbdWidth]') 
+    let $mbdWidthInput = $propPanel.find('input[type=text][name=mbdWidth]')
     $mbdWidthInput.change(function() {
       let val = $(this).val()
       that.formData.mbdWidth = val
       that.update(that.formData)
     })
-    let $mbdColorInput = $propPanel.find('input[type=text][name=mbdColor]') 
+    let $mbdColorInput = $propPanel.find('input[type=text][name=mbdColor]')
     $mbdColorInput.change(function() {
       let val = $(this).val()
       that.formData.mbdColor = val
@@ -753,7 +754,7 @@ export default class TextComponent extends Component {
       that.update(that.formData)
     })
     //边框动画
-    let $mbdTsDurInput = $propPanel.find('input[type=text][name=mbdTsDur]') 
+    let $mbdTsDurInput = $propPanel.find('input[type=text][name=mbdTsDur]')
     $mbdTsDurInput.change(function() {
       let val = $(this).val()
       that.formData.mbdTsDur = val
@@ -787,7 +788,7 @@ export default class TextComponent extends Component {
         }
       })
     })
- 
+
     $propPanel.find('.layui-btn-sm').on('click', function() {
       let layer = layui.layer
       layer.msg('你确定  同步默文 边框样式么？', {
@@ -822,28 +823,28 @@ export default class TextComponent extends Component {
         if (that.formData.color) {
          let $colorInput=$layerElem.find('input[type=text][name=color]')
          $colorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.color)
-        } 
+        }
         if (that.formData.bgColor) {
          let $bgColorInput=$layerElem.find('input[type=text][name=bgColor]')
          $bgColorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.bgColor)
-        } 
+        }
         if (that.formData.mcolor) {
          let $mcolorInput=$layerElem.find('input[type=text][name=mcolor]')
          $mcolorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.mcolor)
-        } 
+        }
         if (that.formData.mbgColor) {
          let $mbgColorInput=$layerElem.find('input[type=text][name=mbgColor]')
          $mbgColorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.mbgColor)
-        } 
+        }
         //边框
         if (that.formData.bdColor) {
          let $bdColorInput=$layerElem.find('input[type=text][name=bdColor]')
          $bdColorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.bdColor)
-        } 
+        }
         if (that.formData.mbdColor) {
          let $mbdColorInput=$layerElem.find('input[type=text][name=mbdColor]')
          $mbdColorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.mbdColor)
-        } 
+        }
         if(that.formData.weight=="600"){
           $layerElem.find('.font-z .font-item-checkbox:eq(0)').addClass('active')
         }
@@ -876,7 +877,7 @@ export default class TextComponent extends Component {
         if(that.formData.muLine=='underline'){
           $layerElem.find('.font-f .font-item-checkbox:eq(4)').addClass('active')
         }
-        
+
         $layerElem.find('.font-setting .font-item-checkbox').on('click', function() {
            that.getFontActive($(this));
         })
@@ -886,7 +887,7 @@ export default class TextComponent extends Component {
           $objElem.parent().find('.font-item-radio').removeClass("active")
           $objElem.addClass("active")
         })
- 
+
 
         $layerElem.find('.font-synchronous').on('click', function() {
           let form = layui.form
@@ -1218,7 +1219,7 @@ export default class TextComponent extends Component {
                   <div class="layui-tab-item ">
                     <fieldset  class="layui-elem-field" style="margin-top:25px;">
                       <legend>
-                        动画时长                      
+                        动画时长
                         <input class="input-short"  type="text" name="mbdTsDur"  style="width:50px; height:20px; margin-left:10px; padding-left:5px;" />
                         <label class="label-con">秒</label>
                       </legend>
@@ -1255,7 +1256,7 @@ export default class TextComponent extends Component {
             <div class="layui-tab-item">
               <fieldset  class="layui-elem-field">
                 <legend>
-                  动画时长                      
+                  动画时长
                   <input class="input-short"  type="text" name="mTsDur"  style="width:50px; height:20px; margin-left:10px; padding-left:5px;" />
                   <label class="label-con">秒</label>
                 </legend>
@@ -1350,12 +1351,12 @@ export default class TextComponent extends Component {
     $defPanel.css('letter-spacing', parseInt(this.formData.spacing))
     $defPanel.css('text-indent', parseInt(this.formData.indent))
     $defPanel.css('border-radius',parseInt(bRadius))
-    
+
     $defPanel.css('text-align', this.formData.align)
     $defPanel.css("font-weight",this.formData.weight)
     $defPanel.css("font-style",this.formData.fStyle)
     $defPanel.css("text-decoration",deline)
- 
+
 
     $defPanel.text(formData.content)
 
@@ -1408,7 +1409,7 @@ export default class TextComponent extends Component {
       $defPanel.css('transition-duration', this.formData.mTsDur+'s')
       $offPanel.css('transition-duration', this.formData.mTsDur+'s')
 
-      
+
       this.$content.removeClass(_mTsAntAttr);
       this.$content.addClass(this.formData.mTsAnt)
       this.$content.attr("mTsAnt",this.formData.mTsAnt)
@@ -1469,7 +1470,7 @@ export default class TextComponent extends Component {
         isDefBk=true
     }
 
- 
+
     let mbdTsAntVal=this.$content.attr("mbdTsAnt")
     this.$content.removeClass(mbdTsAntVal);
     this.$content.addClass(this.formData.mbdTsAnt)
@@ -1478,7 +1479,7 @@ export default class TextComponent extends Component {
     if(this.formData.mbdT ==="on" || this.formData.mbdB==="on" ||this.formData.mbdL==="on"||this.formData.mbdR==="on" ){
       let mbdTsFunVal=this.formData.mbdTsFun==='cubic-bezier'  ? 'cubic-bezier(0.52, 1.64, 0.37, 0.66)' : this.formData.mbdTsFun
       let mbdTsDurVal=this.formData.mbdTsDur+'s'
-      
+
       const mbdWidth=this.formData.mbdWidth !="" ? parseInt(this.formData.mbdWidth) : '';
       const mbdStyle=this.formData.mbdStyle
       const mbdColor=this.formData.mbdColor
@@ -1508,7 +1509,7 @@ export default class TextComponent extends Component {
           $mlPanel.css('border-top-width', mbdWidth)
 
           if(isDefBk) $defPanel.css('padding-top', mbdWidth)
-          
+
       }else{
         $offPanel.css('padding-top', 0)
         $mlPanel.css('border-top-width', 0)
@@ -1530,7 +1531,7 @@ export default class TextComponent extends Component {
           $mlPanel.css('border-bottom-width', mbdWidth)
           if(isDefBk) $defPanel.css('padding-bottom', mbdWidth)
       }else{
-        
+
         $offPanel.css('padding-bottom', 0)
         $mlPanel.css('border-bottom-width', 0)
         if(isDefBk) $defPanel.css('padding-bottom', 0)
@@ -1549,9 +1550,9 @@ export default class TextComponent extends Component {
           $offPanel.css('padding-left', mbdWidth)
           $mlPanel.css('border-left-width',mbdWidth)
           if(isDefBk) $defPanel.css('padding-left', mbdWidth)
-          
+
       }else{
-        
+
         $offPanel.css('padding-left', 0)
         $mlPanel.css('border-left-width',0)
         if(isDefBk) $defPanel.css('padding-left', 0)
@@ -1570,7 +1571,7 @@ export default class TextComponent extends Component {
           $offPanel.css('padding-right', mbdWidth)
           $mlPanel.css('border-right-width',mbdWidth)
           if(isDefBk) $defPanel.css('padding-right', mbdWidth)
-          
+
       }else{
         $offPanel.css('padding-right', 0)
         $mlPanel.css('border-right-width',0)
@@ -1610,7 +1611,7 @@ export default class TextComponent extends Component {
 
     let $spacingInput = $propPanel.find('input[type=text][name=spacing]')
     $spacingInput.val(this.formData.spacing)
-    
+
     let $indentInput = $propPanel.find('input[type=text][name=indent]')
     $indentInput.val(this.formData.indent)
 
@@ -1662,7 +1663,7 @@ export default class TextComponent extends Component {
 
     let $mspacingInput = $propPanel.find('input[type=text][name=mspacing]')
     $mspacingInput.val(this.formData.mspacing)
-    
+
     let $mindentInput = $propPanel.find('input[type=text][name=mindent]')
     $mindentInput.val(this.formData.mindent)
 
@@ -1677,7 +1678,7 @@ export default class TextComponent extends Component {
        $mbgColorInput.prev().find(".sp-preview-inner").css("background-color",this.formData.mbgColor)
     }else{
       $mbgColorInput.prev().find(".sp-preview-inner").css("background-color",'')
-    } 
+    }
 
    //右侧  正面字体样式设置
     $propPanel.find(`.font-setting span`).removeClass('active')

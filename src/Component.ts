@@ -167,6 +167,20 @@ export default abstract class Component {
     this.selected = false
   }
 
+  deleteSelf() {
+    let layer = layui.layer;
+    let that = this
+    layer.confirm('您确定是否删除该组件吗？',  {
+      btn: ['确定','关闭'],
+      icon: 3,
+      title:'提示'
+    }, function(idx) {
+      layer.close(idx)
+      that.stage.removeComponent(that)
+    }, function() {
+    });
+  }
+
   mount(stage: Stage) {
     this.stage = stage;
     this.id = stage.getRandomStr(4)
@@ -208,17 +222,7 @@ export default abstract class Component {
 
     this.$topBar.find('.delete').on('mousedown', (event) => {
       event.stopPropagation();
-      let layer = layui.layer;
-      let that = this
-      layer.confirm('您确定是否删除该组件吗？',  {
-        btn: ['确定','关闭'],
-        icon: 3,
-        title:'提示'
-      }, function(idx) {
-        layer.close(idx)
-        stage.removeComponent(that)
-      }, function() {
-      });
+      this.deleteSelf()      
     })
 
     this.$topBar.on('mousedown', (event) => {

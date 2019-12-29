@@ -424,6 +424,54 @@ export default class Stage {
     }
   }
 
+  move1PX(dir) {
+    if (this.curSelectedComponent) {
+      if (dir === 'up') {
+        let top = parseInt(this.curSelectedComponent.$el.css('top'))
+        top--
+        if (!this.props.allowOverstep) {
+          if (top < 0) {
+            top = 0
+          }
+        }
+        this.curSelectedComponent.$el.css('top', top)
+      }
+      else if (dir === 'down') {
+        let h = this.curSelectedComponent.height()
+        let top = parseInt(this.curSelectedComponent.$el.css('top'))
+        top++
+        if (!this.props.allowOverstep) {
+          if (top + h > this.props.height) {
+            top = this.props.height - h
+          }
+        }
+        this.curSelectedComponent.$el.css('top', top)
+      }
+      else if (dir === 'left') {
+        let left = parseInt(this.curSelectedComponent.$el.css('left'))
+        left--
+        if (!this.props.allowOverstep) {
+          if (left < 0) {
+            left = 0
+          }
+        }
+        this.curSelectedComponent.$el.css('left', left)
+      }
+      else if (dir === 'right') {
+        let w = this.curSelectedComponent.width()
+        let left = parseInt(this.curSelectedComponent.$el.css('left'))
+        left++
+        if (!this.props.allowOverstep) {
+          if (left + w > this.props.width) {
+            left = this.props.width - w
+          }
+        }
+        this.curSelectedComponent.$el.css('left', left)
+      }
+      this.curSelectedComponent.resetPositionInfo()
+    }
+  }
+
   getRandomStr(len) {
     let charArr = []
     const chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];

@@ -209,12 +209,16 @@ export default abstract class Component {
       snap: true
     })
     this.drag = drag;
-    drag.onDrag = () => {
-      this.resetPositionInfo();
+    drag.onDrag = (event) => {
+      this.resetPositionInfo()
+      if (this.drag.dragStatus === 0) {
+        this.drag.dragStatus = 1
+      }
     }
-    drag.onResize = () => {
-      this.resetPositionInfo();
+    drag.onStop = (event) => {
+      this.drag.dragStatus = 0
     }
+   
     this.$contentBox.on('mousedown',  (event) => {
       stage.selectComponent(this);
       this.showToolbar()
@@ -232,18 +236,18 @@ export default abstract class Component {
       event.stopPropagation();
     })
 
-    // this.$el.on('mouseenter', (event) => {
-    //   if (this.selected) {
-    //     this.showToolbar()
-    //   }
-    // })
+    this.$el.on('mouseenter', (event) => {
+      if (this.drag.dragStatus === 2) {
+        this.drag.dragStatus = 1
+      }
+    })
 
-    // this.$el.on('mouseleave', (event) => {
-    //   if (this.selected) {
-    //     this.$topBar.hide();
-    //     this.$bottomBar.hide();
-    //   }
-    // })
+    this.$el.on('mouseleave', (event) => {
+      if (this.drag.dragStatus === 1) {
+        this.drag.dragStatus = 2
+        this.stage.dragScroll(event, this.drag)
+      }
+    })
   }
 
 

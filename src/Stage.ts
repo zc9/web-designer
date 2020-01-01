@@ -424,52 +424,56 @@ export default class Stage {
     }
   }
 
-  move1PX(dir) {
-    if (this.curSelectedComponent) {
+  moveBy(dir, com, px) {
+    if (com) {
       if (dir === 'up') {
-        let top = parseInt(this.curSelectedComponent.$el.css('top'))
-        top--
+        let top = parseInt(com.$el.css('top'))
+        top -= px
         if (!this.props.allowOverstep) {
           if (top < 0) {
             top = 0
           }
         }
-        this.curSelectedComponent.$el.css('top', top)
+        com.$el.css('top', top)
       }
       else if (dir === 'down') {
-        let h = this.curSelectedComponent.height()
-        let top = parseInt(this.curSelectedComponent.$el.css('top'))
-        top++
+        let h = com.height()
+        let top = parseInt(com.$el.css('top'))
+        top += px
         if (!this.props.allowOverstep) {
           if (top + h > this.props.height) {
             top = this.props.height - h
           }
         }
-        this.curSelectedComponent.$el.css('top', top)
+        com.$el.css('top', top)
       }
       else if (dir === 'left') {
-        let left = parseInt(this.curSelectedComponent.$el.css('left'))
-        left--
+        let left = parseInt(com.$el.css('left'))
+        left -= px
         if (!this.props.allowOverstep) {
           if (left < 0) {
             left = 0
           }
         }
-        this.curSelectedComponent.$el.css('left', left)
+        com.$el.css('left', left)
       }
       else if (dir === 'right') {
-        let w = this.curSelectedComponent.width()
-        let left = parseInt(this.curSelectedComponent.$el.css('left'))
-        left++
+        let w = com.width()
+        let left = parseInt(com.$el.css('left'))
+        left += px
         if (!this.props.allowOverstep) {
           if (left + w > this.props.width) {
             left = this.props.width - w
           }
         }
-        this.curSelectedComponent.$el.css('left', left)
+        com.$el.css('left', left)
       }
-      this.curSelectedComponent.resetPositionInfo()
+      com.resetPositionInfo()
     }
+  }
+
+  move1PX(dir) {
+    this.moveBy(dir, this.curSelectedComponent, 1)
   }
 
   getRandomStr(len) {
@@ -486,6 +490,77 @@ export default class Stage {
       component.remove()
     })
     this.components = []
+  }
+
+  // drag scroll scene
+  dragScrollTimer = null
+  dragScroll(event, drag) {
+    let { left, top, width, height } = this.$canvasWrap[0].getBoundingClientRect()
+    let leftScrollLimit = -this.paddingWidth / 2
+    let rightScrolLimit = -(this.pageWidth + this.paddingWidth / 2 - this.$canvasWrap.width())
+    let topScrollLimit = -this.paddingHeight / 2
+    let bottomScrolLimit = -(this.pageHeight + this.paddingHeight / 2 - this.$canvasWrap.height())
+    let scrollSpeed = 2
+    if (event.clientX < left) {
+      this.dragScrollTimer = setInterval(() => {
+        if (drag.dragStatus === 2) {
+          if (this.myScroll.x < leftScrollLimit) {
+            this.myScroll.scrollBy(scrollSpeed, 0)
+            this.ruler.setX(this.myScroll.x);
+          } else {
+            this.myScroll.scrollTo(leftScrollLimit, this.myScroll.y)
+            clearInterval(this.dragScrollTimer)
+          }
+        } else {
+          clearInterval(this.dragScrollTimer)
+        }
+      }, 10)
+    } else if (event.clientX > left + width - 10) {
+      this.dragScrollTimer = setInterval(() => {
+        if (drag.dragStatus === 2) {
+          if (this.myScroll.x > rightScrolLimit) {
+            this.myScroll.scrollBy(-scrollSpeed, 0)
+            this.ruler.setX(this.myScroll.x)
+          } else {
+            this.myScroll.scrollTo(rightScrolLimit, this.myScroll.y)
+            clearInterval(this.dragScrollTimer)
+          }
+        } else {
+          clearInterval(this.dragScrollTimer)
+        }
+      }, 10)
+    } else if (event.clientY < top) {
+      this.dragScrollTimer = setInterval(() => {
+        if (drag.dragStatus === 2) {
+          if (this.myScroll.y < topScrollLimit) {
+            this.myScroll.scrollBy(0, scrollSpeed)
+            this.ruler.setY(this.myScroll.y)
+          } else {
+            this.myScroll.scrollTo(this.myScroll.x, topScrollLimit)
+            clearInterval(this.dragScrollTimer)
+          }
+        } else {
+          clearInterval(this.dragScrollTimer)
+        }
+      }, 10)
+    } else if (event.clientY > top + height - 10) {
+      this.dragScrollTimer = setInterval(() => {
+        if (drag.dragStatus === 2) {
+          if (this.myScroll.y > bottomScrolLimit) {
+            this.myScroll.scrollBy(0, -scrollSpeed)
+            this.ruler.setY(this.myScroll.y)
+          } else {
+            this.myScroll.scrollTo(this.myScroll.x, bottomScrolLimit)
+            clearInterval(this.dragScrollTimer)
+          }
+        } else {
+          clearInterval(this.dragScrollTimer)
+        }
+      }, 10)
+    }
+
+    // console.log(left, top)
+    // console.log(event.clientX, event.clientY)
   }
 
   loadProp(props) {

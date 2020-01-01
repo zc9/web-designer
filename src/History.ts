@@ -10,7 +10,6 @@ export default class History {
     }
     this.curIndex++
     this.data.push(o)
-    console.log(this.data)
   }
   hasForward() {
     return this.curIndex < this.data.length - 1

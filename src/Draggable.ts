@@ -1,23 +1,16 @@
 export default class Draggable {
   EVENTS: Array<string> = []
-  resizeFlags = [
-    'n-resize', 'e-resize', 's-resize', 'w-resize',
-    'ne-resize', 'nw-resize', 'se-resize', 'sw-resize'
-  ]
   snapFlags = [
     'top_tt', 'top_bt', 'top_cc','top_bb', 'top_tb',
     'left_ll', 'left_rl', 'left_cc', 'left_rr', 'left_lr',
     'top_tc', 'top_bc', 'left_lc', 'left_rc'
   ]
-  resizeFlag: string
   $el: any
   isDragging: boolean = false
   onStart: Function
   onStop: Function
-  onResize: Function
   onSnap: Function
   onDrag: Function
-  isResizing: boolean = false
   cursor: string = 'move'
   containment: any = null
   disabled: boolean = false
@@ -32,11 +25,7 @@ export default class Draggable {
   axis: any = false
   minLeft: number = 0
   minTop: number = 0
-  resizable: boolean = false
-  resizeTolerance: number = 5
-  minWidth: number = 24
-  minHeight: number = 24
-
+  dragStatus: number = 0
   constructor(el: any, opt = {}) {
     this.$el = el
     this.EVENTS = this.isTouch() ?
@@ -112,41 +101,6 @@ export default class Draggable {
     return this.isTouch() ? event.targetTouches[0] : event
   }
 
-  checkResize(elem, x, y) {
-    let rect = elem.getBoundingClientRect()
-    let resizeTolerance = this.resizeTolerance
-    let resizeFlags = this.resizeFlags
-    if ((x >= rect.right - resizeTolerance && x <= rect.right) &&
-      (y >= rect.top && y <= rect.top + resizeTolerance)) {
-      return resizeFlags[4]
-    }
-    else if ((x >= rect.left && x <= rect.left + resizeTolerance) &&
-      (y >= rect.top && y <= rect.top + resizeTolerance)) {
-      return resizeFlags[5]
-    }
-    else if ((x >= rect.right - resizeTolerance && x <= rect.right) &&
-      (y >= rect.bottom - resizeTolerance && y <= rect.bottom)) {
-      return resizeFlags[6]
-    }
-    else if ((x >= rect.left && x <= rect.left + resizeTolerance) &&
-      (y >= rect.bottom - resizeTolerance && y <= rect.bottom)) {
-      return resizeFlags[7]
-    }
-    else if (y >= rect.top && y <= rect.top + resizeTolerance) {
-      return resizeFlags[0]
-    }
-    else if (x >= rect.right - resizeTolerance && x <= rect.right) {
-      return resizeFlags[1]
-    }
-    else if (y >= rect.bottom - resizeTolerance && y <= rect.bottom) {
-      return resizeFlags[2]
-    }
-    else if (x >= rect.left && x <= rect.left + resizeTolerance) {
-      return resizeFlags[3]
-    }
-    return null
-  }
-
   darg(event) {
     let _this = this
     const EVENTS = this.EVENTS
@@ -166,6 +120,7 @@ export default class Draggable {
     document.addEventListener(EVENTS[1], move)
     document.addEventListener(EVENTS[2], end)
     function move(event) {
+      if (_this.disabled) return
       let eventInfo = _this.getEventInfo(event)
       let left = eventInfo.clientX - diffX
       let top = eventInfo.clientY - diffY
@@ -209,162 +164,18 @@ export default class Draggable {
     }
   }
 
-  resize(event) {
-    const EVENTS = this.EVENTS
-    let that = this
-    event = this.getEventInfo(event)
-    let startX = event.clientX
-    let startY = event.clientY
-    let height = this.$el.offsetHeight
-    let width = this.$el.offsetWidth
-    let originHeight = height, originWidth = width
-    let top = parseInt(this.getStyle(this.$el, 'top'))
-    let left = parseInt(this.getStyle(this.$el, 'left'))
-    let originTop = top
-    let originLeft = left
-    this.isResizing = true
-    let windowWidth = document.documentElement.clientWidth
-    let windowHeight = document.documentElement.clientHeight
-    let parentWidth = this.containment ? this.containment.clientWidth : windowWidth
-    let parentHeight = this.containment ? this.containment.clientHeight : windowHeight
-    let minWidth = this.minWidth
-    let minHeight = this.minHeight
-    function resizeN(event) {
-      let d = event.clientY - startY
-      height -= d
-      if (height < minHeight) {
-        height = minHeight
-      }
-      if (height > originTop + originHeight) {
-        height = originTop + originHeight
-      }
-      top += d
-      if (top < 0) {
-        top = 0
-      }
-      if(top > originTop + (originHeight - minHeight)) {
-        top = originTop + (originHeight - minHeight)
-      }
-      that.$el.style.top = top + 'px'
-      that.$el.style.height = height + 'px'
-    }
-
-    function resizeE(event) {
-      width += event.clientX - startX
-      if (width < minWidth) {
-        width = minWidth
-      }
-      if (width > parentWidth - originLeft) {
-        width = parentWidth - originLeft
-      }
-      that.$el.style.width = width + 'px'
-    }
-    function resizeS(event) {
-      height += event.clientY - startY
-      if (height < minHeight) {
-        height = minHeight
-      }
-      if (height > parentHeight - originTop) {
-        height = parentHeight - originTop
-      }
-      that.$el.style.height = height + 'px'
-    }
-    function resizeW(event) {
-      width -= event.clientX - startX
-      if (width < minWidth) {
-        width = minWidth
-      }
-      if (width > originLeft + originWidth) {
-        width = originLeft + originWidth
-      }
-      left += event.clientX - startX
-      if (left < 0) {
-        left = 0
-      }
-      if(left > originLeft + (originWidth - minWidth)) {
-        left = originLeft + (originWidth - minWidth)
-      }
-      that.$el.style.left = left + 'px'
-      that.$el.style.width = width + 'px'
-    }
-
-    function move(event) {
-      event = that.getEventInfo(event)
-      if (that.resizeFlag === that.resizeFlags[0]) {
-        resizeN(event)
-      }
-      else if (that.resizeFlag === that.resizeFlags[1]) {
-        resizeE(event)
-      }
-      else if (that.resizeFlag === that.resizeFlags[2]) {
-        resizeS(event)
-      }
-      else if (that.resizeFlag === that.resizeFlags[3]) {
-        resizeW(event)
-      }
-      else if (that.resizeFlag === that.resizeFlags[4]) {
-        resizeN(event)
-        resizeE(event)
-      }
-      else if (that.resizeFlag === that.resizeFlags[5]) {
-        resizeN(event)
-        resizeW(event)
-      }
-      else if (that.resizeFlag === that.resizeFlags[6]) {
-        resizeS(event)
-        resizeE(event)
-      }
-      else if (that.resizeFlag === that.resizeFlags[7]) {
-        resizeS(event)
-        resizeW(event)
-      }
-      startY = event.clientY
-      startX = event.clientX
-      if (that.onResize) {
-        that.onResize()
-      }
-    }
-    function end(event) {
-      that.isResizing = false
-      document.removeEventListener(EVENTS[1], move)
-      document.removeEventListener(EVENTS[2], end)
-    }
-
-    document.addEventListener(EVENTS[1], move)
-    document.addEventListener(EVENTS[2], end)
-  }
 
   start(event) {
     event.preventDefault()
     this.stopPropagation(event)
     if (this.onStart) this.onStart(event)
-    if (this.resizable && this.resizeFlag) {
-      this.resize(event)
-    } else {
-      if (!this.disabled) {
-        this.darg(event)
-      }
-    }
+    this.darg(event)
   }
 
   setupEvent() {
     let EVENTS = this.EVENTS
     let _this = this
     let handle = this.handle
-    if (this.resizable) {
-      handle.addEventListener(EVENTS[1], event => {
-        if (!this.isResizing) {
-          let eventInfo = _this.getEventInfo(event)
-          let resizeFlag = _this.checkResize(handle, eventInfo.clientX, eventInfo.clientY)
-          this.resizeFlag = resizeFlag
-          if (this.resizable && resizeFlag) {
-            handle.style.cursor = resizeFlag
-          } else {
-            handle.style.cursor = this.cursor
-          }
-        }
-      })
-    }
     if (!this.disabled) {
       handle.style.cursor = this.cursor
       handle.addEventListener(EVENTS[0], this.start.bind(this))

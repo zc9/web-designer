@@ -22,6 +22,11 @@ export function setFontOption(select) {
 }
 /*旋转*/
 export function setAntSpinvOption(select) {
+  let $select = $(select)
+  let htmlStr = $select.html().trim().replace(/\s/g, '')
+  if (htmlStr !== '') {
+    return
+  }
   let data =[{"value":"0","text":"0度"},
     {"value":"2","text":"2度"},
     {"value":"5","text":"5度"},
@@ -43,13 +48,16 @@ export function setAntSpinvOption(select) {
   for (let d of data) {
     options += `<option value="${d.value}">${d.text}</option>`
   }
-  if (select) {
-    $(select).append(options)
-  }
+  $select.append(options)
 }
 
 /*缩放*/
 export function setAntZoomOption(select) {
+  let $select = $(select)
+  let htmlStr = $select.html().trim().replace(/\s/g, '')
+  if (htmlStr !== '') {
+    return
+  }
   let data = [{"value":"","text":"无效果"},
       {"value":"xins-mr-sf0","text":"缩小至消失"},
       {"value":"xins-mr-sf02","text":"缩小至0.2倍"},
@@ -72,7 +80,5 @@ export function setAntZoomOption(select) {
   for (let d of data) {
     options += `<option value="${d.value}">${d.text}</option>`
   }
-  if (select) {
-    $(select).append(options)
-  }
+  $select.append(options)
 }

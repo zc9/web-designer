@@ -81,7 +81,17 @@ export default class ImgAntComponent extends Component {
     this.$content.attr("mbdTsAnt",this.formData.mbdTsAnt)
     this.update(this.formData)
   }
-
+  onAntSpinChanged($layerElem, linkMode) {
+    let $wangBox = $layerElem.find('.wang-box')
+    let $linkBox = $layerElem.find('.link-box')
+    if (linkMode === 'urlink') {
+      $wangBox.hide()
+      $linkBox.show()
+    } else if (linkMode === 'wwlink') {
+      $linkBox.hide()
+      $wangBox.show()
+    }
+  }
   onLinkModeChanged($layerElem, linkMode) {
     let $wangBox = $layerElem.find('.wang-box')
     let $linkBox = $layerElem.find('.link-box')

@@ -1,4 +1,5 @@
 import Component from './Component';
+import { setAntSpinvOption, setAntZoomOption } from './common'
 export default class ImgAntComponent extends Component {
   $content: JQuery
   $img: JQuery
@@ -892,6 +893,8 @@ export default class ImgAntComponent extends Component {
 
   initPorpPanel() {
     let that = this
+    setAntSpinvOption('.ant-spin-v')
+    setAntZoomOption('.ant-zoom')
     $('.prop-setting-ct > div').hide()
     let $propPanel = $('.img-ant-com-prop-panel')
     this.$propPanel = $propPanel

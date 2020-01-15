@@ -1,5 +1,10 @@
 
 export function setFontOption(select) {
+  let $select = $(select)
+  let htmlStr = $select.html().trim().replace(/\s/g, '')
+  if (htmlStr !== '') {
+    return
+  }
   let data =  [{"value":"宋体", "text":"宋体"},
     {"value":"黑体", "text":"黑体"},
     {"value":"微软雅黑", "text":"雅黑"},
@@ -13,9 +18,7 @@ export function setFontOption(select) {
   for (let d of data) {
     options += `<option value="${d.value}">${d.text}</option>`
   }
-  if (select) {
-    $(select).append(options)
-  }
+  $select.append(options)
 }
 /*旋转*/
 export function setAntSpinvOption(select) {

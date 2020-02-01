@@ -603,7 +603,7 @@ export default class Stage {
       let component: Component = null
       if (app.appType === 'xdtb') {
         component = new ImgComponent
-      } else if (app.appType === 'txdtb') {
+      } else if (app.appType === 'xtcl') {
         component = new ImgAntComponent
       } else if (app.appType === 'xwzb') {
         component = new TextComponent

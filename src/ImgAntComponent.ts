@@ -1,5 +1,5 @@
 import Component from './Component';
-import { setAntSpinvOption, setAntZoomOption } from './common'
+import { setAntSpinvOption,setAntBezierOption, setAntMrZoomOption,setAntMvZoomOption,setAntMovevOption } from './common'
 export default class ImgAntComponent extends Component {
   $content: JQuery
   $img: JQuery
@@ -71,27 +71,35 @@ export default class ImgAntComponent extends Component {
 
     this.formData.mbdTsDur ='0.5'  
     this.formData.mbdTsFun ='ease-out'  
-    this.formData.mbdTsAnt ='bdtx1'  
-    this.formData.csmrxzv='20' 
+    this.formData.mbdTsAnt ='bdtx1'
+    this.formData.mrxz=''
+    this.formData.mrxzv='20'
+    this.formData.mvTsDur='0.5' 
+    this.formData.mvTsDelay=''
+    this.formData.mvTsModeX='xins-box-lx'
+    this.formData.mvTsModeXv='20'
+    this.formData.mvTsModeY=''
+    this.formData.mvTsModeYv='30'
+    this.formData.disMode='xins-fadeout' 
+
     
 
- 
     //this.$content.css('background', `url(${this.formData.bgImg})`)
     //this.$img.attr('src', this.formData.bgImg)
     this.$content.attr("mbdTsAnt",this.formData.mbdTsAnt)
     this.update(this.formData)
   }
-  onAntSpinChanged($layerElem, linkMode) {
-    let $wangBox = $layerElem.find('.wang-box')
-    let $linkBox = $layerElem.find('.link-box')
-    if (linkMode === 'urlink') {
-      $wangBox.hide()
-      $linkBox.show()
-    } else if (linkMode === 'wwlink') {
-      $linkBox.hide()
-      $wangBox.show()
+  onDisabledChanged($layerElem,$objElem,$valElem) {
+    let $nextObj=$objElem.next()
+    $nextObj.removeAttr("disabled")
+    $nextObj.removeClass("state-disabled")
+     
+    if ($valElem === '' || $valElem ==='xins-box-fromleft' || $valElem ==='xins-box-fromright' || $valElem ==='xins-box-fromtop' || $valElem ==='xins-box-frombottom') {
+      $nextObj.attr("disabled","disabled")
+      $nextObj.addClass("state-disabled")
     }
   }
+ 
   onLinkModeChanged($layerElem, linkMode) {
     let $wangBox = $layerElem.find('.wang-box')
     let $linkBox = $layerElem.find('.link-box')
@@ -787,6 +795,58 @@ export default class ImgAntComponent extends Component {
 
   updatePropPanel() {
     let $propPanel = this.$propPanel
+
+    let $mrsfSelect = $propPanel.find('select[name=mrsf]')
+    $mrsfSelect.val(this.formData.mrsf)
+
+
+    let $mrxzSelect = $propPanel.find('select[name=mrxz]')
+    $mrxzSelect.val(this.formData.mrxz)
+    let $mrxzvSelect = $propPanel.find('select[name=mrxzv]')
+    $mrxzvSelect.val(this.formData.mrxzv)
+    this.onDisabledChanged($propPanel,$mrxzSelect,this.formData.mrxz)
+
+    let $mvTsModeXSelect = $propPanel.find('select[name=mvTsModeX]')
+    $mvTsModeXSelect.val(this.formData.mvTsModeX)
+    let $mvTsModeXvSelect = $propPanel.find('select[name=mvTsModeXv]')
+    $mvTsModeXvSelect.val(this.formData.mvTsModeXv)
+    this.onDisabledChanged($propPanel,$mvTsModeXSelect,this.formData.mvTsModeX)
+
+    let $mvTsModeYSelect = $propPanel.find('select[name=mvTsModeY]')
+    $mvTsModeYSelect.val(this.formData.mvTsModeY)
+    let $mvTsModeYvSelect = $propPanel.find('select[name=mvTsModeYv]')
+    $mvTsModeYvSelect.val(this.formData.mvTsModeYv)
+    this.onDisabledChanged($propPanel,$mvTsModeYSelect,this.formData.mvTsModeY)
+
+    let $mvxzSelect = $propPanel.find('select[name=mvxz]')
+    $mvxzSelect.val(this.formData.mvxz)
+    let $mvxzvSelect = $propPanel.find('select[name=mvxzv]')
+    $mvxzvSelect.val(this.formData.mvxzv)
+    this.onDisabledChanged($propPanel,$mvxzSelect,this.formData.mvxz)
+
+    let $mvsfSelect = $propPanel.find('select[name=mvsf]')
+    $mvsfSelect.val(this.formData.mvsf)
+
+
+    let $mvfzSelect = $propPanel.find('select[name=mvfz]')
+    $mvfzSelect.val(this.formData.mvfz)
+
+    let $mvTsDurInput = $propPanel.find('input[type=text][name=mvTsDur]')
+    $mvTsDurInput.val(this.formData.mvTsDur)
+    let $mvTsDelayInput = $propPanel.find('input[type=text][name=mvTsDelay]')
+    $mvTsDelayInput.val(this.formData.mvTsDelay)
+    
+   let $mvTsBezierSelect = $propPanel.find('select[name=mvTsBezier]')
+    $mvTsBezierSelect.val(this.formData.mvTsBezier)
+
+    let $mvTsBeziervSelect = $propPanel.find('select[name=mvTsBezierv]')
+    $mvTsBeziervSelect.val(this.formData.mvTsBezierv)
+
+
+
+    let $disModeRadio = $propPanel.find('input[type=radio][name=disMode]')
+    $disModeRadio.filter(`[value="${this.formData.disMode}"]`).prop('checked', true)
+      
     let $bgImgInput = $propPanel.find('#bgImgInput')
     $bgImgInput.val(this.formData.bgImg)
     let $bgImgSizeCheckBox = $propPanel.find('input[type=checkbox][name=bgImgSize]')
@@ -904,7 +964,11 @@ export default class ImgAntComponent extends Component {
   initPorpPanel() {
     let that = this
     setAntSpinvOption('.ant-spin-v')
-    setAntZoomOption('.ant-zoom')
+    setAntBezierOption('.ant-bezier')
+    
+    setAntMrZoomOption('.ant-mr-zoom')
+    setAntMvZoomOption('.ant-mv-zoom')
+    setAntMovevOption('.ant-move-v')
     $('.prop-setting-ct > div').hide()
     let $propPanel = $('.img-ant-com-prop-panel')
     this.$propPanel = $propPanel
@@ -917,18 +981,97 @@ export default class ImgAntComponent extends Component {
     let element = layui.element
     element.render("collapse")
 
-/*
-    let $csmrxzvSelect = $propPanel.find('select[name=csmrxzv]')
-    let xzoption=$csmrxzvSelect.find('option')
-    if(xzoption.length<=0){
-      let $options=cssModeXzOption()
-      $csmrxzvSelect.append($options)
-      console.log(xzoption.length)
-    } */
-    
-     
-    $propPanel.find('select[name=csmrxzv]').val(this.formData.csmrxzv)
+    let $mvTsDurInput = $propPanel.find('input[type=text][name=mvTsDur]')
+    $mvTsDurInput.change(function() {
+      let val = $(this).val()
+      that.formData.mvTsDur = val
+    })
 
+    let $mvTsDelayInput = $propPanel.find('input[type=text][name=mvTsDelay]')
+    $mvTsDelayInput.change(function() {
+      let val = $(this).val()
+      that.formData.mvTsDelay = val
+    })
+
+    let $mvTsBezierSelect = $propPanel.find('select[name=mvTsBezier]')
+    $mvTsBezierSelect.change(function() {
+      that.formData.mvTsBezier = $(this).prop('value')
+    })
+    let $mvTsBeziervSelect = $propPanel.find('select[name=mvTsBezierv]')
+    $mvTsBeziervSelect.change(function() {
+      that.formData.mvTsBezierv = $(this).prop('value')
+    })
+
+    let $mrsfSelect = $propPanel.find('select[name=mrsf]')
+    $mrsfSelect.change(function() {
+      that.formData.mrsf = $(this).prop('value')
+    })
+
+    let $mrxzvSelect = $propPanel.find('select[name=mrxzv]')
+    $mrxzvSelect.change(function() {
+      that.formData.mrxzv = $(this).prop('value')
+      that.update(that.formData)
+    })
+    let $mrxzSelect = $propPanel.find('select[name=mrxz]')
+    $mrxzSelect.change(function() {
+      that.formData.mrxz = $(this).prop('value')
+      that.update(that.formData)
+      that.onDisabledChanged($propPanel,$(this),that.formData.mrxz)
+    })
+
+    let $mvTsModeXvSelect = $propPanel.find('select[name=mvTsModeXv]')
+    $mvTsModeXvSelect.change(function() {
+      that.formData.mvTsModeXv = $(this).prop('value')
+      that.update(that.formData)
+    })
+    let $mvTsModeXSelect = $propPanel.find('select[name=mvTsModeX]')
+    $mvTsModeXSelect.change(function() {
+      that.formData.mvTsModeX = $(this).prop('value')
+      that.update(that.formData)
+      that.onDisabledChanged($propPanel,$(this),that.formData.mvTsModeX)
+    })
+     
+    let $mvTsModeYvSelect = $propPanel.find('select[name=mvTsModeYv]')
+    $mvTsModeYvSelect.change(function() {
+      that.formData.mvTsModeYv = $(this).prop('value')
+      that.update(that.formData)
+    })
+    let $mvTsModeYSelect = $propPanel.find('select[name=mvTsModeY]')
+    $mvTsModeYSelect.change(function() {
+      that.formData.mvTsModeY = $(this).prop('value')
+      that.update(that.formData)
+      that.onDisabledChanged($propPanel,$(this),that.formData.mvTsModeY)
+    })
+
+    let $mvxzvSelect = $propPanel.find('select[name=mvxzv]')
+    $mvxzvSelect.change(function() {
+      that.formData.mvxzv = $(this).prop('value')
+      that.update(that.formData)
+    })
+    let $mvxzSelect = $propPanel.find('select[name=mvxz]')
+    $mvxzSelect.change(function() {
+      that.formData.mvxz = $(this).prop('value')
+      that.update(that.formData)
+      that.onDisabledChanged($propPanel,$(this),that.formData.mvxz)
+    })
+
+    let $mvsfSelect = $propPanel.find('select[name=mvsf]')
+    $mvsfSelect.change(function() {
+      that.formData.mvsf = $(this).prop('value')
+    })
+
+
+    let $mvfzSelect = $propPanel.find('select[name=mvfz]')
+    $mvfzSelect.change(function() {
+      that.formData.mvfz = $(this).prop('value')
+      that.update(that.formData)
+    })
+
+    let $disModeRadio = $propPanel.find('input[type=radio][name=disMode]')
+    $disModeRadio.change(function() {
+      let val = $(this).prop('value')
+      that.formData.disMode = val
+    })
 
     let $bgImgInput = $propPanel.find('#bgImgInput')
     $bgImgInput.change((function() {
@@ -1109,7 +1252,7 @@ export default class ImgAntComponent extends Component {
     let config = this.formData;
     config.appID = `${this.stage.id}-${this.id}`
     return {
-      'appType': 'xdtb',
+      'appType': 'xtcl',
       'config': config,
       'pos': {
         w: this.width(),

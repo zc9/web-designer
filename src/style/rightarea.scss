@@ -164,6 +164,7 @@
         padding-left:8px;
         clear:both;
         text-align: left;
+
         input[type="text"]{
           background: #fff;
           text-indent: 2px;
@@ -198,7 +199,10 @@
           width:15px;
           height:15px;
         }
-
+        .state-disabled{
+          background: #f7f7f7;
+          border: 1px solid #f7f7f7; 
+        }
       }
 
       /*颜色选择器*/

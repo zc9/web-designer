@@ -1069,69 +1069,96 @@
                             <input class="input-short"   type="text" name="bRadius" />
                             <label >(填数字)</label>
                           </div>
+                          <div class="nromal-wrap">
+                            <label>显示方式</label>
+                            <input class="radio-medium" type="radio" name="disMode" id="disMode_1" value=""  title="始终显示">
+                            <label for="disMode_1" >始终显示</label>
+                            <input class="radio-medium" type="radio" name="disMode" id="disMode_2" value="xins-box-fadein"  title="淡入显示">
+                            <label for="disMode_2" >淡入显示</label>
+                            <input class="radio-medium" type="radio" name="disMode" id="disMode_3" value="xins-box-fadeout"  title="淡出消失">
+                            <label for="disMode_3" >淡出消失</label>
+                          </div>
                         </div>
                         <div class="layui-tab-item">
+
                           <div class="nromal-wrap">
                             <label>旋转特效</label>
-                            <select    name="ant_mr_xz">
+                            <select    name="mrxz">
                                 <option value="" selected="selected">无效果</option>
                                 <option value="xins-mr-r">顺时针旋转</option>
                                 <option value="xins-mr-fr">逆时针旋转</option>
                             </select>
-                            <select  class="ant-spin-v"  name="csmrxzv">
+                            <select  class="ant-spin-v"  name="mrxzv">
                             </select>
                           </div>
                           <div class="nromal-wrap">
                             <label>缩放特效</label>
-                            <select class="ant-zoom"   name="ant_mr_sf" >
+                            <select class="ant-mr-zoom"   name="mrsf" >
                             </select>
                           </div>
                         </div>
                         <div class="layui-tab-item">
                           <div class="nromal-wrap">
-                            <label>缩放特效</label>
-                            <select class="select-medium"   name="ant_mv_sf" >
+                            <label class="label-con">动画速度</label>
+                            <input class="input-short"   type="text" name="mvTsDur"  />
+                            <label class="label-con">动画延迟</label>
+                            <input class="input-short"   type="text" name="mvTsDelay"   />
+                          </div>
+                          <div class="nromal-wrap">
+                            <label>动画特效</label>
+                            <select  name="mvTsBezier" class="ant-bezier">
+ 
+                            </select>
+                            <label>程度</label>
+                            <select  name="mvTsBezierv" >
+                              <option value="b" selected="selected">强</option>
+                              <option value="m">中</option>
+                              <option value="s">弱</option>
                             </select>
                           </div>
                           <div class="nromal-wrap">
                             <label>横向移动</label>
-                            <select  name="css3ModeX" >
+                            <select  name="mvTsModeX" >
                               <option value="" selected="selected">无效果</option>
                               <option value="xins-box-lx">向左移动</option>
                               <option value="xins-box-rx">向右移动</option>
                               <option value="xins-box-fromleft">从左进入</option>
                               <option value="xins-box-fromright">从右进入</option>
                             </select>
+                            <select  class="ant-move-v"  name="mvTsModeXv">
+                            </select>
                           </div>
                           <div class="nromal-wrap">
                             <label>纵向移动</label>
-                            <select  name="css3ModeY" >
+                            <select  name="mvTsModeY" >
                               <option value="" selected="selected">无效果</option>
                               <option value="xins-box-uy">向上移动</option>
                               <option value="xins-box-dy">向下移动</option>
                               <option value="xins-box-fromtop">从上进入</option>
                               <option value="xins-box-frombottom">从下进入</option>
                             </select>
-                            <select  name="css3ModeYv" >
-                              <option value="" selected="selected">无效果</option>
-                              <option value="xins-box-lx">0像素</option>
-                              <option value="xins-box-rx">向右移动</option>
-                              <option value="xins-box-fromleft">从左进入</option>
-                              <option value="xins-box-fromright">从右进入</option>
+                            <select class="ant-move-v"   name="mvTsModeYv" >
                             </select>
 
                           </div>
                           <div class="nromal-wrap">
                             <label>旋转特效</label>
-                            <select   name="css3Mode_xz" >
+                            <select   name="mvxz" >
                               <option value="" selected="selected">无效果</option>
                               <option value="xins-box-r">顺时针旋转</option>
                               <option value="xins-box-fr">逆时针旋转</option>
                             </select>
+                            <select  class="ant-spin-v"  name="mvxzv">
+                            </select>
+                          </div>
+                          <div class="nromal-wrap">
+                            <label>缩放特效</label>
+                            <select class="ant-mv-zoom"   name="mvsf" >
+                            </select>
                           </div>
                           <div class="nromal-wrap">
                             <label>翻转特效</label>
-                            <select   name="css3Mode_fz"  >
+                            <select   name="mvfz"  >
                               <option value="" selected="selected">无效果</option>
                               <option value="xins-box-fx">横向翻转</option>
                               <option value="xins-box-fy">纵向翻转</option>

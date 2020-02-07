@@ -27,7 +27,7 @@ export default abstract class Component {
       this[k] = prop[k]
     }
     let $el = $(`
-      <div class="component-box">
+      <div class="component-box t-app">
         <div class="top-bar">
           <span class="setting" title="编辑"></span>
           <span class="lock" title="锁定位置"></span>
@@ -133,7 +133,7 @@ export default abstract class Component {
     if (this.selected) {
       return
     }
-    this.$contentBox.addClass('selected');
+    this.$el.addClass('ui-selected');
     this.selected = true
     this.resetPositionInfo();
     this.initPorpPanel()
@@ -163,7 +163,7 @@ export default abstract class Component {
   unselect() {
     this.$topBar.hide();
     this.$bottomBar.hide();
-    this.$contentBox.removeClass('selected')
+    this.$el.removeClass('ui-selected')
     this.selected = false
   }
 

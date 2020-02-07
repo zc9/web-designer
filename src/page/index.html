@@ -1044,7 +1044,6 @@
                               <option value="scaleY">保持比例(只裁剪高度)</option>
                             </select>
                           </div>
-
                           <div class="nromal-wrap">
                             <label >链接类型</label>
                             <input type="radio" checked="checked" value="urlink" name="linkMode" >
@@ -1065,10 +1064,22 @@
                             <label   >不是邮箱号</label>
                           </div>
                           <div class="nromal-wrap">
+                            <label>超出部分</label>
+                            <input class="radio-medium" type="radio" name="overMode" id="overMode_1" value="visible"  title="始终显示">
+                            <label for="overMode_1" >显示</label>
+                            <input class="radio-medium" type="radio" name="overMode" id="overMode_2" value="mover"  title="鼠标经过显示">
+                            <label for="overMode_2" >鼠标经过显示</label>
+                            <input class="radio-medium" type="radio" name="overMode" id="overMode_3" value="hidden"  title="始终隐藏">
+                            <label for="overMode_3" >隐藏</label>
+                          </div>
+                          <div class="nromal-wrap">
                             <label >圆角度数</label>
                             <input class="input-short"   type="text" name="bRadius" />
                             <label >(填数字)</label>
                           </div>
+
+                        </div>
+                        <div class="layui-tab-item">
                           <div class="nromal-wrap">
                             <label>显示方式</label>
                             <input class="radio-medium" type="radio" name="disMode" id="disMode_1" value=""  title="始终显示">
@@ -1078,9 +1089,6 @@
                             <input class="radio-medium" type="radio" name="disMode" id="disMode_3" value="xins-box-fadeout"  title="淡出消失">
                             <label for="disMode_3" >淡出消失</label>
                           </div>
-                        </div>
-                        <div class="layui-tab-item">
-
                           <div class="nromal-wrap">
                             <label>旋转特效</label>
                             <select    name="mrxz">

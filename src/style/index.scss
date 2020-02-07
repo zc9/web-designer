@@ -795,13 +795,12 @@ icon {
       }
 
     }
+
     .content-box {
-      border: 1px solid #19c2d1;
+      
       height: 100%;
       box-sizing: border-box;
-      &.selected {
-        border: 1px solid #ff3334;
-      }
+ 
     }
 
     .hot-area-box {
@@ -962,16 +961,16 @@ icon {
   //颜色组件
   .pagecolorpanel{
     .sp-replacer{
-      left:1px;
-      bottom:1px;
-      height: 34px;
+      left:2px;
+      bottom:2px;
+      height: 32px;
       .sp-preview{
-        width:34px;
-        height: 34px;
+        width:55px;
+        height: 32px;
       }
     }
     .pagecolor{
-      text-indent:30px;
+      text-indent:52px;
     }
     .clear-color-button{
       right:12px;
@@ -1137,9 +1136,6 @@ icon {
         padding:0px;
         height:auto;
       }
-      .layui-input-inline{
-        width:310px;
-      }
       .layui-elem-field{
         width:450px;
         .layui-field-box{
@@ -1164,7 +1160,15 @@ icon {
         }
         .pagecolorpanel{
           .sp-replacer{
-            height:28px;
+            width:35px;
+            height:26px;
+            .sp-preview{
+              width:35px;
+              height:26px;
+            }
+          }
+          .pagecolor{
+            text-indent:28px;
           }
           .clear-color-button{
             right:9px;

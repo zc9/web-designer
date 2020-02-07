@@ -4,6 +4,84 @@
 * @Last Modified by:   Marte
 * @Last Modified time: 2019-11-23 10:25:49
 */
+.t-app{
+  .ui-resizable-n {
+    height: 4px;
+    top: 0px;
+    background:url(../assets/border-n.png) top center repeat-x;
+  }
+  .ui-resizable-s {
+    height: 4px;
+    bottom: 0px;
+    background:url(../assets/border-s.png) bottom center repeat-x;
+  }
+  .ui-resizable-e {
+    width: 4px;
+    right: 0px;
+    background:url(../assets/border-e.png) right center repeat-y;
+  }
+  .ui-resizable-w {
+    width: 4px;
+    left: 0px;
+    background:url(../assets/border-w.png) left center repeat-y;
+  }
+  .ui-resizable-se {
+    cursor: se-resize;
+    width: 5px;
+    height: 5px;
+    right: 0px;
+    bottom: 0px;
+  }
+  .ui-resizable-sw {
+    cursor: sw-resize;
+    width: 5px;
+    height: 5px;
+    left: 0px;
+    bottom: 0px;
+  }
+  .ui-resizable-nw {
+
+    width: 5px;
+    height: 5px;
+    left: 0px;
+    top: 0px;
+  }
+  .ui-resizable-ne {
+    width: 5px;
+    height: 5px;
+    right: 0px;
+    top: 0px;
+  }
+  &:hover{
+    .ui-resizable-n {
+      background:url(https://img.alicdn.com/imgextra/i2/39767794/TB2gADclVXXXXbYXpXXXXXXXXXX-39767794.jpg) top center repeat-x;
+    }
+    .ui-resizable-s {
+      background:url(https://img.alicdn.com/imgextra/i2/39767794/TB2gADclVXXXXbYXpXXXXXXXXXX-39767794.jpg) bottom center repeat-x;
+    }
+    .ui-resizable-e {
+      background:url(https://img.alicdn.com/imgextra/i2/39767794/TB2gADclVXXXXbYXpXXXXXXXXXX-39767794.jpg) right center repeat-y;
+    }
+    .ui-resizable-w {
+      background:url(https://img.alicdn.com/imgextra/i2/39767794/TB2gADclVXXXXbYXpXXXXXXXXXX-39767794.jpg) left center repeat-y;
+    }
+  }
+}
+.t-app.ui-selected{
+  .ui-resizable-n {
+    background:url(https://img.alicdn.com/imgextra/i1/39767794/TB26CLelVXXXXbpXpXXXXXXXXXX-39767794.jpg) top center repeat-x;
+  }
+  .ui-resizable-s {
+    background:url(https://img.alicdn.com/imgextra/i1/39767794/TB26CLelVXXXXbpXpXXXXXXXXXX-39767794.jpg) bottom center repeat-x;
+  }
+  .ui-resizable-e {
+    background:url(https://img.alicdn.com/imgextra/i1/39767794/TB26CLelVXXXXbpXpXXXXXXXXXX-39767794.jpg) right center repeat-y;
+  }
+  .ui-resizable-w {
+    background:url(https://img.alicdn.com/imgextra/i1/39767794/TB26CLelVXXXXbpXpXXXXXXXXXX-39767794.jpg) left center repeat-y;
+  }
+}
+ 
 
 .img-component {
   width: 571px;

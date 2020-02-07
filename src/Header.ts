@@ -156,9 +156,9 @@ export default class Header {
             </ul>
           </div>
           <div class="layui-tab">
-            <ul class="layui-tab-title" style="font-size: 12px">
+            <ul class="layui-tab-title" style="font-size: 12px;display: none;">
               <li style="font-size: 12px" class="layui-this">JSON代码</li>
-              <li style="font-size: 12px">HTML代码</li>
+              <li style="font-size: 12px" style="">HTML代码</li>
             </ul>
             <div class="layui-tab-content">
               <div class="layui-tab-item layui-show">

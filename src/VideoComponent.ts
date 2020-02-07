@@ -4,7 +4,7 @@ export default class VideoComponent extends Component {
   $wangImg: JQuery
   constructor() {
     super('VideoComponent')
-   this.$content = $('<div class="video-box"><Video style="width:450,height:200"   src="https://cloud.video.taobao.com/play/u/2780279213/p/1/e/6/t/1/d/ld/36255062.mp4" /></div>')
+    this.$content = $('<div class="video-box"><Video style="width:450,height:200"   src="https://cloud.video.taobao.com/play/u/2780279213/p/1/e/6/t/1/d/ld/36255062.mp4" /><div class="yw-overlay"></div></div>')
     this.$contentBox.append(this.$content)
     this.initFormData()
   }

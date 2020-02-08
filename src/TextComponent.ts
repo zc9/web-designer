@@ -1,5 +1,6 @@
 import Component from './Component';
-import { setFontOption } from './common'
+import { setFontOption } from './common';
+import {boxShadow,bgImage,onTongBuBd} from './commonCss'
 export default class TextComponent extends Component {
 　$content: JQuery
   constructor() {
@@ -106,51 +107,7 @@ export default class TextComponent extends Component {
   toHtml() {
     return ''
   }
-  //同步边框信息
-  onTongBuBd($layerElem,$isVal,that) {
-    let $bdWidthVal = $layerElem.find('input[type=text][name=bdWidth]').val()
-    let $mbdWidthInput = $layerElem.find('input[type=text][name=mbdWidth]')
-    $mbdWidthInput.val($bdWidthVal)
-
-    let $bdStyleRadio = $layerElem.find('input[type=radio][name=bdStyle]:checked')
-    let $bdStyleVal=$bdStyleRadio.val()
-    $layerElem.find('input[type=radio][name=mbdStyle][value='+$bdStyleVal+']').prop('checked', true)
-
-    let $bdColorVal = $layerElem.find('input[type=text][name=bdColor]').val()
-    let $mbdColorInput = $layerElem.find('input[type=text][name=mbdColor]')
-    $mbdColorInput.val($bdColorVal)
-    $mbdColorInput.prev().find(".sp-preview-inner").css("background-color",$bdColorVal)
-
-
-    let $bdTCheckBox = $layerElem.find('input[type=checkbox][name=bdT]')
-    let $mbdTCheckBox = $layerElem.find('input[type=checkbox][name=mbdT]')
-    let $bdTVal=$bdTCheckBox.is(':checked')
-    $mbdTCheckBox.prop('checked',$bdTVal);
-
-    let $bdBCheckBox = $layerElem.find('input[type=checkbox][name=bdB]')
-    let $mbdBCheckBox = $layerElem.find('input[type=checkbox][name=mbdB]')
-    let $bdBVal=$bdBCheckBox.is(':checked')
-    $mbdBCheckBox.prop('checked',$bdBVal);
-
-    let $bdLCheckBox = $layerElem.find('input[type=checkbox][name=bdL]')
-    let $mbdLCheckBox = $layerElem.find('input[type=checkbox][name=mbdL]')
-    let $bdLVal=$bdLCheckBox.is(':checked')
-    $mbdLCheckBox.prop('checked',$bdLVal);
-
-    let $bdRCheckBox = $layerElem.find('input[type=checkbox][name=bdR]')
-    let $mbdRCheckBox = $layerElem.find('input[type=checkbox][name=mbdR]')
-    let $bdRVal=$bdRCheckBox.is(':checked')
-    $mbdRCheckBox.prop('checked',$bdRVal);
-    if($isVal){
-     that.formData.mbdT=$layerElem.find('input[type=checkbox][name=mbdT]:checked').val();
-     that.formData.mbdB=$layerElem.find('input[type=checkbox][name=mbdB]:checked').val();
-     that.formData.mbdL=$layerElem.find('input[type=checkbox][name=mbdL]:checked').val();
-     that.formData.mbdR=$layerElem.find('input[type=checkbox][name=mbdR]:checked').val();
-     that.formData.mbdWidth=$bdWidthVal;
-     that.formData.mbdColor=$bdColorVal;
-     that.formData.mbdStyle=$bdStyleVal;
-    }
-  }
+ 
   //弹出来同步
   onTongBu($layerElem,$isVal,that) {
     let $familySelect = $layerElem.find('select[name=family] option:selected')
@@ -795,7 +752,7 @@ export default class TextComponent extends Component {
         time: 0 //不自动关闭
         ,btn: ['同步', '取消']
         ,yes: function(index){
-          that.onTongBuBd($propPanel,true,that);
+          onTongBuBd($propPanel,true,that);
           that.update(that.formData)
           layer.close(index)
         }
@@ -907,7 +864,7 @@ export default class TextComponent extends Component {
             time: 0 //不自动关闭
             ,btn: ['同步', '取消']
             ,yes: function(index){
-              that.onTongBuBd($layerElem,false,that);
+              onTongBuBd($layerElem,false,that);
               form.render();
               layer.close(index)
             }

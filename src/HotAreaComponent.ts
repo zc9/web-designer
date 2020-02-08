@@ -1,11 +1,15 @@
 import Component from './Component';
+import { wwUrl,onLinkModeChanged} from './commonCss'
 export default class HotAreaComponent extends Component {
+  $content: JQuery
   constructor() {
     super('hotarea-component')
-    let content = `
+    let $lHtml = `
         <div class="hot-area-box"></div>
       `
-    this.$contentBox.append(content)
+    this.$contentBox.append($lHtml)
+    this.$content = this.$contentBox.find('.hot-area-box')
+
     this.initFormData()
 
   }
@@ -15,17 +19,6 @@ export default class HotAreaComponent extends Component {
     this.formData.href = ''
     this.formData.hrefMode ='_blank'
     this.formData.wangID = ''
-  }
-  onLinkModeChanged($boxElem, linkMode) {
-    let $wangBox = $boxElem.find('.wang-box')
-    let $linkBox = $boxElem.find('.link-box')
-    if (linkMode === 'urlink') {
-      $wangBox.hide()
-      $linkBox.show()
-    } else if (linkMode === 'wwlink') {
-      $linkBox.hide()
-      $wangBox.show()
-    }
   }
   getProps() {
     let config = this.formData;
@@ -41,9 +34,23 @@ export default class HotAreaComponent extends Component {
       }
     }
   }
+
   toHtml() {
-    return ''
-  }
+    let top, left, width, height,url,bgColor
+
+    top = this.$el.css('top')
+    left = this.$el.css('left')
+    width = this.$el.width()
+    height = this.$el.height()
+    bgColor=this.formData.bgColor !="" ? this.formData.bgColor :''
+    url = wwUrl(this.formData.href,this.formData.linkMode,this.formData.wangID,22)
+  
+    return `
+      <a href="${url}" target="${this.formData.hrefMode || ''}" style="position: absolute; top: ${top}; left: ${left}; width: ${width}px; height: ${height}px;background-color: ${bgColor};display:inline-block; ">
+        
+      </a>
+    `
+  } 
   updatePropPanel() {
     let $propPanel = this.$propPanel
 
@@ -58,12 +65,20 @@ export default class HotAreaComponent extends Component {
     } else {
       $hrefModeCheckBox.prop('checked', false)
     }
-    this.onLinkModeChanged($propPanel, this.formData.linkMode)
+    onLinkModeChanged($propPanel, this.formData.linkMode)
     let $wangIDInput = $propPanel.find('input[type=text][name=wangID]')
     $wangIDInput.val(this.formData.wangID)
 
+    let $bgColorInput = $propPanel.find('input[type=text][name=bgColor]')
+    $bgColorInput.val(this.formData.bgColor)
+    if (this.formData.bgColor) {
+      $bgColorInput.prev().find(".sp-preview-inner").css("background-color",this.formData.bgColor)
+    }else{
+      $bgColorInput.prev().find(".sp-preview-inner").css("background-color",'')
+    }
+
   }
-  initPorpPanel() {
+  initPorpPanel() { 
     let that = this
     $('.prop-setting-ct > div').hide()
     let $propPanel = $('.area-com-prop-panel')
@@ -74,12 +89,11 @@ export default class HotAreaComponent extends Component {
 
     this.updatePropPanel()
 
-
     let $linkModeRadio = $propPanel.find('input[type=radio][name=linkMode]')
     $linkModeRadio.change(function() {
       let val = $(this).prop('value')
       that.formData.linkMode = val
-      that.onLinkModeChanged($propPanel, that.formData.linkMode)
+      onLinkModeChanged($propPanel, that.formData.linkMode)
     })
 
     let $hrefInput = $propPanel.find('input[type=text][name=href]')
@@ -99,11 +113,22 @@ export default class HotAreaComponent extends Component {
       let val = $(this).val()
       that.formData.wangID = val
     })
-  }
-  openEditDialog() {
-
+    let $bgColorInput = $propPanel.find('input[type=text][name=bgColor]')
+    $bgColorInput.change(function() {
+      let val = $(this).val()
+      that.formData.bgColor = val
+      that.update(that.formData)
+    })
   }
   update(formData) {
+   let that = this
+   if(formData.bgColor !=""){
+     that.$content.css('background-color',formData.bgColor)
+   }else{
+     that.$content.css('background-color','transparent')
+   }
+  }
+  openEditDialog() {
 
   }
 }

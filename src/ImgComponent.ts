@@ -1,4 +1,5 @@
 import Component from './Component';
+import { wwUrl,onLinkModeChanged,boxShadow,bgImage,onTongBuBd} from './commonCss'
 export default class ImgComponent extends Component {
   $content: JQuery
   $img: JQuery
@@ -24,7 +25,7 @@ export default class ImgComponent extends Component {
       img = this.$img[0].outerHTML
     }
     return `
-      <a href="${this.formData.href}" target="${this.formData.hrefMode || ''}" style="position: absolute; top: ${top}; left: ${left}; width: ${width}px; height: ${height}px;background: ${background}">
+      <a  href="${this.formData.href}" target="${this.formData.hrefMode || ''}" style="position: absolute; top: ${top}; left: ${left}; width: ${width}px; height: ${height}px;background: ${background}">
         ${img}
       </a>
     `
@@ -40,7 +41,7 @@ export default class ImgComponent extends Component {
     this.formData.tipText = ''
     this.formData.animType = ''
     this.formData.hrefMode = '_blank'
-    this.formData.bgImgSize = false
+    this.formData.bgImgSize = 'false'
     this.formData.animTsDur = '0.5'
     this.formData.animRange = '-s'
     this.formData.wangID = ''
@@ -72,88 +73,13 @@ export default class ImgComponent extends Component {
     this.formData.mbdTsFun ='ease-out'  
     this.formData.mbdTsAnt ='bdtx1'  
  
-
- 
-    //this.$content.css('background', `url(${this.formData.bgImg})`)
-    //this.$img.attr('src', this.formData.bgImg)
     this.$content.attr("mbdTsAnt",this.formData.mbdTsAnt)
     this.update(this.formData)
   }
 
-  onLinkModeChanged($layerElem, linkMode) {
-    let $wangBox = $layerElem.find('.wang-box')
-    let $linkBox = $layerElem.find('.link-box')
-    if (linkMode === 'urlink') {
-      $wangBox.hide()
-      $linkBox.show()
-    } else if (linkMode === 'wwlink') {
-      $linkBox.hide()
-      $wangBox.show()
-    }
-  }
-  //同步边框信息
-  onTongBuBd($layerElem,$isVal,that) {
-    let $bdWidthVal = $layerElem.find('input[type=text][name=bdWidth]').val()
-    let $mbdWidthInput = $layerElem.find('input[type=text][name=mbdWidth]')
-    $mbdWidthInput.val($bdWidthVal)
+ 
 
-    let $bdStyleRadio = $layerElem.find('input[type=radio][name=bdStyle]:checked')
-    let $bdStyleVal=$bdStyleRadio.val()
-    $layerElem.find('input[type=radio][name=mbdStyle][value='+$bdStyleVal+']').prop('checked', true)
-
-    let $bdColorVal = $layerElem.find('input[type=text][name=bdColor]').val()
-    let $mbdColorInput = $layerElem.find('input[type=text][name=mbdColor]')
-    $mbdColorInput.val($bdColorVal)
-    $mbdColorInput.prev().find(".sp-preview-inner").css("background-color",$bdColorVal)
-
-
-    let $bdTCheckBox = $layerElem.find('input[type=checkbox][name=bdT]')
-    let $mbdTCheckBox = $layerElem.find('input[type=checkbox][name=mbdT]')
-    let $bdTVal=$bdTCheckBox.is(':checked')
-    $mbdTCheckBox.prop('checked',$bdTVal);
-
-    let $bdBCheckBox = $layerElem.find('input[type=checkbox][name=bdB]')
-    let $mbdBCheckBox = $layerElem.find('input[type=checkbox][name=mbdB]')
-    let $bdBVal=$bdBCheckBox.is(':checked')
-    $mbdBCheckBox.prop('checked',$bdBVal);
-
-    let $bdLCheckBox = $layerElem.find('input[type=checkbox][name=bdL]')
-    let $mbdLCheckBox = $layerElem.find('input[type=checkbox][name=mbdL]')
-    let $bdLVal=$bdLCheckBox.is(':checked')
-    $mbdLCheckBox.prop('checked',$bdLVal);
-
-    let $bdRCheckBox = $layerElem.find('input[type=checkbox][name=bdR]')
-    let $mbdRCheckBox = $layerElem.find('input[type=checkbox][name=mbdR]')
-    let $bdRVal=$bdRCheckBox.is(':checked')
-    $mbdRCheckBox.prop('checked',$bdRVal);
-    if($isVal){
-     that.formData.mbdT=$layerElem.find('input[type=checkbox][name=mbdT]:checked').val();
-     that.formData.mbdB=$layerElem.find('input[type=checkbox][name=mbdB]:checked').val();
-     that.formData.mbdL=$layerElem.find('input[type=checkbox][name=mbdL]:checked').val();
-     that.formData.mbdR=$layerElem.find('input[type=checkbox][name=mbdR]:checked').val();
-     that.formData.mbdWidth=$bdWidthVal;
-     that.formData.mbdColor=$bdColorVal;
-     that.formData.mbdStyle=$bdStyleVal;
-    }
-  }
-  boxShadow(sdX,sdY,sdBlur,sdSize,sdColor){
-    let bShadow=sdX+'px'
-    bShadow+=' '+sdY+'px'
-    bShadow+=sdBlur ? ' '+sdBlur+'px': ''
-    bShadow+=sdSize ? ' '+sdSize+'px': ''
-    bShadow+=sdColor ? ' '+sdColor: ''
-    return bShadow
-  }
-  bgImage(img,bgColor,bgRep,bgPos){
-   let defBg=bgColor;
-    if(img !=""){
-        bgColor=bgColor !="" ? ' '+bgColor:''
-        bgRep=bgRep !="" ? ' '+bgRep:' no-repeat'
-        bgPos=bgPos !="" ? ' '+bgPos:' ';
-      defBg='url('+img+')'+bgRep+bgPos+bgColor+''
-    }
-    return defBg
-  }
+ 
   openEditDialog() {
     let that = this;
     let layer = layui.layer;
@@ -198,14 +124,14 @@ export default class ImgComponent extends Component {
         $layerElem.find('.cancel-btn').on('click', function() {
           layer.close(index)
         })
-        that.onLinkModeChanged($layerElem, that.formData.linkMode)
+        onLinkModeChanged($layerElem, that.formData.linkMode)
         $layerElem.find('.layui-btn-sm').on('click', function() {
           let form = layui.form
           layer.msg('你确定  同步默文 边框样式么？', {
             time: 0 //不自动关闭
             ,btn: ['同步', '取消']
             ,yes: function(index){
-              that.onTongBuBd($layerElem,false,that);
+              onTongBuBd($layerElem,false,that);
               form.render();
               layer.close(index)
             }
@@ -551,7 +477,7 @@ export default class ImgComponent extends Component {
 
     form.on('radio(linkMode)', function(data){
       console.log(data)
-      that.onLinkModeChanged($layerElem, data.value)
+      onLinkModeChanged($layerElem, data.value)
     })
 
     form.on('submit(imgComponentForm)', function(data) {
@@ -574,14 +500,14 @@ export default class ImgComponent extends Component {
     if(formData.shadow ==="on"){
       let sdX=formData.sdX ? formData.sdX: 0
       let sdY=formData.sdY ? formData.sdY: 0
-      let bShadow=that.boxShadow(sdX,sdY,formData.sdBlur,formData.sdSize,formData.sdColor)
+      let bShadow=  boxShadow(sdX,sdY,formData.sdBlur,formData.sdSize,formData.sdColor)
       that.$content.css('box-shadow', bShadow)
     }
 
     if(formData.mshadow ==="on"){
       let sdX=formData.msdX ? formData.msdX: 0
       let sdY=formData.msdY ? formData.msdY: 0
-      let mbShadow=that.boxShadow(sdX,sdY,formData.msdBlur,formData.msdSize,formData.msdColor)
+      let mbShadow=  boxShadow(sdX,sdY,formData.msdBlur,formData.msdSize,formData.msdColor)
       let $mchildPanel=that.$content.find(".mchild")
       if($mchildPanel.length <=0)
         that.$content.append("<div class='abs mchild xins-box-fadein'></div>")
@@ -607,11 +533,14 @@ export default class ImgComponent extends Component {
     })
     let imgMode = formData.imgMode
     if (imgMode === 'cut') {
-      let bground=that.bgImage(formData.bgImg,formData.bgColor,'','')
+      let bground=bgImage(formData.bgImg,formData.bgColor,'','','')
       that.$content.css('background', bground)
       if (that.$img.is(':visible')) {
         that.$img.hide()
       }
+      that.$img.attr('src', formData.bgImg)
+      that.$img.css('width', '')
+      that.$img.css('height', '')
     } else {
       that.$img.attr('src', formData.bgImg)
       that.$content.css('background', 'none')
@@ -798,7 +727,7 @@ export default class ImgComponent extends Component {
     } else {
       $hrefModeCheckBox.prop('checked', false)
     }
-    this.onLinkModeChanged($propPanel, this.formData.linkMode)
+    onLinkModeChanged($propPanel, this.formData.linkMode)
     let $bRadiusInput = $propPanel.find('input[type=text][name=bRadius]')
     $bRadiusInput.val(this.formData.bRadius)
 
@@ -914,7 +843,7 @@ export default class ImgComponent extends Component {
       let val = $(this).is(':checked')
       that.formData.bgImgSize = val ? 'true' : 'false'
       that.update(that.formData)
-    });
+    })
 
     let $imgMode = $propPanel.find('#imgMode')
     $imgMode.change(function() {
@@ -926,7 +855,7 @@ export default class ImgComponent extends Component {
     $linkModeRadio.change(function() {
       let val = $(this).prop('value')
       that.formData.linkMode = val
-      that.onLinkModeChanged($propPanel, that.formData.linkMode)
+      onLinkModeChanged($propPanel, that.formData.linkMode)
     })
 
     let $hrefInput = $propPanel.find('input[type=text][name=href]')
@@ -1065,7 +994,7 @@ export default class ImgComponent extends Component {
         time: 0 //不自动关闭
         ,btn: ['同步', '取消']
         ,yes: function(index){
-          that.onTongBuBd($propPanel,true,that);
+          onTongBuBd($propPanel,true,that);
           that.update(that.formData)
           layer.close(index)
         }

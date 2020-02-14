@@ -373,7 +373,7 @@ export default class Stage {
     this.components.forEach((component) => {
       appsHtml.push(component.toHtml())
     })
-    return `<div style="position: relative; overflow: hidden;width: ${this.pageWidth}px; height: ${this.pageHeight}px;background: ${this.props.bgColor};">
+    return `<div class="rel" style="position: relative; overflow: hidden;width: ${this.pageWidth}px; height: ${this.pageHeight}px;background: ${this.props.bgColor};">
       ${appsHtml.join('')}
     </div>`
   }

@@ -1,5 +1,5 @@
 import Component from './Component';
-import { wwUrl,onLinkModeChanged,boxShadow,bgImage,onTongBuBd} from './commonCss'
+import { wwUrl,onLinkModeChanged,boxShadow,bgImage,onTongBuBd,valInt,valEmpty} from './commonCss'
 export default class ImgComponent extends Component {
   $content: JQuery
   $img: JQuery
@@ -12,23 +12,89 @@ export default class ImgComponent extends Component {
   }
 
   toHtml() {
-    let top, left, width, height
+    let top, left, width, height,imgMode,bgImg,bgColor,bRadius,tipText,linkMode,hrefMode,wangID,url,href
+    let htmlList=[]
     top = this.$el.css('top')
     left = this.$el.css('left')
     width = this.$el.width()
     height = this.$el.height()
-    let img = ''
-    let background = `url(${this.formData.bgImg}) 50% 50% no-repeat;`
-    if (this.formData.imgMode === 'cut') {
-      background = `url(${this.formData.bgImg}) 50% 50% no-repeat;`
-    } else {
-      img = this.$img[0].outerHTML
+    tipText=valEmpty(this.formData.tipText) !="" ? ' title="'+this.formData.tipText+'" ' : '';
+    imgMode=valEmpty(this.formData.imgMode)
+    bgImg=valEmpty(this.formData.bgImg)
+    bgColor=valEmpty(this.formData.bgColor)
+    bRadius=valEmpty(this.formData.bRadius)
+    href=valEmpty(this.formData.href)
+    hrefMode=valEmpty(this.formData.hrefMode)
+
+    linkMode=valEmpty(this.formData.linkMode)
+    wangID=valEmpty(this.formData.wangID)
+    url=wwUrl(href,linkMode,wangID,22);
+    
+    let radiusStyle=bRadius !="" ? 'border-radius:'+bRadius+'px;' :''
+     //处理图片类型
+    let imgBgStyle=''
+    if(bgImg !=""){
+      let imgHtml=''
+      switch (imgMode) {
+        case 'cut':   //保持原图尺寸
+          imgBgStyle=bgImage(bgImg,bgColor,'no-repeat','0% 0%','')
+          imgBgStyle=imgBgStyle !="" ?  'background:'+imgBgStyle+';' : ''
+          break
+        case 'full':   //自由拉伸
+          imgHtml='<img  class="sf"  src='+bgImg+'  style='+radiusStyle+' />'
+          break
+        case 'scaleX':  //保持比例(只裁剪宽度)
+          imgHtml='<img  class="sx"  src='+bgImg+'  style='+radiusStyle+' />'  
+          break
+        case 'scaleY':   //保持比例(只裁剪高度)
+          imgHtml='<img  class="sy"  src='+bgImg+'  style='+radiusStyle+' />'
+          break
+      }
+      htmlList.push(imgHtml);
     }
+
+    //阴影处理
+    let bShadowStyle='';
+    if(valEmpty(this.formData.shadow)==="on"){
+      const sdX=valEmpty(this.formData.sdX) !="" ? this.formData.sdX: 0
+      const sdY=valEmpty(this.formData.sdY) !="" ? this.formData.sdY: 0 
+      const bShadow=boxShadow(sdX,sdY,valEmpty(this.formData.sdBlur),valEmpty(this.formData.sdSize),valEmpty(this.formData.sdColor))
+      bShadowStyle= bShadow !="" ? 'box-shadow:'+bShadow+';' :''
+    }
+    if(valEmpty(this.formData.mshadow)==="on"){
+      const msdX=valEmpty(this.formData.msdX) !="" ? this.formData.msdX: 0
+      const msdY=valEmpty(this.formData.msdY) !="" ? this.formData.msdY: 0 
+      let mbShadow=boxShadow(msdX,msdY,valEmpty(this.formData.msdBlur),valEmpty(this.formData.msdSize),valEmpty(this.formData.msdColor))
+      mbShadow= mbShadow !="" ? 'box-shadow:'+mbShadow+';' :''
+
+      const msdTsDur=valEmpty(this.formData.msdTsDur) ? this.formData.msdTsDur+'s linear': ''
+      const msdTsDurStyle=msdTsDur !="" ?  'transition:'+msdTsDur+';':''
+
+      const msdHtml='<div class="abs mchild xins-box-fadein" style="'+msdTsDurStyle+mbShadow+radiusStyle+'" ></div>'
+      htmlList.push(msdHtml)
+    }
+      
+    //特效动画处理
+    let shakeCss="";
+    let animCss="";;
+    let animStyle="";
+    if(valEmpty(this.formData.animType) !=""){
+      let animTsDur=valEmpty(this.formData.animTsDur) !=""  ? this.formData.animTsDur+'s ':''
+      animTsDur=animTsDur+'cubic-bezier(0.5,3,0.5,0)';
+      animStyle=animTsDur !="" ? 'transition:'+animTsDur+';' :''
+      shakeCss=' mshake';
+      animCss=valEmpty(this.formData.animType)+valEmpty(this.formData.animRange)+' ';
+    }
+    
+   
+    return '<div class="abs xdtb '+animCss+'" style="top: '+top+'; left:'+left+'; width:'+width+'px; height:'+height+'px;'+imgBgStyle+animStyle+bShadowStyle+radiusStyle+'" > <a '+tipText+' class="abs ywlink" href="'+url+'" target="'+hrefMode+'">'+htmlList.join('')+'</a></div>'
+
+/*
     return `
       <a  href="${this.formData.href}" target="${this.formData.hrefMode || ''}" style="position: absolute; top: ${top}; left: ${left}; width: ${width}px; height: ${height}px;background: ${background}">
         ${img}
       </a>
-    `
+    `*/
   }
  
   initFormData() {
@@ -76,10 +142,6 @@ export default class ImgComponent extends Component {
     this.$content.attr("mbdTsAnt",this.formData.mbdTsAnt)
     this.update(this.formData)
   }
-
- 
-
- 
   openEditDialog() {
     let that = this;
     let layer = layui.layer;

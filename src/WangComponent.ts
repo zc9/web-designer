@@ -1,4 +1,5 @@
 import Component from './Component'
+import {valEmpty} from './commonCss'
 require('./assets/wang2.gif')
 require('./assets/wang1.gif')
 export default class WangComponent extends Component {
@@ -17,7 +18,42 @@ export default class WangComponent extends Component {
   }
 
   toHtml() {
-    return ''
+    let top, left, width, height,bgImg,bgColor,eName,color,fSize,family,weight,fStyle,tipText,nameMl,nameMt,wangMode,wangID,url,wimg,wangCss,bgImgHtml,nameHtml
+    let htmlList=[]
+    top = this.$el.css('top')
+    left = this.$el.css('left')
+    width = this.$el.width()
+    height = this.$el.height()
+    tipText=valEmpty(this.formData.tipText) !="" ? ' title="'+this.formData.tipText+'" ' : '';
+    bgColor=valEmpty(this.formData.bgColor) !="" ? 'background-color:'+this.formData.bgColor+';' : '';
+    bgImg=valEmpty(this.formData.bgImg)
+    eName=valEmpty(this.formData.eName)
+    color=valEmpty(this.formData.color)
+    fSize=valEmpty(this.formData.fSize)
+    family=valEmpty(this.formData.family)
+    weight=valEmpty(this.formData.weight)
+    fStyle=valEmpty(this.formData.fStyle)
+    nameMl=valEmpty(this.formData.nameMl)
+    nameMt=valEmpty(this.formData.nameMt)
+
+    wangID=valEmpty(this.formData.wangID)
+    wangMode=valEmpty(this.formData.wangMode)
+    wangCss=''
+    if(wangMode==="88"){
+      wangMode="24"
+      wangCss=' w-mid';
+    }
+    if(bgImg !=""){
+      bgImgHtml='<img  src="'+bgImg+'" />'
+    }
+    url='//amos.alicdn.com/msg.aw?&v=2&uid='+wangID+'&site=enaliint&s='+wangMode+'&charset=UTF-8'
+    wimg= '//amos.alicdn.com/online.aw?v=2&uid='+wangID+'&site=enaliint&s='+wangMode+'&charset=UTF-8';
+    wimg='<img class="wang-line'+wangCss+'" src="'+wimg+'" />'
+    if(eName !=""){
+      nameHtml='<span style="color:'+color+';font-size:'+fSize+';font-family:'+family+';font-weight:'+weight+';font-style:'+fStyle+';margin-left:'+nameMl+'px;">'+eName+'</span>' 
+    }
+
+    return '<a class="abs wang-box"  href="'+url+'" target="_blank" '+tipText+' style="'+bgColor+'top:'+top+';left:'+left+';width:'+width+'px; height:'+height+'px;display:inline-block;">'+bgImgHtml+'<div class="wang-info" style="margin-top:'+nameMt+'px;">'+wimg+nameHtml+'</div></a>'
   }
   initFormData() {
     this.formData.appLabel = ''

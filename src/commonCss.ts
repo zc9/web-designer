@@ -92,3 +92,121 @@ export function onTongBuBd($layerElem,$isVal,that) {
    that.formData.mbdStyle=$bdStyleVal;
   }
 }
+/*动画程度*/
+export function BezierCss(bz,bzv){
+  let defv='';
+  if(bz =="bs"){  //由慢到快
+    switch (bzv) {
+      case 'b': //强
+        defv='1, 0, 1, 0';
+        break;
+      case 'm': //中
+        defv='1, 0, 1, 1';
+        break;
+      default: //s弱
+        defv='0.42, 0, 1, 1';
+        break;
+    }
+  }else if(bz =="bq"){   //由快到慢
+    switch (bzv) {
+      case 'b': //强
+        defv='0, 1, 0, 1';
+        break;
+      case 'm': //中
+        defv='0, 0, 0, 1';
+        break;
+      default: //s弱
+        defv='0, 0, 0.58, 1';
+        break;
+    }
+  }else if(bz =="bt"){   //跑过回头（加速）
+    switch (bzv) {
+      case 'b': //强
+        defv='0.5,2.2,1,0.8';
+        break;
+      case 'm': //中
+        defv='0.5, 2.2, 0.5, 0.8';
+        break;
+      default: //s弱
+        defv='1, 2.2, 0.5, 0.8';
+        break;
+    }
+  }else if(bz =="bc"){   //起步后撤（加速）
+    switch (bzv) {
+      case 'b': //强
+        defv='0.5, 0.2, 1, -1.2';
+        break;
+      case 'm': //中
+        defv='0.5, 0.2, 0.5, -1.2';
+        break;
+      default: //s弱
+        defv='1, 0.2, 0.5, -1.2';
+        break;
+    }
+  }else if(bz =="bd"){   //中间停顿（加速）
+    switch (bzv) {
+      case 'b': //强
+        defv='0.5, 1, 1, 0';
+        break;
+      case 'm': //中
+        defv='0.5, 1, 0.5, 0';
+        break;
+      default: //3弱
+        defv='1, 1, 0.5, 0';
+        break;
+    }
+  }else if(bz =="bx"){   //弹性抖动（1）
+    switch (bzv) {
+      case 'b': //强
+        defv='0.5, 1.5, 0.5, -1.5';
+        break;
+      case 'm': //中
+        defv='0.5, 2, 0.5, -1';
+        break;
+      default: //s弱
+        defv='0.5, 3, 0.5, 0';
+        break;
+    }
+  }
+  defv= defv !="" ? 'cubic-bezier('+defv+') ':'';
+  return   defv;
+}
+
+
+
+/*是否为空 */
+export function isnull(str){
+if(typeof(str)=='object'){var n=0;for(var i in str){if(str[i]&&!/^[ ]*$/.test(str[i].toString()))n++;}return n==0?true:false;}else{return!str||(/^[ ]*$/.test(str.toString()))?true:false;}
+}
+/*返回为空字符*/
+export function valEmpty(v){
+ return  !isnull(v) ? v: '';
+}
+
+/*转化 正数值 */
+export function valInt(v) {
+   let re=false
+   switch (typeof v) {
+    case 'undefined':
+        re=true;
+    case 'string':
+        if (v.replace(/(^[ \t\n\r]*)|([ \t\n\r]*$)/g, '').length == 0) re= true;
+        break;
+    case 'boolean':
+        if (!v) re= true;
+        break;
+    case 'number':
+        if (0 === v || isNaN(v)) re= true;
+        break;
+    case 'object':
+        if (null === v || v.length === 0) re= true;
+        for (var i in v) {
+            re= false;
+        }
+        re= true;
+    }
+    if(!re){
+    return Number.parseInt(v)
+    }
+}
+

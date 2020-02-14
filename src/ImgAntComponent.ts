@@ -1,6 +1,6 @@
 import Component from './Component';
 import { setAntSpinvOption,setAntBezierOption, setAntMrZoomOption,setAntMvZoomOption,setAntMovevOption,isEmpty} from './common';
-import {onLinkModeChanged,boxShadow,bgImage,onTongBuBd,onDisabledChanged} from './commonCss'
+import {onLinkModeChanged,boxShadow,bgImage,onTongBuBd,onDisabledChanged,valEmpty,wwUrl,BezierCss} from './commonCss'
 export default class ImgAntComponent extends Component {
   $content: JQuery
   $img: JQuery
@@ -13,23 +13,132 @@ export default class ImgAntComponent extends Component {
   }
 
   toHtml() {
-    let top, left, width, height
+    let top, left, width, height,overMode,overVal,overCss,imgMode,bgImg,bRadius,tipText,linkMode,hrefMode,wangID,url,href
+    let htmlList=[]
     top = this.$el.css('top')
     left = this.$el.css('left')
     width = this.$el.width()
     height = this.$el.height()
-    let img = ''
-    let background = `url(${this.formData.bgImg}) 50% 50% no-repeat;`
-    if (this.formData.imgMode === 'cut') {
-      background = `url(${this.formData.bgImg}) 50% 50% no-repeat;`
-    } else {
-      img = this.$img[0].outerHTML
+    overMode=valEmpty(this.formData.overMode);
+    imgMode=valEmpty(this.formData.imgMode)
+    bgImg=valEmpty(this.formData.bgImg)
+    bRadius=valEmpty(this.formData.bRadius)
+    tipText=valEmpty(this.formData.tipText)
+    href=valEmpty(this.formData.href)
+    hrefMode=valEmpty(this.formData.hrefMode)
+
+    linkMode=valEmpty(this.formData.linkMode)
+    wangID=valEmpty(this.formData.wangID)
+    url=wwUrl(href,linkMode,wangID,22)
+    overCss='';
+    overVal=overMode;
+    if(overMode==="mover"){
+      overCss=' u-a';
+      overVal='';
     }
-    return `
-      <a href="${this.formData.href}" target="${this.formData.hrefMode || ''}" style="position: absolute; top: ${top}; left: ${left}; width: ${width}px; height: ${height}px;background: ${background}">
-        ${img}
-      </a>
-    `
+
+
+    let radiusStyle=bRadius !="" ? 'border-radius:'+bRadius+'px;' :''
+     //处理图片类型
+    let imgBgStyle=''
+    if(bgImg !=""){
+      let imgHtml=''
+      switch (imgMode) {
+        case 'cut':   //保持原图尺寸
+          imgBgStyle=bgImage(bgImg,'','no-repeat','0% 0%','')
+          imgBgStyle=imgBgStyle !="" ?  'background:'+imgBgStyle+';' : ''
+          break
+        case 'full':   //自由拉伸
+          imgHtml='<img  class="sf"  src='+bgImg+'  style='+radiusStyle+' />'
+          break
+        case 'scaleX':  //保持比例(只裁剪宽度)
+          imgHtml='<img  class="sx"  src='+bgImg+'  style='+radiusStyle+' />'  
+          break
+        case 'scaleY':   //保持比例(只裁剪高度)
+          imgHtml='<img  class="sy"  src='+bgImg+'  style='+radiusStyle+' />'
+          break
+      }
+      htmlList.push(imgHtml);
+    }
+
+    //阴影处理
+    let bShadowStyle='';
+    if(valEmpty(this.formData.shadow)==="on"){
+      const sdX=valEmpty(this.formData.sdX) !="" ? this.formData.sdX: 0
+      const sdY=valEmpty(this.formData.sdY) !="" ? this.formData.sdY: 0 
+      const bShadow=boxShadow(sdX,sdY,valEmpty(this.formData.sdBlur),valEmpty(this.formData.sdSize),valEmpty(this.formData.sdColor))
+      bShadowStyle= bShadow !="" ? 'box-shadow:'+bShadow+';' :''
+    }
+    if(valEmpty(this.formData.mshadow)==="on"){
+      const msdX=valEmpty(this.formData.msdX) !="" ? this.formData.msdX: 0
+      const msdY=valEmpty(this.formData.msdY) !="" ? this.formData.msdY: 0 
+      let mbShadow=boxShadow(msdX,msdY,valEmpty(this.formData.msdBlur),valEmpty(this.formData.msdSize),valEmpty(this.formData.msdColor))
+      mbShadow= mbShadow !="" ? 'box-shadow:'+mbShadow+';' :''
+
+      const msdTsDur=valEmpty(this.formData.msdTsDur) ? this.formData.msdTsDur+'s linear': ''
+      const msdTsDurStyle=msdTsDur !="" ?  'transition:'+msdTsDur+';':''
+
+      const msdHtml='<div class="abs mchild xins-box-fadein" style="'+msdTsDurStyle+mbShadow+radiusStyle+'" ></div>'
+      htmlList.push(msdHtml)
+    }
+    //处理动画
+    let disMode,mvTsDur,mvTsDelay,mvTsBezier,mvTsBezierv,Bezier,linkhtml
+
+    disMode=valEmpty(this.formData.disMode)
+    mvTsDur=valEmpty(this.formData.mvTsDur) !=""  ? this.formData.mvTsDur+'s ':''
+    mvTsDelay=valEmpty(this.formData.mvTsDelay) !=""  ?  this.formData.mvTsDelay+'s ':''
+    Bezier=mvTsDur+BezierCss(this.formData.mvTsBezier,this.formData.mvTsBezierv)+mvTsDelay
+    Bezier=  Bezier !=""  ? 'transition:'+Bezier+';' : ''
+
+    linkhtml=' <a '+tipText+' class="abs ywlink '+disMode+'" href="'+url+'" target="'+hrefMode+'" style="'+imgBgStyle+bShadowStyle+radiusStyle+Bezier+'">'+htmlList.join('')+'</a>'
+      
+    let whStyle,mrxz,mrxzv,mrsf,mrxzCss,mrCss
+
+    whStyle='width:'+width+'px; height:'+height+'px;'+Bezier       
+    mrxz=valEmpty(this.formData.mrxz)
+    mrxzv=valEmpty(this.formData.mrxzv)
+    mrsf=valEmpty(this.formData.mrsf)
+    mrxzCss='';
+    mrCss='';
+    if(mrxz !="" && mrxzv !=""){
+      mrxzCss=' '+mrxz+mrxzv
+      mrCss=' mr'
+    }
+    let mvTsModeX,mvTsModeXv,mvTsModeY,mvTsModeYv,mvxz,mvxzv,mvsf,mvfz,mvXcss,mvYcss,mvxzCss
+
+    mvTsModeX=valEmpty(this.formData.mvTsModeX)
+    mvTsModeXv=valEmpty(this.formData.mvTsModeXv)
+    mvTsModeY=valEmpty(this.formData.mvTsModeY)
+    mvTsModeYv=valEmpty(this.formData.mvTsModeYv)
+    mvxz=valEmpty(this.formData.mvxz)
+    mvxzv=valEmpty(this.formData.mvxzv)
+    mvsf=valEmpty(this.formData.mvsf)
+    mvfz=valEmpty(this.formData.mvfz)
+
+    mvXcss=mvTsModeX !="" ? mvTsModeX+mvTsModeXv :'';
+    mvYcss=mvTsModeY !="" ? mvTsModeY+mvTsModeYv :'';
+    mvxzCss=mvxz !="" && mvxzv !="" ? ' '+mvxz+mvxzv :'';
+    if(mvTsModeX.indexOf("from") != -1){
+       mvXcss=mvTsModeX;
+    }
+    if(mvTsModeY.indexOf("from") != -1){
+       mvYcss=mvTsModeY;
+    }
+    if(mvfz !=""){
+      linkhtml='<div class="abs '+mvfz+'" style="'+whStyle+'">'+linkhtml+'</div>'
+    }
+    
+    if(mvsf !="" || mrsf !=""){
+      linkhtml='<div class="abs '+mrsf+' '+mvsf+'" style="'+whStyle+'">'+linkhtml+'</div>'
+    }
+    if(mvxz !=""|| mrxz !=""){
+      linkhtml='<div class="abs '+mrxzCss+' '+mvxzCss+'" style="'+whStyle+'">'+linkhtml+'</div>'
+    }
+    if(mvTsModeX !="" || mvTsModeY !=""){
+      linkhtml='<div class="abs '+mvXcss+' '+mvYcss+'" style="'+whStyle+'">'+linkhtml+'</div>'
+    }
+
+    return '<div class="abs xdtb xtxc '+mrCss+overCss+'" style="top: '+top+'; left:'+left+'; width:'+width+'px; height:'+height+'px;overflow:'+overVal+';'+bShadowStyle+radiusStyle+'" > '+linkhtml+'</div>'
   }
  
   initFormData() {
@@ -627,6 +736,7 @@ export default class ImgAntComponent extends Component {
   update(formData) {
     let that = this
     let bRadius=formData.bRadius ?  parseInt(formData.bRadius) :''
+    let $contentParnts= that.$content.parent().parent()
     let $contentParnt= that.$content.parent()
     let $mrCss=false
     let mrxzOld= that.$content.attr("mrxz")
@@ -646,17 +756,17 @@ export default class ImgAntComponent extends Component {
     let mrsfOld= that.$content.attr("mrsf")
     if(formData.mrsf !=""){
       let mrsfCss =formData.mrsf
-      isEmpty(mrsfOld) != true ? that.$content.removeClass(mrsfOld) :''
-      that.$content.addClass(mrsfCss)
+      isEmpty(mrsfOld) != true ?  $contentParnt.removeClass(mrsfOld) :''
+      $contentParnt.addClass(mrsfCss)
       that.$content.attr("mrsf",mrsfCss)
       $mrCss=true
     }else{
       if(isEmpty(mrsfOld) != true){
-        that.$content.removeClass(mrsfOld)
+        $contentParnt.removeClass(mrsfOld)
         that.$content.removeAttr('mrsf')
       }
     }
-    $mrCss ? $contentParnt.addClass("mr") : $contentParnt.removeClass("mr")
+    $mrCss ? $contentParnts.addClass("mr") : $contentParnts.removeClass("mr")
  
     if(formData.shadow ==="on"){
       let sdX=formData.sdX ? formData.sdX: 0

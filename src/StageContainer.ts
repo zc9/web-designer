@@ -19,6 +19,7 @@ export default class StageContainer {
 
   setupHotkey() {
     let that = this
+   
     // @ts-ignore
     hotkeys('*', function (event, handler) {
       let curStage = that.curStage
@@ -61,6 +62,6 @@ export default class StageContainer {
         }
       }
     })
-    
+  
   }
 }

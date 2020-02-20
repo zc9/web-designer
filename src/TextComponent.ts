@@ -1,15 +1,15 @@
 import Component from './Component';
 import { setFontOption } from './common';
-import {boxShadow,bgImage,onTongBuBd} from './commonCss'
+import {boxShadow,bgImage,valInt,onTongBuBd,valEmpty,textLine} from './commonCss'
 export default class TextComponent extends Component {
 　$content: JQuery
   constructor() {
     super('text-component')
     let content = `
-      <a class="ant-text"   mTsAnt=""  mbdTsAnt=""><div class="on">请设置文本内容</div></a>
+    <div class="ant-text xdtb" ><a class="ywlink"   mTsAnt=""  mbdTsAnt=""><div class="on">请设置文本内容</div></a></div>
       `
     this.$contentBox.append(content)
-    this.$content = this.$contentBox.find('.ant-text')
+    this.$content = this.$contentBox.find('.ywlink')
     this.initFormData()
   }
   initFormData() {
@@ -35,7 +35,7 @@ export default class TextComponent extends Component {
     this.formData.hrefMode ='_blank'  //是否新窗口
 
     this.formData.bgImg = '//sc01.alicdn.com/kf/HTB1gXlQXDjxK1Rjy0Fnq6yBaFXao.jpg'
-    this.formData.bgRep =''  //背景平铺方式
+    this.formData.bgRep ='no-repeat'  //背景平铺方式
     this.formData.bgPos ='' //背景对齐位置
     this.formData.bRadius ='' //圆角
 
@@ -59,18 +59,18 @@ export default class TextComponent extends Component {
     this.formData.mcontent = '' //反面内容
 
     this.formData.mbgImg = '//sc01.alicdn.com/kf/HTB1gXlQXDjxK1Rjy0Fnq6yBaFXao.jpg'
-    this.formData.mbgRep =''  //背景平铺方式
+    this.formData.mbgRep ='no-repeat'  //背景平铺方式
     this.formData.mbgPos ='' //背景对齐位置
 
     this.formData.mTsDur ='0.4'   //动画时长
     this.formData.mTsFun ='ease'  //速度曲线
     this.formData.mTsAnt ='atrans5'  //动画效果
 
-    this.formData.bdT ='on'
+    this.formData.bdT ='on'   
     this.formData.bdB ='on'
     this.formData.bdL ='on'
     this.formData.bdR ='on'
-
+    this.formData.sdSize =5
     this.formData.bdWidth =5
     this.formData.bdColor ='#FFFF00'
     this.formData.bdStyle ='solid'
@@ -80,7 +80,10 @@ export default class TextComponent extends Component {
     this.formData.mbdB =''
     this.formData.mbdL =''
     this.formData.mbdR =''
+    this.formData.msdSize =5
+    this.formData.mbdWidth =5
     this.formData.mbdStyle ='solid'
+
 
     this.formData.mbdTsDur ='0.5'
     this.formData.mbdTsFun ='ease-out'
@@ -105,7 +108,232 @@ export default class TextComponent extends Component {
     }
   }
   toHtml() {
-    return ''
+    let top, left, width, height,bRadius,tipText,hrefMode,href,hoverMode
+    let htmlList=[]
+  
+    top = this.$el.css('top')
+    left = this.$el.css('left')
+    width = this.$el.width()
+    height = this.$el.height()
+    bRadius=valEmpty(this.formData.bRadius)
+    hoverMode=valEmpty(this.formData.hoverMode)
+    href=valEmpty(this.formData.href) !="" ?  ' href="'+this.formData.href+'"':''
+    hrefMode=valEmpty(this.formData.hrefMode) ==="_blank" ?  ' target="'+this.formData.hrefMode+'"':''
+    tipText=valEmpty(this.formData.tipText) !="" ? ' title="'+this.formData.tipText+'" ' : ''
+
+    let radiusStyle=bRadius !="" ? 'border-radius:'+bRadius+'px;' :''
+
+    //阴影处理
+    let bShadowStyle='';
+    let msdHtml='';
+    
+    if(valEmpty(this.formData.shadow)==="on"){
+      const sdX=valEmpty(this.formData.sdX) !="" ? this.formData.sdX: 0
+      const sdY=valEmpty(this.formData.sdY) !="" ? this.formData.sdY: 0 
+      const bShadow=boxShadow(sdX,sdY,valEmpty(this.formData.sdBlur),valEmpty(this.formData.sdSize),valEmpty(this.formData.sdColor))
+      bShadowStyle= bShadow !="" ? 'box-shadow:'+bShadow+';' :''
+    }
+    if(valEmpty(this.formData.mshadow)==="on"){
+      const msdX=valEmpty(this.formData.msdX) !="" ? this.formData.msdX: 0
+      const msdY=valEmpty(this.formData.msdY) !="" ? this.formData.msdY: 0 
+      let mbShadow=boxShadow(msdX,msdY,valEmpty(this.formData.msdBlur),valEmpty(this.formData.msdSize),valEmpty(this.formData.msdColor))
+      mbShadow= mbShadow !="" ? 'box-shadow:'+mbShadow+';' :''
+
+      const msdTsDur=valEmpty(this.formData.msdTsDur) ? this.formData.msdTsDur+'s linear': ''
+      const msdTsDurStyle=msdTsDur !="" ?  'transition:'+msdTsDur+';':''
+      msdHtml='<div class="abs mchild xins-box-fadein" style="'+msdTsDurStyle+mbShadow+radiusStyle+'" ></div>'
+    }
+    //默认边框
+    let bdT,bdB,bdL,bdR,bdWidth,bdColor,bdStyle
+    bdT=valEmpty(this.formData.bdT)
+    bdB=valEmpty(this.formData.bdB)
+    bdL=valEmpty(this.formData.bdL)
+    bdR=valEmpty(this.formData.bdR)
+    
+    bdWidth=valInt(this.formData.bdWidth)
+    bdColor=valEmpty(this.formData.bdColor)
+    bdStyle=valEmpty(this.formData.bdStyle)
+
+    //移上边框
+    let mbdT,mbdB,mbdL,mbdR,mbdWidth,mbdColor,mbdStyle
+    mbdT=valEmpty(this.formData.mbdT)
+    mbdB=valEmpty(this.formData.mbdB)
+    mbdL=valEmpty(this.formData.mbdL)
+    mbdR=valEmpty(this.formData.mbdR)
+    
+    mbdWidth=valInt(this.formData.mbdWidth)
+    mbdColor=valEmpty(this.formData.mbdColor)
+    mbdStyle=valEmpty(this.formData.mbdStyle)
+
+    //鼠标经过 边框 样式 动画
+    let mbdTsDur,mbdTsFun,mbdTsAnt,mbdTsFunVal,mbdTsDurVal,mbdTsAntStyle
+    mbdTsDur=valEmpty(this.formData.mbdTsDur)
+    mbdTsFun=valEmpty(this.formData.mbdTsFun)
+    mbdTsAnt=valEmpty(this.formData.mbdTsAnt)
+
+    mbdTsFunVal=mbdTsFun==='cubic-bezier' ? 'cubic-bezier(0.52, 1.64, 0.37, 0.66)' : mbdTsFun
+    mbdTsDurVal=mbdTsDur !="" ? 'transition-duration:'+mbdTsDur+'s;' : ''
+    mbdTsAntStyle='transition-timing-function:'+mbdTsFunVal+';'+mbdTsDurVal
+    
+
+    let btw,bbw,blw,brw,baStyle=''
+    btw=0
+    bbw=0
+    blw=0
+    brw=0
+     
+    if(bdT==="on"){
+      btw=bdWidth
+      baStyle+='padding-top:'+btw+'px;'
+    }
+    if(bdB==="on"){
+      bbw=bdWidth
+      baStyle+='padding-bottom:'+bbw+'px;'
+    }
+    if(bdL==="on"){
+      blw=bdWidth
+      baStyle+='padding-left:'+blw+'px;'
+    }
+    if(bdR==="on"){
+      brw=bdWidth
+      baStyle+='padding-right:'+brw+'px;'
+    }
+
+    let mbtw,mbbw,mblw,mbrw,mbaStyle=''
+    mbtw=0
+    mbbw=0
+    mblw=0
+    mbrw=0
+    if(mbdT==="on"){
+      mbtw=mbdWidth
+      mbaStyle+='padding-top:'+btw+'px;'
+    }
+    if(mbdB==="on"){
+      mbbw=mbdWidth
+      mbaStyle+='padding-bottom:'+bbw+'px;'
+    }
+    if(mbdL==="on"){
+      mblw=mbdWidth
+      mbaStyle+='padding-left:'+blw+'px;'
+    }
+    if(mbdR==="on"){
+      mbrw=mbdWidth
+      mbaStyle+='padding-right:'+brw+'px;'
+    }
+    let alHtml,almHtml,ltHtml,lbHtml,llHtml,lrHtml
+
+    alHtml='<div class="bk-aline" style="'+mbdTsAntStyle+radiusStyle+'border-color:'+bdColor+';border-style:'+bdStyle+';border-top-width:'+btw+'px;border-bottom-width:'+bbw+'px;border-left-width:'+blw+'px;border-right-width:'+brw+'px;" ></div>' //所有
+
+    almHtml='<div class="bk-mline" style="'+mbdTsAntStyle+radiusStyle+'border-color:'+mbdColor+';border-style:'+mbdStyle+';border-top-width:'+mbtw+'px;border-bottom-width:'+mbbw+'px;border-left-width:'+mblw+'px;border-right-width:'+mbrw+'px;" ></div>'  //移上所有
+
+    ltHtml='<div class="bk-line w-lt" style="'+mbdTsAntStyle+'border-top-style:'+mbdStyle+';border-top-color:'+mbdColor+';border-top-width:'+mbdWidth+'px;"></div>'
+    lbHtml='<div class="bk-line w-lb" style="'+mbdTsAntStyle+'border-bottom-style:'+mbdStyle+';border-bottom-color:'+mbdColor+';border-bottom-width:'+mbdWidth+'px;"></div>'
+    llHtml='<div class="bk-line w-ll" style="'+mbdTsAntStyle+'border-left-style:'+mbdStyle+';border-left-color:'+mbdColor+';border-left-width:'+mbdWidth+'px;"></div>'
+    lrHtml='<div class="bk-line w-lr" style="'+mbdTsAntStyle+'border-right-style:'+mbdStyle+';border-right-color:'+mbdColor+';border-right-width:'+mbdWidth+'px;"></div>'
+  
+    
+    let family, fSize, color, bgColor,lHeight,spacing,indent,weight,fStyle,oLine,through,uLine,align,content,bgImg,bgRep,bgPos,onBgStyle,onlineStyle,onHtml
+    content=valEmpty(this.formData.content)  !="" ? this.formData.content :''
+    family=valEmpty(this.formData.family) !="" ? 'font-family:'+this.formData.family+';' :''
+    fSize=valEmpty(this.formData.fSize) !="" ? 'font-size:'+this.formData.fSize+'px;' :''
+    color=valEmpty(this.formData.color) !="" ? 'color:'+this.formData.color+';' :''
+    lHeight=valEmpty(this.formData.lHeight) !="" ? 'line-height:'+this.formData.lHeight+'px;' :''
+    spacing=valEmpty(this.formData.spacing) !="" ? 'letter-spacing:'+this.formData.spacing+'px;' :''
+    indent=valEmpty(this.formData.indent) !="" ? 'text-indent:'+this.formData.indent+'px;' :''
+    weight=valEmpty(this.formData.weight) !="" ? 'font-weight:'+this.formData.weight+';' :''
+    fStyle=valEmpty(this.formData.fStyle) !="" ? 'font-style:'+this.formData.fStyle+';' :''
+    align=valEmpty(this.formData.align) !="" ? 'text-align:'+this.formData.align+';' :''
+    
+    bgColor=valEmpty(this.formData.bgColor)
+    bgImg=valEmpty(this.formData.bgImg)
+    bgRep=valEmpty(this.formData.bgRep)  
+    bgPos=valEmpty(this.formData.bgPos)
+    onBgStyle=bgImage(bgImg,bgColor,bgRep,bgPos,'')
+    onBgStyle=onBgStyle !="" ?  'background:'+onBgStyle+';' : ''
+
+    oLine=valEmpty(this.formData.oLine)
+    through=valEmpty(this.formData.through)
+    uLine=valEmpty(this.formData.uLine) 
+    onlineStyle=textLine(oLine,through,uLine) //处理线
+    onlineStyle=onlineStyle !="" ?  'text-decoration:'+onlineStyle+';' : ''
+
+
+    //鼠标经过
+    let mTsDur,mTsFun,mTsAnt,mTsFunVal,mTsDurVal,mTsAntStyle
+    mTsDur=valEmpty(this.formData.mTsDur)
+    mTsFun=valEmpty(this.formData.mTsFun)
+     
+    mTsFunVal=mTsFun==='cubic-bezier'?  'cubic-bezier(0.52, 1.64, 0.37, 0.66)' :mTsFun
+    mTsDurVal=mTsDur !="" ? 'transition-duration:'+mTsDur+'s;':''
+    //鼠标经过样式
+    mTsAntStyle='transition-timing-function:'+mTsFunVal+';'+mTsDurVal
+
+    onHtml='<div class="on" style="'+radiusStyle+onBgStyle+onlineStyle+mTsAntStyle+baStyle+family+fSize+color+lHeight+spacing+indent+weight+align+fStyle+'" >'+content+'</div>'
+
+    //反面
+    if(hoverMode==="on"){
+      mTsAnt=valEmpty(this.formData.mTsAnt)
+      let mfamily, mfSize, mcolor, mbgColor,mlHeight,mspacing,mindent,mweight,mfStyle,moLine,mthrough,muLine,malign,mcontent,mbgImg,mbgRep,mbgPos,offBgStyle,offlineStyle,offHtml
+      mcontent=valEmpty(this.formData.mcontent)  !="" ? this.formData.mcontent :''
+      mfamily=valEmpty(this.formData.mfamily) !="" ? 'font-family:'+this.formData.mfamily+';' :''
+      mfSize=valEmpty(this.formData.mfSize) !="" ? 'font-size:'+this.formData.mfSize+'px;' :''
+      mcolor=valEmpty(this.formData.mcolor) !="" ? 'color:'+this.formData.mcolor+';' :''
+      mlHeight=valEmpty(this.formData.mlHeight) !="" ? 'line-height:'+this.formData.mlHeight+'px;' :''
+      mspacing=valEmpty(this.formData.mspacing) !="" ? 'letter-spacing:'+this.formData.mspacing+'px;' :''
+      mindent=valEmpty(this.formData.mindent) !="" ? 'text-indent:'+this.formData.mindent+'px;' :''
+      mweight=valEmpty(this.formData.mweight) !="" ? 'font-weight:'+this.formData.mweight+';' :''
+      mfStyle=valEmpty(this.formData.mfStyle) !="" ? 'font-style:'+this.formData.mfStyle+';' :''
+      malign=valEmpty(this.formData.malign) !="" ? 'text-align:'+this.formData.malign+';' :''
+      
+      mbgColor=valEmpty(this.formData.mbgColor)
+      mbgImg=valEmpty(this.formData.mbgImg)
+      mbgRep=valEmpty(this.formData.mbgRep)  
+      mbgPos=valEmpty(this.formData.mbgPos)
+      offBgStyle=bgImage(mbgImg,mbgColor,mbgRep,mbgPos,'')
+      offBgStyle=offBgStyle !="" ?  'background:'+offBgStyle+';' : ''
+
+      moLine=valEmpty(this.formData.moLine)
+      mthrough=valEmpty(this.formData.mthrough)
+      muLine=valEmpty(this.formData.muLine) 
+      offlineStyle=textLine(moLine,mthrough,muLine) //处理线
+      offlineStyle=offlineStyle !="" ?  'text-decoration:'+offlineStyle+';' : ''
+
+      offHtml='<div class="off" style="'+radiusStyle+offBgStyle+offlineStyle+mTsAntStyle+mbaStyle+mfamily+mfSize+mcolor+mlHeight+mspacing+mindent+mweight+malign+mfStyle+'" >'+mcontent+'</div>'
+
+      if(mTsAnt=='atrans5' || mTsAnt=='atrans6' || mTsAnt==='atrans7' || mTsAnt==='atrans8' || mTsAnt==='atrans9' || mTsAnt==='atrans19' ){
+        htmlList.push(offHtml)
+        htmlList.push(onHtml)
+      }else{
+        htmlList.push(onHtml)
+        htmlList.push(offHtml)
+      }
+    }else{
+      htmlList.push(onHtml)
+    }
+
+    htmlList.push(alHtml);
+    if(mbdTsAnt=='bdtx0' || mbdTsAnt=='bdtx1'){
+      htmlList.push(almHtml);
+    }else{
+      if(mbdT==="on"){
+        htmlList.push(ltHtml);
+      }
+      if(mbdB==="on"){
+        htmlList.push(lbHtml);
+      }
+      if(mbdL==="on"){
+        htmlList.push(llHtml);
+      }
+      if(mbdR==="on"){
+        htmlList.push(lrHtml);
+      }
+    }
+
+    return '<div class="abs xdtb ant-text" style="top: '+top+'; left:'+left+'; width:'+width+'px; height:'+height+'px;'+bShadowStyle+radiusStyle+'" >'+msdHtml+'<a '+tipText+' class="ywlink '+mTsAnt+' '+mbdTsAnt+'" '+href+hrefMode+' style="'+radiusStyle+'">'+htmlList.join('')+'</a></div>'
+
+   
+
+
   }
  
   //弹出来同步
@@ -877,6 +1105,7 @@ export default class TextComponent extends Component {
             <li class="layui-this">默认设置</li>
             <li>鼠标经过</li>
             <li>边框设置</li>
+            <li>阴影外框</li>
             <li>动画设置</li>
           </ul>
           <div class="layui-tab-content">
@@ -1211,6 +1440,107 @@ export default class TextComponent extends Component {
               </div>
             </div>
             <div class="layui-tab-item">
+              <div class="layui-tab layui-side-card">
+                <ul class="layui-tab-title"  >
+                  <li class="layui-this" style="margin-top: 110px;">默认阴影</li>
+                  <li class="">鼠标划过阴影</li>
+                </ul>
+                <div class="layui-tab-content" style="height: 400px;">
+                  <div class="layui-tab-item layui-show">
+                       
+                    <div class="layui-form-item" style="margin-top:30px;">
+                      <label class="layui-form-label">阴影</label>
+                      <div class="layui-input-inline">
+                        <input class="radio-medium" type="radio" name="shadow" value="on"  title="显示">
+                        <input class="radio-medium" type="radio" name="shadow" value="off"  title="隐藏">
+                      </div>
+                    </div>
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">阴影大小</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="sdSize" class="layui-input">
+                      </div>
+                    </div>
+                     <div class="layui-form-item">
+                      <label class="layui-form-label">模糊距离</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="sdBlur" class="layui-input">
+                      </div>
+                    </div>
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">水平阴影距离</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="sdX" class="layui-input">
+                      </div>
+                    </div>
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">垂直阴影距离</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="sdY" class="layui-input">
+                      </div>
+                    </div>
+                    <div class="layui-form-item"  >
+                      <label class="layui-form-label">阴影颜色</label>
+                      <div class="layui-input-inline pagecolorpanel"  >
+                        <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner"></div></div></div>
+                        <input name="sdColor" type="text" class="layui-input pagecolor">
+                        <span class="clear-color-button"></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="layui-tab-item">
+                       
+                    <div class="layui-form-item" style="margin-top:30px;">
+                      <label class="layui-form-label">阴影</label>
+                      <div class="layui-input-inline">
+                        <input class="radio-medium" type="radio" name="mshadow" value="on"  title="显示">
+                        <input class="radio-medium" type="radio" name="mshadow" value="off"  title="隐藏">
+                      </div>
+                    </div>
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">阴影大小</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="msdSize" class="layui-input">
+                      </div>
+                    </div>
+                     <div class="layui-form-item">
+                      <label class="layui-form-label">模糊距离</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="msdBlur" class="layui-input">
+                      </div>
+                    </div>
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">水平阴影距离</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="msdX" class="layui-input">
+                      </div>
+                    </div>
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">垂直阴影距离</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="msdY" class="layui-input">
+                      </div>
+                    </div>
+                    <div class="layui-form-item"  >
+                      <label class="layui-form-label">阴影颜色</label>
+                      <div class="layui-input-inline pagecolorpanel"  >
+                        <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner"></div></div></div>
+                        <input name="msdColor" type="text" class="layui-input pagecolor">
+                        <span class="clear-color-button"></span>
+                      </div>
+                    </div>
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">划过显示速度</label>
+                      <div class="layui-input-inline" style="width:230px;">
+                        <input type="text" name="msdTsDur" class="layui-input input-short"  style="width:105px;display:inline-block;">
+                        <span style="color:red;">单位 秒   可以小数点</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="layui-tab-item">
               <fieldset  class="layui-elem-field">
                 <legend>
                   动画时长
@@ -1291,6 +1621,38 @@ export default class TextComponent extends Component {
   update(formData) {
     let that = this
     let bRadius=this.formData.bRadius;
+
+    //默认阴影
+    if(formData.shadow ==="on"){
+      let sdX=formData.sdX ? formData.sdX: 0
+      let sdY=formData.sdY ? formData.sdY: 0
+      let bShadow=boxShadow(sdX,sdY,formData.sdBlur,formData.sdSize,formData.sdColor)
+      that.$content.css('box-shadow', bShadow)
+    }else{
+     that.$content.css('box-shadow','none')
+    }
+    //移上阴影
+    let $mchildPanel=that.$contentBox.find(".mchild")
+    if(formData.mshadow ==="on"){
+      let sdX=formData.msdX ? formData.msdX: 0
+      let sdY=formData.msdY ? formData.msdY: 0
+      let mbShadow=boxShadow(sdX,sdY,formData.msdBlur,formData.msdSize,formData.msdColor)
+      
+      if($mchildPanel.length <=0)
+        that.$content.before("<div class='abs mchild xins-box-fadein'></div>")
+
+      $mchildPanel=that.$contentBox.find(".mchild")
+
+      $mchildPanel.css('box-shadow', mbShadow)
+      $mchildPanel.css('border-radius', bRadius)
+
+      let msdTsDur=formData.msdTsDur ? formData.msdTsDur+'s linear': 0
+      $mchildPanel.css('transition', msdTsDur)
+    }else{
+      $mchildPanel.remove()
+    }
+
+    
     let deline=this.formData.uLine;
     if(this.formData.oLine){
       deline+=' '+this.formData.oLine
@@ -1300,9 +1662,15 @@ export default class TextComponent extends Component {
     }
     if(deline ==="") deline='none'
     let $defPanel=this.$contentBox.find(".on")
+    let bgColor,bgImg,bgRep,bgPos,bgCss
+    bgImg=this.formData.bgImg
+    bgColor=this.formData.bgColor
+    bgRep=this.formData.bgRep
+    bgPos=this.formData.bgPos
+    bgCss=bgImage(bgImg,bgColor,bgRep,bgPos,'')
+    $defPanel.css('background', bgCss)
     $defPanel.css("font-family",this.formData.family)
     $defPanel.css('color', this.formData.color)
-    $defPanel.css('background-color', this.formData.bgColor)
     $defPanel.css('font-size', parseInt(this.formData.fSize))
     $defPanel.css('line-height', this.formData.lHeight+'px')
     $defPanel.css('letter-spacing', parseInt(this.formData.spacing))
@@ -1338,11 +1706,18 @@ export default class TextComponent extends Component {
       }else{
         this.$contentBox.find(".on").after("<div class='off'></div>")
       }
+      let mbgColor,mbgImg,mbgRep,mbgPos,mbgCss
+      mbgImg=this.formData.mbgImg
+      mbgColor=this.formData.mbgColor
+      mbgRep=this.formData.mbgRep
+      mbgPos=this.formData.mbgPos
+      mbgCss=bgImage(mbgImg,mbgColor,mbgRep,mbgPos,'')
+
       $offPanel=this.$contentBox.find(".off")
       $offPanel.text(formData.mcontent)
+      $offPanel.css('background', mbgCss)
       $offPanel.css("font-family",this.formData.mfamily)
       $offPanel.css('color', this.formData.mcolor)
-      $offPanel.css('background-color', this.formData.mbgColor)
       $offPanel.css('font-size', parseInt(this.formData.mfSize))
       $offPanel.css('line-height', this.formData.mlHeight+'px')
       $offPanel.css('letter-spacing', parseInt(this.formData.mspacing))
@@ -1380,7 +1755,7 @@ export default class TextComponent extends Component {
 
     //处理边框
     let isDefBk=false;
-    let $textPanel=this.$contentBox.find(".ant-text")
+    let $textPanel=this.$contentBox.find(".ywlink")
     $textPanel.css('border-radius',parseInt(bRadius))
 
     let bdWidth=this.formData.bdWidth !="" ? parseInt(this.formData.bdWidth) : '';

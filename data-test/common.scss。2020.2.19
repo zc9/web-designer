@@ -95,6 +95,8 @@
   }
 }
 .atrans0 {
+    
+    
    .off{
       display: none
     }
@@ -108,6 +110,8 @@
     }
 }
 .atrans1 {
+    position: relative;
+    overflow: hidden;
     .off{
       left: 100%
     }
@@ -118,6 +122,8 @@
     }
 }
 .atrans2 {
+    position: relative;
+    overflow: hidden;
     .off{
       top: 100%
     }
@@ -128,6 +134,8 @@
     }
 }
 .atrans3 {
+    position: relative;
+    overflow: hidden;
     .off{
       left: auto;
       right: 100%
@@ -139,6 +147,8 @@
     }
 }
 .atrans4 {
+    position: relative;
+    overflow: hidden;
     .off{
       top: auto;
       bottom: 100%
@@ -150,6 +160,8 @@
     }
 }
 .atrans5 {
+    position: relative;
+    overflow: hidden;
     .on{
        left: 0
     }
@@ -160,6 +172,8 @@
     }
 }
 .atrans6 {
+    position: relative;
+    overflow: hidden;
     .on{
        top: 0
     }
@@ -170,6 +184,8 @@
     }
 }
 .atrans7 {
+    position: relative;
+    overflow: hidden;
     .on{
        left: auto;
        right: 0
@@ -181,6 +197,8 @@
     }
 }
 .atrans8 {
+    position: relative;
+    overflow: hidden;
     .on{
        top: auto;
        bottom: 0
@@ -192,6 +210,8 @@
     }
 }
 .atrans9 {
+    position: relative;
+    overflow: hidden;
     .on{
        left: auto;
        right: 0
@@ -210,6 +230,8 @@
     }
 }
 .atrans10 {
+    position: relative;
+    overflow: hidden;
     .on{
        top: auto;
        bottom: 0
@@ -227,6 +249,8 @@
     }
 }
 .atrans11 {
+    position: relative;
+    overflow: hidden;
     .on{
        left: 0
     }
@@ -244,6 +268,8 @@
     }
 }
 .atrans12 {
+    position: relative;
+    overflow: hidden;
     .on{
        top: 0
     }
@@ -261,6 +287,8 @@
     }
 }
 .atrans13 {
+    position: relative;
+    overflow: hidden;
     .off{
       -webkit-transform: scale(0);
       transform: scale(0);
@@ -275,6 +303,8 @@
     }
 }
 .atrans14 {
+    position: relative;
+    overflow: hidden;
     .off{
       -webkit-transform: scale(0);
       transform: scale(0);
@@ -294,6 +324,8 @@
     }
 }
 .atrans15 {
+    position: relative;
+    overflow: hidden;
     .off{
       -webkit-transform: scale(-1,1);
       transform: scale(-1,1);
@@ -313,6 +345,8 @@
     }
 }
 .atrans16 {
+    position: relative;
+    overflow: hidden;
     .off{
       -webkit-transform: scale(1.5);
       transform: scale(1.5);
@@ -332,6 +366,8 @@
     }
 }
 .atrans17 {
+    position: relative;
+    overflow: hidden;
     .off{
       -webkit-transform: scale(0);
       transform: scale(0);
@@ -351,6 +387,8 @@
     }
 }
 .atrans18 {
+    position: relative;
+    overflow: hidden;
     .off{
        -webkit-transform: rotate(720deg) scale(0);
        transform: rotate(720deg) scale(0)

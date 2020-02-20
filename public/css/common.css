@@ -1,4 +1,5 @@
-.abs{position:absolute;}
+*, :after, :before {box-sizing: border-box; }
+.abs{position:absolute;}z
 .xins-x-shake-s:hover{margin-left:-5px;}
 .xins-x-shake-s:hover .shake{margin-left:5px;}
 .xins-x-shake-m:hover{margin-left:-20px;}
@@ -49,6 +50,215 @@
   color:#060202;}
 .wang-box .wang-line{vertical-align:middle;}
 .wang-box .w-mid{width:25px;}
+
+.ant-text .on{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;}
+.ant-text .off{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+.ant-text a{position: relative;overflow: hidden;}
+.atrans0 .off{display: none;}
+.atrans0:hover .on{display: none;}
+.atrans0:hover .off{display:block;}
+
+.atrans1 .off{left: 100%;}
+.atrans1:hover .off{left: 0;}
+ 
+.atrans2 .off{top: 100%;}
+.atrans2:hover .off{top: 0;}
+
+.atrans3 .off{left: auto;right: 100%;}
+.atrans3:hover .off{right: 0;}
+ 
+.atrans4 .off{top: auto;bottom: 100%;}
+.atrans4:hover .off{bottom: 0;}
+ 
+.atrans5 .on{left: 0;}
+.atrans5:hover .on{left: 100%;}
+
+.atrans6 .on{top: 0;}
+.atrans6:hover .on{top: 100%;}
+
+.atrans7 .on{left: auto;right: 0;}
+.atrans7:hover .on{right: 100%;}
+
+.atrans8 .on{top: auto;bottom: 0;}
+.atrans8:hover .on{bottom: 100%;}
+
+.atrans9 .on{left: auto; right: 0;}
+.atrans9 .off{left: 100%; right: 0;}
+.atrans9:hover .on{right: 100%;}
+.atrans9:hover .off{left: 0;}
+
+.atrans10 .on{top: auto; bottom: 0;}
+.atrans10 .off{top: 100%; }
+.atrans10:hover .on{bottom: 100%;}
+.atrans10:hover .off{top: 0;}
+
+.atrans11 .on{left: 0;}
+.atrans11 .off{left: auto;right: 100%; }
+.atrans11:hover .on{left: 100%;}
+.atrans11:hover .off{right: 0;}
+
+.atrans12 .on{top: 0;}
+.atrans12 .off{top: auto;bottom: 100%; }
+.atrans12:hover .on{top: 100%;}
+.atrans12:hover .off{bottom: 0;}
+
+ 
+.atrans13 .off{-webkit-transform: scale(0);transform: scale(0);opacity: 0; }
+.atrans13:hover .off{-webkit-transform: scale(1);transform: scale(1);opacity: 1; }
+
+.atrans14 .off{-webkit-transform: scale(0);transform: scale(0);opacity: 0; }
+.atrans14:hover .on{-webkit-transform: scale(0);transform: scale(0);opacity:0; }
+.atrans14:hover .off{-webkit-transform: scale(1);transform: scale(1);opacity: 1; }
+ 
+.atrans15 .off{-webkit-transform: scale(-1,1);transform: scale(-1,1);opacity: 0; }
+.atrans15:hover .on{-webkit-transform: scale(-1,1);transform: scale(-1,1);opacity:0; }
+.atrans15:hover .off{-webkit-transform: scale(1,1);transform: scale(1,1);opacity: 1; }
+
+.atrans16 .off{-webkit-transform: scale(1.5);transform: scale(1.5);opacity: 0; }
+.atrans16:hover .on{-webkit-transform: scale(0);transform: scale(0);opacity:0; }
+.atrans16:hover .off{-webkit-transform: scale(1);transform: scale(1);opacity: 1; }
+
+.atrans17 .off{-webkit-transform: scale(0);transform: scale(0);opacity: 0; }
+.atrans17:hover .on{-webkit-transform: scale(1.5);transform: scale(1.5);opacity:0; }
+.atrans17:hover .off{-webkit-transform: scale(1);transform: scale(1);opacity: 1; }
+
+.atrans18 .off{-webkit-transform: rotate(720deg) scale(0);transform: rotate(720deg) scale(0);}
+.atrans18:hover .off{-webkit-transform: rotate(0deg) scale(1);transform: rotate(0deg) scale(1); }
+/*特别CSS*/
+
+.atrans19:hover .on{-webkit-transform: rotate(720deg) scale(0);transform: rotate(720deg) scale(0); }
+
+.atrans20 .off{filter: alpha(opacity=0);opacity: 0;}
+.atrans20:hover .on{filter: alpha(opacity=0);opacity: 0; }
+.atrans20:hover .off{filter: alpha(opacity=100);opacity: 1; }
+
+/*默认边框*/
+.bk-mline,.bk-aline{position: absolute;top:0px;left:0px; width:100%;height:100%;}
+.bk-line {
+    position: absolute;
+    border-width: 0;
+    width: 0;
+    height: 0;
+    -webkit-transition: all .5s ease-in 0s;
+    transition: all .5s ease-in 0s;
+}
+
+.bk-line.w-lt{
+    left: 0;
+    top: 0;
+    width: 100%;
+}
+
+.bk-line.w-lr {
+    right: 0;
+    top: 0;
+    height: 100%;
+}
+
+.bk-line.w-lb {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.bk-line.w-ll {
+    left: 0;
+    top: 0;
+    height: 100%;
+} 
+/*直接切换*/
+.bdtx0 .bk-mline {display: none;}
+.bdtx0:hover .bk-mline{display: block;}
+ 
+/*渐隐渐显*/
+.bdtx1 .bk-mline {filter: alpha(opacity=0);opacity: 0;}
+.bdtx1:hover .bk-mline{filter: alpha(opacity=100);opacity: 1;}
+
+
+/*左对角线切入*/
+.bdtx4 .w-lt {width: 0;}
+.bdtx4 .w-lb {left: auto;right: 0;width: 0;}
+.bdtx4 .w-ll {height: 0;}
+.bdtx4 .w-lr {height: 0;top: auto;bottom: 0;}
+ 
+/*右对角线切入*/
+.bdtx5 .w-lt {left:auto;right:0;width:0;}
+.bdtx5 .w-lb {left: 0;width: 0; }
+.bdtx5 .w-ll {height: 0;top: auto;bottom: 0;}
+.bdtx5 .w-lr { height: 0;}
+ 
+/*顺时针出现*/
+.bdtx6 .w-lt {width: 0;}
+.bdtx6 .w-lb {left: auto;right: 0;width: 0;}
+.bdtx6 .w-ll {height: 0;top: auto;bottom: 0;}
+.bdtx6 .w-lr {height: 0;}
+
+ 
+/*逆时针出现*/
+.bdtx7 .w-lt {width: 0;left: auto;right: 0;}
+.bdtx7 .w-lb {width: 0;}
+.bdtx7 .w-ll {height: 0;}
+.bdtx7 .w-lr {height: 0;top: auto;bottom: 0;}
+
+.bdtx4:hover .w-lt,
+.bdtx5:hover .w-lt,
+.bdtx6:hover .w-lt,
+.bdtx7:hover .w-lt {
+  width: 100%;
+} 
+.bdtx4:hover .w-ll,
+.bdtx5:hover .w-ll,
+.bdtx6:hover .w-ll,
+.bdtx7:hover .w-ll {
+  height: 100%;
+}
+.bdtx4:hover .w-lr,
+.bdtx5:hover .w-lr,
+.bdtx6:hover .w-lr,
+.bdtx7:hover .w-lr {
+  height: 100%;
+}
+.bdtx4:hover .w-lb,
+.bdtx5:hover .w-lb,
+.bdtx6:hover .w-lb,
+.bdtx7:hover .w-lb {
+    width: 100%;
+}
+
+/*由点到线*/
+.bdtx8 .w-lt {width: 0;left: 50%;}
+.bdtx8 .w-lb {width: 0;left: 50%;}
+.bdtx8 .w-ll {height: 0;top: 50%;}
+.bdtx8 .w-lr {height: 0;top: 50%;}
+
+.bdtx8:hover .w-lt {width: 100%;left: 0;}
+.bdtx8:hover .w-lb {width: 100%;left: 0;}
+.bdtx8:hover .w-ll {height: 100%;top: 0;}
+.bdtx8:hover .w-lr {height: 100%;top: 0;}
+ 
+/*由点到面*/
+.bdtx9 .w-lt {width: 0;left: 50%;top: 50%;}
+.bdtx9 .w-lb {width: 0;left: 50%;bottom: 50%;}
+.bdtx9 .w-ll {height: 0;top: 50%;left: 50%;}
+.bdtx9 .w-lr {height: 0;top: 50%;right: 50%;}
+
+.bdtx9:hover .w-lt {width: 100%;left: 0;top: 0;}
+.bdtx9:hover .w-lb {width: 100%;left: 0;bottom: 0;}
+.bdtx9:hover .w-ll {height: 100%;top: 0;left: 0;}
+.bdtx9:hover .w-lr {height: 100%;top: 0;right: 0;}
+
+  
 
 .xtxc .xins-box-fromleft{margin-left:-100%;}
 .xtxc .xins-box-fromright{margin-left:100%;}

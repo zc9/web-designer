@@ -37,6 +37,15 @@ export function bgImage(img,bgColor,bgRep,bgPos,bgfix){
   }
   return defBg
 }
+/*文字线 生成样式 */
+export function textLine(oLine,tLine,uLine){
+  let deline=uLine !="" ? uLine:'';
+  deline+=oLine !="" ? ' '+oLine:'';
+  deline+=tLine !="" ? ' '+tLine:'';
+  if(deline ==="") deline='none'
+  return deline;
+}
+
 /*左右移动，缩放大小 后面值 无线 */
 export function onDisabledChanged($layerElem,$objElem,$valElem) {
   let $nextObj=$objElem.next()

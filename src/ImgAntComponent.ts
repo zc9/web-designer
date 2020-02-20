@@ -268,7 +268,7 @@ export default class ImgAntComponent extends Component {
             <li class="layui-this">内容设置</li>
              <li>边框设置</li>
              <li>阴影外框</li>
-            <li>动画设置</li>
+             <li>动画设置</li>
           </ul>
           <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
@@ -560,7 +560,6 @@ export default class ImgAntComponent extends Component {
                   </div>
                 </div>
               </div>
-
             </div>
             <div class="layui-tab-item">
               <div class="layui-tab layui-side-card">

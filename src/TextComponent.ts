@@ -1,6 +1,6 @@
 import Component from './Component';
 import { setFontOption } from './common';
-import {boxShadow,bgImage,valInt,onTongBuBd,valEmpty,textLine} from './commonCss'
+import {boxShadow,bgImage,valInt,onTongBuBd,valEmpty,textLine,ShadowStyle,BorderHtml} from './commonCss'
 export default class TextComponent extends Component {
 　$content: JQuery
   constructor() {
@@ -123,101 +123,18 @@ export default class TextComponent extends Component {
 
     let radiusStyle=bRadius !="" ? 'border-radius:'+bRadius+'px;' :''
 
-    //阴影处理
+    //处理 阴影
     let shadowDataStyle = ShadowStyle(this.formData)
     let onShadowStyle=shadowDataStyle.onShadow
     let offShadowHtml= shadowDataStyle.offShadow
+    //处理 边框
+    let mbdTsAnt=valEmpty(this.formData.mbdTsAnt)
+    let BorderData = BorderHtml(this.formData)
+    let bdpdStyle=BorderData.bdpdStyle
+    let mbdpdStyle=BorderData.mbdpdStyle
+    let bdHtml=BorderData.Html
 
-
-    //默认边框
-    let bdT,bdB,bdL,bdR,bdWidth,bdColor,bdStyle
-    bdT=valEmpty(this.formData.bdT)
-    bdB=valEmpty(this.formData.bdB)
-    bdL=valEmpty(this.formData.bdL)
-    bdR=valEmpty(this.formData.bdR)
-    
-    bdWidth=valInt(this.formData.bdWidth)
-    bdColor=valEmpty(this.formData.bdColor)
-    bdStyle=valEmpty(this.formData.bdStyle)
-
-    //移上边框
-    let mbdT,mbdB,mbdL,mbdR,mbdWidth,mbdColor,mbdStyle
-    mbdT=valEmpty(this.formData.mbdT)
-    mbdB=valEmpty(this.formData.mbdB)
-    mbdL=valEmpty(this.formData.mbdL)
-    mbdR=valEmpty(this.formData.mbdR)
-    
-    mbdWidth=valInt(this.formData.mbdWidth)
-    mbdColor=valEmpty(this.formData.mbdColor)
-    mbdStyle=valEmpty(this.formData.mbdStyle)
-
-    //鼠标经过 边框 样式 动画
-    let mbdTsDur,mbdTsFun,mbdTsAnt,mbdTsFunVal,mbdTsDurVal,mbdTsAntStyle
-    mbdTsDur=valEmpty(this.formData.mbdTsDur)
-    mbdTsFun=valEmpty(this.formData.mbdTsFun)
-    mbdTsAnt=valEmpty(this.formData.mbdTsAnt)
-
-    mbdTsFunVal=mbdTsFun==='cubic-bezier' ? 'cubic-bezier(0.52, 1.64, 0.37, 0.66)' : mbdTsFun
-    mbdTsDurVal=mbdTsDur !="" ? 'transition-duration:'+mbdTsDur+'s;' : ''
-    mbdTsAntStyle='transition-timing-function:'+mbdTsFunVal+';'+mbdTsDurVal
-    
-
-    let btw,bbw,blw,brw,baStyle=''
-    btw=0
-    bbw=0
-    blw=0
-    brw=0
-     
-    if(bdT==="on"){
-      btw=bdWidth
-      baStyle+='padding-top:'+btw+'px;'
-    }
-    if(bdB==="on"){
-      bbw=bdWidth
-      baStyle+='padding-bottom:'+bbw+'px;'
-    }
-    if(bdL==="on"){
-      blw=bdWidth
-      baStyle+='padding-left:'+blw+'px;'
-    }
-    if(bdR==="on"){
-      brw=bdWidth
-      baStyle+='padding-right:'+brw+'px;'
-    }
-
-    let mbtw,mbbw,mblw,mbrw,mbaStyle=''
-    mbtw=0
-    mbbw=0
-    mblw=0
-    mbrw=0
-    if(mbdT==="on"){
-      mbtw=mbdWidth
-      mbaStyle+='padding-top:'+btw+'px;'
-    }
-    if(mbdB==="on"){
-      mbbw=mbdWidth
-      mbaStyle+='padding-bottom:'+bbw+'px;'
-    }
-    if(mbdL==="on"){
-      mblw=mbdWidth
-      mbaStyle+='padding-left:'+blw+'px;'
-    }
-    if(mbdR==="on"){
-      mbrw=mbdWidth
-      mbaStyle+='padding-right:'+brw+'px;'
-    }
-    let alHtml,almHtml,ltHtml,lbHtml,llHtml,lrHtml
-
-    alHtml='<div class="bk-aline" style="'+mbdTsAntStyle+radiusStyle+'border-color:'+bdColor+';border-style:'+bdStyle+';border-top-width:'+btw+'px;border-bottom-width:'+bbw+'px;border-left-width:'+blw+'px;border-right-width:'+brw+'px;" ></div>' //所有
-
-    almHtml='<div class="bk-mline" style="'+mbdTsAntStyle+radiusStyle+'border-color:'+mbdColor+';border-style:'+mbdStyle+';border-top-width:'+mbtw+'px;border-bottom-width:'+mbbw+'px;border-left-width:'+mblw+'px;border-right-width:'+mbrw+'px;" ></div>'  //移上所有
-
-    ltHtml='<div class="bk-line w-lt" style="'+mbdTsAntStyle+'border-top-style:'+mbdStyle+';border-top-color:'+mbdColor+';border-top-width:'+mbdWidth+'px;"></div>'
-    lbHtml='<div class="bk-line w-lb" style="'+mbdTsAntStyle+'border-bottom-style:'+mbdStyle+';border-bottom-color:'+mbdColor+';border-bottom-width:'+mbdWidth+'px;"></div>'
-    llHtml='<div class="bk-line w-ll" style="'+mbdTsAntStyle+'border-left-style:'+mbdStyle+';border-left-color:'+mbdColor+';border-left-width:'+mbdWidth+'px;"></div>'
-    lrHtml='<div class="bk-line w-lr" style="'+mbdTsAntStyle+'border-right-style:'+mbdStyle+';border-right-color:'+mbdColor+';border-right-width:'+mbdWidth+'px;"></div>'
-  
-    
+   
     let family, fSize, color, bgColor,lHeight,spacing,indent,weight,fStyle,oLine,through,uLine,align,content,bgImg,bgRep,bgPos,onBgStyle,onlineStyle,onHtml
     content=valEmpty(this.formData.content)  !="" ? this.formData.content :''
     family=valEmpty(this.formData.family) !="" ? 'font-family:'+this.formData.family+';' :''
@@ -254,7 +171,7 @@ export default class TextComponent extends Component {
     //鼠标经过样式
     mTsAntStyle='transition-timing-function:'+mTsFunVal+';'+mTsDurVal
 
-    onHtml='<div class="on" style="'+radiusStyle+onBgStyle+onlineStyle+mTsAntStyle+baStyle+family+fSize+color+lHeight+spacing+indent+weight+align+fStyle+'" >'+content+'</div>'
+    onHtml='<div class="on" style="'+radiusStyle+onBgStyle+onlineStyle+mTsAntStyle+bdpdStyle+family+fSize+color+lHeight+spacing+indent+weight+align+fStyle+'" >'+content+'</div>'
 
     //反面
     if(hoverMode==="on"){
@@ -284,7 +201,7 @@ export default class TextComponent extends Component {
       offlineStyle=textLine(moLine,mthrough,muLine) //处理线
       offlineStyle=offlineStyle !="" ?  'text-decoration:'+offlineStyle+';' : ''
 
-      offHtml='<div class="off" style="'+radiusStyle+offBgStyle+offlineStyle+mTsAntStyle+mbaStyle+mfamily+mfSize+mcolor+mlHeight+mspacing+mindent+mweight+malign+mfStyle+'" >'+mcontent+'</div>'
+      offHtml='<div class="off" style="'+radiusStyle+offBgStyle+offlineStyle+mTsAntStyle+mbdpdStyle+mfamily+mfSize+mcolor+mlHeight+mspacing+mindent+mweight+malign+mfStyle+'" >'+mcontent+'</div>'
 
       if(mTsAnt=='atrans5' || mTsAnt=='atrans6' || mTsAnt==='atrans7' || mTsAnt==='atrans8' || mTsAnt==='atrans9' || mTsAnt==='atrans19' ){
         htmlList.push(offHtml)
@@ -296,24 +213,9 @@ export default class TextComponent extends Component {
     }else{
       htmlList.push(onHtml)
     }
-
-    htmlList.push(alHtml);
-    if(mbdTsAnt=='bdtx0' || mbdTsAnt=='bdtx1'){
-      htmlList.push(almHtml);
-    }else{
-      if(mbdT==="on"){
-        htmlList.push(ltHtml);
-      }
-      if(mbdB==="on"){
-        htmlList.push(lbHtml);
-      }
-      if(mbdL==="on"){
-        htmlList.push(llHtml);
-      }
-      if(mbdR==="on"){
-        htmlList.push(lrHtml);
-      }
-    }
+   
+    //边框
+    htmlList.push(bdHtml)
 
     return '<div class="abs xdtb ant-text" style="top: '+top+'; left:'+left+'; width:'+width+'px; height:'+height+'px;'+onShadowStyle+radiusStyle+'" >'+offShadowHtml+'<a '+tipText+' class="ywlink '+mTsAnt+' '+mbdTsAnt+'" '+href+hrefMode+' style="'+radiusStyle+'">'+htmlList.join('')+'</a></div>'
 

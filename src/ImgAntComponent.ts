@@ -1,6 +1,6 @@
 import Component from './Component';
 import { setAntSpinvOption,setAntBezierOption, setAntMrZoomOption,setAntMvZoomOption,setAntMovevOption,isEmpty} from './common';
-import {onLinkModeChanged,boxShadow,bgImage,onTongBuBd,onDisabledChanged,valEmpty,wwUrl,BezierCss,ShadowStyle} from './commonCss'
+import {onLinkModeChanged,boxShadow,bgImage,onTongBuBd,onDisabledChanged,valEmpty,wwUrl,BezierCss,ShadowStyle,BorderHtml,ImgBgHtml} from './commonCss'
 export default class ImgAntComponent extends Component {
   $content: JQuery
   $img: JQuery
@@ -13,15 +13,14 @@ export default class ImgAntComponent extends Component {
   }
 
   toHtml() {
-    let top, left, width, height,overMode,overVal,overCss,imgMode,bgImg,bRadius,tipText,linkMode,hrefMode,wangID,url,href
+    let top, left, width, height,overMode,overVal,overCss,bRadius,tipText,linkMode,hrefMode,wangID,url,href
     let htmlList=[]
     top = this.$el.css('top')
     left = this.$el.css('left')
     width = this.$el.width()
     height = this.$el.height()
     overMode=valEmpty(this.formData.overMode);
-    imgMode=valEmpty(this.formData.imgMode)
-    bgImg=valEmpty(this.formData.bgImg)
+ 
     bRadius=valEmpty(this.formData.bRadius)
     tipText=valEmpty(this.formData.tipText)
     href=valEmpty(this.formData.href)
@@ -39,33 +38,22 @@ export default class ImgAntComponent extends Component {
 
 
     let radiusStyle=bRadius !="" ? 'border-radius:'+bRadius+'px;' :''
-     //处理图片类型
-    let imgBgStyle=''
-    if(bgImg !=""){
-      let imgHtml=''
-      switch (imgMode) {
-        case 'cut':   //保持原图尺寸
-          imgBgStyle=bgImage(bgImg,'','no-repeat','0% 0%','')
-          imgBgStyle=imgBgStyle !="" ?  'background:'+imgBgStyle+';' : ''
-          break
-        case 'full':   //自由拉伸
-          imgHtml='<img  class="sf"  src='+bgImg+'  style='+radiusStyle+' />'
-          break
-        case 'scaleX':  //保持比例(只裁剪宽度)
-          imgHtml='<img  class="sx"  src='+bgImg+'  style='+radiusStyle+' />'  
-          break
-        case 'scaleY':   //保持比例(只裁剪高度)
-          imgHtml='<img  class="sy"  src='+bgImg+'  style='+radiusStyle+' />'
-          break
-      }
-      htmlList.push(imgHtml);
-    }
- 
+    
+     //图片处理
+    let ImgBgData = ImgBgHtml(this.formData)
+    let imgBgStyle=ImgBgData.imgBgStyle
+    htmlList.push(ImgBgData.Html)
 
     //阴影处理
     let shadowDataStyle = ShadowStyle(this.formData)
     let bShadowStyle=shadowDataStyle.onShadow
     htmlList.push(shadowDataStyle.offShadow)
+
+    //处理 边框
+    let mbdTsAnt=valEmpty(this.formData.mbdTsAnt)
+    let BorderData = BorderHtml(this.formData)
+ 
+    htmlList.push(BorderData.Html)
 
     //处理动画
     let disMode,mvTsDur,mvTsDelay,mvTsBezier,mvTsBezierv,Bezier,linkhtml
@@ -76,7 +64,7 @@ export default class ImgAntComponent extends Component {
     Bezier=mvTsDur+BezierCss(this.formData.mvTsBezier,this.formData.mvTsBezierv)+mvTsDelay
     Bezier=  Bezier !=""  ? 'transition:'+Bezier+';' : ''
 
-    linkhtml=' <a '+tipText+' class="abs ywlink '+disMode+'" href="'+url+'" target="'+hrefMode+'" style="'+imgBgStyle+bShadowStyle+radiusStyle+Bezier+'">'+htmlList.join('')+'</a>'
+    linkhtml=' <a '+tipText+' class="abs ywlink '+disMode+' '+mbdTsAnt+'" href="'+url+'" target="'+hrefMode+'" style="'+imgBgStyle+bShadowStyle+radiusStyle+Bezier+'">'+htmlList.join('')+'</a>'
       
     let whStyle,mrxz,mrxzv,mrsf,mrxzCss,mrCss
 

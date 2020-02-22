@@ -1,5 +1,5 @@
 import Component from './Component';
-import { wwUrl,onLinkModeChanged,boxShadow,bgImage,onTongBuBd,valInt,valEmpty,ShadowStyle} from './commonCss'
+import { wwUrl,onLinkModeChanged,boxShadow,bgImage,onTongBuBd,valInt,valEmpty,ShadowStyle,BorderHtml,ImgBgHtml} from './commonCss'
 export default class ImgComponent extends Component {
   $content: JQuery
   $img: JQuery
@@ -12,16 +12,14 @@ export default class ImgComponent extends Component {
   }
 
   toHtml() {
-    let top, left, width, height,imgMode,bgImg,bgColor,bRadius,tipText,linkMode,hrefMode,wangID,url,href
+    let top, left, width, height,bRadius,tipText,linkMode,hrefMode,wangID,url,href
     let htmlList=[]
     top = this.$el.css('top')
     left = this.$el.css('left')
     width = this.$el.width()
     height = this.$el.height()
     tipText=valEmpty(this.formData.tipText) !="" ? ' title="'+this.formData.tipText+'" ' : '';
-    imgMode=valEmpty(this.formData.imgMode)
-    bgImg=valEmpty(this.formData.bgImg)
-    bgColor=valEmpty(this.formData.bgColor)
+
     bRadius=valEmpty(this.formData.bRadius)
     href=valEmpty(this.formData.href)
     hrefMode=valEmpty(this.formData.hrefMode)
@@ -31,32 +29,21 @@ export default class ImgComponent extends Component {
     url=wwUrl(href,linkMode,wangID,22);
     
     let radiusStyle=bRadius !="" ? 'border-radius:'+bRadius+'px;' :''
-     //处理图片类型
-    let imgBgStyle=''
-    if(bgImg !=""){
-      let imgHtml=''
-      switch (imgMode) {
-        case 'cut':   //保持原图尺寸
-          imgBgStyle=bgImage(bgImg,bgColor,'no-repeat','0% 0%','')
-          imgBgStyle=imgBgStyle !="" ?  'background:'+imgBgStyle+';' : ''
-          break
-        case 'full':   //自由拉伸
-          imgHtml='<img  class="sf"  src='+bgImg+'  style='+radiusStyle+' />'
-          break
-        case 'scaleX':  //保持比例(只裁剪宽度)
-          imgHtml='<img  class="sx"  src='+bgImg+'  style='+radiusStyle+' />'  
-          break
-        case 'scaleY':   //保持比例(只裁剪高度)
-          imgHtml='<img  class="sy"  src='+bgImg+'  style='+radiusStyle+' />'
-          break
-      }
-      htmlList.push(imgHtml);
-    }
+     //图片处理
+    let ImgBgData = ImgBgHtml(this.formData)
+    let imgBgStyle=ImgBgData.imgBgStyle
+    htmlList.push(ImgBgData.Html)
+ 
+    //阴影处理 
+    let shadowData = ShadowStyle(this.formData)
+    let onShadowStyle=shadowData.onShadow
+    htmlList.push(shadowData.offShadow)
 
-    //阴影处理
-    let shadowDataStyle = ShadowStyle(this.formData)
-    let bShadowStyle=shadowDataStyle.onShadow
-    htmlList.push(shadowDataStyle.offShadow)
+    //处理 边框
+    let mbdTsAnt=valEmpty(this.formData.mbdTsAnt)
+    let BorderData = BorderHtml(this.formData)
+    htmlList.push(BorderData.Html)
+
     //特效动画处理
     let shakeCss="";
     let animCss="";;
@@ -70,7 +57,7 @@ export default class ImgComponent extends Component {
     }
     
    
-    return '<div class="abs xdtb '+animCss+'" style="top: '+top+'; left:'+left+'; width:'+width+'px; height:'+height+'px;'+imgBgStyle+animStyle+bShadowStyle+radiusStyle+'" > <a '+tipText+' class="abs ywlink" href="'+url+'" target="'+hrefMode+'">'+htmlList.join('')+'</a></div>'
+    return '<div class="abs xdtb '+animCss+'" style="top: '+top+'; left:'+left+'; width:'+width+'px; height:'+height+'px;'+imgBgStyle+animStyle+onShadowStyle+radiusStyle+'" > <a '+tipText+' class="abs ywlink '+mbdTsAnt+'" href="'+url+'" target="'+hrefMode+'">'+htmlList.join('')+'</a></div>'
 
 /*
     return `

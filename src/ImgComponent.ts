@@ -1,5 +1,5 @@
 import Component from './Component';
-import { wwUrl,onLinkModeChanged,boxShadow,bgImage,onTongBuBd,valInt,valEmpty} from './commonCss'
+import { wwUrl,onLinkModeChanged,boxShadow,bgImage,onTongBuBd,valInt,valEmpty,ShadowStyle} from './commonCss'
 export default class ImgComponent extends Component {
   $content: JQuery
   $img: JQuery
@@ -54,26 +54,9 @@ export default class ImgComponent extends Component {
     }
 
     //阴影处理
-    let bShadowStyle='';
-    if(valEmpty(this.formData.shadow)==="on"){
-      const sdX=valEmpty(this.formData.sdX) !="" ? this.formData.sdX: 0
-      const sdY=valEmpty(this.formData.sdY) !="" ? this.formData.sdY: 0 
-      const bShadow=boxShadow(sdX,sdY,valEmpty(this.formData.sdBlur),valEmpty(this.formData.sdSize),valEmpty(this.formData.sdColor))
-      bShadowStyle= bShadow !="" ? 'box-shadow:'+bShadow+';' :''
-    }
-    if(valEmpty(this.formData.mshadow)==="on"){
-      const msdX=valEmpty(this.formData.msdX) !="" ? this.formData.msdX: 0
-      const msdY=valEmpty(this.formData.msdY) !="" ? this.formData.msdY: 0 
-      let mbShadow=boxShadow(msdX,msdY,valEmpty(this.formData.msdBlur),valEmpty(this.formData.msdSize),valEmpty(this.formData.msdColor))
-      mbShadow= mbShadow !="" ? 'box-shadow:'+mbShadow+';' :''
-
-      const msdTsDur=valEmpty(this.formData.msdTsDur) ? this.formData.msdTsDur+'s linear': ''
-      const msdTsDurStyle=msdTsDur !="" ?  'transition:'+msdTsDur+';':''
-
-      const msdHtml='<div class="abs mchild xins-box-fadein" style="'+msdTsDurStyle+mbShadow+radiusStyle+'" ></div>'
-      htmlList.push(msdHtml)
-    }
-      
+    let shadowDataStyle = ShadowStyle(this.formData)
+    let bShadowStyle=shadowDataStyle.onShadow
+    htmlList.push(shadowDataStyle.offShadow)
     //特效动画处理
     let shakeCss="";
     let animCss="";;
@@ -483,7 +466,7 @@ export default class ImgComponent extends Component {
                     <div class="layui-form-item">
                       <label class="layui-form-label">划过显示速度</label>
                       <div class="layui-input-inline">
-                        <input type="text" name="msdTsDur" class="layui-input input-short"  style="width:120px;display:inline-block;">
+                        <input type="text" name="msdTsDur" class="layui-input input-short"  style="width:100px;display:inline-block;">
                         <label style="color:red;">单位 秒   可以小数点</label>
                       </div>
                     </div>

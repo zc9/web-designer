@@ -1,5 +1,5 @@
 import Component from './Component';
-import { wwUrl,onLinkModeChanged} from './commonCss'
+import { wwUrl,onLinkModeChanged,valEmpty} from './commonCss'
 export default class HotAreaComponent extends Component {
   $content: JQuery
   constructor() {
@@ -36,20 +36,25 @@ export default class HotAreaComponent extends Component {
   }
 
   toHtml() {
-    let top, left, width, height,url,bgColor
+    let top, left, width, height,url,bgColor,hrefMode
 
     top = this.$el.css('top')
     left = this.$el.css('left')
     width = this.$el.width()
     height = this.$el.height()
-    bgColor=this.formData.bgColor !="" ? this.formData.bgColor :''
+    bgColor=valEmpty(this.formData.bgColor)  !="" ? 'background-color:'+this.formData.bgColor+';' :''
     url = wwUrl(this.formData.href,this.formData.linkMode,this.formData.wangID,22)
-  
+    hrefMode=valEmpty(this.formData.hrefMode) ==="_blank" ? ' target="_blank" ' : '';
+    url=url !="" ? ' href="'+url+'"' : '';
+
+    return '<a '+url+hrefMode+' class="abs"  style="top: '+top+'; left:'+left+'; width:'+width+'px; height:'+height+'px;display:inline-block;'+bgColor+'"></a>'
+
+   /*
     return `
       <a href="${url}" target="${this.formData.hrefMode || ''}" style="position: absolute; top: ${top}; left: ${left}; width: ${width}px; height: ${height}px;background-color: ${bgColor};display:inline-block; ">
         
       </a>
-    `
+    `*/
   } 
   updatePropPanel() {
     let $propPanel = this.$propPanel

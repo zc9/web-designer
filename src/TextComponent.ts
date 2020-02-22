@@ -124,25 +124,11 @@ export default class TextComponent extends Component {
     let radiusStyle=bRadius !="" ? 'border-radius:'+bRadius+'px;' :''
 
     //阴影处理
-    let bShadowStyle='';
-    let msdHtml='';
-    
-    if(valEmpty(this.formData.shadow)==="on"){
-      const sdX=valEmpty(this.formData.sdX) !="" ? this.formData.sdX: 0
-      const sdY=valEmpty(this.formData.sdY) !="" ? this.formData.sdY: 0 
-      const bShadow=boxShadow(sdX,sdY,valEmpty(this.formData.sdBlur),valEmpty(this.formData.sdSize),valEmpty(this.formData.sdColor))
-      bShadowStyle= bShadow !="" ? 'box-shadow:'+bShadow+';' :''
-    }
-    if(valEmpty(this.formData.mshadow)==="on"){
-      const msdX=valEmpty(this.formData.msdX) !="" ? this.formData.msdX: 0
-      const msdY=valEmpty(this.formData.msdY) !="" ? this.formData.msdY: 0 
-      let mbShadow=boxShadow(msdX,msdY,valEmpty(this.formData.msdBlur),valEmpty(this.formData.msdSize),valEmpty(this.formData.msdColor))
-      mbShadow= mbShadow !="" ? 'box-shadow:'+mbShadow+';' :''
+    let shadowDataStyle = ShadowStyle(this.formData)
+    let onShadowStyle=shadowDataStyle.onShadow
+    let offShadowHtml= shadowDataStyle.offShadow
 
-      const msdTsDur=valEmpty(this.formData.msdTsDur) ? this.formData.msdTsDur+'s linear': ''
-      const msdTsDurStyle=msdTsDur !="" ?  'transition:'+msdTsDur+';':''
-      msdHtml='<div class="abs mchild xins-box-fadein" style="'+msdTsDurStyle+mbShadow+radiusStyle+'" ></div>'
-    }
+
     //默认边框
     let bdT,bdB,bdL,bdR,bdWidth,bdColor,bdStyle
     bdT=valEmpty(this.formData.bdT)
@@ -329,7 +315,7 @@ export default class TextComponent extends Component {
       }
     }
 
-    return '<div class="abs xdtb ant-text" style="top: '+top+'; left:'+left+'; width:'+width+'px; height:'+height+'px;'+bShadowStyle+radiusStyle+'" >'+msdHtml+'<a '+tipText+' class="ywlink '+mTsAnt+' '+mbdTsAnt+'" '+href+hrefMode+' style="'+radiusStyle+'">'+htmlList.join('')+'</a></div>'
+    return '<div class="abs xdtb ant-text" style="top: '+top+'; left:'+left+'; width:'+width+'px; height:'+height+'px;'+onShadowStyle+radiusStyle+'" >'+offShadowHtml+'<a '+tipText+' class="ywlink '+mTsAnt+' '+mbdTsAnt+'" '+href+hrefMode+' style="'+radiusStyle+'">'+htmlList.join('')+'</a></div>'
 
    
 

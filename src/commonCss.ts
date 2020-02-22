@@ -55,7 +55,7 @@ export function onDisabledChanged($layerElem,$objElem,$valElem) {
     $nextObj.attr("disabled","disabled")
     $nextObj.addClass("state-disabled")
   }
-}
+} 
 
 /*同步边框信息*/
 export function onTongBuBd($layerElem,$isVal,that) {
@@ -198,7 +198,7 @@ export function valInt(v) {
    switch (typeof v) {
     case 'undefined':
         re=true;
-    case 'string':
+    case 'string': 
         if (v.replace(/(^[ \t\n\r]*)|([ \t\n\r]*$)/g, '').length == 0) re= true;
         break;
     case 'boolean':
@@ -218,4 +218,30 @@ export function valInt(v) {
     return Number.parseInt(v)
     }
 }
+//处理生成随景样式
+export function ShadowStyle(formData) {
+  var  jsonData={ 'onShadow':'','offShadow':'' }
+  let bRadius=valEmpty(formData.bRadius)
+  let radiusStyle=bRadius !="" ? 'border-radius:'+bRadius+'px;' :''
+  if(valEmpty(formData.shadow)==="on"){
+    const sdX=valEmpty(formData.sdX) !="" ? formData.sdX: 0
+    const sdY=valEmpty(formData.sdY) !="" ? formData.sdY: 0 
+    const bShadow=boxShadow(sdX,sdY,valEmpty(formData.sdBlur),valEmpty(formData.sdSize),valEmpty(formData.sdColor))
+    jsonData.onShadow= bShadow !="" ? 'box-shadow:'+bShadow+';' :''
+  }
+  if(valEmpty(formData.mshadow)==="on"){
+    const msdX=valEmpty(formData.msdX) !="" ? formData.msdX: 0
+    const msdY=valEmpty(formData.msdY) !="" ? formData.msdY: 0 
+    let mbShadow=boxShadow(msdX,msdY,valEmpty(formData.msdBlur),valEmpty(formData.msdSize),valEmpty(formData.msdColor))
+        mbShadow= mbShadow !="" ? 'box-shadow:'+mbShadow+';' :''
+    const msdTsDur=valEmpty(formData.msdTsDur) ? formData.msdTsDur+'s linear': ''
+    const msdTsDurStyle=msdTsDur !="" ?  'transition:'+msdTsDur+';':''
+    jsonData.offShadow='<div class="abs mchild xins-box-fadein" style="'+msdTsDurStyle+mbShadow+radiusStyle+'" ></div>'
+  }
+  return jsonData
+}
 
+//处理生成随景样式
+export function BorderHtml(formData) {
+
+}

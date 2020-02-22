@@ -1,6 +1,6 @@
 import Component from './Component';
 import { setAntSpinvOption,setAntBezierOption, setAntMrZoomOption,setAntMvZoomOption,setAntMovevOption,isEmpty} from './common';
-import {onLinkModeChanged,boxShadow,bgImage,onTongBuBd,onDisabledChanged,valEmpty,wwUrl,BezierCss} from './commonCss'
+import {onLinkModeChanged,boxShadow,bgImage,onTongBuBd,onDisabledChanged,valEmpty,wwUrl,BezierCss,ShadowStyle} from './commonCss'
 export default class ImgAntComponent extends Component {
   $content: JQuery
   $img: JQuery
@@ -60,27 +60,13 @@ export default class ImgAntComponent extends Component {
       }
       htmlList.push(imgHtml);
     }
+ 
 
     //阴影处理
-    let bShadowStyle='';
-    if(valEmpty(this.formData.shadow)==="on"){
-      const sdX=valEmpty(this.formData.sdX) !="" ? this.formData.sdX: 0
-      const sdY=valEmpty(this.formData.sdY) !="" ? this.formData.sdY: 0 
-      const bShadow=boxShadow(sdX,sdY,valEmpty(this.formData.sdBlur),valEmpty(this.formData.sdSize),valEmpty(this.formData.sdColor))
-      bShadowStyle= bShadow !="" ? 'box-shadow:'+bShadow+';' :''
-    }
-    if(valEmpty(this.formData.mshadow)==="on"){
-      const msdX=valEmpty(this.formData.msdX) !="" ? this.formData.msdX: 0
-      const msdY=valEmpty(this.formData.msdY) !="" ? this.formData.msdY: 0 
-      let mbShadow=boxShadow(msdX,msdY,valEmpty(this.formData.msdBlur),valEmpty(this.formData.msdSize),valEmpty(this.formData.msdColor))
-      mbShadow= mbShadow !="" ? 'box-shadow:'+mbShadow+';' :''
+    let shadowDataStyle = ShadowStyle(this.formData)
+    let bShadowStyle=shadowDataStyle.onShadow
+    htmlList.push(shadowDataStyle.offShadow)
 
-      const msdTsDur=valEmpty(this.formData.msdTsDur) ? this.formData.msdTsDur+'s linear': ''
-      const msdTsDurStyle=msdTsDur !="" ?  'transition:'+msdTsDur+';':''
-
-      const msdHtml='<div class="abs mchild xins-box-fadein" style="'+msdTsDurStyle+mbShadow+radiusStyle+'" ></div>'
-      htmlList.push(msdHtml)
-    }
     //处理动画
     let disMode,mvTsDur,mvTsDelay,mvTsBezier,mvTsBezierv,Bezier,linkhtml
 

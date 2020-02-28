@@ -7,6 +7,7 @@ import TextComponent from './TextComponent';
 import WangComponent from './WangComponent';
 import VideoComponent from './VideoComponent';
 import ImgAntComponent from './ImgAntComponent';
+import {bgImage} from './commonCss';
 import History from './History'
 export default class Stage {
   static STATE: Array<string> = ['hotarea', 'selection', 'handle']
@@ -58,7 +59,7 @@ export default class Stage {
             </div>
           </div>
         </div>
-      </div>
+      </div> 
     `);
 
     this.paddingWidth = Math.ceil($el.width() / 100) * 100;
@@ -569,7 +570,7 @@ export default class Stage {
     let { $el, $inputWidth, $alignSelect, $inputHeight, $allowOverstep, $inputBg } = propPanel
     $inputWidth.val(props.width)
     $inputHeight.val(props.height)
-    $inputBg.val(props.bgColor)
+    $inputBg.val(props.bgImg)
     $alignSelect.val(props.position)
     if (props.bgColor === 'transparent') {
       this.$canvasBox.addClass('bg-trans')
@@ -601,7 +602,9 @@ export default class Stage {
     this.clear()
     apps.forEach(app => {
       let component: Component = null
-      if (app.appType === 'xdtb') {
+      if (app.appType === 'xrq') {
+        component = new HotAreaComponent
+      } else if (app.appType === 'xdtb') {
         component = new ImgComponent
       } else if (app.appType === 'xtcl') {
         component = new ImgAntComponent
@@ -651,14 +654,16 @@ export default class Stage {
     let attachment = this.props.attachment ? this.props.attachment : 'scroll'
     let repeat = this.props.repeat ? this.props.repeat : 'no-repeat'
     let position = this.props.position
-    let bgImg = this.props.bgImg ? `url("${this.props.bgImg}")` : 'none'
-
+    let bgImg = this.props.bgImg
+    //let bgImg = this.props.bgImg ? `url("${this.props.bgImg}")` : 'none'
+    /*  注释的 2020.2.24 ydx
     this.$canvas.css('background-image', bgImg)
     this.$canvas.css('background-repeat', repeat)
     this.$canvas.css('background-position', position)
     // this.$canvas.css('background-attachment', attachment)
-    this.$canvas.css('background-color', this.props.bgColor)
-
+    this.$canvas.css('background-color', this.props.bgColor)*/
+    let bgImgs= bgImage(bgImg,this.props.bgColor,repeat,position,attachment)
+    this.$canvas.css('background', bgImgs)
   }
 
   initPorpPanel() {

@@ -77,7 +77,7 @@ export default class ImgComponent extends Component {
     this.formData.tipText = ''
     this.formData.animType = ''
     this.formData.hrefMode = '_blank'
-    this.formData.bgImgSize = 'false'
+    this.formData.bgImgSize = 'true'
     this.formData.animTsDur = '0.5'
     this.formData.animRange = '-s'
     this.formData.wangID = ''
@@ -567,7 +567,7 @@ export default class ImgComponent extends Component {
     if (imgMode === 'cut') {
       let bground=bgImage(formData.bgImg,formData.bgColor,'','','')
       that.$content.css('background', bground)
-      if (that.$img.is(':visible')) {
+      if(that.$img.is(':visible')) {
         that.$img.hide()
       }
       that.$img.attr('src', formData.bgImg)
@@ -629,8 +629,7 @@ export default class ImgComponent extends Component {
         $alPanel.remove()
         isDefBk=true
     }
-
- 
+    
     let mbdTsAntVal=this.$content.attr("mbdTsAnt")
     this.$content.removeClass(mbdTsAntVal);
     this.$content.addClass(formData.mbdTsAnt)

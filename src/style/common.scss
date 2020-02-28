@@ -1,4 +1,5 @@
 .abs{position:absolute}
+.rel{position:relative}
 .animselect{
 	float: left;
 	width: 320px;
@@ -85,6 +86,7 @@
     position: absolute;
     left: 0;
     top: 0;
+    word-break: break-word;
   }
   .off{
     width: 100%;
@@ -92,6 +94,7 @@
     position: absolute;
     left: 0;
     top: 0;
+    word-break: break-word;
   }
 }
 .atrans0 {

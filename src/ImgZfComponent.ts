@@ -1126,7 +1126,7 @@ export default class ImgAntComponent extends Component {
     setAntMvZoomOption('.ant-mv-zoom')
     setAntMovevOption('.ant-move-v')
     $('.prop-setting-ct > div').hide()
-    let $propPanel = $('.img-ant-com-prop-panel')
+    let $propPanel = $('.img-zf-com-prop-panel')
     this.$propPanel = $propPanel
 
     $propPanel.show()
@@ -1415,7 +1415,7 @@ export default class ImgAntComponent extends Component {
     let config = this.formData;
     config.appID = `${this.stage.id}-${this.id}`
     return {
-      'appType': 'xtcl',
+      'appType': 'xzfm',
       'config': config,
       'pos': {
         w: this.width(),

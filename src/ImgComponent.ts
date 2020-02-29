@@ -523,11 +523,9 @@ export default class ImgComponent extends Component {
     });
     form.val('imgComponentForm', that.formData)
   }
-  
   update(formData) {
     let that = this
     let bRadius=formData.bRadius ?  parseInt(formData.bRadius) :''
-
 
     if(formData.shadow ==="on"){
       let sdX=formData.sdX ? formData.sdX: 0
@@ -629,7 +627,7 @@ export default class ImgComponent extends Component {
         $alPanel.remove()
         isDefBk=true
     }
-    
+
     let mbdTsAntVal=this.$content.attr("mbdTsAnt")
     this.$content.removeClass(mbdTsAntVal);
     this.$content.addClass(formData.mbdTsAnt)
@@ -642,8 +640,6 @@ export default class ImgComponent extends Component {
       const mbdWidth=formData.mbdWidth !="" ? parseInt(formData.mbdWidth) : 0;
       const mbdStyle=formData.mbdStyle
       const mbdColor=formData.mbdColor
-
-
 
       let $mlPanel=this.$contentBox.find(".bk-mline")
       if($mlPanel.length <=0) $textPanel.append("<div class='bk-mline'></div>")
@@ -728,14 +724,11 @@ export default class ImgComponent extends Component {
         $mlPanel.remove()
       }
     }
-
-
-
   }
 
   updatePropPanel() {
     let $propPanel = this.$propPanel
-    let $bgImgInput = $propPanel.find('#bgImgInput')
+    let $bgImgInput = $propPanel.find('input[type=text][name=bgImg]')
     $bgImgInput.val(this.formData.bgImg)
     let $bgImgSizeCheckBox = $propPanel.find('input[type=checkbox][name=bgImgSize]')
     if (this.formData.bgImgSize === 'true') {
@@ -846,7 +839,6 @@ export default class ImgComponent extends Component {
 
     let $mbdTsAntRadio = $propPanel.find('input[type=radio][name=mbdTsAnt]')
     $mbdTsAntRadio.filter(`[value="${this.formData.mbdTsAnt}"]`).prop('checked', true)
-
   }
 
   initPorpPanel() {
@@ -863,8 +855,8 @@ export default class ImgComponent extends Component {
     let element = layui.element
     element.render("collapse")
 
-    let $bgImgInput = $propPanel.find('#bgImgInput')
-    $bgImgInput.change((function() {
+    let $bgImgInput = $propPanel.find('input[type=text][name=bgImg]')
+    $bgImgInput.keyup((function() {
       that.formData.bgImg = $bgImgInput.val()
       that.update(that.formData)
     }))
@@ -907,7 +899,7 @@ export default class ImgComponent extends Component {
       that.formData.wangID = val
     })
     let $bRadiusInput = $propPanel.find('input[type=text][name=bRadius]')
-    $bRadiusInput.change(function() {
+    $bRadiusInput.keyup(function() {
       that.formData.bRadius = $(this).val()
       that.update(that.formData)
     })
@@ -938,7 +930,7 @@ export default class ImgComponent extends Component {
     })
 
     let $bdWidthInput = $propPanel.find('input[type=text][name=bdWidth]') 
-    $bdWidthInput.change(function() {
+    $bdWidthInput.keyup(function() {
       let val = $(this).val()
       that.formData.bdWidth = val
       that.update(that.formData)
@@ -982,7 +974,7 @@ export default class ImgComponent extends Component {
       that.update(that.formData)
     })
     let $mbdWidthInput = $propPanel.find('input[type=text][name=mbdWidth]') 
-    $mbdWidthInput.change(function() {
+    $mbdWidthInput.keyup(function() {
       let val = $(this).val()
       that.formData.mbdWidth = val
       that.update(that.formData)

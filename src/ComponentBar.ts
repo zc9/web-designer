@@ -5,6 +5,7 @@ import Stage from './Stage';
 import WangComponent from './WangComponent';
 import VideoComponent from './VideoComponent';
 import ImgAntComponent from './ImgAntComponent';
+import ImgZfComponent from './ImgZfComponent';
 export default class ComponentBar {
   stageCt: StageContainer
   $el: JQuery
@@ -28,6 +29,8 @@ export default class ComponentBar {
         component = new WangComponent();
       } else if (name === 'video-component') {
         component = new VideoComponent();
+      }else if (name === 'img-zf-component') {
+        component = new ImgZfComponent();
       }
       component.$el.css('left', Math.max(initX, 0) + 'px')
       component.$el.css('top', Math.max(initY, 0) + 'px')

@@ -7,6 +7,8 @@ import TextComponent from './TextComponent';
 import WangComponent from './WangComponent';
 import VideoComponent from './VideoComponent';
 import ImgAntComponent from './ImgAntComponent';
+import ImgZfComponent from './ImgZfComponent';
+
 import {bgImage} from './commonCss';
 import History from './History'
 export default class Stage {
@@ -367,14 +369,15 @@ export default class Stage {
       this.props.app.push(component.getProps())
     })
     return JSON.stringify(this.props)
-  }
+  } 
 
   generateHtmlCode() {
     let appsHtml = []
     this.components.forEach((component) => {
       appsHtml.push(component.toHtml())
     })
-    return `<div class="rel" style="position: relative; overflow: hidden;width: ${this.pageWidth}px; height: ${this.pageHeight}px;background: ${this.props.bgColor};">
+    let bgRound=bgImage(this.props.bgImg,this.props.bgColor,this.props.repeat,this.props.position,this.props.attachment)
+    return `<div class="rel" style="position: relative; overflow: hidden;width: ${this.pageWidth}px; height: ${this.pageHeight}px;background: ${bgRound};">
       ${appsHtml.join('')}
     </div>`
   }
@@ -614,6 +617,8 @@ export default class Stage {
         component = new WangComponent
       } else if (app.appType === 'xvb') {
         component = new VideoComponent
+      }else if (app.appType === 'xzfm') {
+        component = new ImgZfComponent
       }
       component.formData = app.config
       component.update(component.formData)

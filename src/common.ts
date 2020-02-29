@@ -26,21 +26,22 @@ export function setFontOption(select) {
   if (htmlStr !== '') {
     return
   }
-  let data =  [{"value":"宋体", "text":"宋体"},
-    {"value":"黑体", "text":"黑体"},
-    {"value":"微软雅黑", "text":"雅黑"},
-    {"value":"楷体", "text":"楷体"},
-    {"value":"arial", "text":"Arial"},
-    {"value":"verdana", "text":"Verdana"},
-    {"value":"georgia", "text":"Georgia"},
-    {"value":"times new roman", "text":"Times New Roman"},
-    {"value":"trebuchet ms", "text":"Trebuchet MS"}];
+  let data =  [{"value":"Roboto", "text":"Roboto"},
+    {"value":"Helvetica Neue", "text":"Helvetica Neue"},
+    {"value":"Helvetica", "text":"Helvetica"},
+    {"value":"Tahoma", "text":"Tahoma"},
+    {"value":"Arial", "text":"Arial"},
+    {"value":"PingFang SC", "text":"PingFang SC"},
+    {"value":"Microsoft YaHei", "text":"Microsoft YaHei"}];
   let options = ''
   for (let d of data) {
     options += `<option value="${d.value}">${d.text}</option>`
   }
   $select.append(options)
 }
+
+ 
+
 /*旋转*/
 export function setAntSpinvOption(select) {
   let $select = $(select)

@@ -187,10 +187,16 @@ export default class ImgAntComponent extends Component {
       skin: 'layui-layer-rim', //加上边框
       area: ['600px', '600px'],
       success: function(layerElem, index) {
-        $layerElem = $(layerElem)
-        if (typeof that.formData.animType === 'undefined') {
-          that.formData.animType = ''
-        }
+         $layerElem = $(layerElem)
+        setAntSpinvOption($layerElem.find('.ant-spin-v'))
+        setAntBezierOption($layerElem.find('.ant-bezier'))
+        
+        setAntMrZoomOption($layerElem.find('.ant-mr-zoom'))
+        setAntMvZoomOption($layerElem.find('.ant-mv-zoom'))
+        setAntMovevOption($layerElem.find('.ant-move-v'))
+
+       
+ 
         $layerElem.find(`.animselect > div[data-val="${that.formData.animType}"]`).addClass('active')
         $layerElem.find('.animselect > div').on('click', function() {
           $layerElem.find('.animselect > div.active').removeClass('active')
@@ -1119,18 +1125,20 @@ export default class ImgAntComponent extends Component {
 
   initPorpPanel() {
     let that = this
-    setAntSpinvOption('.ant-spin-v')
-    setAntBezierOption('.ant-bezier')
-    
-    setAntMrZoomOption('.ant-mr-zoom')
-    setAntMvZoomOption('.ant-mv-zoom')
-    setAntMovevOption('.ant-move-v')
+
     $('.prop-setting-ct > div').hide()
     let $propPanel = $('.img-ant-com-prop-panel')
     this.$propPanel = $propPanel
 
     $propPanel.show()
     $propPanel.find('*').off()
+    setAntSpinvOption($propPanel.find('.ant-spin-v'))
+    setAntBezierOption($propPanel.find('.ant-bezier'))
+    
+    setAntMrZoomOption($propPanel.find('.ant-mr-zoom'))
+    setAntMvZoomOption($propPanel.find('.ant-mv-zoom'))
+    setAntMovevOption($propPanel.find('.ant-move-v'))
+
 
     this.updatePropPanel()
     //收缩 重新加载

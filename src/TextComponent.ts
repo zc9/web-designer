@@ -440,12 +440,15 @@ export default class TextComponent extends Component {
   initPorpPanel() {
     console.log('initTextPorpPanel')
     let that = this
-    setFontOption('.font-select')
+    
     $('.prop-setting-ct > div').hide()
     let $propPanel = $('.text-com-prop-panel')
     this.$propPanel = $propPanel
     $propPanel.show()
     $propPanel.find('*').off()
+
+    setFontOption($propPanel.find('.font-select'))
+
     this.updatePropPanel();
     //收缩 重新加载
     let element = layui.element
@@ -890,6 +893,8 @@ export default class TextComponent extends Component {
       area: ['600px', '600px'],
       success: function(layerElem, index) {
         $layerElem = $(layerElem)
+        setFontOption($layerElem.find('.font-select'))
+
         $layerElem.find('.cancel-btn').on('click', function() {
           layer.close(index)
         })
@@ -1008,16 +1013,7 @@ export default class TextComponent extends Component {
                 <div class="layui-input-inline text-panel" style="width:343px;">
                     <label class="label-con" style="letter-spacing:13px;">字体</label>
                     <div class="labelpanel"   style="width: 90px; height: 36px;">
-                      <select   name="family" >
-                          <option value="宋体" >宋体</option>
-                          <option value="黑体" >黑体</option>
-                          <option value="微软雅黑" >雅黑</option>
-                          <option value="楷体" >楷体</option>
-                          <option value="arial" >Arial</option>
-                          <option value="verdana" >Verdana</option>
-                          <option value="georgia" >Georgia</option>
-                          <option value="times new roman" >Times New Roman</option>
-                          <option value="trebuchet ms" >Trebuchet MS</option>
+                      <select class="font-select"   name="family" >
                       </select>
                     </div>
                     <label class="label-con">文字颜色</label>
@@ -1110,16 +1106,7 @@ export default class TextComponent extends Component {
                 <div class="layui-input-inline text-panel" style="width:343px;">
                     <label class="label-con" style="letter-spacing:13px;">字体</label>
                     <div class="labelpanel"   style="width: 90px;">
-                      <select   name="mfamily" >
-                          <option value="宋体" >宋体</option>
-                          <option value="黑体" >黑体</option>
-                          <option value="微软雅黑" >雅黑</option>
-                          <option value="楷体" >楷体</option>
-                          <option value="arial" >Arial</option>
-                          <option value="verdana" >Verdana</option>
-                          <option value="georgia" >Georgia</option>
-                          <option value="times new roman" >Times New Roman</option>
-                          <option value="trebuchet ms" >Trebuchet MS</option>
+                      <select class="font-select"   name="mfamily" >
                       </select>
                     </div>
                     <label class="label-con">文字颜色</label>

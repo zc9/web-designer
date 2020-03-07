@@ -80,9 +80,10 @@ export default class WangComponent extends Component {
     $('.prop-setting-ct > div').hide()
     let $propPanel = $('.ww-com-prop-panel')
     this.$propPanel = $propPanel
-
+    
     $propPanel.show()
     $propPanel.find('*').off()
+    setFontOption($propPanel.find('.font-select'))
     this.updatePropPanel()
 
     let $wangModeRadio = $propPanel.find('input[type=radio][name=wangMode]')

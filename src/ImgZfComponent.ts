@@ -6,7 +6,7 @@ export default class ImgAntComponent extends Component {
   $img: JQuery
   constructor() {
     super('img-zf-component')
-    this.$content = $('<a class="xdtb ywimg-box ant-text yw-hidden"><div class="on"></div><img  style="display: none;"/></a>')
+    this.$content = $('<a class="xdtb ywimg-box ant-text yw-hidden yw-rel"><div class="on"></div><img  style="display: none;"/></a>')
     this.$img = this.$content.find('img')
     this.$contentBox.append(this.$content)
     this.initFormData()
@@ -24,9 +24,14 @@ export default class ImgAntComponent extends Component {
     href=valEmpty(this.formData.href)
     hrefMode=valEmpty(this.formData.hrefMode)
 
+
     linkMode=valEmpty(this.formData.linkMode)
     wangID=valEmpty(this.formData.wangID)
     url=wwUrl(href,linkMode,wangID,22)
+
+    
+    href= href !="" ?  ' href="'+url+'"' : '';
+    hrefMode= hrefMode ==="_blank" ?  ' target="_blank"' : '';
     
     let radiusStyle=bRadius !="" ? 'border-radius:'+bRadius+'px;' :''
     //处理动画
@@ -81,7 +86,7 @@ export default class ImgAntComponent extends Component {
  
     htmlList.push(BorderData.Html)
  
-    linkhtml='<a   class="ywlink  ant-text '+mbdTsAnt+' '+mTsAnt+'" href="'+url+'" target="'+hrefMode+'" style="'+onShadowStyle+radiusStyle+Bezier+'overflow: hidden;position:relative;">'+htmlList.join('')+'</a>'
+    linkhtml='<a   class="ywlink  ant-text '+mbdTsAnt+' '+mTsAnt+'" '+href+hrefMode+'  style="'+onShadowStyle+radiusStyle+Bezier+'overflow: hidden;position:relative;">'+htmlList.join('')+'</a>'
     linkhtml='<div class="yw-100'+mrxzCss+'">'+offShadowStyle+linkhtml+'</div>'
 
 
@@ -155,12 +160,19 @@ export default class ImgAntComponent extends Component {
       area: ['600px', '600px'],
       success: function(layerElem, index) {
         $layerElem = $(layerElem)
-  
  
+        setAntSpinvOption($layerElem.find('.ant-spin-v'))
+        setAntBezierOption($layerElem.find('.ant-bezier'))
+ 
+        $layerElem.find(".sp-preview-inner").css("background-color",'')
 
         if (that.formData.bgColor) {
           let $bgColorInput=$layerElem.find('input[type=text][name=bgColor]')
           $bgColorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.bgColor)
+        }
+        if (that.formData.mbgColor) {
+          let $mbgColorInput=$layerElem.find('input[type=text][name=mbgColor]')
+          $mbgColorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.mbgColor)
         }
         //边框
         if (that.formData.bdColor) {
@@ -183,7 +195,18 @@ export default class ImgAntComponent extends Component {
           layer.close(index)
         })
         onLinkModeChanged($layerElem, that.formData.linkMode)
-       
+        $layerElem.find('.layui-btn-sm').on('click', function() {
+          let form = layui.form
+          layer.msg('你确定  同步默文 边框样式么？', {
+            time: 0 //不自动关闭
+            ,btn: ['同步', '取消']
+            ,yes: function(index){
+              onTongBuBd($layerElem,false,that);
+              form.render();
+              layer.close(index)
+            }
+          });
+        })
 
       },
       content: `<form class="layui-form" lay-filter="imgZfComponentForm">
@@ -616,8 +639,6 @@ export default class ImgAntComponent extends Component {
       </form>`
     });
     var form = layui.form
-
- 
     form.render();
 
 
@@ -1052,8 +1073,8 @@ export default class ImgAntComponent extends Component {
 
   initPorpPanel() {
     let that = this
-    setAntSpinvOption('.ant-spin-v')
-    setAntBezierOption('.ant-bezier')
+   
+   
      
  
     $('.prop-setting-ct > div').hide()
@@ -1063,10 +1084,18 @@ export default class ImgAntComponent extends Component {
     $propPanel.show()
     $propPanel.find('*').off()
 
+ 
+    setAntSpinvOption($propPanel.find('.ant-spin-v'))
+    setAntBezierOption($propPanel.find('.ant-bezier'))
     this.updatePropPanel()
+
+    
+    
     //收缩 重新加载
     let element = layui.element
     element.render("collapse")
+
+
 
  
     let $mrxzSelect = $propPanel.find('select[name=mrxz]')
@@ -1083,7 +1112,7 @@ export default class ImgAntComponent extends Component {
     })
  
     let $bgImgInput = $propPanel.find('input[type=text][name=bgImg]')
-    $bgImgInput.change((function() {
+    $bgImgInput.keyup((function() {
       that.formData.bgImg = $bgImgInput.val()
       that.update(that.formData)
     }))
@@ -1107,7 +1136,7 @@ export default class ImgAntComponent extends Component {
 
     //移上图片信息
     let $mbgImgInput = $propPanel.find('input[type=text][name=mbgImg]')
-    $mbgImgInput.change((function() {
+    $mbgImgInput.keyup((function() {
       that.formData.mbgImg = $bgImgInput.val()
       that.update(that.formData)
     }))
@@ -1157,14 +1186,14 @@ export default class ImgAntComponent extends Component {
 
     //移上动画
     let $mTsDurInput = $propPanel.find('input[type=text][name=mTsDur]')
-    $mTsDurInput.change(function() {
+    $mTsDurInput.keyup(function() {
       let val = $(this).val()
       that.formData.mTsDur = val
       that.update(that.formData)
     })
 
     let $mTsDelayInput = $propPanel.find('input[type=text][name=mTsDelay]')
-    $mTsDelayInput.change(function() {
+    $mTsDelayInput.keyup(function() {
       let val = $(this).val()
       that.formData.mTsDelay = val
       that.update(that.formData)

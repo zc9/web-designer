@@ -20,8 +20,8 @@ export function isEmpty(v) {
     }
     return false;
 }
-export function setFontOption(select) {
-  let $select = $(select)
+export function setFontOption($select) {
+  //let $select = $(select)
   let htmlStr = $select.html().trim().replace(/\s/g, '')
   if (htmlStr !== '') {
     return
@@ -43,8 +43,8 @@ export function setFontOption(select) {
  
 
 /*旋转*/
-export function setAntSpinvOption(select) {
-  let $select = $(select)
+export function setAntSpinvOption($select) {
+  //let $select = $(select)
   let htmlStr = $select.html().trim().replace(/\s/g, '')
   if (htmlStr !== '') {
     return
@@ -74,8 +74,8 @@ export function setAntSpinvOption(select) {
 }
 
 /*默认缩放*/
-export function setAntMrZoomOption(select) {
-  let $select = $(select)
+export function setAntMrZoomOption($select) {
+  //let $select = $(select)
   let htmlStr = $select.html().trim().replace(/\s/g, '')
   if (htmlStr !== '') {
     return
@@ -105,8 +105,8 @@ export function setAntMrZoomOption(select) {
   $select.append(options)
 }
 /*移上缩放*/
-export function setAntMvZoomOption(select) {
-  let $select = $(select)
+export function setAntMvZoomOption($select) {
+  //let $select = $(select)
   let htmlStr = $select.html().trim().replace(/\s/g, '')
   if (htmlStr !== '') {
     return
@@ -136,8 +136,8 @@ export function setAntMvZoomOption(select) {
   $select.append(options)
 }
 /*移动值*/
-export function setAntMovevOption(select) {
-  let $select = $(select)
+export function setAntMovevOption($select) {
+  //let $select = $(select)
   let htmlStr = $select.html().trim().replace(/\s/g, '')
   if (htmlStr !== '') {
     return
@@ -243,8 +243,8 @@ export function setAntMovevOption(select) {
   $select.append(options)
 }
 //动画特效
-export function setAntBezierOption(select) {
-  let $select = $(select)
+export function setAntBezierOption($select) {
+ 
   let htmlStr = $select.html().trim().replace(/\s/g, '')
   if (htmlStr !== '') {
     return
@@ -262,3 +262,4 @@ export function setAntBezierOption(select) {
   }
   $select.append(options)
 }
+ 

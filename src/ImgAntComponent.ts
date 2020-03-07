@@ -46,7 +46,7 @@ export default class ImgAntComponent extends Component {
 
     //阴影处理
     let shadowDataStyle = ShadowStyle(this.formData)
-    let bShadowStyle=shadowDataStyle.onShadow
+    let onShadowStyle=shadowDataStyle.onShadow
     htmlList.push(shadowDataStyle.offShadow)
 
     //处理 边框
@@ -64,7 +64,7 @@ export default class ImgAntComponent extends Component {
     Bezier=mvTsDur+BezierCss(this.formData.mvTsBezier,this.formData.mvTsBezierv)+mvTsDelay
     Bezier=  Bezier !=""  ? 'transition:'+Bezier+';' : ''
 
-    linkhtml=' <a '+tipText+' class="abs ywlink '+disMode+' '+mbdTsAnt+'" href="'+url+'" target="'+hrefMode+'" style="'+imgBgStyle+bShadowStyle+radiusStyle+Bezier+'">'+htmlList.join('')+'</a>'
+    linkhtml=' <a '+tipText+' class="abs ywlink '+disMode+' '+mbdTsAnt+'" href="'+url+'" target="'+hrefMode+'" style="'+imgBgStyle+onShadowStyle+radiusStyle+Bezier+'">'+htmlList.join('')+'</a>'
       
     let whStyle,mrxz,mrxzv,mrsf,mrxzCss,mrCss
 
@@ -112,7 +112,7 @@ export default class ImgAntComponent extends Component {
       linkhtml='<div class="abs '+mvXcss+' '+mvYcss+'" style="'+whStyle+'">'+linkhtml+'</div>'
     }
 
-    return '<div class="abs xdtb xtxc '+mrCss+overCss+'" style="top: '+top+'; left:'+left+'; width:'+width+'px; height:'+height+'px;overflow:'+overVal+';'+bShadowStyle+radiusStyle+'" > '+linkhtml+'</div>'
+    return '<div class="abs xdtb xtxc '+mrCss+overCss+'" style="top: '+top+'; left:'+left+'; width:'+width+'px; height:'+height+'px;overflow:'+overVal+';'+radiusStyle+'" > '+linkhtml+'</div>'
   }
  
   initFormData() {

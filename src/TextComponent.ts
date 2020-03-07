@@ -1080,17 +1080,6 @@ export default class TextComponent extends Component {
                 </div>
               </div>
               <div class="layui-form-item">
-                <label class="layui-form-label">背景平铺</label>
-                <div class="layui-input-inline">
-                  <select   name="bgRep" >
-                    <option value="repeat" >纵横向</option>
-                    <option value="repeat-x" >横向</option>
-                    <option value="repeat-y" >纵向</option>
-                    <option value="no-repeat" >不平铺</option>
-                 </select>
-                </div>
-              </div>
-              <div class="layui-form-item">
                 <label class="layui-form-label">对齐方式</label>
                 <div class="layui-input-inline">
                   <select   name="bgPos" >

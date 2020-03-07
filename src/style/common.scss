@@ -59,7 +59,9 @@
 .mchild{width:100%;height:100%; top:0; left:0;}
 .xins-box-fadein{opacity: 0;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0);}
 .xdtb:hover .xins-box-fadein{opacity: 1;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=100);}
-
+.yw-hidden{overflow:hidden;}
+.yw-rel{position:relative}
+.yw-100{width:100%;height:100%;display:block}
 
 /*旺旺*/
 .wang-box{
@@ -72,6 +74,7 @@
     width:25px;
   }
 }
+
  
 /*以下 文字 鼠标经过 画动CSS*/
 

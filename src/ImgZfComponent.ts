@@ -1,140 +1,118 @@
 import Component from './Component';
-import { setAntSpinvOption,setAntBezierOption, setAntMrZoomOption,setAntMvZoomOption,setAntMovevOption,isEmpty} from './common';
+import { setAntSpinvOption,setAntBezierOption,isEmpty} from './common';
 import {onLinkModeChanged,boxShadow,bgImage,onTongBuBd,onDisabledChanged,valEmpty,wwUrl,BezierCss,ShadowStyle,BorderHtml,ImgBgHtml} from './commonCss'
 export default class ImgAntComponent extends Component {
   $content: JQuery
   $img: JQuery
   constructor() {
-    super('img-ant-component')
-    this.$content = $('<a class="xdtb ywimg-box"><img src="" style="display:none"></a>')
+    super('img-zf-component')
+    this.$content = $('<a class="xdtb ywimg-box ant-text yw-hidden"><div class="on"></div><img  style="display: none;"/></a>')
     this.$img = this.$content.find('img')
     this.$contentBox.append(this.$content)
     this.initFormData()
   }
 
   toHtml() {
-    let top, left, width, height,overMode,overVal,overCss,bRadius,tipText,linkMode,hrefMode,wangID,url,href
+    let top, left, width, height,bRadius,linkMode,hrefMode,wangID,url,href
     let htmlList=[]
     top = this.$el.css('top')
     left = this.$el.css('left')
     width = this.$el.width()
     height = this.$el.height()
-    overMode=valEmpty(this.formData.overMode);
- 
+  
     bRadius=valEmpty(this.formData.bRadius)
-    tipText=valEmpty(this.formData.tipText)
     href=valEmpty(this.formData.href)
     hrefMode=valEmpty(this.formData.hrefMode)
 
     linkMode=valEmpty(this.formData.linkMode)
     wangID=valEmpty(this.formData.wangID)
     url=wwUrl(href,linkMode,wangID,22)
-    overCss='';
-    overVal=overMode;
-    if(overMode==="mover"){
-      overCss=' u-a';
-      overVal='';
-    }
-
-
-    let radiusStyle=bRadius !="" ? 'border-radius:'+bRadius+'px;' :''
     
-     //图片处理
-    let ImgBgData = ImgBgHtml(this.formData)
-    let imgBgStyle=ImgBgData.imgBgStyle
-    htmlList.push(ImgBgData.Html)
-
-    //阴影处理
-    let shadowDataStyle = ShadowStyle(this.formData)
-    let bShadowStyle=shadowDataStyle.onShadow
-    htmlList.push(shadowDataStyle.offShadow)
-
-    //处理 边框
-    let mbdTsAnt=valEmpty(this.formData.mbdTsAnt)
-    let BorderData = BorderHtml(this.formData)
- 
-    htmlList.push(BorderData.Html)
-
+    let radiusStyle=bRadius !="" ? 'border-radius:'+bRadius+'px;' :''
     //处理动画
-    let disMode,mvTsDur,mvTsDelay,mvTsBezier,mvTsBezierv,Bezier,linkhtml
-
-    disMode=valEmpty(this.formData.disMode)
-    mvTsDur=valEmpty(this.formData.mvTsDur) !=""  ? this.formData.mvTsDur+'s ':''
-    mvTsDelay=valEmpty(this.formData.mvTsDelay) !=""  ?  this.formData.mvTsDelay+'s ':''
-    Bezier=mvTsDur+BezierCss(this.formData.mvTsBezier,this.formData.mvTsBezierv)+mvTsDelay
+    let mTsDur,mTsDelay,mTsBezier,mTsBezierv,Bezier,linkhtml,mTsAnt
+    mTsAnt=''
+    mTsDur=valEmpty(this.formData.mTsDur) !=""  ? this.formData.mTsDur+'s ':''
+    mTsDelay=valEmpty(this.formData.mTsDelay) !=""  ?  this.formData.mTsDelay+'s ':''
+    Bezier=mTsDur+BezierCss(this.formData.mTsBezier,this.formData.mTsBezierv)+mTsDelay
     Bezier=  Bezier !=""  ? 'transition:'+Bezier+';' : ''
 
-    linkhtml=' <a '+tipText+' class="abs ywlink '+disMode+' '+mbdTsAnt+'" href="'+url+'" target="'+hrefMode+'" style="'+imgBgStyle+bShadowStyle+radiusStyle+Bezier+'">'+htmlList.join('')+'</a>'
-      
-    let whStyle,mrxz,mrxzv,mrsf,mrxzCss,mrCss
+    let bgCss,bgImg,bgColor,bgPos
+    bgImg=this.formData.bgImg
+    bgColor=this.formData.bgColor
+    bgPos=this.formData.bgPos
+ 
+    bgCss=bgImage(bgImg,bgColor,'',bgPos,'')
+    bgCss=bgCss !="" ?  'background:'+bgCss+';' : ''
 
-    whStyle='width:'+width+'px; height:'+height+'px;'+Bezier       
+    htmlList.push('<div class="on" style="'+bgCss+Bezier+'"></div>')
+
+    let mbgImg,mbgColor
+    mbgImg=this.formData.mbgImg
+    mbgColor=this.formData.mbgColor
+    if(mbgImg !="" ||mbgImg !="" ){
+      let mbgCss,mbgPos
+      mbgPos=this.formData.mbgPos
+      mbgCss=bgImage(mbgImg,mbgColor,'',mbgPos,'')
+      mbgCss=mbgCss !="" ?  'background:'+mbgCss+';' : ''
+      htmlList.push('<div class="off" style="'+mbgCss+Bezier+'"></div>')
+     mTsAnt=this.formData.mTsAnt
+    }
+
+    let mrxz,mrxzv,mrxzCss,mrCss
+     
     mrxz=valEmpty(this.formData.mrxz)
     mrxzv=valEmpty(this.formData.mrxzv)
-    mrsf=valEmpty(this.formData.mrsf)
     mrxzCss='';
     mrCss='';
     if(mrxz !="" && mrxzv !=""){
       mrxzCss=' '+mrxz+mrxzv
       mrCss=' mr'
     }
-    let mvTsModeX,mvTsModeXv,mvTsModeY,mvTsModeYv,mvxz,mvxzv,mvsf,mvfz,mvXcss,mvYcss,mvxzCss
 
-    mvTsModeX=valEmpty(this.formData.mvTsModeX)
-    mvTsModeXv=valEmpty(this.formData.mvTsModeXv)
-    mvTsModeY=valEmpty(this.formData.mvTsModeY)
-    mvTsModeYv=valEmpty(this.formData.mvTsModeYv)
-    mvxz=valEmpty(this.formData.mvxz)
-    mvxzv=valEmpty(this.formData.mvxzv)
-    mvsf=valEmpty(this.formData.mvsf)
-    mvfz=valEmpty(this.formData.mvfz)
+    //阴影处理
+    let shadowDataStyle = ShadowStyle(this.formData)
+    let onShadowStyle=shadowDataStyle.onShadow
+    let offShadowStyle=shadowDataStyle.offShadow
 
-    mvXcss=mvTsModeX !="" ? mvTsModeX+mvTsModeXv :'';
-    mvYcss=mvTsModeY !="" ? mvTsModeY+mvTsModeYv :'';
-    mvxzCss=mvxz !="" && mvxzv !="" ? ' '+mvxz+mvxzv :'';
-    if(mvTsModeX.indexOf("from") != -1){
-       mvXcss=mvTsModeX;
-    }
-    if(mvTsModeY.indexOf("from") != -1){
-       mvYcss=mvTsModeY;
-    }
-    if(mvfz !=""){
-      linkhtml='<div class="abs '+mvfz+'" style="'+whStyle+'">'+linkhtml+'</div>'
-    }
-    
-    if(mvsf !="" || mrsf !=""){
-      linkhtml='<div class="abs '+mrsf+' '+mvsf+'" style="'+whStyle+'">'+linkhtml+'</div>'
-    }
-    if(mvxz !=""|| mrxz !=""){
-      linkhtml='<div class="abs '+mrxzCss+' '+mvxzCss+'" style="'+whStyle+'">'+linkhtml+'</div>'
-    }
-    if(mvTsModeX !="" || mvTsModeY !=""){
-      linkhtml='<div class="abs '+mvXcss+' '+mvYcss+'" style="'+whStyle+'">'+linkhtml+'</div>'
-    }
+    //处理 边框
+    let mbdTsAnt=valEmpty(this.formData.mbdTsAnt)
+    let BorderData = BorderHtml(this.formData)
+ 
+    htmlList.push(BorderData.Html)
+ 
+    linkhtml='<a   class="ywlink  ant-text '+mbdTsAnt+' '+mTsAnt+'" href="'+url+'" target="'+hrefMode+'" style="'+onShadowStyle+radiusStyle+Bezier+'overflow: hidden;position:relative;">'+htmlList.join('')+'</a>'
+    linkhtml='<div class="yw-100'+mrxzCss+'">'+offShadowStyle+linkhtml+'</div>'
 
-    return '<div class="abs xdtb xtxc '+mrCss+overCss+'" style="top: '+top+'; left:'+left+'; width:'+width+'px; height:'+height+'px;overflow:'+overVal+';'+bShadowStyle+radiusStyle+'" > '+linkhtml+'</div>'
+
+
+    return '<div class="abs xdtb xtxc '+mrCss+'" style="top: '+top+'; left:'+left+'; width:'+width+'px; height:'+height+'px;'+radiusStyle+'" > '+linkhtml+'</div>'
   }
  
   initFormData() {
-    this.formData.bgImg = 'http://image.suning.cn/uimg/sop/commodity/192796024482525085891100_x.jpg'
-    this.formData.bgColor = ''
     this.formData.appLabel = ''
-    this.formData.imgMode = 'cut'
-    this.formData.linkMode = 'urlink'
-
-    
-    this.formData.href = ''
-    this.formData.tipText = ''
-    this.formData.animType = ''
-    this.formData.hrefMode = '_blank'
     this.formData.bgImgSize = 'true'
-    this.formData.animTsDur = '0.5'
-    this.formData.animRange = '-s'
+    this.formData.bgImg = 'http://img04.taobaocdn.com/imgextra/i4/808048452/TB2bMZZcpXXXXb5XXXXXXXXXXXX-808048452.jpg'
+    this.formData.bgColor = ''
+    this.formData.bgPos = '50% 50%'
+    this.formData.mrxz=''
+    this.formData.mrxzv='20' 
+
+    this.formData.mbgImg = 'http://img04.taobaocdn.com/imgextra/i4/808048452/TB2BLE3cpXXXXXIXXXXXXXXXXXX-808048452.jpg'
+    this.formData.mbgColor = ''
+    this.formData.mbgPos = '50% 50%'
+
+    this.formData.linkMode = 'urlink'
+    this.formData.hrefMode = '_blank'
+    this.formData.href = ''
     this.formData.wangID = ''
     this.formData.bdRadius= ''
-    this.formData.bdStyle= 'solid'
-    this.formData.overMode='visible' 
-
+    
+    
+    this.formData.mTsDur='0.5'
+    this.formData.mTsAnt ='atrans16'  //动画效果
+  
+  
     this.formData.shadow= 'off'//box-shadow: h-shadow v-shadow blur spread color inset;
     this.formData.sdColor= '#666666'
     this.formData.sdSize= ''  //spread  可选。阴影的大小
@@ -159,19 +137,8 @@ export default class ImgAntComponent extends Component {
     this.formData.mbdTsDur ='0.5'  
     this.formData.mbdTsFun ='ease-out'  
     this.formData.mbdTsAnt ='bdtx1'
-    this.formData.mrxz=''
-    this.formData.mrxzv='20'
-    this.formData.mvTsDur='0.5' 
-    this.formData.mvTsDelay=''
-    this.formData.mvTsModeX='xins-box-lx'
-    this.formData.mvTsModeXv='20'
-    this.formData.mvTsModeY=''
-    this.formData.mvTsModeYv='30'
 
-    this.formData.mvfz=''
-    this.formData.disMode='' 
-
-    this.$content.attr("mbdTsAnt",this.formData.mbdTsAnt)
+ 
     this.update(this.formData)
   }
  
@@ -183,19 +150,13 @@ export default class ImgAntComponent extends Component {
     let $layerElem = null;
     let layerNo = layer.open({
       type: 1,
-      title: '炫图层设置',
+      title: '双面图片设置',
       skin: 'layui-layer-rim', //加上边框
       area: ['600px', '600px'],
       success: function(layerElem, index) {
         $layerElem = $(layerElem)
-        if (typeof that.formData.animType === 'undefined') {
-          that.formData.animType = ''
-        }
-        $layerElem.find(`.animselect > div[data-val="${that.formData.animType}"]`).addClass('active')
-        $layerElem.find('.animselect > div').on('click', function() {
-          $layerElem.find('.animselect > div.active').removeClass('active')
-          $(this).addClass('active')
-        })
+  
+ 
 
         if (that.formData.bgColor) {
           let $bgColorInput=$layerElem.find('input[type=text][name=bgColor]')
@@ -222,21 +183,10 @@ export default class ImgAntComponent extends Component {
           layer.close(index)
         })
         onLinkModeChanged($layerElem, that.formData.linkMode)
-        $layerElem.find('.layui-btn-sm').on('click', function() {
-          let form = layui.form
-          layer.msg('你确定  同步默文 边框样式么？', {
-            time: 0 //不自动关闭
-            ,btn: ['同步', '取消']
-            ,yes: function(index){
-              onTongBuBd($layerElem,false,that);
-              form.render();
-              layer.close(index)
-            }
-          });
-        })
+       
 
       },
-      content: `<form class="layui-form" lay-filter="imgAntComponentForm">
+      content: `<form class="layui-form" lay-filter="imgZfComponentForm">
         <div class="layui-tab layui-tab-brief">
           <ul class="layui-tab-title">
             <li class="layui-this">内容设置</li>
@@ -246,80 +196,129 @@ export default class ImgAntComponent extends Component {
           </ul>
           <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
-              <div class="layui-form-item">
-                <label class="layui-form-label">应用名称</label>
-                <div class="layui-input-inline">
-                  <input type="text" name="appLabel" class="layui-input">
-                </div>
-              </div>
-              <div class="layui-form-item">
-                <label class="layui-form-label">图片地址</label>
-                <div class="layui-input-inline">
-                  <input name="bgImg" type="text" class="layui-input">
-                   
-                </div>
-                <div><input name="bgImgSize" value="true" type="checkbox" lay-skin="primary" title="自动宽高"></div>
-              </div>
-              <div class="layui-form-item">
-                <label class="layui-form-label">图片显示方式</label>
-                <div class="layui-input-inline">
-                  <select name="imgMode">
-                    <option value="cut">保持原图尺寸</option>
-                    <option value="full">自由拉伸</option>
-                    <option value="scaleX">保持比例(只裁剪宽度)</option>
-                    <option value="scaleY">保持比例(只裁剪高度)</option>
-                  </select>
-                </div>
-              </div>
-              <div class="layui-form-item">
-                <label class="layui-form-label">背景颜色</label>
-                <div class="layui-input-inline pagecolorpanel"  >
-                  <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner"></div></div></div>
-                  <input name="bgColor" type="text" class="layui-input pagecolor">
-                  <span class="clear-color-button"></span>
-                </div>
-              </div>
-              <div class="layui-form-item">
-                <label class="layui-form-label">链接类型</label>
-                <div class="layui-input-inline">
-                  <input type="radio" name="linkMode" lay-filter="linkMode" value="urlink" title="普通" checked="">
-                  <input type="radio" name="linkMode" lay-filter="linkMode" value="wwlink" title="旺旺">
-                </div>
-              </div>
-              <div class="layui-form-item link-box" style="display:none">
-                <label class="layui-form-label">链接地址</label>
-                <div class="layui-input-inline">
-                  <input name="href" type="text" class="layui-input">
-                </div>
-                <div><input name="hrefMode" value="_blank" type="checkbox" lay-skin="primary" title="新窗口打开"></div>
-              </div>
-              <div class="layui-form-item wang-box" style="display:none">
-                <label class="layui-form-label">旺旺ID</label>
-                <div class="layui-input-inline">
-                  <input name="wangID" type="text" class="layui-input">
-                </div>
-              </div>
-              <div class="layui-form-item"  >
-                <label class="layui-form-label">超出部分</label>
-                <div class="layui-input-inline" style="width:300px;">
-                  <input type="radio" name="overMode" lay-filter="overMode" value="visible" title="显示" checked="">
-                  <input type="radio" name="overMode" lay-filter="overMode" value="mover" title="鼠标经过显示">
-                  <input type="radio" name="overMode" lay-filter="overMode" value="hidden" title="隐藏">
+              <div class="layui-tab layui-side-card">
+                <ul class="layui-tab-title"  >
+                  <li class="layui-this" style="margin-top: 110px;">默认图片</li>
+                  <li class="">鼠标划过图片</li>
+                </ul>
+                <div class="layui-tab-content" style="height: 400px;">
+                  <div class="layui-tab-item layui-show">
+                    <div class="layui-form-item" style="margin-top:5px;">
+                      <label class="layui-form-label">应用名称</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="appLabel" class="layui-input">
+                      </div>
+                    </div>
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">图片地址</label>
+                      <div class="layui-input-inline">
+                        <input name="bgImg" type="text" class="layui-input">
+                      </div>
+                      <div><input name="bgImgSize" value="true" type="checkbox" lay-skin="primary" title="自动宽高"></div>
+                    </div>
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">对齐方式</label>
+                      <div class="layui-input-inline">
+                        <select name="bgPos">
+                          <option value="0% 0%">左上</option>
+                          <option value="0% 50%">左中</option>
+                          <option value="0% 100%">左下</option>
+                          <option value="50% 0%">中上</option>
+                          <option value="50% 50%">正中</option>
+                          <option value="50% 100%">中下</option>
+                          <option value="100% 0%">右上</option>
+                          <option value="100% 50%">右中</option>
+                          <option value="100% 100%">右下</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">背景颜色</label>
+                      <div class="layui-input-inline pagecolorpanel"  >
+                        <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner"></div></div></div>
+                        <input name="bgColor" type="text" class="layui-input pagecolor">
+                        <span class="clear-color-button"></span>
+                      </div>
+                    </div>
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">链接类型</label>
+                      <div class="layui-input-inline">
+                        <input type="radio" name="linkMode" lay-filter="linkMode" value="urlink" title="普通" checked="">
+                        <input type="radio" name="linkMode" lay-filter="linkMode" value="wwlink" title="旺旺">
+                      </div>
+                    </div>
+                    <div class="layui-form-item link-box" style="display:none">
+                      <label class="layui-form-label">链接地址</label>
+                      <div class="layui-input-inline">
+                        <input name="href" type="text" class="layui-input">
+                      </div>
+                      <div><input name="hrefMode" value="_blank" type="checkbox" lay-skin="primary" title="新窗口打开"></div>
+                    </div>
+                    <div class="layui-form-item wang-box" style="display:none">
+                      <label class="layui-form-label">旺旺ID</label>
+                      <div class="layui-input-inline">
+                        <input name="wangID" type="text" class="layui-input">
+                      </div>
+                    </div>
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">旋转特效</label>
+                      <div class="layui-input-inline" style="width: 126px;">
+                        <select name="mrxz">
+                            <option value="" selected="selected">无效果</option>
+                            <option value="xins-mr-r">顺时针旋转</option>
+                            <option value="xins-mr-fr">逆时针旋转</option>
+                        </select>
+                      </div>
+                      <div class="layui-input-inline" style="width: 126px;">
+                        <select name="mrxzv"  class="ant-spin-v" >
+                        </select>
+                      </div>
+                    </div>
+                    <div class="layui-form-item"  >
+                      <label class="layui-form-label">圆角度数</label>
+                      <div class="layui-input-inline">
+                        <input name="bRadius" type="text" class="layui-input">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="layui-tab-item">
+                    <div class="layui-form-item" style="margin-top:10px;">
+                      <label class="layui-form-label">图片地址</label>
+                      <div class="layui-input-inline">
+                        <input name="mbgImg" type="text" class="layui-input">
+                      </div>
+                    </div>
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">对齐方式</label>
+                      <div class="layui-input-inline">
+                        <select name="mbgPos">
+                          <option value="0% 0%">左上</option>
+                          <option value="0% 50%">左中</option>
+                          <option value="0% 100%">左下</option>
+                          <option value="50% 0%">中上</option>
+                          <option value="50% 50%">正中</option>
+                          <option value="50% 100%">中下</option>
+                          <option value="100% 0%">右上</option>
+                          <option value="100% 50%">右中</option>
+                          <option value="100% 100%">右下</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">背景颜色</label>
+                      <div class="layui-input-inline pagecolorpanel"  >
+                        <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner"></div></div></div>
+                        <input name="mbgColor" type="text" class="layui-input pagecolor">
+                        <span class="clear-color-button"></span>
+                      </div>
+                    </div>
+               
+
+
+                  </div>
                 </div>
               </div>
 
-              <div class="layui-form-item"  >
-                <label class="layui-form-label">圆角度数</label>
-                <div class="layui-input-inline">
-                  <input name="bRadius" type="text" class="layui-input">
-                </div>
-              </div>
-              <div class="layui-form-item">
-                <label class="layui-form-label">提示文字</label>
-                <div class="layui-input-inline">
-                  <input name="tipText" type="text" class="layui-input">
-                </div>
-              </div>
             </div>
             <div  class="layui-tab-item">
               <div class="layui-tab layui-side-card">
@@ -536,147 +535,81 @@ export default class ImgAntComponent extends Component {
               </div>
             </div>
             <div class="layui-tab-item">
-              <div class="layui-tab layui-side-card">
-                <ul class="layui-tab-title"  >
-                  <li class="layui-this" style="margin-top: 110px;">默认动画</li>
-                  <li class="">鼠标划过动画</li>
-                </ul>
-                <div class="layui-tab-content" style="height: 400px;">
-                  <div class="layui-tab-item layui-show">
-                       
-                    <div class="layui-form-item" style="margin-top:30px;">
-                      <label class="layui-form-label">显示方式</label>
-                      <div class="layui-input-inline" style="width: 326px;">
-                        <input class="radio-medium" type="radio" name="disMode" value=""  title="始终显示">
-                        <input class="radio-medium" type="radio" name="disMode" value="xins-box-fadein"  title="淡入显示">
-                        <input class="radio-medium" type="radio" name="disMode" value="xins-box-fadeout"  title="淡出消失">
-                      </div>
-                    </div>
-                    <div class="layui-form-item">
-                      <label class="layui-form-label">旋转特效</label>
-                      <div class="layui-input-inline" style="width: 126px;">
-                        <select name="mrxz">
-                            <option value="" selected="selected">无效果</option>
-                            <option value="xins-mr-r">顺时针旋转</option>
-                            <option value="xins-mr-fr">逆时针旋转</option>
-                        </select>
-                      </div>
-                      <div class="layui-input-inline" style="width: 126px;">
-                        <select name="mrxzv"  class="ant-spin-v" >
-                        </select>
-                      </div>
-                    </div>
-                     <div class="layui-form-item">
-                      <label class="layui-form-label">缩放特效</label>
-                      <div class="layui-input-inline" style="width: 126px;">
-                        <select name="mrsf"  class="ant-mr-zoom">
-                        </select>
-                      </div>
-                    </div>
- 
-                  </div>
-                  <div class="layui-tab-item">
-                       
-                    <div class="layui-form-item" style="margin-top:30px;">
-                      <label class="layui-form-label">动画速度</label>
-                      <div class="layui-input-inline" style="width: 148px;">
-                        <input type="text" name="mvTsDur" class="layui-input">
-                      </div>
-                      <label class="layui-form-label" style="width: 65px;padding-left:0px;padding-right:5px">动画延迟</label>
-                      <div class="layui-input-inline" style="width: 65px;">
-                        <input type="text" name="mvTsDelay" class="layui-input">
-                      </div>
-                    </div>
-                    <div class="layui-form-item">
-                      <label class="layui-form-label">动画特效</label>
-                      <div class="layui-input-inline" style="width:150px;">
-                        <select name="mvTsBezier"  class="ant-bezier">
-                        </select>
-                      </div>
-                      <label class="layui-form-label" style="width:40px;padding-left:0px;padding-right:5px">程度</label>
-                      <div class="layui-input-inline" style="width:85px;">
-                        <select  name="mvTsBezierv" >
-                          <option value="b" selected="selected">强</option>
-                          <option value="m">中</option>
-                          <option value="s">弱</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="layui-form-item">
-                      <label class="layui-form-label">横向移动</label>
-                      <div class="layui-input-inline" style="width:150px;">
-                        <select name="mvTsModeX" >
-                          <option value="" selected="selected">无效果</option>
-                          <option value="xins-box-lx">向左移动</option>
-                          <option value="xins-box-rx">向右移动</option>
-                          <option value="xins-box-fromleft">从左进入</option>
-                          <option value="xins-box-fromright">从右进入</option>
-                        </select>
-                      </div>
-                      <div class="layui-input-inline" style="width: 126px;">
-                        <select  name="mvTsModeXv"  class="ant-move-v">
-                        </select>
-                      </div>
-                    </div>
-                    <div class="layui-form-item">
-                      <label class="layui-form-label">纵向移动</label>
-                      <div class="layui-input-inline" style="width:150px;">
-                        <select name="mvTsModeY" >
-                          <option value="" selected="selected">无效果</option>
-                          <option value="xins-box-uy">向上移动</option>
-                          <option value="xins-box-dy">向下移动</option>
-                          <option value="xins-box-fromtop">从上进入</option>
-                          <option value="xins-box-frombottom">从下进入</option>
-                        </select>
-                      </div>
-                      <div class="layui-input-inline" style="width: 126px;">
-                        <select  name="mvTsModeYv"  class="ant-move-v">
-                        </select>
-                      </div>
-                    </div>
-                    <div class="layui-form-item">
-                      <label class="layui-form-label">旋转特效</label>
-                      <div class="layui-input-inline" style="width:150px;">
-                        <select name="mvxz" >
-                          <option value="" selected="selected">无效果</option>
-                          <option value="xins-box-r">顺时针旋转</option>
-                          <option value="xins-box-fr">逆时针旋转</option>
-                        </select>
-                      </div>
-                      <div class="layui-input-inline" style="width: 126px;">
-                        <select  name="mvxzv"  class="ant-spin-v">
-                        </select>
-                      </div>
-                    </div>
-                    <div class="layui-form-item">
-                      <label class="layui-form-label">缩放特效</label>
-                      <div class="layui-input-inline"  style="width: 150px;">
-                        <select name="mvsf" class="ant-mv-zoom">
-                        </select>
-                      </div>
-                    </div>
-                    <div class="layui-form-item">
-                      <label class="layui-form-label">翻转特效</label>
-                      <div class="layui-input-inline"  style="width: 150px;">
-                        <select name="mvfz">
-                          <option value="" selected="selected">无效果</option>
-                          <option value="xins-box-fx">横向翻转</option>
-                          <option value="xins-box-fy">纵向翻转</option>
-                          <option value="xins-box-fxy">横向纵向同时翻转</option>
-                        </select>
-                      </div>
-                    </div>
+                 
 
+              <fieldset  class="layui-elem-field"  >
+                 
+                <div class="layui-field-box">
+                  <div class="layui-form-item" >
+                    <label class="layui-form-label">动画速度</label>
+                    <div class="layui-input-inline" style="width: 148px;">
+                      <input type="text" name="mTsDur" class="layui-input">
+                    </div>
+                    <label class="layui-form-label" style="width: 65px;padding-left:0px;padding-right:5px">动画延迟</label>
+                    <div class="layui-input-inline" style="width: 65px;">
+                      <input type="text" name="mTsDelay" class="layui-input">
+                    </div>
+                  </div>
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">动画特效</label>
+                    <div class="layui-input-inline" style="width:150px;">
+                      <select name="mTsBezier"  class="ant-bezier">
+                      </select>
+                    </div>
+                    <label class="layui-form-label" style="width:40px;padding-left:0px;padding-right:5px">程度</label>
+                    <div class="layui-input-inline" style="width:85px;">
+                      <select  name="mTsBezierv" >
+                        <option value="b" selected="selected">强</option>
+                        <option value="m">中</option>
+                        <option value="s">弱</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </fieldset>
+              <fieldset  class="layui-elem-field" style="margin-top:10px;">
+                <legend>动画效果</legend>
+                <div class="layui-field-box" style="padding-left:60px;">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans0" title="无效果">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans1" title="右切入">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans2"  title="下切入">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans3"  title="左切入">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans4"  title="上切入">
+                  <div class="sepline"></div>
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans5"  title="右切出">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans6"  title="下切出">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans7"  title="左切出">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans8"  title="上切出">
+
+                  <div class="sepline"></div>
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans9"  title="右切入切出">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans10"   title="下切入切出">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans11"   title="左切入切出">
+
+                  <div class="sepline"></div>
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans12"  title="上切入切出">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans13"  title="放大出现">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans14"  title="缩小出现">
+
+                  <div class="sepline"></div>
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans15"  title="翻转出现">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans16"  title="缩放出现1">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans17"  title="缩放出现2">
+
+                  <div class="sepline"></div>
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans18"  title="旋转放大">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans19"  title="旋转缩小">
+                  <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans20"  title="渐隐渐显">
+                </div>
+              </fieldset>
+   
 
             </div>
           </div>
         </div>
         <div class="layui-form-item">
           <div class="layui-ft-btn">
-            <button class="layui-btn" lay-submit lay-filter="imgAntComponentForm">确定</button>
+            <button class="layui-btn" lay-submit lay-filter="imgZfComponentForm">确定</button>
             <button type="button" class="cancel-btn layui-btn layui-btn-primary">取消</button>
           </div>
         </div>
@@ -694,7 +627,7 @@ export default class ImgAntComponent extends Component {
       onLinkModeChanged($layerElem, data.value)
     })
 
-    form.on('submit(imgAntComponentForm)', function(data) {
+    form.on('submit(imgZfComponentForm)', function(data) {
       that.formData = data.field;
       that.update(that.formData)
       that.updatePropPanel()
@@ -703,7 +636,7 @@ export default class ImgAntComponent extends Component {
       layer.close(layerNo)
       return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
     });
-    form.val('imgAntComponentForm', that.formData)
+    form.val('imgZfComponentForm', that.formData)
   }
   
   update(formData) {
@@ -725,22 +658,65 @@ export default class ImgAntComponent extends Component {
         that.$content.removeAttr('mrxz')
       }
     }
-
-    let mrsfOld= that.$content.attr("mrsf")
-    if(formData.mrsf !=""){
-      let mrsfCss =formData.mrsf
-      isEmpty(mrsfOld) != true ?  $contentParnt.removeClass(mrsfOld) :''
-      $contentParnt.addClass(mrsfCss)
-      that.$content.attr("mrsf",mrsfCss)
-      $mrCss=true
-    }else{
-      if(isEmpty(mrsfOld) != true){
-        $contentParnt.removeClass(mrsfOld)
-        that.$content.removeAttr('mrsf')
-      }
-    }
     $mrCss ? $contentParnts.addClass("mr") : $contentParnts.removeClass("mr")
+
+    let mTsDur,mTsDelay,Bezier
+    mTsDur=valEmpty(this.formData.mTsDur) !=""  ? this.formData.mTsDur+'s ':''
+    mTsDelay=valEmpty(this.formData.mTsDelay) !=""  ?  this.formData.mTsDelay+'s ':''
+    Bezier=mTsDur+BezierCss(this.formData.mTsBezier,this.formData.mTsBezierv)+mTsDelay
+   
+     
+    let $defPanel=this.$contentBox.find(".on")
+    let bgCss,bgImg,bgColor,bgPos
+    bgImg=this.formData.bgImg
+    bgColor=this.formData.bgColor
+    bgPos=this.formData.bgPos
  
+    bgCss=bgImage(bgImg,bgColor,'',bgPos,'')
+    $defPanel.css("background",bgCss)
+    $defPanel.css("transition",Bezier)
+
+    let $offPanel=this.$contentBox.find(".off")
+    let $mTsAntOld=this.$content.attr("mTsAnt")
+    let mbgCss,mbgImg,mbgColor,mbgPos
+    mbgImg=this.formData.mbgImg
+    mbgColor=this.formData.mbgColor
+    mbgPos=this.formData.mbgPos
+ 
+    mbgCss=bgImage(mbgImg,mbgColor,'',mbgPos,'')
+ 
+    if(mbgImg !=""){
+      $offPanel.remove()
+      let $mTsAnt=this.formData.mTsAnt
+      if($mTsAnt=='atrans5' || $mTsAnt=='atrans6' || $mTsAnt==='atrans7' || $mTsAnt==='atrans8' || $mTsAnt==='atrans9' || $mTsAnt==='atrans19' ){
+      this.$contentBox.find(".on").before("<div class='off' ></div>")
+      }else{
+      this.$contentBox.find(".on").after("<div class='off'   ></div>")
+      }
+      $offPanel=this.$contentBox.find(".off")
+      $offPanel.css("background",mbgCss)
+      $offPanel.css("transition",Bezier)
+ 
+
+
+      isEmpty($mTsAntOld) != true ?  this.$content.removeClass($mTsAntOld) :'';
+      this.$content.addClass($mTsAnt)
+      this.$content.attr("mTsAnt",$mTsAnt)
+
+    }else{
+      $offPanel.remove();
+      isEmpty($mTsAntOld) != true ?  this.$content.removeClass($mTsAntOld) :'';
+      this.$content.attr("mTsAnt",'')
+    }
+   if(formData.bgImg) that.$img.attr('src', formData.bgImg)
+    that.$img.bind('load', function() {
+      if (formData.bgImgSize === 'true') {
+        that.$el.width(that.$img.width())
+        that.$el.height(that.$img.height())
+      }
+    })
+
+
     if(formData.shadow ==="on"){
       let sdX=formData.sdX ? formData.sdX: 0
       let sdY=formData.sdY ? formData.sdY: 0
@@ -768,43 +744,16 @@ export default class ImgAntComponent extends Component {
       $mchildPanel.css('transition', msdTsDur)
     }else{
       $mchildPanel.remove()
-    }
+    } 
 
-    if(formData.bgImg) that.$img.attr('src', formData.bgImg)
+    
     that.$content.css('border-radius', bRadius)
 
-  
-    that.$img.bind('load', function() {
-      if (formData.bgImgSize === 'true') {
-        that.$el.width(that.$img.width())
-        that.$el.height(that.$img.height())
-      }
-    })
-    let imgMode = formData.imgMode
-    if (imgMode === 'cut') {
-      let bground=bgImage(formData.bgImg,formData.bgColor,'','','')
-      that.$content.css('background', bground)
-      if (that.$img.is(':visible')) {
-        that.$img.hide()
-      }
-    } else {
-     
-      that.$content.css('background', 'none')
-      that.$content.css('background-color', formData.bgColor)
-      if (imgMode === 'full') {
-        that.$img.css('width', '100%')
-        that.$img.css('height', '100%')
-      } else if (imgMode === 'scaleX') {
-        that.$img.css('height', '100%')
-        that.$img.css('width', '')
-      } else if (imgMode === 'scaleY') {
-        that.$img.css('width', '100%')
-        that.$img.css('height', '')
-      }
-      that.$img.show()
-    }
+
+
 
     //处理边框
+    
     let isDefBk=false;
     let $textPanel=this.$content;
  
@@ -844,7 +793,7 @@ export default class ImgAntComponent extends Component {
         isDefBk=true
     }
 
- 
+    this.$content.attr("mbdTsAnt",this.formData.mbdTsAnt)
     let mbdTsAntVal=this.$content.attr("mbdTsAnt")
     this.$content.removeClass(mbdTsAntVal);
     this.$content.addClass(formData.mbdTsAnt)
@@ -954,52 +903,7 @@ export default class ImgAntComponent extends Component {
     $mrxzvSelect.val(this.formData.mrxzv)
     onDisabledChanged($propPanel,$mrxzSelect,this.formData.mrxz)
 
-    let $mrsfSelect = $propPanel.find('select[name=mrsf]')
-    $mrsfSelect.val(this.formData.mrsf)
-
-    
-
-    let $mvTsModeXSelect = $propPanel.find('select[name=mvTsModeX]')
-    $mvTsModeXSelect.val(this.formData.mvTsModeX)
-    let $mvTsModeXvSelect = $propPanel.find('select[name=mvTsModeXv]')
-    $mvTsModeXvSelect.val(this.formData.mvTsModeXv)
-    onDisabledChanged($propPanel,$mvTsModeXSelect,this.formData.mvTsModeX)
-
-    let $mvTsModeYSelect = $propPanel.find('select[name=mvTsModeY]')
-    $mvTsModeYSelect.val(this.formData.mvTsModeY)
-    let $mvTsModeYvSelect = $propPanel.find('select[name=mvTsModeYv]')
-    $mvTsModeYvSelect.val(this.formData.mvTsModeYv)
-    onDisabledChanged($propPanel,$mvTsModeYSelect,this.formData.mvTsModeY)
-
-    let $mvxzSelect = $propPanel.find('select[name=mvxz]')
-    $mvxzSelect.val(this.formData.mvxz)
-    let $mvxzvSelect = $propPanel.find('select[name=mvxzv]')
-    $mvxzvSelect.val(this.formData.mvxzv)
-    onDisabledChanged($propPanel,$mvxzSelect,this.formData.mvxz)
-
-    let $mvsfSelect = $propPanel.find('select[name=mvsf]')
-    $mvsfSelect.val(this.formData.mvsf)
-
-
-    let $mvfzSelect = $propPanel.find('select[name=mvfz]')
-    $mvfzSelect.val(this.formData.mvfz)
-
-    let $mvTsDurInput = $propPanel.find('input[type=text][name=mvTsDur]')
-    $mvTsDurInput.val(this.formData.mvTsDur)
-    let $mvTsDelayInput = $propPanel.find('input[type=text][name=mvTsDelay]')
-    $mvTsDelayInput.val(this.formData.mvTsDelay)
-
-    let $mvTsBezierSelect = $propPanel.find('select[name=mvTsBezier]')
-    $mvTsBezierSelect.val(this.formData.mvTsBezier)
-
-    let $mvTsBeziervSelect = $propPanel.find('select[name=mvTsBezierv]')
-    $mvTsBeziervSelect.val(this.formData.mvTsBezierv)
-
-
-
-    let $disModeRadio = $propPanel.find('input[type=radio][name=disMode]')
-    $disModeRadio.filter(`[value="${this.formData.disMode}"]`).prop('checked', true)
-      
+  
     let $bgImgInput = $propPanel.find('input[type=text][name=bgImg]')
     $bgImgInput.val(this.formData.bgImg)
     let $bgImgSizeCheckBox = $propPanel.find('input[type=checkbox][name=bgImgSize]')
@@ -1008,8 +912,25 @@ export default class ImgAntComponent extends Component {
     } else {
       $bgImgSizeCheckBox.prop('checked', false)
     }
-    let $imgModeSelect = $propPanel.find('#imgMode')
-    $imgModeSelect.val(this.formData.imgMode)
+
+    let $bgColorInput = $propPanel.find('input[type=text][name=bgColor]')
+    $bgColorInput.val(this.formData.bgColor)
+    if (this.formData.bgColor) {
+      $bgColorInput.prev().find(".sp-preview-inner").css("background-color",this.formData.bgColor)
+    }else{
+      $bgColorInput.prev().find(".sp-preview-inner").css("background-color",'')
+    }
+
+    let $mbgImgInput = $propPanel.find('input[type=text][name=mbgImg]')
+    $mbgImgInput.val(this.formData.mbgImg)
+    let $mbgColorInput = $propPanel.find('input[type=text][name=mbgColor]')
+    $mbgColorInput.val(this.formData.mbgColor)
+    if (this.formData.mbgColor) {
+      $mbgColorInput.prev().find(".sp-preview-inner").css("background-color",this.formData.mbgColor)
+    }else{
+      $mbgColorInput.prev().find(".sp-preview-inner").css("background-color",'')
+    }
+
     let $linkModeRadio = $propPanel.find('input[type=radio][name=linkMode]')
     $linkModeRadio.filter(`[value="${this.formData.linkMode}"]`).prop('checked', true)
     let $hrefInput = $propPanel.find('input[type=text][name=href]')
@@ -1026,9 +947,21 @@ export default class ImgAntComponent extends Component {
     onLinkModeChanged($propPanel, this.formData.linkMode)
     let $bRadiusInput = $propPanel.find('input[type=text][name=bRadius]')
     $bRadiusInput.val(this.formData.bRadius)
-    let $overModeRadio = $propPanel.find('input[type=radio][name=overMode]')
-    $overModeRadio.filter(`[value="${this.formData.overMode}"]`).prop('checked', true)
+ 
+    //移上动画效果
+    let $mTsDurInput = $propPanel.find('input[type=text][name=mTsDur]')
+    $mTsDurInput.val(this.formData.mTsDur)
+    let $mTsDelayInput = $propPanel.find('input[type=text][name=mTsDelay]')
+    $mTsDelayInput.val(this.formData.mTsDelay)
 
+    let $mTsBezierSelect = $propPanel.find('select[name=mTsBezier]')
+    $mTsBezierSelect.val(this.formData.mTsBezier)
+
+    let $mTsBeziervSelect = $propPanel.find('select[name=mTsBezierv]')
+    $mTsBeziervSelect.val(this.formData.mTsBezierv)
+    let $mTsAntRadio = $propPanel.find('input[type=radio][name=mTsAnt]')
+    $mTsAntRadio.filter(`[value="${this.formData.mTsAnt}"]`).prop('checked', true)
+ 
 
 
     //边框信息
@@ -1121,10 +1054,8 @@ export default class ImgAntComponent extends Component {
     let that = this
     setAntSpinvOption('.ant-spin-v')
     setAntBezierOption('.ant-bezier')
-    
-    setAntMrZoomOption('.ant-mr-zoom')
-    setAntMvZoomOption('.ant-mv-zoom')
-    setAntMovevOption('.ant-move-v')
+     
+ 
     $('.prop-setting-ct > div').hide()
     let $propPanel = $('.img-zf-com-prop-panel')
     this.$propPanel = $propPanel
@@ -1137,32 +1068,7 @@ export default class ImgAntComponent extends Component {
     let element = layui.element
     element.render("collapse")
 
-    let $mvTsDurInput = $propPanel.find('input[type=text][name=mvTsDur]')
-    $mvTsDurInput.change(function() {
-      let val = $(this).val()
-      that.formData.mvTsDur = val
-    })
-
-    let $mvTsDelayInput = $propPanel.find('input[type=text][name=mvTsDelay]')
-    $mvTsDelayInput.change(function() {
-      let val = $(this).val()
-      that.formData.mvTsDelay = val
-    })
-
-    let $mvTsBezierSelect = $propPanel.find('select[name=mvTsBezier]')
-    $mvTsBezierSelect.change(function() {
-      that.formData.mvTsBezier = $(this).prop('value')
-    })
-    let $mvTsBeziervSelect = $propPanel.find('select[name=mvTsBezierv]')
-    $mvTsBeziervSelect.change(function() {
-      that.formData.mvTsBezierv = $(this).prop('value')
-    })
-
-    let $mrsfSelect = $propPanel.find('select[name=mrsf]')
-    $mrsfSelect.change(function() {
-      that.formData.mrsf = $(this).prop('value')
-      that.update(that.formData)
-    })
+ 
     let $mrxzSelect = $propPanel.find('select[name=mrxz]')
     $mrxzSelect.change(function() {
       that.formData.mrxz = $(this).prop('value')
@@ -1175,86 +1081,50 @@ export default class ImgAntComponent extends Component {
       that.formData.mrxzv = $(this).prop('value')
       that.update(that.formData)
     })
-
-    let $mvTsModeXvSelect = $propPanel.find('select[name=mvTsModeXv]')
-    $mvTsModeXvSelect.change(function() {
-      that.formData.mvTsModeXv = $(this).prop('value')
-      that.update(that.formData)
-    })
-    let $mvTsModeXSelect = $propPanel.find('select[name=mvTsModeX]')
-    $mvTsModeXSelect.change(function() {
-      that.formData.mvTsModeX = $(this).prop('value')
-      that.update(that.formData)
-      onDisabledChanged($propPanel,$(this),that.formData.mvTsModeX)
-    })
-     
-    let $mvTsModeYvSelect = $propPanel.find('select[name=mvTsModeYv]')
-    $mvTsModeYvSelect.change(function() {
-      that.formData.mvTsModeYv = $(this).prop('value')
-      that.update(that.formData)
-    })
-    let $mvTsModeYSelect = $propPanel.find('select[name=mvTsModeY]')
-    $mvTsModeYSelect.change(function() {
-      that.formData.mvTsModeY = $(this).prop('value')
-      that.update(that.formData)
-      onDisabledChanged($propPanel,$(this),that.formData.mvTsModeY)
-    })
-
-    let $mvxzvSelect = $propPanel.find('select[name=mvxzv]')
-    $mvxzvSelect.change(function() {
-      that.formData.mvxzv = $(this).prop('value')
-      that.update(that.formData)
-    })
-    let $mvxzSelect = $propPanel.find('select[name=mvxz]')
-    $mvxzSelect.change(function() {
-      that.formData.mvxz = $(this).prop('value')
-      that.update(that.formData)
-      onDisabledChanged($propPanel,$(this),that.formData.mvxz)
-    })
-
-    let $mvsfSelect = $propPanel.find('select[name=mvsf]')
-    $mvsfSelect.change(function() {
-      that.formData.mvsf = $(this).prop('value')
-    })
-
-
-    let $mvfzSelect = $propPanel.find('select[name=mvfz]')
-    $mvfzSelect.change(function() {
-      that.formData.mvfz = $(this).prop('value')
-      that.update(that.formData)
-    })
-
-    let $disModeRadio = $propPanel.find('input[type=radio][name=disMode]')
-    $disModeRadio.change(function() {
-      let val = $(this).prop('value')
-      that.formData.disMode = val
-    })
-    let $overModeRadio = $propPanel.find('input[type=radio][name=overMode]')
-    $overModeRadio.change(function() {
-      let val = $(this).prop('value')
-      that.formData.overMode = val
-    })
-
-
+ 
     let $bgImgInput = $propPanel.find('input[type=text][name=bgImg]')
     $bgImgInput.change((function() {
       that.formData.bgImg = $bgImgInput.val()
       that.update(that.formData)
     }))
-
     let $bgImgSizeCheckBox = $propPanel.find('input[type=checkbox][name=bgImgSize]')
     $bgImgSizeCheckBox.change(function() {
       let val = $(this).is(':checked')
       that.formData.bgImgSize = val ? 'true' : 'false'
       that.update(that.formData)
     });
-
-    let $imgMode = $propPanel.find('#imgMode')
-    $imgMode.change(function() {
-      that.formData.imgMode = $(this).val()
+    let $bgPosSelect = $propPanel.find('select[name=bgPos]')
+    $bgPosSelect.change(function() {
+      that.formData.bgPos = $(this).prop('value')
+      that.update(that.formData)
+    })
+    let $bgColorInput = $propPanel.find('input[type=text][name=bgColor]')
+    $bgColorInput.change(function() {
+      let val = $(this).val()
+      that.formData.bgColor = val
       that.update(that.formData)
     })
 
+    //移上图片信息
+    let $mbgImgInput = $propPanel.find('input[type=text][name=mbgImg]')
+    $mbgImgInput.change((function() {
+      that.formData.mbgImg = $bgImgInput.val()
+      that.update(that.formData)
+    }))
+    let $mbgPosSelect = $propPanel.find('select[name=mbgPos]')
+    $mbgPosSelect.change(function() {
+      that.formData.mbgPos = $(this).prop('value')
+      that.update(that.formData)
+    })
+    let $mbgColorInput = $propPanel.find('input[type=text][name=mbgColor]')
+    $mbgColorInput.change(function() {
+      let val = $(this).val()
+      that.formData.mbgColor = val
+      that.update(that.formData)
+    })
+
+ 
+ 
     let $linkModeRadio = $propPanel.find('input[type=radio][name=linkMode]')
     $linkModeRadio.change(function() {
       let val = $(this).prop('value')
@@ -1284,6 +1154,38 @@ export default class ImgAntComponent extends Component {
       that.formData.bRadius = $(this).val()
       that.update(that.formData)
     })
+
+    //移上动画
+    let $mTsDurInput = $propPanel.find('input[type=text][name=mTsDur]')
+    $mTsDurInput.change(function() {
+      let val = $(this).val()
+      that.formData.mTsDur = val
+      that.update(that.formData)
+    })
+
+    let $mTsDelayInput = $propPanel.find('input[type=text][name=mTsDelay]')
+    $mTsDelayInput.change(function() {
+      let val = $(this).val()
+      that.formData.mTsDelay = val
+      that.update(that.formData)
+    })
+    let $mTsBezierSelect = $propPanel.find('select[name=mTsBezier]')
+    $mTsBezierSelect.change(function() {
+      that.formData.mTsBezier = $(this).prop('value')
+      that.update(that.formData)
+    })
+    let $mTsBeziervSelect = $propPanel.find('select[name=mTsBezierv]')
+    $mTsBeziervSelect.change(function() {
+      that.formData.mTsBezierv = $(this).prop('value')
+      that.update(that.formData)
+    })
+    let $mTsAntRadio = $propPanel.find('input[type=radio][name=mTsAnt]')
+    $mTsAntRadio.change(function() {
+      let val = $(this).prop('value')
+      that.formData.mTsAnt = val
+      that.update(that.formData)
+    })
+
     // 以下是默认边框 
     let $bdTCheckBox = $propPanel.find('input[type=checkbox][name=bdT]')
     $bdTCheckBox.change(function() {

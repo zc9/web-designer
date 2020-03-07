@@ -779,7 +779,7 @@
             </div>
             <div class="nromal-wrap">
               <label >昵称字体</label>
-              <select class="select-medium" name="family" >
+              <select class="select-medium font-select" name="family" >
               </select>
             </div>
             <div class="nromal-wrap">
@@ -1399,8 +1399,8 @@
                   <div class="layui-colla-content layui-show">
                     <div class="layui-tab layui-tab-card">
                       <ul class="layui-tab-title layui-tab-row3" style="overflow:initial">
-                        <li class="layui-this">默认样式</li>
-                        <li>默认动画</li>
+                        <li class="layui-this">默认图片</li>
+                        <li>鼠标划过图</li>
                         <li>鼠标划过动画</li>
                       </ul>
                       <div class="layui-tab-content"  >
@@ -1412,13 +1412,26 @@
                             <label for="autoSize" class="nrlabel">自动高宽</label>
                           </div>
                           <div class="nromal-wrap">
-                            <label >图片方式</label>
-                            <select class="select-medium" id="imgMode">
-                              <option value="cut">保持原图尺寸</option>
-                              <option value="full">自由拉伸</option>
-                              <option value="scaleX">保持比例(只裁剪宽度)</option>
-                              <option value="scaleY">保持比例(只裁剪高度)</option>
-                            </select>
+                            <label >对齐方式</label>
+                            <select  class="select-medium" name="bgPos" >
+                              <option value="0% 0%">左上</option>
+                              <option value="0% 50%">左中</option>
+                              <option value="0% 100%">左下</option>
+                              <option value="50% 0%">中上</option>
+                              <option value="50% 50%">正中</option>
+                              <option value="50% 100%">中下</option>
+                              <option value="100% 0%">右上</option>
+                              <option value="100% 50%">右中</option>
+                              <option value="100% 100%">右下</option>
+                           </select>
+                          </div>
+                          <div class="nromal-wrap">
+                            <label >背景颜色</label>
+                            <div class="pagecolorpanel">
+                              <div class="sp-replacer sp-light"  ><div class="sp-preview"><div class="sp-preview-inner" style="background-color:transparent;"></div></div></div>
+                              <input class="pagecolor"  type="text" name="bgColor"   />
+                              <span class="clear-color-button"></span>
+                            </div>
                           </div>
                           <div class="nromal-wrap">
                             <label >链接类型</label>
@@ -1439,15 +1452,7 @@
                             <input class="input-medium" autocomplete="off" name="wangID" type="text" placeholder="输入主旺旺或子旺旺号" />
                             <label   >不是邮箱号</label>
                           </div>
-                          <div class="nromal-wrap">
-                            <label>超出部分</label>
-                            <input class="radio-medium" type="radio" name="overMode" id="overMode_1" value="visible"  title="始终显示">
-                            <label for="overMode_1" >显示</label>
-                            <input class="radio-medium" type="radio" name="overMode" id="overMode_2" value="mover"  title="鼠标经过显示">
-                            <label for="overMode_2" >鼠标经过显示</label>
-                            <input class="radio-medium" type="radio" name="overMode" id="overMode_3" value="hidden"  title="始终隐藏">
-                            <label for="overMode_3" >隐藏</label>
-                          </div>
+ 
                           <div class="nromal-wrap">
                             <label >圆角度数</label>
                             <input class="input-short"   type="text" name="bRadius" />
@@ -1457,14 +1462,33 @@
                         </div>
                         <div class="layui-tab-item">
                           <div class="nromal-wrap">
-                            <label>显示方式</label>
-                            <input class="radio-medium" type="radio" name="disMode" id="disMode_1" value=""  title="始终显示">
-                            <label for="disMode_1" >始终显示</label>
-                            <input class="radio-medium" type="radio" name="disMode" id="disMode_2" value="xins-box-fadein"  title="淡入显示">
-                            <label for="disMode_2" >淡入显示</label>
-                            <input class="radio-medium" type="radio" name="disMode" id="disMode_3" value="xins-box-fadeout"  title="淡出消失">
-                            <label for="disMode_3" >淡出消失</label>
+                            <label >图片地址</label>
+                            <input     type="text" name="mbgImg"  />
                           </div>
+                          <div class="nromal-wrap">
+                            <label >对齐方式</label>
+                            <select  class="select-medium" name="mbgPos" >
+                              <option value="0% 0%">左上</option>
+                              <option value="0% 50%">左中</option>
+                              <option value="0% 100%">左下</option>
+                              <option value="50% 0%">中上</option>
+                              <option value="50% 50%">正中</option>
+                              <option value="50% 100%">中下</option>
+                              <option value="100% 0%">右上</option>
+                              <option value="100% 50%">右中</option>
+                              <option value="100% 100%">右下</option>
+                           </select>
+                          </div>
+                          <div class="nromal-wrap">
+                            <label >背景颜色</label>
+                            <div class="pagecolorpanel">
+                              <div class="sp-replacer sp-light"  ><div class="sp-preview"><div class="sp-preview-inner" style="background-color:transparent;"></div></div></div>
+                              <input class="pagecolor"  type="text" name="mbgColor"   />
+                              <span class="clear-color-button"></span>
+                            </div>
+                          </div>
+
+           
                           <div class="nromal-wrap">
                             <label>旋转特效</label>
                             <select    name="mrxz">
@@ -1475,80 +1499,91 @@
                             <select  class="ant-spin-v"  name="mrxzv">
                             </select>
                           </div>
-                          <div class="nromal-wrap">
-                            <label>缩放特效</label>
-                            <select class="ant-mr-zoom"   name="mrsf" >
-                            </select>
-                          </div>
+ 
                         </div>
                         <div class="layui-tab-item">
+                          <fieldset  class="layui-elem-field">
+                           <legend>动画时间</legend>
+                            <div class="nromal-wrap">
+                              <label class="label-con">动画速度</label>
+                              <input class="input-short"   type="text" name="mTsDur"  />
+                              <label class="label-con">动画延迟</label>
+                              <input class="input-short"   type="text" name="mTsDelay"   />
+                            </div>
+                            <div class="nromal-wrap">
+                              <label>动画特效</label>
+                              <select  name="mvTsBezier" class="ant-bezier">
+   
+                              </select>
+                              <label>程度</label>
+                              <select  name="mvTsBezierv" >
+                                <option value="b" selected="selected">强</option>
+                                <option value="m">中</option>
+                                <option value="s">弱</option>
+                              </select>
+                            </div>
+                          </fieldset>
+                        <fieldset  class="layui-elem-field">
+                          <legend>动画效果</legend>
                           <div class="nromal-wrap">
-                            <label class="label-con">动画速度</label>
-                            <input class="input-short"   type="text" name="mvTsDur"  />
-                            <label class="label-con">动画延迟</label>
-                            <input class="input-short"   type="text" name="mvTsDelay"   />
-                          </div>
-                          <div class="nromal-wrap">
-                            <label>动画特效</label>
-                            <select  name="mvTsBezier" class="ant-bezier">
- 
-                            </select>
-                            <label>程度</label>
-                            <select  name="mvTsBezierv" >
-                              <option value="b" selected="selected">强</option>
-                              <option value="m">中</option>
-                              <option value="s">弱</option>
-                            </select>
-                          </div>
-                          <div class="nromal-wrap">
-                            <label>横向移动</label>
-                            <select  name="mvTsModeX" >
-                              <option value="" selected="selected">无效果</option>
-                              <option value="xins-box-lx">向左移动</option>
-                              <option value="xins-box-rx">向右移动</option>
-                              <option value="xins-box-fromleft">从左进入</option>
-                              <option value="xins-box-fromright">从右进入</option>
-                            </select>
-                            <select  class="ant-move-v"  name="mvTsModeXv">
-                            </select>
-                          </div>
-                          <div class="nromal-wrap">
-                            <label>纵向移动</label>
-                            <select  name="mvTsModeY" >
-                              <option value="" selected="selected">无效果</option>
-                              <option value="xins-box-uy">向上移动</option>
-                              <option value="xins-box-dy">向下移动</option>
-                              <option value="xins-box-fromtop">从上进入</option>
-                              <option value="xins-box-frombottom">从下进入</option>
-                            </select>
-                            <select class="ant-move-v"   name="mvTsModeYv" >
-                            </select>
+                            <input class="radio-medium" type="radio" name="mTsAnt" id="mTsAnt_0" value="atrans0">
+                            <label for="mTsAnt_0" >无效果</label>
+                            <input class="radio-medium" type="radio" name="mTsAnt" id="mTsAnt_1" value="atrans1"  style="margin-left:10px;">
+                            <label for="mTsAnt_1" >右切入 </label>
+                            <input class="radio-medium" type="radio" name="mTsAnt" id="mTsAnt_2" value="atrans2"   style="margin-left:10px;">
+                            <label for="mTsAnt_2" >下切入 </label>
 
+                            <div class="sepline"></div>
+                            <input class="radio-medium" type="radio" name="mTsAnt" id="mTsAnt_3" value="atrans3"  >
+                            <label for="mTsAnt_3" >左切入 </label>
+                            <input class="radio-medium" type="radio" name="mTsAnt" id="mTsAnt_4" value="atrans4"   style="margin-left:10px;">
+                            <label for="mTsAnt_4" >上切入 </label>
+                            <input class="radio-medium" type="radio" name="mTsAnt" id="mTsAnt_5" value="atrans5"   style="margin-left:10px;">
+                            <label for="mTsAnt_5" >右切出</label>
+
+                            <div class="sepline"></div>
+                            <input class="radio-medium" type="radio" name="mTsAnt" id="mTsAnt_6" value="atrans6"  >
+                            <label for="mTsAnt_6" >下切出 </label>
+                            <input class="radio-medium" type="radio" name="mTsAnt" id="mTsAnt_7" value="atrans7"   style="margin-left:10px;">
+                            <label for="mTsAnt_7" >左切出 </label>
+                            <input class="radio-medium" type="radio" name="mTsAnt" id="mTsAnt_8" value="atrans8"   style="margin-left:10px;">
+                            <label for="mTsAnt_8" >上切出</label>
+
+                            <div class="sepline"></div>
+                            <input class="radio-medium" type="radio" name="mTsAnt" id="mTsAnt_9" value="atrans9"  >
+                            <label for="mTsAnt_9" >右切入切出 </label>
+                            <input class="radio-medium" type="radio" name="mTsAnt" id="mTsAnt_10" value="atrans10"   style="margin-left:5px;">
+                            <label for="mTsAnt_10" >下切入切出 </label>
+                            <input class="radio-medium" type="radio" name="mTsAnt" id="mTsAnt_11" value="atrans11"   style="margin-left:5px;">
+                            <label for="mTsAnt_11" >左切入切出</label>
+
+                            <div class="sepline"></div>
+                            <input class="radio-medium" type="radio" name="mTsAnt" id="mTsAnt_12" value="atrans12"  >
+                            <label for="mTsAnt_12" >上切入切出 </label>
+                            <input class="radio-medium" type="radio" name="mTsAnt" id="mTsAnt_13" value="atrans13"   style="margin-left:5px;">
+                            <label for="mTsAnt_13" >放大出现 </label>
+                            <input class="radio-medium" type="radio" name="mTsAnt" id="mTsAnt_14" value="atrans14"   style="margin-left:17px;">
+                            <label for="mTsAnt_14" >缩小出现</label>
+
+                            <div class="sepline"></div>
+                            <input class="radio-medium" type="radio" name="mTsAnt" id="mTsAnt_15" value="atrans15"  >
+                            <label for="mTsAnt_15" >翻转出现 </label>
+                            <input class="radio-medium" type="radio" name="mTsAnt" id="mTsAnt_16" value="atrans16"   style="margin-left:10px;">
+                            <label for="mTsAnt_16" >缩放出现1 </label>
+                            <input class="radio-medium" type="radio" name="mTsAnt" id="mTsAnt_17" value="atrans17"   style="margin-left:10px;">
+                            <label for="mTsAnt_17" >缩放出现2</label>
+
+                            <div class="sepline"></div>
+                            <input class="radio-medium" type="radio" name="mTsAnt" id="mTsAnt_18" value="atrans18"  >
+                            <label for="mTsAnt_18" >旋转放大 </label>
+                            <input class="radio-medium" type="radio" name="mTsAnt" id="mTsAnt_19" value="atrans19"   style="margin-left:10px;">
+                            <label for="mTsAnt_19" >旋转缩小 </label>
+                            <input class="radio-medium" type="radio" name="mTsAnt" id="mTsAnt_20" value="atrans20"   style="margin-left:10px;">
+                            <label for="mTsAnt_20" >渐隐渐显</label>
                           </div>
-                          <div class="nromal-wrap">
-                            <label>旋转特效</label>
-                            <select   name="mvxz" >
-                              <option value="" selected="selected">无效果</option>
-                              <option value="xins-box-r">顺时针旋转</option>
-                              <option value="xins-box-fr">逆时针旋转</option>
-                            </select>
-                            <select  class="ant-spin-v"  name="mvxzv">
-                            </select>
-                          </div>
-                          <div class="nromal-wrap">
-                            <label>缩放特效</label>
-                            <select class="ant-mv-zoom"   name="mvsf" >
-                            </select>
-                          </div>
-                          <div class="nromal-wrap">
-                            <label>翻转特效</label>
-                            <select   name="mvfz"  >
-                              <option value="" selected="selected">无效果</option>
-                              <option value="xins-box-fx">横向翻转</option>
-                              <option value="xins-box-fy">纵向翻转</option>
-                              <option value="xins-box-fxy">横向纵向同时翻转</option>
-                            </select>
-                          </div>
+                        </fieldset>
+
+ 
 
                         </div>
                       </div>

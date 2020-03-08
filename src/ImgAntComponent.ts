@@ -202,7 +202,7 @@ export default class ImgAntComponent extends Component {
           $layerElem.find('.animselect > div.active').removeClass('active')
           $(this).addClass('active')
         })
-
+        $layerElem.find(".sp-preview-inner").css("background-color",'')
         if (that.formData.bgColor) {
           let $bgColorInput=$layerElem.find('input[type=text][name=bgColor]')
           $bgColorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.bgColor)

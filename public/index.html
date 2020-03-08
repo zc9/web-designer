@@ -338,7 +338,7 @@
                       <div class="layui-tab-item layui-show">
                         <div class="nromal-wrap">
                           <label class="label-con col2">字  体</label>
-                          <select class="select-medium font-select" name="family" >
+                          <select class="font-select" name="family" >
                           </select>
                         </div>
                         <div class="nromal-wrap">
@@ -779,7 +779,7 @@
             </div>
             <div class="nromal-wrap">
               <label >昵称字体</label>
-              <select class="select-medium font-select" name="family" >
+              <select class="font-select" name="family" >
               </select>
             </div>
             <div class="nromal-wrap">
@@ -1452,7 +1452,16 @@
                             <input class="input-medium" autocomplete="off" name="wangID" type="text" placeholder="输入主旺旺或子旺旺号" />
                             <label   >不是邮箱号</label>
                           </div>
- 
+                          <div class="nromal-wrap">
+                            <label>旋转特效</label>
+                            <select    name="mrxz">
+                                <option value="" selected="selected">无效果</option>
+                                <option value="xins-mr-r">顺时针旋转</option>
+                                <option value="xins-mr-fr">逆时针旋转</option>
+                            </select>
+                            <select  class="ant-spin-v"  name="mrxzv">
+                            </select>
+                          </div>
                           <div class="nromal-wrap">
                             <label >圆角度数</label>
                             <input class="input-short"   type="text" name="bRadius" />
@@ -1487,18 +1496,7 @@
                               <span class="clear-color-button"></span>
                             </div>
                           </div>
-
-           
-                          <div class="nromal-wrap">
-                            <label>旋转特效</label>
-                            <select    name="mrxz">
-                                <option value="" selected="selected">无效果</option>
-                                <option value="xins-mr-r">顺时针旋转</option>
-                                <option value="xins-mr-fr">逆时针旋转</option>
-                            </select>
-                            <select  class="ant-spin-v"  name="mrxzv">
-                            </select>
-                          </div>
+ 
  
                         </div>
                         <div class="layui-tab-item">

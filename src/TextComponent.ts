@@ -898,6 +898,7 @@ export default class TextComponent extends Component {
         $layerElem.find('.cancel-btn').on('click', function() {
           layer.close(index)
         })
+        $layerElem.find(".sp-preview-inner").css("background-color",'')
         if (that.formData.color) {
          let $colorInput=$layerElem.find('input[type=text][name=color]')
          $colorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.color)

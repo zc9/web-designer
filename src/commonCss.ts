@@ -235,13 +235,13 @@ export function ImgBgHtml(formData) {
         jsonData.imgBgStyle=imgBgStyle !="" ?  'background:'+imgBgStyle+';' : ''
         break
       case 'full':   //自由拉伸
-        imgHtml='<img  class="sf"  src='+bgImg+'  style='+radiusStyle+' />'
+        imgHtml='<img  class="sf"  src='+bgImg+'  style="'+radiusStyle+'width:100%;height:100%;" />'
         break
       case 'scaleX':  //保持比例(只裁剪宽度)
-        imgHtml='<img  class="sx"  src='+bgImg+'  style='+radiusStyle+' />'  
+        imgHtml='<img  class="sx"  src='+bgImg+'   style="'+radiusStyle+'height:100%;"  />'  
         break
       case 'scaleY':   //保持比例(只裁剪高度)
-        imgHtml='<img  class="sy"  src='+bgImg+'  style='+radiusStyle+' />'
+        imgHtml='<img  class="sy"  src='+bgImg+'   style="'+radiusStyle+'width:100%;" />'
         break
     }
     jsonData.Html=imgHtml;

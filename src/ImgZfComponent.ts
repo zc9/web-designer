@@ -38,14 +38,14 @@ export default class ImgAntComponent extends Component {
     
     let radiusStyle=bRadius !="" ? 'border-radius:'+bRadius+'px;' :''
     //处理动画
-    let mTsDur,mTsDelay,mTsBezier,mTsBezierv,Bezier,linkhtml,mTsAnt
-    mTsAnt=''
+    let mTsDur,mTsDelay,mTsBezier,mTsBezierv,Bezier,linkhtml,$mTsAnt
+    $mTsAnt=this.formData.mTsAnt
     mTsDur=valEmpty(this.formData.mTsDur) !=""  ? this.formData.mTsDur+'s ':''
     mTsDelay=valEmpty(this.formData.mTsDelay) !=""  ?  this.formData.mTsDelay+'s ':''
     Bezier=mTsDur+BezierCss(this.formData.mTsBezier,this.formData.mTsBezierv)+mTsDelay
     Bezier=  Bezier !=""  ? 'transition:'+Bezier+';' : ''
 
-    let bgCss,bgImg,bgColor,bgPos
+    let bgCss,bgImg,bgColor,bgPos,onHtml
     bgImg=this.formData.bgImg
     bgColor=this.formData.bgColor
     bgPos=this.formData.bgPos
@@ -53,9 +53,9 @@ export default class ImgAntComponent extends Component {
     bgCss=bgImage(bgImg,bgColor,'',bgPos,'')
     bgCss=bgCss !="" ?  'background:'+bgCss+';' : ''
 
-    htmlList.push('<div class="on" style="'+bgCss+Bezier+'"></div>')
+    onHtml='<div class="on" style="'+bgCss+Bezier+'"></div>'
 
-    let mbgImg,mbgColor
+    let mbgImg,mbgColor,offHtml=''
     mbgImg=this.formData.mbgImg
     mbgColor=this.formData.mbgColor
     if(mbgImg !="" ||mbgImg !="" ){
@@ -63,9 +63,17 @@ export default class ImgAntComponent extends Component {
       mbgPos=this.formData.mbgPos
       mbgCss=bgImage(mbgImg,mbgColor,'',mbgPos,'')
       mbgCss=mbgCss !="" ?  'background:'+mbgCss+';' : ''
-      htmlList.push('<div class="off" style="'+mbgCss+Bezier+'"></div>')
-     mTsAnt=this.formData.mTsAnt
+      offHtml='<div class="off" style="'+mbgCss+Bezier+'"></div>'
+     
     }
+    if($mTsAnt=='atrans5' || $mTsAnt=='atrans6' || $mTsAnt==='atrans7' || $mTsAnt==='atrans8' || $mTsAnt==='atrans9' || $mTsAnt==='atrans19' ){
+      htmlList.push(offHtml)
+      htmlList.push(onHtml)
+    }else{
+      htmlList.push(onHtml)
+      htmlList.push(offHtml)
+     }
+
 
     let mrxz,mrxzv,mrxzCss,mrCss
      
@@ -89,8 +97,8 @@ export default class ImgAntComponent extends Component {
  
     htmlList.push(BorderData.Html)
  
-    linkhtml='<a   class="ywlink  ant-text '+mbdTsAnt+' '+mTsAnt+'" '+href+hrefMode+'  style="'+radiusStyle+'overflow: hidden;position:relative;">'+htmlList.join('')+'</a>'
-    linkhtml='<div class="yw-100'+mrxzCss+'" style="'+onShadowStyle+radiusStyle+Bezier+'">'+offShadowStyle+linkhtml+'</div>'
+    linkhtml='<a   class="ywlink  ant-text '+mbdTsAnt+' '+$mTsAnt+'" '+href+hrefMode+'  style="'+radiusStyle+'overflow: hidden;position:relative;">'+htmlList.join('')+'</a>'
+    linkhtml='<div class="yw-100'+mrxzCss+'" style="'+onShadowStyle+radiusStyle+'">'+offShadowStyle+linkhtml+'</div>'
 
     return '<div class="abs xdtb xtxc '+mrCss+'" style="top: '+top+'; left:'+left+'; width:'+width+'px; height:'+height+'px;'+radiusStyle+'" > '+linkhtml+'</div>'
   }
@@ -171,6 +179,8 @@ export default class ImgAntComponent extends Component {
         //边框
         setPopHtmlBorder($layerElem,that)
         setPopHtmlShadow($layerElem,that)
+
+
         
         if (that.formData.bgColor) {
           let $bgColorInput=$layerElem.find('input[type=text][name=bgColor]')
@@ -184,7 +194,10 @@ export default class ImgAntComponent extends Component {
         $layerElem.find('.cancel-btn').on('click', function() {
           layer.close(index)
         })
+
+        let $mrxzSelect=$layerElem.find('select[name=mrxz]').parent()
         onLinkModeChanged($layerElem, that.formData.linkMode)
+        onDisabledChanged($layerElem,$mrxzSelect,that.formData.mrxz)
   
 
       },

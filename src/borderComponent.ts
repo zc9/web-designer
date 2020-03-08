@@ -760,7 +760,6 @@ export function toHtmlBorder(formData) {
   mbbw=0
   mblw=0
   mbrw=0
-  mbdTsAnt=''
   if(mbdT==="on"){
     mbtw=mbdWidth
     pdOffStyle+='padding-top:'+btw+'px;'
@@ -792,8 +791,10 @@ export function toHtmlBorder(formData) {
   llHtml='<div class="bk-line w-ll" style="'+mbdTsAntStyle+'border-left-style:'+mbdStyle+';border-left-color:'+mbdColor+';border-left-width:'+mbdWidth+'px;"></div>'
   lrHtml='<div class="bk-line w-lr" style="'+mbdTsAntStyle+'border-right-style:'+mbdStyle+';border-right-color:'+mbdColor+';border-right-width:'+mbdWidth+'px;"></div>'
 
-  if((mbdTsAnt=='bdtx0' || mbdTsAnt=='bdtx1') && (mbdT==="on" || mbdB==="on" || mbdL==="on" || mbdR==="on")){
-    htmlList.push(almHtml)
+  if(mbdTsAnt=='bdtx0' || mbdTsAnt=='bdtx1'){
+    if(mbdT==="on" || mbdB==="on" || mbdL==="on" || mbdR==="on"){
+     htmlList.push(almHtml)
+    }
   }else{
     if(mbdT==="on"){
       htmlList.push(ltHtml)

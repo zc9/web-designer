@@ -1,6 +1,9 @@
 import Component from './Component';
 import { setFontOption } from './common';
-import {boxShadow,bgImage,valInt,onTongBuBd,valEmpty,textLine,ShadowStyle,BorderHtml} from './commonCss'
+import {bgImage,valInt,valEmpty,textLine} from './commonCss'
+import { initPorpBorder,updateBorder,updatePropBorder,editPopHtmlBorder,setPopHtmlBorder,editSideHtmlBorder,toHtmlBorder} from './borderComponent';
+import { updateShadow,editPopHtmlShadow,setPopHtmlShadow,toHtmlShadow} from './shadowComponent';
+
 export default class TextComponent extends Component {
 　$content: JQuery
   constructor() {
@@ -124,12 +127,12 @@ export default class TextComponent extends Component {
     let radiusStyle=bRadius !="" ? 'border-radius:'+bRadius+'px;' :''
 
     //处理 阴影
-    let shadowDataStyle = ShadowStyle(this.formData)
-    let onShadowStyle=shadowDataStyle.onShadow
-    let offShadowHtml= shadowDataStyle.offShadow
+    let shadowData = toHtmlShadow(this.formData)
+    let onShadowStyle=shadowData.onShadow
+    let offShadowHtml= shadowData.offShadow
     //处理 边框
     let mbdTsAnt=valEmpty(this.formData.mbdTsAnt)
-    let BorderData = BorderHtml(this.formData)
+    let BorderData = toHtmlBorder(this.formData)
     let bdpdStyle=BorderData.bdpdStyle
     let mbdpdStyle=BorderData.mbdpdStyle
     let bdHtml=BorderData.Html
@@ -147,7 +150,7 @@ export default class TextComponent extends Component {
     fStyle=valEmpty(this.formData.fStyle) !="" ? 'font-style:'+this.formData.fStyle+';' :''
     align=valEmpty(this.formData.align) !="" ? 'text-align:'+this.formData.align+';' :''
     
-    bgColor=valEmpty(this.formData.bgColor)
+    bgColor=valEmpty(this.formData.bgColor) 
     bgImg=valEmpty(this.formData.bgImg)
     bgRep=valEmpty(this.formData.bgRep)  
     bgPos=valEmpty(this.formData.bgPos)
@@ -448,6 +451,7 @@ export default class TextComponent extends Component {
     $propPanel.find('*').off()
 
     setFontOption($propPanel.find('.font-select'))
+    editSideHtmlBorder($propPanel.find('.side-item-border'))
 
     this.updatePropPanel();
     //收缩 重新加载
@@ -609,50 +613,8 @@ export default class TextComponent extends Component {
       that.formData.mTsAnt = val
       that.update(that.formData)
     })
-    // 以下是默认边框
-    let $bdTCheckBox = $propPanel.find('input[type=checkbox][name=bdT]')
-    $bdTCheckBox.change(function() {
-      let val = $(this).is(':checked')
-      that.formData.bdT = val ? 'on' : ''
-      that.update(that.formData)
-    })
-    let $bdBCheckBox = $propPanel.find('input[type=checkbox][name=bdB]')
-    $bdBCheckBox.change(function() {
-      let val = $(this).is(':checked')
-      that.formData.bdB = val ? 'on' : ''
-      that.update(that.formData)
-    })
-    let $bdLCheckBox = $propPanel.find('input[type=checkbox][name=bdL]')
-    $bdLCheckBox.change(function() {
-      let val = $(this).is(':checked')
-      that.formData.bdL = val ? 'on' : ''
-      that.update(that.formData)
-    })
-    let $bdRCheckBox = $propPanel.find('input[type=checkbox][name=bdR]')
-    $bdRCheckBox.change(function() {
-      let val = $(this).is(':checked')
-      that.formData.bdR = val ? 'on' : ''
-      that.update(that.formData)
-    })
 
-    let $bdWidthInput = $propPanel.find('input[type=text][name=bdWidth]')
-    $bdWidthInput.change(function() {
-      let val = $(this).val()
-      that.formData.bdWidth = val
-      that.update(that.formData)
-    })
-    let $bdColorInput = $propPanel.find('input[type=text][name=bdColor]')
-    $bdColorInput.change(function() {
-      let val = $(this).val()
-      that.formData.bdColor = val
-      that.update(that.formData)
-    })
-    let $bdStyleRadio = $propPanel.find('input[type=radio][name=bdStyle]')
-    $bdStyleRadio.change(function() {
-      let val = $(this).prop('value')
-      that.formData.bdStyle = val
-      that.update(that.formData)
-    })
+
 
     //正反  文字对齐 事件
     let $alignRadio = $propPanel.find('.font-setting .font-item-radio')
@@ -785,69 +747,9 @@ export default class TextComponent extends Component {
       that.updatePreviewStyle($(this))
     })
 
-
-    // 以下是经过边框
-    let $mbdTCheckBox = $propPanel.find('input[type=checkbox][name=mbdT]')
-    $mbdTCheckBox.change(function() {
-      let val = $(this).is(':checked')
-      that.formData.mbdT = val ? 'on' : ''
-      that.update(that.formData)
-    })
-    let $mbdBCheckBox = $propPanel.find('input[type=checkbox][name=mbdB]')
-    $mbdBCheckBox.change(function() {
-      let val = $(this).is(':checked')
-      that.formData.mbdB = val ? 'on' : ''
-      that.update(that.formData)
-    })
-    let $mbdLCheckBox = $propPanel.find('input[type=checkbox][name=mbdL]')
-    $mbdLCheckBox.change(function() {
-      let val = $(this).is(':checked')
-      that.formData.mbdL = val ? 'on' : ''
-      that.update(that.formData)
-    })
-    let $mbdRCheckBox = $propPanel.find('input[type=checkbox][name=mbdR]')
-    $mbdRCheckBox.change(function() {
-      let val = $(this).is(':checked')
-      that.formData.mbdR = val ? 'on' : ''
-      that.update(that.formData)
-    })
-    let $mbdWidthInput = $propPanel.find('input[type=text][name=mbdWidth]')
-    $mbdWidthInput.change(function() {
-      let val = $(this).val()
-      that.formData.mbdWidth = val
-      that.update(that.formData)
-    })
-    let $mbdColorInput = $propPanel.find('input[type=text][name=mbdColor]')
-    $mbdColorInput.change(function() {
-      let val = $(this).val()
-      that.formData.mbdColor = val
-      that.update(that.formData)
-    })
-    let $mbdStyleRadio = $propPanel.find('input[type=radio][name=mbdStyle]')
-    $mbdStyleRadio.change(function() {
-      let val = $(this).prop('value')
-      that.formData.mbdStyle = val
-      that.update(that.formData)
-    })
-    //边框动画
-    let $mbdTsDurInput = $propPanel.find('input[type=text][name=mbdTsDur]')
-    $mbdTsDurInput.change(function() {
-      let val = $(this).val()
-      that.formData.mbdTsDur = val
-      that.update(that.formData)
-    })
-    let $mbdTsFunRadio = $propPanel.find('input[type=radio][name=mbdTsFun]')
-    $mbdTsFunRadio.change(function() {
-      let val = $(this).prop('value')
-      that.formData.mbdTsFun = val
-      that.update(that.formData)
-    })
-    let $mbdTsAntRadio = $propPanel.find('input[type=radio][name=mbdTsAnt]')
-    $mbdTsAntRadio.change(function() {
-      let val = $(this).prop('value')
-      that.formData.mbdTsAnt = val
-      that.update(that.formData)
-    })
+    //边框初始化
+    initPorpBorder($propPanel,that)
+   
 
     //同步文字样式
     $propPanel.find('.font-synchronous').on('click', function() {
@@ -865,18 +767,7 @@ export default class TextComponent extends Component {
       })
     })
 
-    $propPanel.find('.layui-btn-sm').on('click', function() {
-      let layer = layui.layer
-      layer.msg('你确定  同步默文 边框样式么？', {
-        time: 0 //不自动关闭
-        ,btn: ['同步', '取消']
-        ,yes: function(index){
-          onTongBuBd($propPanel,true,that);
-          that.update(that.formData)
-          layer.close(index)
-        }
-      });
-    })
+ 
 
     $propPanel.find('.editor-btns').on('click', function() {
       that.openEditDialog()
@@ -898,7 +789,14 @@ export default class TextComponent extends Component {
         $layerElem.find('.cancel-btn').on('click', function() {
           layer.close(index)
         })
+        editPopHtmlBorder($layerElem.find('.pop-item-border'))
+        editPopHtmlShadow($layerElem.find('.pop-item-shadow'))
+
         $layerElem.find(".sp-preview-inner").css("background-color",'')
+        //边框
+        setPopHtmlBorder($layerElem,that)
+        setPopHtmlShadow($layerElem,that)
+
         if (that.formData.color) {
          let $colorInput=$layerElem.find('input[type=text][name=color]')
          $colorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.color)
@@ -915,15 +813,7 @@ export default class TextComponent extends Component {
          let $mbgColorInput=$layerElem.find('input[type=text][name=mbgColor]')
          $mbgColorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.mbgColor)
         }
-        //边框
-        if (that.formData.bdColor) {
-         let $bdColorInput=$layerElem.find('input[type=text][name=bdColor]')
-         $bdColorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.bdColor)
-        }
-        if (that.formData.mbdColor) {
-         let $mbdColorInput=$layerElem.find('input[type=text][name=mbdColor]')
-         $mbdColorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.mbdColor)
-        }
+       
         if(that.formData.weight=="600"){
           $layerElem.find('.font-z .font-item-checkbox:eq(0)').addClass('active')
         }
@@ -980,18 +870,7 @@ export default class TextComponent extends Component {
             }
           });
         })
-        $layerElem.find('.layui-btn-sm').on('click', function() {
-          let form = layui.form
-          layer.msg('你确定  同步默文 边框样式么？', {
-            time: 0 //不自动关闭
-            ,btn: ['同步', '取消']
-            ,yes: function(index){
-              onTongBuBd($layerElem,false,that);
-              form.render();
-              layer.close(index)
-            }
-          });
-        })
+        
       },
       content: `<form class="layui-form" lay-filter="textComponentForm">
         <div class="layui-tab layui-tab-brief">
@@ -1191,219 +1070,11 @@ export default class TextComponent extends Component {
                 </div>
               </div>
             </div>
-            <div  class="layui-tab-item">
-              <div class="layui-tab layui-side-card">
-                <ul class="layui-tab-title"  >
-                  <li class="layui-this" style="margin-top: 110px;">默认边框</li>
-                  <li class="">鼠标划过动画</li>
-                </ul>
-                <div class="layui-tab-content" style="height: 400px;">
-                  <div class="layui-tab-item layui-show">
-                    <fieldset class="layui-elem-field" style="margin-top:20px;">
-                      <legend>默认边框</legend>
-                      <div class="layui-field-box">
-                        <div class="layui-form-item"  >
-                          <label class="layui-form-label">边框显示</label>
-                          <div class="layui-input-block">
-                            <input type="checkbox" name="bdT" value="on" lay-skin="primary" title="上边"  >
-                            <input type="checkbox" name="bdB" value="on" lay-skin="primary" title="下边">
-                            <input type="checkbox" name="bdL" value="on" lay-skin="primary" title="左边" >
-                            <input type="checkbox" name="bdR" value="on" lay-skin="primary" title="右边"  >
-                          </div>
-                        </div>
-                        <div class="layui-form-item"  >
-                          <label class="layui-form-label">边框粗细</label>
-                          <div class="layui-input-inline input-short" style="width:80px;"><input name="bdWidth" type="text" class="layui-input"></div>
-                          <label class="layui-form-label">边框颜色</label>
-                          <div class="layui-input-inline pagecolorpanel input-short"  >
-                            <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner"></div></div></div>
-                            <input name="bdColor" type="text" class="layui-input pagecolor">
-                            <span class="clear-color-button"></span>
-                          </div>
-                        </div>
-                        <div class="layui-form-item">
-                          <label class="layui-form-label">边框样式</label>
-                          <div class="layui-input-block">
-                            <input type="radio" name="bdStyle" lay-filter="bdStyle" value="solid" title="实线" checked="">
-                            <input type="radio" name="bdStyle" lay-filter="bdStyle" value="dotted" title="细虚线">
-                            <input type="radio" name="bdStyle" lay-filter="bdStyle" value="dashed" title="粗虚线">
-                          </div>
-                        </div>
-                      </div>
-                    </fieldset>
-                    <fieldset class="layui-elem-field" style="margin-top:20px;">
-                      <legend>
-                        <span  style="margin-right:15px;  display:inline-block"> 鼠标_移上边框 </span>
-                        <button type="button" class="layui-btn layui-btn-sm">同步默认边框</button>
-                      </legend>
-                      <div class="layui-field-box">
-                        <div class="layui-form-item"  >
-                          <label class="layui-form-label">边框显示</label>
-                          <div class="layui-input-block">
-                            <input type="checkbox" name="mbdT" value="on" lay-skin="primary" title="上边"  >
-                            <input type="checkbox" name="mbdB" value="on" lay-skin="primary" title="下边">
-                            <input type="checkbox" name="mbdL" value="on" lay-skin="primary" title="左边" >
-                            <input type="checkbox" name="mbdR" value="on" lay-skin="primary" title="右边"  >
-                          </div>
-                        </div>
-                        <div class="layui-form-item"  >
-                          <label class="layui-form-label">边框粗细</label>
-                          <div class="layui-input-inline input-short" style="width:80px;"><input name="mbdWidth" type="text" class="layui-input"></div>
-                          <label class="layui-form-label">边框颜色</label>
-                          <div class="layui-input-inline pagecolorpanel input-short"  >
-                            <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner"></div></div></div>
-                            <input name="mbdColor" type="text" class="layui-input pagecolor">
-                            <span class="clear-color-button"></span>
-                          </div>
-                        </div>
-                        <div class="layui-form-item">
-                          <label class="layui-form-label">边框样式</label>
-                          <div class="layui-input-block">
-                            <input type="radio" name="mbdStyle" lay-filter="mbdStyle" value="solid" title="实线" checked="">
-                            <input type="radio" name="mbdStyle" lay-filter="mbdStyle" value="dotted" title="细虚线">
-                            <input type="radio" name="mbdStyle" lay-filter="mbdStyle" value="dashed" title="粗虚线">
-                          </div>
-                        </div>
-                      </div>
-                    </fieldset>
-                  </div>
-                  <div class="layui-tab-item ">
-                    <fieldset  class="layui-elem-field" style="margin-top:25px;">
-                      <legend>
-                        动画时长
-                        <input class="input-short"  type="text" name="mbdTsDur"  style="width:50px; height:20px; margin-left:10px; padding-left:5px;" />
-                        <label class="label-con">秒</label>
-                      </legend>
-                      <div class="layui-field-box">
-                        <input class="radio-medium" type="radio" name="mbdTsFun" value="linear"  title="匀速">
-                        <input class="radio-medium" type="radio" name="mbdTsFun" value="ease"  title="逐渐变慢">
-                        <input class="radio-medium" type="radio" name="mbdTsFun" value="ease-in"   title="减速">
-                        <div class="sepline"></div>
-                        <input class="radio-medium" type="radio" name="mbdTsFun" value="ease-out"   title="加速">
-                        <input class="radio-medium" type="radio" name="mbdTsFun" value="ease-in-out"   title="加速后减速">
-                        <input class="radio-medium" type="radio" name="mbdTsFun" value="cubic-bezier"   title="动感弹跳">
-                      </div>
-                    </fieldset>
-                    <fieldset  class="layui-elem-field" style="margin-top:25px;">
-                      <legend>动画效果</legend>
-                      <div class="layui-field-box">
-                        <input class="radio-medium" type="radio" name="mbdTsAnt"  value="bdtx0" title="直接切换">
-                        <input class="radio-medium" type="radio" name="mbdTsAnt"  value="bdtx1" title="渐隐渐显" >
-                        <div class="sepline"></div>
-                        <input class="radio-medium" type="radio" name="mbdTsAnt"  value="bdtx4"  title="左对角线切入">
-                        <input class="radio-medium" type="radio" name="mbdTsAnt"  value="bdtx5"  title="右对角线切入">
-                        <div class="sepline"></div>
-                        <input class="radio-medium" type="radio" name="mbdTsAnt"  value="bdtx6"  title="顺时针出现">
-                        <input class="radio-medium" type="radio" name="mbdTsAnt"  value="bdtx7"  title="逆时针出现">
-                        <div class="sepline"></div>
-                        <input class="radio-medium" type="radio" name="mbdTsAnt"  value="bdtx8"  title="由点到线">
-                        <input class="radio-medium" type="radio" name="mbdTsAnt"  value="bdtx9"  title="由点到面">
-                      </div>
-                    </fieldset>
-                  </div>
-                </div>
-              </div>
+            <div  class="layui-tab-item pop-item-border">
+              
             </div>
-            <div class="layui-tab-item">
-              <div class="layui-tab layui-side-card">
-                <ul class="layui-tab-title"  >
-                  <li class="layui-this" style="margin-top: 110px;">默认阴影</li>
-                  <li class="">鼠标划过阴影</li>
-                </ul>
-                <div class="layui-tab-content" style="height: 400px;">
-                  <div class="layui-tab-item layui-show">
-                       
-                    <div class="layui-form-item" style="margin-top:30px;">
-                      <label class="layui-form-label">阴影</label>
-                      <div class="layui-input-inline">
-                        <input class="radio-medium" type="radio" name="shadow" value="on"  title="显示">
-                        <input class="radio-medium" type="radio" name="shadow" value="off"  title="隐藏">
-                      </div>
-                    </div>
-                    <div class="layui-form-item">
-                      <label class="layui-form-label">阴影大小</label>
-                      <div class="layui-input-inline">
-                        <input type="text" name="sdSize" class="layui-input">
-                      </div>
-                    </div>
-                     <div class="layui-form-item">
-                      <label class="layui-form-label">模糊距离</label>
-                      <div class="layui-input-inline">
-                        <input type="text" name="sdBlur" class="layui-input">
-                      </div>
-                    </div>
-                    <div class="layui-form-item">
-                      <label class="layui-form-label">水平阴影距离</label>
-                      <div class="layui-input-inline">
-                        <input type="text" name="sdX" class="layui-input">
-                      </div>
-                    </div>
-                    <div class="layui-form-item">
-                      <label class="layui-form-label">垂直阴影距离</label>
-                      <div class="layui-input-inline">
-                        <input type="text" name="sdY" class="layui-input">
-                      </div>
-                    </div>
-                    <div class="layui-form-item"  >
-                      <label class="layui-form-label">阴影颜色</label>
-                      <div class="layui-input-inline pagecolorpanel"  >
-                        <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner"></div></div></div>
-                        <input name="sdColor" type="text" class="layui-input pagecolor">
-                        <span class="clear-color-button"></span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="layui-tab-item">
-                       
-                    <div class="layui-form-item" style="margin-top:30px;">
-                      <label class="layui-form-label">阴影</label>
-                      <div class="layui-input-inline">
-                        <input class="radio-medium" type="radio" name="mshadow" value="on"  title="显示">
-                        <input class="radio-medium" type="radio" name="mshadow" value="off"  title="隐藏">
-                      </div>
-                    </div>
-                    <div class="layui-form-item">
-                      <label class="layui-form-label">阴影大小</label>
-                      <div class="layui-input-inline">
-                        <input type="text" name="msdSize" class="layui-input">
-                      </div>
-                    </div>
-                     <div class="layui-form-item">
-                      <label class="layui-form-label">模糊距离</label>
-                      <div class="layui-input-inline">
-                        <input type="text" name="msdBlur" class="layui-input">
-                      </div>
-                    </div>
-                    <div class="layui-form-item">
-                      <label class="layui-form-label">水平阴影距离</label>
-                      <div class="layui-input-inline">
-                        <input type="text" name="msdX" class="layui-input">
-                      </div>
-                    </div>
-                    <div class="layui-form-item">
-                      <label class="layui-form-label">垂直阴影距离</label>
-                      <div class="layui-input-inline">
-                        <input type="text" name="msdY" class="layui-input">
-                      </div>
-                    </div>
-                    <div class="layui-form-item"  >
-                      <label class="layui-form-label">阴影颜色</label>
-                      <div class="layui-input-inline pagecolorpanel"  >
-                        <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner"></div></div></div>
-                        <input name="msdColor" type="text" class="layui-input pagecolor">
-                        <span class="clear-color-button"></span>
-                      </div>
-                    </div>
-                    <div class="layui-form-item">
-                      <label class="layui-form-label">划过显示速度</label>
-                      <div class="layui-input-inline" style="width:230px;">
-                        <input type="text" name="msdTsDur" class="layui-input input-short"  style="width:105px;display:inline-block;">
-                        <span style="color:red;">单位 秒   可以小数点</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div class="layui-tab-item pop-item-shadow">
+               
             </div>
             <div class="layui-tab-item">
               <fieldset  class="layui-elem-field">
@@ -1487,36 +1158,9 @@ export default class TextComponent extends Component {
     let that = this
     let bRadius=this.formData.bRadius;
 
-    //默认阴影
-    if(formData.shadow ==="on"){
-      let sdX=formData.sdX ? formData.sdX: 0
-      let sdY=formData.sdY ? formData.sdY: 0
-      let bShadow=boxShadow(sdX,sdY,formData.sdBlur,formData.sdSize,formData.sdColor)
-      that.$content.css('box-shadow', bShadow)
-    }else{
-     that.$content.css('box-shadow','none')
-    }
-    //移上阴影
-    let $mchildPanel=that.$contentBox.find(".mchild")
-    if(formData.mshadow ==="on"){
-      let sdX=formData.msdX ? formData.msdX: 0
-      let sdY=formData.msdY ? formData.msdY: 0
-      let mbShadow=boxShadow(sdX,sdY,formData.msdBlur,formData.msdSize,formData.msdColor)
-      
-      if($mchildPanel.length <=0)
-        that.$content.before("<div class='abs mchild xins-box-fadein'></div>")
-
-      $mchildPanel=that.$contentBox.find(".mchild")
-
-      $mchildPanel.css('box-shadow', mbShadow)
-      $mchildPanel.css('border-radius', bRadius)
-
-      let msdTsDur=formData.msdTsDur ? formData.msdTsDur+'s linear': 0
-      $mchildPanel.css('transition', msdTsDur)
-    }else{
-      $mchildPanel.remove()
-    }
-
+    updateShadow(this.$content,formData)
+    //处理边框
+    updateBorder(this.$content,formData)
     
     let deline=this.formData.uLine;
     if(this.formData.oLine){
@@ -1617,175 +1261,8 @@ export default class TextComponent extends Component {
     }
       $offPanel=this.$contentBox.find(".off")
 
-
-    //处理边框
-    let isDefBk=false;
-    let $textPanel=this.$contentBox.find(".ywlink")
-    $textPanel.css('border-radius',parseInt(bRadius))
-
-    let bdWidth=this.formData.bdWidth !="" ? parseInt(this.formData.bdWidth) : '';
-    let $alPanel=this.$contentBox.find(".bk-aline")
-    if (this.formData.bdT==="on" || this.formData.bdB==="on" ||this.formData.bdL==="on"||this.formData.bdR==="on"){
-      if($alPanel.length <=0)
-        $textPanel.append("<div class='bk-aline'></div>")
-      $alPanel=this.$contentBox.find(".bk-aline")
-      $alPanel.css('border-radius',parseInt(bRadius))
-
-
-      if(this.formData.bdT==="on"){
-        $alPanel.css('border-top-width', bdWidth)
-        $defPanel.css('padding-top', bdWidth)
-      }else{
-        $alPanel.css('border-top-width', 0)
-        $defPanel.css('padding-top', 0)
-      }
-      if(this.formData.bdB==="on"){
-        $alPanel.css('border-bottom-width', bdWidth)
-        $defPanel.css('padding-bottom', bdWidth)
-      }else{
-        $alPanel.css('border-bottom-width', 0)
-        $defPanel.css('padding-bottom', 0)
-      }
-      if(this.formData.bdL==="on"){
-        $alPanel.css('border-Left-width', bdWidth)
-        $defPanel.css('padding-Left', bdWidth)
-      }else{
-        $alPanel.css('border-Left-width', 0)
-        $defPanel.css('padding-Left', 0)
-      }
-      if(this.formData.bdR==="on"){
-        $alPanel.css('border-right-width', bdWidth)
-        $defPanel.css('padding-right', bdWidth)
-      }else{
-        $alPanel.css('border-right-width', 0)
-        $defPanel.css('padding-right', 0)
-      }
-      $alPanel.css('border-style', this.formData.bdStyle)
-      $alPanel.css('border-color', this.formData.bdColor)
-    }else{
-        $alPanel.remove()
-        isDefBk=true
-    }
-
-
-    let mbdTsAntVal=this.$content.attr("mbdTsAnt")
-    this.$content.removeClass(mbdTsAntVal);
-    this.$content.addClass(this.formData.mbdTsAnt)
-    this.$content.attr("mbdTsAnt",this.formData.mbdTsAnt)
-
-    if(this.formData.mbdT ==="on" || this.formData.mbdB==="on" ||this.formData.mbdL==="on"||this.formData.mbdR==="on" ){
-      let mbdTsFunVal=this.formData.mbdTsFun==='cubic-bezier'  ? 'cubic-bezier(0.52, 1.64, 0.37, 0.66)' : this.formData.mbdTsFun
-      let mbdTsDurVal=this.formData.mbdTsDur+'s'
-
-      const mbdWidth=this.formData.mbdWidth !="" ? parseInt(this.formData.mbdWidth) : '';
-      const mbdStyle=this.formData.mbdStyle
-      const mbdColor=this.formData.mbdColor
-
-
-
-      let $mlPanel=this.$contentBox.find(".bk-mline")
-      if($mlPanel.length <=0) $textPanel.append("<div class='bk-mline'></div>")
-      $mlPanel=this.$contentBox.find(".bk-mline")
-      $mlPanel.css('border-radius',parseInt(bRadius))
-      $mlPanel.css('border-color', mbdColor)
-      $mlPanel.css('border-style', mbdStyle)
-      $mlPanel.css('transition-timing-function',mbdTsFunVal)
-      $mlPanel.css('transition-duration',mbdTsDurVal)
-
-      let $ltPanel=this.$contentBox.find(".w-lt")
-      if(this.formData.mbdT==="on"){
-        if($ltPanel.length <=0)
-          $textPanel.append("<div class='bk-line  w-lt'></div>")
-          $ltPanel=this.$contentBox.find(".w-lt")
-          $ltPanel.css('border-top-width',mbdWidth)
-          $ltPanel.css('border-top-style',mbdStyle)
-          $ltPanel.css('border-top-color',mbdColor)
-          $ltPanel.css('transition-timing-function',mbdTsFunVal)
-          $ltPanel.css('transition-duration',mbdTsDurVal)
-          $offPanel.css('padding-top', mbdWidth)
-          $mlPanel.css('border-top-width', mbdWidth)
-
-          if(isDefBk) $defPanel.css('padding-top', mbdWidth)
-
-      }else{
-        $offPanel.css('padding-top', 0)
-        $mlPanel.css('border-top-width', 0)
-        if(isDefBk) $defPanel.css('padding-top', 0)
-        $ltPanel.remove()
-
-      }
-      let $lbPanel=this.$contentBox.find(".w-lb")
-      if(this.formData.mbdB==="on"){
-        if($lbPanel.length <=0)
-          $textPanel.append("<div class='bk-line  w-lb'></div>")
-          $lbPanel=this.$contentBox.find(".w-lb")
-          $lbPanel.css('border-bottom-width',mbdWidth)
-          $lbPanel.css('border-bottom-style',mbdStyle)
-          $lbPanel.css('border-bottom-color',mbdColor)
-          $lbPanel.css('transition-timing-function',mbdTsFunVal)
-          $lbPanel.css('transition-duration',mbdTsDurVal)
-          $offPanel.css('padding-bottom', mbdWidth)
-          $mlPanel.css('border-bottom-width', mbdWidth)
-          if(isDefBk) $defPanel.css('padding-bottom', mbdWidth)
-      }else{
-
-        $offPanel.css('padding-bottom', 0)
-        $mlPanel.css('border-bottom-width', 0)
-        if(isDefBk) $defPanel.css('padding-bottom', 0)
-        $lbPanel.remove()
-      }
-      let $llPanel=this.$contentBox.find(".w-ll")
-      if(this.formData.mbdL==="on"){
-        if($llPanel.length <=0)
-          $textPanel.append("<div class='bk-line  w-ll'></div>")
-          $llPanel=this.$contentBox.find(".w-ll")
-          $llPanel.css('border-left-width',mbdWidth)
-          $llPanel.css('border-left-style',mbdStyle)
-          $llPanel.css('border-left-color',mbdColor)
-          $llPanel.css('transition-timing-function',mbdTsFunVal)
-          $llPanel.css('transition-duration',mbdTsDurVal)
-          $offPanel.css('padding-left', mbdWidth)
-          $mlPanel.css('border-left-width',mbdWidth)
-          if(isDefBk) $defPanel.css('padding-left', mbdWidth)
-
-      }else{
-
-        $offPanel.css('padding-left', 0)
-        $mlPanel.css('border-left-width',0)
-        if(isDefBk) $defPanel.css('padding-left', 0)
-        $llPanel.remove()
-      }
-      let $lrPanel=this.$contentBox.find(".w-lr")
-      if(this.formData.mbdR==="on"){
-        if($lrPanel.length <=0)
-          $textPanel.append("<div class='bk-line  w-lr'></div>")
-          $lrPanel=this.$contentBox.find(".w-lr")
-          $lrPanel.css('border-right-width',mbdWidth)
-          $lrPanel.css('border-right-style',mbdStyle)
-          $lrPanel.css('border-right-color',mbdColor)
-          $lrPanel.css('transition-timing-function',mbdTsFunVal)
-          $lrPanel.css('transition-duration',mbdTsDurVal)
-          $offPanel.css('padding-right', mbdWidth)
-          $mlPanel.css('border-right-width',mbdWidth)
-          if(isDefBk) $defPanel.css('padding-right', mbdWidth)
-
-      }else{
-        $offPanel.css('padding-right', 0)
-        $mlPanel.css('border-right-width',0)
-        if(isDefBk) $defPanel.css('padding-right', 0)
-        $lrPanel.remove()
-      }
-
-      //以上所有边框加上
-      if(this.formData.mbdTsAnt ==="bdtx0" || this.formData.mbdTsAnt ==="bdtx1"){
-        $ltPanel.remove()
-        $lbPanel.remove()
-        $llPanel.remove()
-        $lrPanel.remove()
-      }else{
-        $mlPanel.remove()
-      }
-    }
+ 
+   
   }
   updatePropPanel(){
     let that = this

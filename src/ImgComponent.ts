@@ -26,11 +26,11 @@ export default class ImgComponent extends Component {
 
     bRadius=valEmpty(this.formData.bRadius)
     href=valEmpty(this.formData.href)
-    hrefMode=valEmpty(this.formData.hrefMode)
+    hrefMode=valEmpty(this.formData.hrefMode) =="_blank" ? ' target="_blank"' :''
 
     linkMode=valEmpty(this.formData.linkMode)
     wangID=valEmpty(this.formData.wangID)
-    url=wwUrl(href,linkMode,wangID,22);
+    url=wwUrl(href,linkMode,wangID,22) !="" ? ' href="'+url+'"' :''
     
     let radiusStyle=bRadius !="" ? 'border-radius:'+bRadius+'px;' :''
      //图片处理
@@ -44,9 +44,10 @@ export default class ImgComponent extends Component {
     htmlList.push(shadowData.offShadow)
 
     //处理 边框
-    let mbdTsAnt=valEmpty(this.formData.mbdTsAnt)
+    let mbdTsAnt= valEmpty(this.formData.mbdTsAnt)
     let BorderData = toHtmlBorder(this.formData)
     htmlList.push(BorderData.Html)
+
 
     //特效动画处理
     let shakeCss="";
@@ -59,9 +60,11 @@ export default class ImgComponent extends Component {
       shakeCss=' mshake';
       animCss=valEmpty(this.formData.animType)+valEmpty(this.formData.animRange)+' ';
     }
+    let htmlLink=htmlList.join('')
+ 
     
    
-    return '<div class="abs xdtb '+animCss+'" style="top: '+top+'; left:'+left+'; width:'+width+'px; height:'+height+'px;'+imgBgStyle+animStyle+onShadowStyle+radiusStyle+'" > <a '+tipText+' class="abs ywlink '+mbdTsAnt+'" href="'+url+'" target="'+hrefMode+'">'+htmlList.join('')+'</a></div>'
+    return '<div class="abs xdtb '+animCss+' '+mbdTsAnt+'" style="top: '+top+'; left:'+left+'; width:'+width+'px; height:'+height+'px;'+animStyle+radiusStyle+'" ><a '+tipText+' class="ywlink '+shakeCss+'" '+url+hrefMode+' style="'+imgBgStyle+onShadowStyle+'">'+htmlLink+'</a></div>'
 
 /*
     return `

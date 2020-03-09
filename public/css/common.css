@@ -1,40 +1,40 @@
 *, :after, :before {box-sizing: border-box; }
-.abs{position:absolute;}z
+.abs{position:absolute;}
 .xins-x-shake-s:hover{margin-left:-5px;}
-.xins-x-shake-s:hover .shake{margin-left:5px;}
+.xins-x-shake-s:hover .mshake{margin-left:5px;}
 .xins-x-shake-m:hover{margin-left:-20px;}
-.xins-x-shake-m:hover .shake{margin-left:20px;}
+.xins-x-shake-m:hover .mshake{margin-left:20px;}
 .xins-x-shake-l:hover{margin-left:-50px;}
-.xins-x-shake-l:hover .shake{margin-left:50px;}
+.xins-x-shake-l:hover .mshake{margin-left:50px;}
 
 .xins-y-shake-s:hover{margin-top:-5px;}
-.xins-y-shake-s:hover .shake{margin-top:5px;}
+.xins-y-shake-s:hover .mshake{margin-top:5px;}
 .xins-y-shake-m:hover{margin-top:-20px;}
-.xins-y-shake-m:hover .shake{margin-top:20px;}
+.xins-y-shake-m:hover .mshake{margin-top:20px;}
 .xins-y-shake-l:hover{margin-top:-50px;}
-.xins-y-shake-l:hover .shake{margin-top:50px;}
+.xins-y-shake-l:hover .mshake{margin-top:50px;}
 
 .xins-r-shake-s:hover{-webkit-transform:rotate(5deg);transform:rotate(5deg);}
-.xins-r-shake-s:hover .shake{-webkit-transform:rotate(-5deg);transform:rotate(-5deg);}
+.xins-r-shake-s:hover .mshake{-webkit-transform:rotate(-5deg);transform:rotate(-5deg);}
 .xins-r-shake-m:hover{-webkit-transform:rotate(15deg);transform:rotate(15deg);}
-.xins-r-shake-m:hover .shake{-webkit-transform:rotate(-15deg);transform:rotate(-15deg);}
+.xins-r-shake-m:hover .mshake{-webkit-transform:rotate(-15deg);transform:rotate(-15deg);}
 .xins-r-shake-l:hover{-webkit-transform:rotate(30deg);transform:rotate(30deg);}
-.xins-r-shake-l:hover .shake{-webkit-transform:rotate(-30deg);transform:rotate(-30deg);}
+.xins-r-shake-l:hover .mshake{-webkit-transform:rotate(-30deg);transform:rotate(-30deg);}
 
 .xins-s-shake-s:hover{-webkit-transform:scale(1.0989,1.0989);transform:scale(1.0989,1.0989);}
-.xins-s-shake-s:hover .shake{-webkit-transform:scale(0.91,0.91);transform:scale(0.91,0.91);}
+.xins-s-shake-s:hover .mshake{-webkit-transform:scale(0.91,0.91);transform:scale(0.91,0.91);}
 .xins-s-shake-m:hover{-webkit-transform:scale(1.25,1.25);transform:scale(1.25,1.25);}
-.xins-s-shake-m:hover .shake{-webkit-transform:scale(0.8,0.8);transform:scale(0.8,0.8);}
+.xins-s-shake-m:hover .mshake{-webkit-transform:scale(0.8,0.8);transform:scale(0.8,0.8);}
 .xins-s-shake-l:hover{-webkit-transform:scale(1.5625,1.5625);transform:scale(1.5625,1.5625);}
-.xins-s-shake-l:hover .shake{-webkit-transform:scale(0.64,0.64);transform:scale(0.64,0.64);}
+.xins-s-shake-l:hover .mshake{-webkit-transform:scale(0.64,0.64);transform:scale(0.64,0.64);}
 
 
 .xins-n-shake-s:hover{-webkit-transform:scale(1.25,0.8);transform:scale(1.25,0.8);}
-.xins-n-shake-s:hover .shake{-webkit-transform:scale(0.8,1.25);transform:scale(0.8,1.25);}
+.xins-n-shake-s:hover .mshake{-webkit-transform:scale(0.8,1.25);transform:scale(0.8,1.25);}
 .xins-n-shake-m:hover{-webkit-transform:scale(1.5625,0.64);transform:scale(1.5625,0.64);}
-.xins-n-shake-m:hover .shake{-webkit-transform:scale(0.64,1.5625);transform:scale(0.64,1.5625);}
+.xins-n-shake-m:hover .mshake{-webkit-transform:scale(0.64,1.5625);transform:scale(0.64,1.5625);}
 .xins-n-shake-l:hover{-webkit-transform:scale(2,0.5);transform:scale(2,0.5);}
-.xins-n-shake-l:hover .shake{-webkit-transform:scale(0.5,2);transform:scale(0.5,2);}
+.xins-n-shake-l:hover .mshake{-webkit-transform:scale(0.5,2);transform:scale(0.5,2);}
 
 /*单图*/
 .ywlink{display: block;width: 100%;height: 100%;}

@@ -1,3 +1,4 @@
+ import {isEmpty} from './common';
 /*旺旺链接*/
 export function wwUrl(url,mode,whao,stype){
   return mode =="wwlink" ? '//amos.alicdn.com/msg.aw?&v=2&uid='+whao+'&site=enaliint&s='+stype+'&charset=UTF-8' : url
@@ -27,12 +28,12 @@ export function boxShadow(sdX,sdY,sdBlur,sdSize,sdColor) {
 
 /*背景图 生成样式 */
 export function bgImage(img,bgColor,bgRep,bgPos,bgfix){
-  let defBg=bgColor;
-  if(img !=""){
-    bgColor=bgColor !="" ? ' '+bgColor:''
-    bgRep=bgRep !="" ? ' '+bgRep:' no-repeat'
-    bgPos=bgPos !="" ? ' '+bgPos:'';
-    bgfix=bgfix !="" ? ' '+bgfix:'';
+  let defBg=bgColor  
+  if( !isEmpty(img)){
+    bgColor=!isEmpty(bgColor) ? ' '+bgColor:''
+    bgRep=!isEmpty(bgRep) ? ' '+bgRep:' no-repeat'
+    bgPos=!isEmpty(bgPos) ? ' '+bgPos:''
+    bgfix=!isEmpty(bgfix) ? ' '+bgfix:''
     defBg='url('+img+')'+bgRep+bgPos+bgColor+bgfix+''
   }
   return defBg
@@ -146,7 +147,7 @@ if(typeof(str)=='object'){var n=0;for(var i in str){if(str[i]&&!/^[ ]*$/.test(st
 }
 /*返回为空字符*/
 export function valEmpty(v){
- return  !isnull(v) ? v: '';
+ return  isEmpty(v) ?  '' : v;
 }
 
 /*转化 正数值 */
@@ -191,14 +192,14 @@ export function ImgBgHtml(formData) {
         imgBgStyle=bgImage(bgImg,bgColor,'no-repeat','0% 0%','')
         jsonData.imgBgStyle=imgBgStyle !="" ?  'background:'+imgBgStyle+';' : ''
         break
-      case 'full':   //自由拉伸
-        imgHtml='<img  class="sf"  src='+bgImg+'  style="'+radiusStyle+'width:100%;height:100%;" />'
+      case 'full':   //自由拉伸 class="sf"
+        imgHtml='<img src="'+bgImg+'" style="'+radiusStyle+'width:100%;height:100%;" />'
         break
-      case 'scaleX':  //保持比例(只裁剪宽度)
-        imgHtml='<img  class="sx"  src='+bgImg+'   style="'+radiusStyle+'height:100%;"  />'  
+      case 'scaleX':  //保持比例 sx(只裁剪宽度)
+        imgHtml='<img src="'+bgImg+'" style="'+radiusStyle+'height:100%;"  />'  
         break
-      case 'scaleY':   //保持比例(只裁剪高度)
-        imgHtml='<img  class="sy"  src='+bgImg+'   style="'+radiusStyle+'width:100%;" />'
+      case 'scaleY':   //保持比例 sy(只裁剪高度)
+        imgHtml='<img src="'+bgImg+'" style="'+radiusStyle+'width:100%;" />'
         break
     }
     jsonData.Html=imgHtml;

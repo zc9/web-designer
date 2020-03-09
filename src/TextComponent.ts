@@ -37,7 +37,7 @@ export default class TextComponent extends Component {
     this.formData.href = ''
     this.formData.hrefMode ='_blank'  //是否新窗口
 
-    this.formData.bgImg = '//sc01.alicdn.com/kf/HTB1gXlQXDjxK1Rjy0Fnq6yBaFXao.jpg'
+    this.formData.bgImg = ''
     this.formData.bgRep ='no-repeat'  //背景平铺方式
     this.formData.bgPos ='' //背景对齐位置
     this.formData.bRadius ='' //圆角
@@ -61,7 +61,7 @@ export default class TextComponent extends Component {
     this.formData.malign = 'left' //对齐
     this.formData.mcontent = '' //反面内容
 
-    this.formData.mbgImg = '//sc01.alicdn.com/kf/HTB1gXlQXDjxK1Rjy0Fnq6yBaFXao.jpg'
+    this.formData.mbgImg = ''
     this.formData.mbgRep ='no-repeat'  //背景平铺方式
     this.formData.mbgPos ='' //背景对齐位置
 
@@ -69,20 +69,20 @@ export default class TextComponent extends Component {
     this.formData.mTsFun ='ease'  //速度曲线
     this.formData.mTsAnt ='atrans5'  //动画效果
 
-    this.formData.bdT ='on'   
-    this.formData.bdB ='on'
-    this.formData.bdL ='on'
-    this.formData.bdR ='on'
+    this.formData.bdT ='off'   
+    this.formData.bdB ='off'
+    this.formData.bdL ='off'
+    this.formData.bdR ='off'
     this.formData.sdSize =5
     this.formData.bdWidth =5
     this.formData.bdColor ='#FFFF00'
     this.formData.bdStyle ='solid'
 
 
-    this.formData.mbdT =''
-    this.formData.mbdB =''
-    this.formData.mbdL =''
-    this.formData.mbdR =''
+    this.formData.mbdT ='off'
+    this.formData.mbdB ='off'
+    this.formData.mbdL ='off'
+    this.formData.mbdR ='off'
     this.formData.msdSize =5
     this.formData.mbdWidth =5
     this.formData.mbdStyle ='solid'
@@ -216,11 +216,13 @@ export default class TextComponent extends Component {
     }else{
       htmlList.push(onHtml)
     }
-   
     //边框
     htmlList.push(bdHtml)
-
-    return '<div class="abs xdtb ant-text" style="top: '+top+'; left:'+left+'; width:'+width+'px; height:'+height+'px;'+onShadowStyle+radiusStyle+'" >'+offShadowHtml+'<a '+tipText+' class="ywlink '+mTsAnt+' '+mbdTsAnt+'" '+href+hrefMode+' style="'+radiusStyle+'">'+htmlList.join('')+'</a></div>'
+    let htmlLink=htmlList.join('')
+    if(hoverMode ==="on"){
+      htmlLink='<a '+tipText+' class="ywlink '+mTsAnt+' '+mbdTsAnt+'" '+href+hrefMode+' style="'+radiusStyle+'">'+htmlLink+'</a>'
+    }
+    return '<div class="abs xdtb ant-text" style="top: '+top+'; left:'+left+'; width:'+width+'px; height:'+height+'px;'+onShadowStyle+radiusStyle+'" >'+offShadowHtml+htmlLink+'</div>'
 
    
 
@@ -443,7 +445,7 @@ export default class TextComponent extends Component {
   initPorpPanel() {
     console.log('initTextPorpPanel')
     let that = this
-    
+     
     $('.prop-setting-ct > div').hide()
     let $propPanel = $('.text-com-prop-panel')
     this.$propPanel = $propPanel
@@ -470,7 +472,7 @@ export default class TextComponent extends Component {
       that.update(that.formData)
     })
     let $bRadiusInput = $propPanel.find('input[type=text][name=bRadius]')
-    $bRadiusInput.change(function() {
+    $bRadiusInput.keyup(function() {
       let val = $(this).val()
       that.formData.bRadius = val
       that.update(that.formData)
@@ -498,35 +500,35 @@ export default class TextComponent extends Component {
       that.updatePreviewStyle($(this))
     })
     let $fSizeInput = $propPanel.find('input[type=text][name=fSize]')
-    $fSizeInput.change(function() {
+    $fSizeInput.keyup(function() {
       let val = $(this).val()
       that.formData.fSize = val
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
     let $lHeightInput = $propPanel.find('input[type=text][name=lHeight]')
-    $lHeightInput.change(function() {
+    $lHeightInput.keyup(function() {
       let val = $(this).val()
       that.formData.lHeight = val
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
     let $spacingInput = $propPanel.find('input[type=text][name=spacing]')
-    $spacingInput.change(function() {
+    $spacingInput.keyup(function() {
       let val = $(this).val()
       that.formData.spacing = val
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
     let $indentInput = $propPanel.find('input[type=text][name=indent]')
-    $indentInput.change(function() {
+    $indentInput.keyup(function() {
       let val = $(this).val()
       that.formData.indent = val
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
     let $contentTextarea = $propPanel.find('textarea[name=content]')
-    $contentTextarea.change(function() {
+    $contentTextarea.keyup(function() {
       let val = $(this).val()
       that.formData.content = val
       that.update(that.formData)
@@ -559,35 +561,35 @@ export default class TextComponent extends Component {
       that.updatePreviewStyle($(this))
     })
     let $mfSizeInput = $propPanel.find('input[type=text][name=mfSize]')
-    $mfSizeInput.change(function() {
+    $mfSizeInput.keyup(function() {
       let val = $(this).val()
       that.formData.mfSize = val
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
     let $mlHeightInput = $propPanel.find('input[type=text][name=mlHeight]')
-    $mlHeightInput.change(function() {
+    $mlHeightInput.keyup(function() {
       let val = $(this).val()
       that.formData.mlHeight = val
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
     let $mspacingInput = $propPanel.find('input[type=text][name=mspacing]')
-    $mspacingInput.change(function() {
+    $mspacingInput.keyup(function() {
       let val = $(this).val()
       that.formData.mspacing = val
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
     let $mindentInput = $propPanel.find('input[type=text][name=mindent]')
-    $mindentInput.change(function() {
+    $mindentInput.keyup(function() {
       let val = $(this).val()
       that.formData.mindent = val
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
     let $mcontentTextarea = $propPanel.find('textarea[name=mcontent]')
-    $mcontentTextarea.change(function() {
+    $mcontentTextarea.keyup(function() {
       let val = $(this).val()
       that.formData.mcontent = val
       that.update(that.formData)
@@ -596,7 +598,7 @@ export default class TextComponent extends Component {
 
     //以下是动画
     let $mTsDurInput = $propPanel.find('input[type=text][name=mTsDur]')
-    $mTsDurInput.change(function() {
+    $mTsDurInput.keyup(function() {
       let val = $(this).val()
       that.formData.mTsDur = val
       that.update(that.formData)

@@ -83,6 +83,7 @@ export default class WangComponent extends Component {
     
     $propPanel.show()
     $propPanel.find('*').off()
+
     setFontOption($propPanel.find('.font-select'))
     this.updatePropPanel()
 
@@ -251,7 +252,7 @@ export default class WangComponent extends Component {
   }
   updatePropPanel() {
     let $propPanel = this.$propPanel
-    setFontOption('.font-select')
+   
 
     let $wangModeRadio = $propPanel.find('input[type=radio][name=wangMode]')
     $wangModeRadio.filter(`[value="${this.formData.wangMode}"]`).prop('checked', true)

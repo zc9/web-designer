@@ -6,6 +6,7 @@ import WangComponent from './WangComponent';
 import VideoComponent from './VideoComponent';
 import ImgAntComponent from './ImgAntComponent';
 import ImgZfComponent from './ImgZfComponent';
+import MarqueeComponent from './MarqueeComponent';
 export default class ComponentBar {
   stageCt: StageContainer
   $el: JQuery
@@ -31,6 +32,8 @@ export default class ComponentBar {
         component = new VideoComponent();
       }else if (name === 'img-zf-component') {
         component = new ImgZfComponent();
+      }else if (name === 'marquee-component') {
+        component = new MarqueeComponent();
       }
       component.$el.css('left', Math.max(initX, 0) + 'px')
       component.$el.css('top', Math.max(initY, 0) + 'px')

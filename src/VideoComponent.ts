@@ -1,11 +1,13 @@
 import Component from './Component'
 import {wwUrl,valEmpty} from './commonCss'
+import {tParseInt} from './common'
+
 export default class VideoComponent extends Component {
   $content: JQuery
   $wangImg: JQuery
   constructor() {
-    super('VideoComponent')
-    this.$content = $('<div class="video-box"><Video style="width:450;height:200"   src="https://cloud.video.taobao.com/play/u/2780279213/p/1/e/6/t/1/d/ld/36255062.mp4" /><div class="yw-overlay"></div></div>')
+    super('video-component')
+    this.$content = $('<div class="video-box"><Video style="width:100%;height:100%"  width="100%" height="100%"  src="https://cloud.video.taobao.com/play/u/2780279213/p/1/e/6/t/1/d/ld/36255062.mp4" /><div class="yw-overlay"></div></div>')
     this.$contentBox.append(this.$content)
     this.initFormData()
   }
@@ -26,6 +28,8 @@ export default class VideoComponent extends Component {
 
   initFormData() {
     this.formData.appLabel = ''
+    this.formData.width = 640
+    this.formData.height = 363
     this.formData.videoID = ''         //视频地址(ID)
     this.formData.autoplay = 'false'     //是否自动播放
     this.formData.muted = 'false'        //是否静音
@@ -48,16 +52,25 @@ export default class VideoComponent extends Component {
     $propPanel.find('*').off()
     this.updatePropPanel()
  
-    let $wInput = $propPanel.find('input[type=text][name=w]') 
-    $wInput.change(function() {
-      let val = $(this).val()
-       
+    let $wInput = $propPanel.find('input[type=text][name=width]') 
+    $wInput.keyup(function() {
+      let val = $(this).val() 
+      let part=that.$el
+      part.width(tParseInt(val))
     })
-
+    let $hInput = $propPanel.find('input[type=text][name=height]') 
+    $hInput.keyup(function() {
+      let val = $(this).val() 
+      let part=that.$el
+      part.height(tParseInt(val))
+      
+    })
+ 
     let $videoIDInput = $propPanel.find('input[type=text][name=videoID]') 
-    $videoIDInput.change(function() {
+    $videoIDInput.keyup(function() {
       let val = $(this).val()
       that.formData.videoID = val
+      that.update(that.formData)
     })
  
 
@@ -167,12 +180,12 @@ export default class VideoComponent extends Component {
   }
   updatePropPanel() {
     let $propPanel = this.$propPanel
-    /*
-    let $wInput = $propPanel.find('input[type=text][name=h]')
-    $wInput.val(this.formData.videoID)
+     
+    let $wInput = $propPanel.find('input[type=text][name=width]')
+    $wInput.val(this.formData.width)
 
-    let $hInput = $propPanel.find('input[type=text][name=h]')
-    $hInput.val(this.formData.videoID)*/
+    let $hInput = $propPanel.find('input[type=text][name=height]')
+    $hInput.val(this.formData.height) 
 
     let $videoIDInput = $propPanel.find('input[type=text][name=videoID]')
     $videoIDInput.val(this.formData.videoID)

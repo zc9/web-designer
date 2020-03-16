@@ -67,7 +67,7 @@
             <span class="page-check" data-val="fixed"><i></i>固定背景<input type="hidden"></span>
           </div>
         </div>
-        <span class="label">背景对齐位置</span>
+        <span class="label" >背景对齐位置</span>
         <select class="align-select" style="outline: none;height: 22px;margin-left: 9px;border: 1px #141619 solid;color: #525c66">
           <option value="0% 0%">左上</option>
           <option selected="selected" value="50% 0%">中上</option>
@@ -227,11 +227,13 @@
         <li data-name="text-component"><icon>ꆀ</icon><span>文字</span></li>
         <li data-name="wang-component"><icon>ꑀ</icon><span>旺旺</span></li>
         <li data-name="video-component"><icon>ꊀ</icon><span>视频/FLASH</span></li>
+         <li data-name="marquee-component"><icon>ꆐ</icon><span>滚动文字/图片</span></li>
+
         <li style="display:none"><icon>ꅀ</icon><span>特效层</span></li>
 
         <li style="display:none"><icon>ꅰ</icon><span>切片正反面</span></li>
         <li style="display:none"><icon>ꈐ</icon><span>轮播</span></li>
-        <li style="display:none"><icon>ꆐ</icon><span>滚动文字/图片</span></li>
+       
       </ul>
     </div>
     <div class="stage-ct">
@@ -891,9 +893,9 @@
           <div class="engine-app">
             <div class="nromal-wrap">
               <label class="label-con ">视频宽度</label>
-              <input class="input-short" type="text" name="w"  />
+              <input class="input-short" type="text" name="width"  />
               <label class="label-con " >视频高度</label>
-              <input class="input-short" type="text" name="h"  />
+              <input class="input-short" type="text" name="height"  />
             </div>
             <div class="nromal-wrap">
               <label style="letter-spacing: 3px;">视频ID</label>
@@ -1136,6 +1138,122 @@
           </div>
           <div class="editor-btns clear"><span>更多设置...</span></div>
         </div>
+        <div class="marquee-com-prop-panel" style="display:none">
+          <div class="title-bar"><em></em>文字/图片滚动 属性<i class="r-icon-i"></i></div>
+          <div class="engine-app"  style="padding-top:0px;">
+            <div class="layui-tab layui-tab-card">
+              <ul class="layui-tab-title layui-tab-row3" style="overflow:initial">
+                <li class="layui-this">内容样式</li>
+                <li>滚动动画</li>
+              </ul>
+              <div class="layui-tab-content"  >
+                <div class="layui-tab-item layui-show">
+                  <div class="nromal-wrap">
+                    <label >内容设置</label>
+                    <input type="radio" value="txt" name="conMode" id="conModetxt">
+                    <label for="conModetxt">文字</label>
+                    <input type="radio" value="img" name="conMode" id="conModeimg" style="margin-left:10px;">
+                    <label for="conModeimg">图片</label>
+                  </div>
+                  <div class="txt-box">
+                    <div class="nromal-wrap">
+                      <label class="label-con col2">字  体</label>
+                      <select class="font-select" name="family" >
+                      </select>
+                    </div>
+                    <div class="nromal-wrap">
+                        <label class="label-con col2">颜  色</label>
+                        <div class="pagecolorpanel"  >
+                            <div class="sp-replacer sp-light"><div class="sp-preview"><div class="sp-preview-inner" style="background-color:transparent;"></div></div></div>
+                            <input class="pagecolor" name="color"  type="text" style="width: 73px;" />
+                            <span class="clear-color-button"></span>
+                        </div>
+                        <label  style="margin-left: 5px;">背景颜色</label>
+                        <div class="pagecolorpanel" >
+                            <div class="sp-replacer sp-light"  ><div class="sp-preview"><div class="sp-preview-inner" style="background-color:transparent;"></div></div></div>
+                            <input class="pagecolor" name="bgColor"   type="text"  style="width: 73px;" />
+                            <span class="clear-color-button"></span>
+                        </div>
+                    </div>
+                    <div class="nromal-wrap">
+                      <label class="label-con col2">大  小</label>
+                      <input class="input-short" type="text" name="fSize" />
+                      <label class="label-con col2" style="margin-left:5px;">行  高</label>
+                      <input class="input-short" type="text" name="lHeight" />
+                    </div>
+                    <div class="nromal-wrap">
+                      <label class="label-con col2">字  距</label>
+                      <input class="input-short"  type="text" name="spacing"/>
+                      <label class="label-con col2" style="margin-left:5px;">缩  进</label>
+                      <input class="input-short" type="text" name="indent"/>
+                    </div>
+                    <div class="nromal-wrap">
+                      <div class="font-setting font-z">
+                        <span  title="加粗" class="font-item-checkbox" data-val="" ><icon>ꕅ</icon><input name="weight" type="hidden"   value="" /></span>
+                        <span  title="斜体" class="font-item-checkbox" data-val="" ><icon>ꕆ</icon><input name="fStyle" type="hidden"   value="" /></span>
+                        <span  title="上划线" class="font-item-checkbox" data-val="" ><icon>ꔣ</icon><input name="oLine" type="hidden"   value="" /></span>
+                        <span  title="中划线" class="font-item-checkbox" data-val=""><icon>ꕇ</icon><input name="through" type="hidden"   value="" /></span>
+                        <span  title="下划线" class="font-item-checkbox" data-val="" ><icon>ꕈ</icon><input name="uLine" type="hidden"   value="" /></span>
+                        <i class="spaceline"></i>
+                        <span  title="文字左对齐" class="font-item-radio" data-val="left" ><icon>ꕉ</icon></span>
+                        <span  title="文字居中对齐" class="font-item-radio"  data-val="center" ><icon>ꕐ</icon></span>
+                        <span  title="文字右对齐" class="font-item-radio"  data-val="right" ><icon>ꕑ</icon></span>
+                      </div>
+                      <div class="font-textarea">
+                        <textarea class="multi-textarea"   name="content"  style="  margin-left:1px;margin-bottom:1px;  width:260px; height: 76px;vertical-align: -8px;outline: 0px;border: 0px;"  ></textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="img-box">
+                    <div class="nromal-wrap">
+                      <label >图片地址</label>
+                      <input name="bgImg" type="text" />
+                    </div>              
+                  </div>
+                  <div class="nromal-wrap">
+                    <label >链接地址</label>
+                    <input class="input-medium"   name="href" type="text" />
+                    <input  type="checkbox" name="hrefMode" value="_blank" id="hrefMode" >
+                    <label for="hrefMode" class="nrlabel">新窗口打开</label>
+                  </div>
+                </div>
+                <div class="layui-tab-item">
+                  <div class="nromal-wrap">
+                    <label class="label-con">滚动速度</label>
+                    <input class="input-short" name="amount" type="text" />
+                    (数字越小越慢)
+                  </div>
+                   <div class="nromal-wrap">
+                    <label class="label-con">滚动延迟</label>
+                    <input class="input-short" name="delay" type="text" />
+                    (数字越大越慢)
+                  </div>
+                  <div class="nromal-wrap">
+                    <label>滚动方向</label>
+                    <select class="select-short" name="dirt">
+                      <option value="left" selected="selected">从右至左</option>
+                      <option value="right">从左至右</option>
+                      <option value="down">从上至下</option>
+                      <option value="up">从下至上</option>
+                    </select>
+                    <label style="margin-left:5px;">滚动方式</label>
+                    <select class="select-short" name="behavior">
+                      <option value="scroll" selected="selected">循环滚动</option>
+                      <option value="slide">单次滚动</option>
+                      <option value="alternate">来回滚动</option>
+                    </select>
+                  </div>
+
+
+                
+                </div>
+         
+              </div>
+            </div>
+          </div>
+          <div class="editor-btns clear"><span>更多设置...</span></div>
+        </div>
+
       </div>
     </div>
   </div>

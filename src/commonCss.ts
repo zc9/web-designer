@@ -206,4 +206,15 @@ export function ImgBgHtml(formData) {
   }
   return jsonData
 }
- 
+/*文字 切换信息*/
+export function conModeChanged($layerElem, conMode) {
+  let $txtBox = $layerElem.find('.txt-box')
+  let $imgBox = $layerElem.find('.img-box')
+  if (conMode === 'txt') {
+    $txtBox.show()
+    $imgBox.hide()
+  } else if (conMode === 'img') {
+    $txtBox.hide()
+    $imgBox.show()
+  }
+}

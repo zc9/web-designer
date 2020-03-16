@@ -274,4 +274,24 @@ export function setRanDom() {
     e = b[Math.floor(62 * Math.random())],
     f = b[Math.floor(62 * Math.random())],
     c + d + e + f
+} 
+//转化数子
+export function tParseInt (a) {
+  var b;
+  return a && "" != a ? (b = parseInt(a, 10), !!isNaN(b) && (b = 0), b) : a
 }
+export function imgReady (url, callback) {
+
+        var img = new Image();
+        img.src = url;
+        if (img.complete) {
+        // 如果图片被缓存，则直接返回缓存数据
+            callback(img.width, img.height);
+        } else {
+            img.onload = function () {
+                callback(img.width, img.height);
+            }
+        }
+ 
+}
+ 

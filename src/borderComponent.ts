@@ -1,4 +1,4 @@
-import {setRanDom} from './common';
+import {setRanDom,isEmpty} from './common';
 import {valEmpty,valInt } from './commonCss'
 //弹出编辑 属性设置
 export function setPopHtmlBorder($layerElem,that) {
@@ -144,10 +144,13 @@ export function editPopHtmlBorder($select) {
 
 //更新样式
 export function updateBorder($content,formData){
-    let isDefBk=false;
+    let oldTsAnt =$content.attr("mbdTsAnt")
+    isEmpty(oldTsAnt) != true ? $content.removeClass(oldTsAnt) :''
+    $content.addClass(formData.mbdTsAnt)
+    $content.attr("mbdTsAnt",formData.mbdTsAnt)
+
     let $textPanel=$content;
     let bRadius=formData.bRadius ?  parseInt(formData.bRadius) :''
- 
     let bdWidth=formData.bdWidth !="" ? parseInt(formData.bdWidth) : '';
     let $alPanel=$content.find(".bk-aline")
     if (formData.bdT==="on" || formData.bdB==="on" ||formData.bdL==="on"||formData.bdR==="on"){
@@ -179,15 +182,14 @@ export function updateBorder($content,formData){
       $alPanel.css('border-style', formData.bdStyle)
       $alPanel.css('border-color', formData.bdColor)
     }else{
-        $alPanel.remove()
-        isDefBk=true
+      $alPanel.remove()
     }
-
-    $content.attr("mbdTsAnt",formData.mbdTsAnt)
-    let mbdTsAntVal=$content.attr("mbdTsAnt")
-    $content.removeClass(mbdTsAntVal);
-    $content.addClass(formData.mbdTsAnt)
-    $content.attr("mbdTsAnt",formData.mbdTsAnt)
+    
+    let $mlPanel=$content.find(".bk-mline")
+    let $ltPanel=$content.find(".w-lt")
+    let $lbPanel=$content.find(".w-lb")
+    let $llPanel=$content.find(".w-ll")
+    let $lrPanel=$content.find(".w-lr")
 
     if(formData.mbdT ==="on" || formData.mbdB==="on" ||formData.mbdL==="on"||formData.mbdR==="on" ){
       let mbdTsFunVal=formData.mbdTsFun==='cubic-bezier'  ? 'cubic-bezier(0.52, 1.64, 0.37, 0.66)' : formData.mbdTsFun
@@ -197,9 +199,6 @@ export function updateBorder($content,formData){
       const mbdStyle=formData.mbdStyle
       const mbdColor=formData.mbdColor
 
-
-
-      let $mlPanel=$content.find(".bk-mline")
       if($mlPanel.length <=0) $textPanel.append("<div class='bk-mline'></div>")
       $mlPanel=$content.find(".bk-mline")
       $mlPanel.css('border-radius',bRadius)
@@ -208,7 +207,7 @@ export function updateBorder($content,formData){
       $mlPanel.css('transition-timing-function',mbdTsFunVal)
       $mlPanel.css('transition-duration',mbdTsDurVal)
 
-      let $ltPanel=$content.find(".w-lt")
+      
       if(formData.mbdT==="on"){
         if($ltPanel.length <=0)
           $textPanel.append("<div class='bk-line  w-lt'></div>")
@@ -219,13 +218,11 @@ export function updateBorder($content,formData){
           $ltPanel.css('transition-timing-function',mbdTsFunVal)
           $ltPanel.css('transition-duration',mbdTsDurVal)
           $mlPanel.css('border-top-width', mbdWidth)
-          
       }else{
         $mlPanel.css('border-top-width', 0)
         $ltPanel.remove()
-
       }
-      let $lbPanel=$content.find(".w-lb")
+      
       if(formData.mbdB==="on"){
         if($lbPanel.length <=0)
           $textPanel.append("<div class='bk-line  w-lb'></div>")
@@ -240,7 +237,7 @@ export function updateBorder($content,formData){
         $mlPanel.css('border-bottom-width', 0)
         $lbPanel.remove()
       }
-      let $llPanel=$content.find(".w-ll")
+      
       if(formData.mbdL==="on"){
         if($llPanel.length <=0)
           $textPanel.append("<div class='bk-line  w-ll'></div>")
@@ -255,7 +252,7 @@ export function updateBorder($content,formData){
         $mlPanel.css('border-left-width',0)
         $llPanel.remove()
       }
-      let $lrPanel=$content.find(".w-lr")
+      
       if(formData.mbdR==="on"){
         if($lrPanel.length <=0)
           $textPanel.append("<div class='bk-line  w-lr'></div>")
@@ -271,7 +268,6 @@ export function updateBorder($content,formData){
         $mlPanel.css('border-right-width',0)
         $lrPanel.remove()
       }
-
       //以上所有边框加上
       if(formData.mbdTsAnt ==="bdtx0" || formData.mbdTsAnt ==="bdtx1"){
         $ltPanel.remove()
@@ -281,6 +277,12 @@ export function updateBorder($content,formData){
       }else{
         $mlPanel.remove()
       }
+    }else{
+      $mlPanel.remove()
+      $ltPanel.remove()
+      $lbPanel.remove()
+      $llPanel.remove()
+      $lrPanel.remove()
     }
 }
 
@@ -578,25 +580,25 @@ export function initPorpBorder($propPanel,that) {
   let $mbdTCheckBox = $propPanel.find('input[type=checkbox][name=mbdT]')
   $mbdTCheckBox.change(function() {
     let val = $(this).is(':checked')
-    that.formData.mbdT = val ? 'on' : ''
+    that.formData.mbdT = val ? 'on' : 'off'
     that.update(that.formData)
   })
   let $mbdBCheckBox = $propPanel.find('input[type=checkbox][name=mbdB]')
   $mbdBCheckBox.change(function() {
     let val = $(this).is(':checked')
-    that.formData.mbdB = val ? 'on' : ''
+    that.formData.mbdB = val ? 'on' : 'off'
     that.update(that.formData)
   })
   let $mbdLCheckBox = $propPanel.find('input[type=checkbox][name=mbdL]')
   $mbdLCheckBox.change(function() {
     let val = $(this).is(':checked')
-    that.formData.mbdL = val ? 'on' : ''
+    that.formData.mbdL = val ? 'on' : 'off'
     that.update(that.formData)
   })
   let $mbdRCheckBox = $propPanel.find('input[type=checkbox][name=mbdR]')
   $mbdRCheckBox.change(function() {
     let val = $(this).is(':checked')
-    that.formData.mbdR = val ? 'on' : ''
+    that.formData.mbdR = val ? 'on' : 'off'
     that.update(that.formData)
   })
   let $mbdWidthInput = $propPanel.find('input[type=text][name=mbdWidth]') 

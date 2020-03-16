@@ -1261,7 +1261,7 @@ export default class TextComponent extends Component {
       this.$content.removeClass(_mTsAntAttr);
       this.$content.attr("mTsAnt",'')
     }
-      $offPanel=this.$contentBox.find(".off")
+    $offPanel=this.$contentBox.find(".off")
 
  
    

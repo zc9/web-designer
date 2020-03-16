@@ -303,8 +303,6 @@ export default class ImgComponent extends Component {
     let that = this
     let bRadius=formData.bRadius ?  parseInt(formData.bRadius) :''
 
- 
-
     updateShadow(this.$content,formData)
     //处理边框
     updateBorder(this.$content,formData)
@@ -345,10 +343,6 @@ export default class ImgComponent extends Component {
       that.$img.show()
     }
 
- 
-      
-
-    
   }
 
   updatePropPanel() {
@@ -380,7 +374,6 @@ export default class ImgComponent extends Component {
     let $bRadiusInput = $propPanel.find('input[type=text][name=bRadius]')
     $bRadiusInput.val(this.formData.bRadius)
 
-
     //边框处理
     updatePropBorder($propPanel,this)
  
@@ -394,7 +387,7 @@ export default class ImgComponent extends Component {
 
     $propPanel.show()
     $propPanel.find('*').off()
-     editSideHtmlBorder($propPanel.find('.side-item-border'))
+    editSideHtmlBorder($propPanel.find('.side-item-border'))
     this.updatePropPanel()
     //收缩 重新加载
     let element = layui.element

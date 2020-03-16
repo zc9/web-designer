@@ -73,8 +73,6 @@ export default class ImgAntComponent extends Component {
       htmlList.push(onHtml)
       htmlList.push(offHtml)
      }
-
-
     let mrxz,mrxzv,mrxzCss,mrCss
      
     mrxz=valEmpty(this.formData.mrxz)

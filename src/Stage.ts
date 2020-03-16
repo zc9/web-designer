@@ -8,6 +8,7 @@ import WangComponent from './WangComponent';
 import VideoComponent from './VideoComponent';
 import ImgAntComponent from './ImgAntComponent';
 import ImgZfComponent from './ImgZfComponent';
+import MarqueeComponent from './MarqueeComponent';
 
 import {bgImage} from './commonCss';
 import History from './History'
@@ -151,6 +152,7 @@ export default class Stage {
       probeType: 3,
       scrollbars: true,
       mouseWheel: true,
+      HWCompositing: false,
       interactiveScrollbars: true,
       disableMouse: disableMouse,
       disablePointer: disableMouse,
@@ -619,6 +621,8 @@ export default class Stage {
         component = new VideoComponent
       }else if (app.appType === 'xzfm') {
         component = new ImgZfComponent
+      }else if (app.appType === 'xgdb') {
+        component = new MarqueeComponent
       }
       component.formData = app.config
       component.update(component.formData)

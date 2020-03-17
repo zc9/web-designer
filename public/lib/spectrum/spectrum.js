@@ -83,7 +83,7 @@
 			a(T).on("click.spectrumc touchstart.spectrumc", ".clear-color-button", function () {
 				if (!(V && V.length > 0 && V.hasClass("disabled"))) {
 					var c = a(this);
-					c.prev().val(""),
+					c.prev().val(""),c.prev().trigger('change'),
 					V != c.prev() && Lb(),
 					pb = V = c.prev(),
 					V.prev().children(".sp-preview").children(".sp-preview-inner").css("background-color", "transparent"),

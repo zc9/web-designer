@@ -17,7 +17,7 @@ export default class Stage {
   EVENTS: Array<string> = []
   isRuler: boolean = true
   drags: Array<Draggable> = []
-  curSelectedComponent: Component = null
+  selectedComponents: Array<Component> = []
   components: Array<Component> = []
   $el: JQuery
   $canvasWrap: JQuery
@@ -62,7 +62,7 @@ export default class Stage {
             </div>
           </div>
         </div>
-      </div> 
+      </div>
     `);
 
     this.paddingWidth = Math.ceil($el.width() / 100) * 100;
@@ -245,10 +245,9 @@ export default class Stage {
       function move(event) {
         if (component === null) {
           component = new HotAreaComponent();
-          that.curSelectedComponent = component
           that.addComponent(component)
-          component.select()
           component.showToolbar()
+          that.selectComponent(component)
         }
         event = that.getEventInfo(event)
         let curStartX = event.clientX;
@@ -311,19 +310,27 @@ export default class Stage {
 
   }
 
-  unselectComponent() {
-    if (this.curSelectedComponent) {
-      this.curSelectedComponent.unselect();
-      this.curSelectedComponent = null;
+  unselectComponent(component = null) {
+    if (component) {
+      component.unselect();
+      // @ts-ignore
+      this.selectedComponents.remove(component)
+      return
     }
+    for (let component of this.selectedComponents) {
+      component.unselect()
+    }
+    this.selectedComponents = []
   }
 
-  selectComponent(component) {
-    if (this.curSelectedComponent != null && this.curSelectedComponent != component) {
-      this.curSelectedComponent.unselect();
+  selectComponent(component, flag = 0) {
+    if (flag === 0) {
+      if (this.selectedComponents.length > 0) {
+        this.unselectComponent(this.selectedComponents[0])
+      }
     }
     component.select();
-    this.curSelectedComponent = component;
+    this.selectedComponents.push(component);
   }
 
   setElementPos($elem, left, top, width, height) {
@@ -371,7 +378,7 @@ export default class Stage {
       this.props.app.push(component.getProps())
     })
     return JSON.stringify(this.props)
-  } 
+  }
 
   generateHtmlCode() {
     let appsHtml = []
@@ -479,9 +486,8 @@ export default class Stage {
   }
 
   move1PX(dir) {
-    this.moveBy(dir, this.curSelectedComponent, 1)
+    this.moveBy(dir, this.selectedComponents[0], 1)
   }
-
   getRandomStr(len) {
     let charArr = []
     const chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];

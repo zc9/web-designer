@@ -19,49 +19,63 @@ export default class StageContainer {
 
   setupHotkey() {
     let that = this
-   
+    let hotKeysArr = [
+      'up',
+      'down',
+      'left',
+      'right',
+      'del',
+      'ctrl+c',
+      'ctrl+v',
+      'ctrl+z',
+      'ctrl+y',
+      'ctrl+a',
+    ]
     // @ts-ignore
-    hotkeys('*', function (event, handler) {
+    hotkeys(hotKeysArr.join(','), function(event, handler) {
       let curStage = that.curStage
       event.preventDefault()
-      let key = event.key
-      console.log(key) 
-      switch(key) {
-        case 'ArrowUp':  {
+      console.log(handler.key)
+      switch(handler.key) {
+        case hotKeysArr[0]:  {
           curStage.move1PX('up')
           break;
         }
-        case 'ArrowDown':  {
+        case hotKeysArr[1]:  {
           curStage.move1PX('down')
           break;
         }
-        case 'ArrowLeft':  {
+        case hotKeysArr[2]:  {
           curStage.move1PX('left')
           break;
         }
-        case 'ArrowRight':  {
+        case hotKeysArr[3]:  {
           curStage.move1PX('right')
           break;
         }
-        case 'Delete': {
-          console.log(curStage.curSelectedComponent)
-          if (curStage && curStage.curSelectedComponent) {
-            curStage.curSelectedComponent.deleteSelf()
+        case hotKeysArr[4]: {
+          if (curStage && curStage.selectedComponents[0]) {
+            curStage.selectedComponents[0].deleteSelf()
           }
         }
-      }
-    });
-    // @ts-ignore
-    hotkeys('ctrl+c,ctrl+v', function(event, handler) {
-      switch(handler.key) {
-        case "ctrl+c": {
+        case hotKeysArr[5]: {
           break;
         }
-        case "ctrl+v": {
+        case hotKeysArr[6]: {
+          break;
+        }
+        case hotKeysArr[7]: {
+          break;
+        }
+        case hotKeysArr[8]: {
+          break;
+        }
+        case hotKeysArr[9]: {
           break;
         }
       }
     })
-  
+
   }
+
 }

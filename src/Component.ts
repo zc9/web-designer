@@ -20,7 +20,7 @@ export default abstract class Component {
   id: string
   isLockedPos: boolean = false
   enableResize: boolean = true
-  selected: boolean = false
+  selectFlag: number = 0
   constructor(name = '', prop = {}) {
     this.name = name;
     for (let k in prop) {
@@ -130,11 +130,11 @@ export default abstract class Component {
   abstract update(formData: any): void
   abstract initPorpPanel(): void
   select() {
-    if (this.selected) {
+    if (this.selectFlag) {
       return
     }
-    this.$el.addClass('ui-selected');
-    this.selected = true
+    this.$el.addClass('selected');
+    this.selectFlag = 1
     this.resetPositionInfo();
     this.initPorpPanel()
   }
@@ -163,8 +163,8 @@ export default abstract class Component {
   unselect() {
     this.$topBar.hide();
     this.$bottomBar.hide();
-    this.$el.removeClass('ui-selected')
-    this.selected = false
+    this.$el.removeClass('selected')
+    this.selectFlag = 0
   }
 
   deleteSelf() {
@@ -218,15 +218,25 @@ export default abstract class Component {
     drag.onStop = (event) => {
       this.drag.dragStatus = 0
     }
-   
+
     this.$contentBox.on('mousedown',  (event) => {
-      stage.selectComponent(this);
+      // console.log('aa', this.selected)
+      if (this.selectFlag === 2) {
+        return
+      }
+      if (event.ctrlKey) {
+        stage.selectComponent(this, 1);
+      } else {
+        stage.selectComponent(this);
+      }
       this.showToolbar()
+      this.selectFlag = 2
     });
+
 
     this.$topBar.find('.delete').on('mousedown', (event) => {
       event.stopPropagation();
-      this.deleteSelf()      
+      this.deleteSelf()
     })
 
     this.$topBar.on('mousedown', (event) => {

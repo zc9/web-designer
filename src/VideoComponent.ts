@@ -6,7 +6,7 @@ export default class VideoComponent extends Component {
   $content: JQuery
   $wangImg: JQuery
   constructor() {
-    super('video-component')
+    super('video-component', {isEditPopup: false})
     this.$content = $('<div class="video-box"><Video style="width:100%;height:100%"  width="100%" height="100%"  src="https://cloud.video.taobao.com/play/u/2780279213/p/1/e/6/t/1/d/ld/36255062.mp4" /><div class="yw-overlay"></div></div>')
     this.$contentBox.append(this.$content)
     this.initFormData()
@@ -36,11 +36,11 @@ export default class VideoComponent extends Component {
     this.formData.controls = 'true'        // 是否显示播放器控制条
 
     this.formData.autoControls = 'false'    //鼠标移动到视频上才展示控制条
- 
+
     this.formData.coverImg = '' //封面
     this.update(this.formData)
   }
- 
+
   initPorpPanel() {
     console.log('initPorpPanel')
     let that = this
@@ -51,30 +51,30 @@ export default class VideoComponent extends Component {
     $propPanel.show()
     $propPanel.find('*').off()
     this.updatePropPanel()
- 
-    let $wInput = $propPanel.find('input[type=text][name=width]') 
+
+    let $wInput = $propPanel.find('input[type=text][name=width]')
     $wInput.keyup(function() {
-      let val = $(this).val() 
+      let val = $(this).val()
       let part=that.$el
       part.width(tParseInt(val))
     })
-    let $hInput = $propPanel.find('input[type=text][name=height]') 
+    let $hInput = $propPanel.find('input[type=text][name=height]')
     $hInput.keyup(function() {
-      let val = $(this).val() 
+      let val = $(this).val()
       let part=that.$el
       part.height(tParseInt(val))
-      
+
     })
- 
-    let $videoIDInput = $propPanel.find('input[type=text][name=videoID]') 
+
+    let $videoIDInput = $propPanel.find('input[type=text][name=videoID]')
     $videoIDInput.keyup(function() {
       let val = $(this).val()
       that.formData.videoID = val
       that.update(that.formData)
     })
- 
 
-    let $coverImgInput = $propPanel.find('input[type=text][name=coverImg]') 
+
+    let $coverImgInput = $propPanel.find('input[type=text][name=coverImg]')
     $coverImgInput.change(function() {
       let val = $(this).val()
       that.formData.coverImg = val
@@ -163,10 +163,10 @@ export default class VideoComponent extends Component {
       $Video.attr("muted","muted")
     }
     if(_controls){
-      $Video.attr("controls","controls") 
-       
+      $Video.attr("controls","controls")
+
     }else{
-      $Video.removeAttr("controls") 
+      $Video.removeAttr("controls")
     }
     let  dd= $Video.attr("autoplay")
     let  cc= $Video.attr("muted")
@@ -176,26 +176,26 @@ export default class VideoComponent extends Component {
     let coverUrl=''
     if(this.formData.coverMode=="diy"){
       coverUrl=this.formData.coverImg
-    } 
+    }
   }
   updatePropPanel() {
     let $propPanel = this.$propPanel
-     
+
     let $wInput = $propPanel.find('input[type=text][name=width]')
     $wInput.val(this.formData.width)
 
     let $hInput = $propPanel.find('input[type=text][name=height]')
-    $hInput.val(this.formData.height) 
+    $hInput.val(this.formData.height)
 
     let $videoIDInput = $propPanel.find('input[type=text][name=videoID]')
     $videoIDInput.val(this.formData.videoID)
- 
+
     let $coverImgInput = $propPanel.find('input[type=text][name=coverImg]')
     $coverImgInput.val(this.formData.coverImg)
 
     let $autoplayRadio = $propPanel.find('input[type=radio][name=autoplay]')
     $autoplayRadio.filter(`[value="${this.formData.autoplay}"]`).prop('checked', true)
- 
+
     let $mutedRadio = $propPanel.find('input[type=radio][name=muted]')
     $mutedRadio.filter(`[value="${this.formData.muted}"]`).prop('checked', true)
 
@@ -221,5 +221,4 @@ export default class VideoComponent extends Component {
     }
   }
 }
- 
- 
+

@@ -21,16 +21,21 @@ export default abstract class Component {
   isLockedPos: boolean = false
   enableResize: boolean = true
   selectFlag: number = 0
+  isEditPopup: boolean = true
   constructor(name = '', prop = {}) {
     this.name = name;
     for (let k in prop) {
       this[k] = prop[k]
     }
+    let editTag = '';
+    if (this.isEditPopup) {
+      editTag = '<span class="setting" title="编辑"></span>';
+    }
     let $el = $(`
       <div class="component-box t-app">
         <div class="top-bar">
-          <span class="setting" title="编辑"></span>
-          <span class="lock" title="锁定位置"></span>
+          ${editTag}
+          <span class="lock lock-pos" title="锁定位置"></span>
           <span class="copy" title="复制"></span>
           <span class="delete" title="删除"></span>
         </div>
@@ -61,10 +66,14 @@ export default abstract class Component {
 
     let that = this;
     this.$topBar.find('.setting').bind('click', function() {
-      that.openEditDialog();
+      if (that.isEditPopup) {
+        that.openEditDialog();
+      }
     })
     this.$contentBox.dblclick(function() {
-      that.openEditDialog();
+      if (that.isEditPopup) {
+        that.openEditDialog();
+      }
     })
 
     this.$bottomBar.find('.confirm').bind('click', function() {
@@ -80,7 +89,7 @@ export default abstract class Component {
       })
     })
 
-    this.$topBar.find('span:nth-child(2)').bind('click', function() {
+    this.$topBar.find('.lock-pos').bind('click', function() {
       let $this = $(this)
       if (that.isLockedPos) {
         that.isLockedPos = false
@@ -97,7 +106,7 @@ export default abstract class Component {
       }
     })
 
-    this.$topBar.find('span:nth-child(3)').bind('click', function() {
+    this.$topBar.find('.copy').bind('click', function() {
       that.clone()
     })
   }

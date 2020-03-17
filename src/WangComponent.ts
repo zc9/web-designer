@@ -7,7 +7,7 @@ export default class WangComponent extends Component {
   $content: JQuery
   $wangImg: JQuery
   constructor() {
-    super('wang-component', {enableResize: false})
+    super('wang-component', {enableResize: false, isEditPopup: false})
    /* let content = `
         <a class="wang-box"><img src="./assets/wang1.gif"><span>璇子</span></a>
       `
@@ -51,7 +51,7 @@ export default class WangComponent extends Component {
     wimg= '//amos.alicdn.com/online.aw?v=2&uid='+wangID+'&site=enaliint&s='+wangMode+'&charset=UTF-8';
     wimg='<img class="wang-line'+wangCss+'" src="'+wimg+'" />'
     if(eName !=""){
-      nameHtml='<span style="color:'+color+';font-size:'+fSize+';font-family:'+family+';font-weight:'+weight+';font-style:'+fStyle+';margin-left:'+nameMl+'px;">'+eName+'</span>' 
+      nameHtml='<span style="color:'+color+';font-size:'+fSize+';font-family:'+family+';font-weight:'+weight+';font-style:'+fStyle+';margin-left:'+nameMl+'px;">'+eName+'</span>'
     }
 
     return '<a class="abs wang-box"  href="'+url+'" target="_blank" '+tipText+' style="'+bgColor+'top:'+top+';left:'+left+';width:'+width+'px; height:'+height+'px;display:inline-block;">'+bgImgHtml+'<div class="wang-info" style="margin-top:'+nameMt+'px;">'+wimg+nameHtml+'</div></a>'
@@ -70,7 +70,7 @@ export default class WangComponent extends Component {
     this.formData.fStyle = 'normal'
     this.formData.tipText = '24Hours Service Online'
     this.formData.nameMl = 5
-    this.formData.nameMt = 5 // 
+    this.formData.nameMt = 5 //
     this.update(this.formData)
 
   }
@@ -80,7 +80,7 @@ export default class WangComponent extends Component {
     $('.prop-setting-ct > div').hide()
     let $propPanel = $('.ww-com-prop-panel')
     this.$propPanel = $propPanel
-    
+
     $propPanel.show()
     $propPanel.find('*').off()
 
@@ -93,36 +93,36 @@ export default class WangComponent extends Component {
       that.update(that.formData)
     })
 
-    let $wangIDInput = $propPanel.find('input[type=text][name=wangID]') 
+    let $wangIDInput = $propPanel.find('input[type=text][name=wangID]')
     $wangIDInput.change(function() {
       let val = $(this).val()
       that.formData.wangID = val
     })
-    let $bgImgInput = $propPanel.find('input[type=text][name=bgImg]') 
+    let $bgImgInput = $propPanel.find('input[type=text][name=bgImg]')
     $bgImgInput.change(function() {
       let val = $(this).val()
       that.formData.bgImg = val
       that.update(that.formData)
     })
-    let $nameMtInput = $propPanel.find('input[type=text][name=nameMt]') 
+    let $nameMtInput = $propPanel.find('input[type=text][name=nameMt]')
     $nameMtInput.change(function() {
       let val = $(this).val()
       that.formData.nameMt = val
       that.update(that.formData)
     })
-    let $eNameInput = $propPanel.find('input[type=text][name=eName]') 
+    let $eNameInput = $propPanel.find('input[type=text][name=eName]')
     $eNameInput.change(function() {
       let val = $(this).val()
       that.formData.eName = val
       that.update(that.formData)
     })
-    let $colorInput = $propPanel.find('input[type=text][name=color]') 
+    let $colorInput = $propPanel.find('input[type=text][name=color]')
     $colorInput.change(function() {
       let val = $(this).val()
       that.formData.color = val
       that.update(that.formData)
     })
-    let $bgColorInput = $propPanel.find('input[type=text][name=bgColor]') 
+    let $bgColorInput = $propPanel.find('input[type=text][name=bgColor]')
     $bgColorInput.change(function() {
       let val = $(this).val()
       that.formData.bgColor = val
@@ -212,7 +212,7 @@ export default class WangComponent extends Component {
     let $spanName=this.$content.find(".wang-info span");
     this.$content.css('background-color', this.formData.bgColor)
     this.$content.find(".wang-info").css("margin-top",parseInt(this.formData.nameMt))
-    this.$content.attr('title', this.formData.tipText) 
+    this.$content.attr('title', this.formData.tipText)
 
     let lineImg=this.formData.wangMode =="22" ?  './assets/wang1.gif': './assets/wang2.gif';
     that.$wangImg.attr('src', lineImg)
@@ -221,15 +221,15 @@ export default class WangComponent extends Component {
     }else{
       that.$wangImg.removeClass("w-mid")
     }
-   
-  
+
+
 
     if(this.formData.bgImg){
       if($cphoto.length<=0){
          this.$content.find(".wang-info").before("<img class='cphoto' >")
       }
       $cphoto=this.$content.find(".cphoto");
-      $cphoto.attr('src', this.formData.bgImg) 
+      $cphoto.attr('src', this.formData.bgImg)
     }else{
       $cphoto.remove();
     }
@@ -245,14 +245,14 @@ export default class WangComponent extends Component {
       $spanName.css("font-weight",this.formData.weight)
       $spanName.css("font-style",this.formData.fStyle)
       $spanName.css("margin-left",parseInt(this.formData.nameMl))
-       
+
     }else{
        $spanName.remove();
     }
   }
   updatePropPanel() {
     let $propPanel = this.$propPanel
-   
+
 
     let $wangModeRadio = $propPanel.find('input[type=radio][name=wangMode]')
     $wangModeRadio.filter(`[value="${this.formData.wangMode}"]`).prop('checked', true)
@@ -263,7 +263,7 @@ export default class WangComponent extends Component {
     let $bgImgInput = $propPanel.find('input[type=text][name=bgImg]')
     $bgImgInput.val(this.formData.bgImg)
 
- 
+
     let $nameMtInput = $propPanel.find('input[type=text][name=nameMt]')
     $nameMtInput.val(this.formData.nameMt)
     let $eNameInput = $propPanel.find('input[type=text][name=eName]')
@@ -303,7 +303,7 @@ export default class WangComponent extends Component {
        $bgColorInput.prev().find(".sp-preview-inner").css("background-color",this.formData.bgColor)
     }else{
       $bgColorInput.prev().find(".sp-preview-inner").css("background-color",'')
-    } 
+    }
 
   }
   getProps() {
@@ -319,5 +319,4 @@ export default class WangComponent extends Component {
     }
   }
 }
- 
- 
+

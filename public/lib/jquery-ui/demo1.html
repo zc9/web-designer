@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <link rel="stylesheet" href="jquery-ui.css">
+  <link rel="stylesheet" href="smart-guides.css">
+  <link rel="stylesheet" href="jquery.multidraggable.css">
+  <style>
+    .canvas {
+      position: relative;
+      width: 600px;
+      height: 400px;
+      margin: 0 auto;
+      margin-top: 20px;
+      border: 1px solid red;
+    }
+    .draggable {
+      border: 1px solid black;
+      position: absolute;
+      top: 10px;
+      left: 50px;
+      width: 100px;
+      height: 100px;
+      background: #ffffc8;
+    }
+    .d1 {
+      top: 200px;
+      left: 110px;
+      width: 50px;
+      height: 50px;
+    }
+
+    .d2 {
+      top: 200px;
+      left: 310px;
+      width: 50px;
+      height: 50px;
+    }
+    .draggable.selected {
+      background-color: rgba(56, 245, 5, 0.5);
+    }
+
+    .guide {
+      border-color: blue;
+      border-style: dotted;
+    }
+
+
+  </style>
+</head>
+<body>
+  <div class="canvas">
+    <div class="draggable">
+      <p>Drag</p>
+    </div>
+    <div class="draggable d2">
+      <p>Drag</p>
+    </div>
+    <div class="draggable d1">
+      <p>Drag</p>
+    </div>
+  </div>
+  <script src="external/jquery/jquery.js"></script>
+  <script src="jquery-ui.js"></script>
+  <script src="smart-guides.js"></script>
+  <script src="jquery.draggable.smartguides.js"></script>
+  <script src="jquery.resizable.smartguides.js"></script>
+  <script src="jquery.ui.resizable.snap.ext.js"></script>
+  <script src="jquery.multidraggable.js"></script>
+
+  <script>
+
+    $(document)
+      .on('click', '.canvas', unselectAll)
+      .on('click', '.draggable:not(.unclickable)', function (e) {
+        selectElement(this);
+        e.stopPropagation();
+      });
+
+    function selectActive() {
+      var $this = $(this);
+      if (!$this.hasClass('selected')) {
+        $this.siblings('.selected').removeClass('selected');
+        $this.addClass('selected');
+      }
+    }
+    function unselectAll() {
+      $(document).find('.selected').removeClass('selected');
+    }
+
+    function selectElement(el) {
+      $(el).addClass('selected');
+    }
+    function unselectElement(el) {
+      $(el).removeClass('selected');
+    }
+    var opts = {
+      containment: "parent",
+      snapTolerance: 10,
+      multiple: true,
+      smartGuides: '.draggable:not(".selected")',
+      beforeStart: selectActive
+    };
+
+    $('.draggable')
+      .draggable($.extend({
+        // stop: unselectAll
+        selected: '.selected'
+      }, opts))
+      .resizable($.extend({
+        handles: 'all',
+      }, opts ));
+
+    $('.canvas').selectable({
+      filter: '.draggable',
+      cancel: '.draggable',
+      selecting: function (e, ui) {
+        selectElement(ui.selecting);
+      },
+      unselecting: function (e, ui) {
+        unselectElement(ui.selecting);
+      },
+      start: unselectAll
+    });
+
+  </script>
+</body>
+</html>

@@ -3091,7 +3091,7 @@ $.ui.plugin.add( "draggable", "snap", {
 	},
 	drag: function( event, ui, inst ) {
 
-		var ts, bs, ls, rs, l, r, t, b, i, first,
+		var ts, bs, ls, rs, lls, tts, l, r, t, b, i, first,
 			o = inst.options,
 			d = o.snapTolerance,
 			x1 = ui.offset.left, x2 = x1 + inst.helperProportions.width,
@@ -3118,18 +3118,25 @@ $.ui.plugin.add( "draggable", "snap", {
 				inst.snapElements[ i ].snapping = false;
 				continue;
 			}
-
 			if ( o.snapMode !== "inner" ) {
 				ts = Math.abs( t - y2 ) <= d;
 				bs = Math.abs( b - y1 ) <= d;
 				ls = Math.abs( l - x2 ) <= d;
 				rs = Math.abs( r - x1 ) <= d;
+			  lls = Math.abs(l - (x1 + inst.helperProportions.width / 2)) <= d;
+        tts = Math.abs(t - (y1 + inst.helperProportions.height / 2)) <= d;
 				if ( ts ) {
 					ui.position.top = inst._convertPositionTo( "relative", {
 						top: t - inst.helperProportions.height,
 						left: 0
 					} ).top;
 				}
+        if ( tts ) {
+          ui.position.top = inst._convertPositionTo( "relative", {
+            top: t - inst.helperProportions.height / 2,
+            left: 0
+          } ).top;
+        }
 				if ( bs ) {
 					ui.position.top = inst._convertPositionTo( "relative", {
 						top: b,
@@ -3142,6 +3149,12 @@ $.ui.plugin.add( "draggable", "snap", {
 						left: l - inst.helperProportions.width
 					} ).left;
 				}
+				if ( lls ) {
+          ui.position.left = inst._convertPositionTo( "relative", {
+            top: 0,
+            left: l - inst.helperProportions.width / 2
+          } ).left;
+        }
 				if ( rs ) {
 					ui.position.left = inst._convertPositionTo( "relative", {
 						top: 0,

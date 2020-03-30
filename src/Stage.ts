@@ -24,6 +24,13 @@ export default class Stage {
   $canvasBox: JQuery
   $scrollContent: JQuery
   $canvas: JQuery
+  $componentTopBar: JQuery = null;
+  $componentBottomBar: JQuery = null;
+  $inputX: JQuery = null;
+  $inputY: JQuery = null;
+  $inputWidth: JQuery = null;
+  $inputHeight: JQuery = null;
+  focusComponent: Component = null;
   myScroll: any
   selector = null
   paddingWidth: number
@@ -40,6 +47,7 @@ export default class Stage {
     overflow: 'hidden'
   }
   id: string
+  curMouseEvent: MouseEvent = null;
   constructor() {
     this.EVENTS = this.isTouch() ?
     ['touchstart', 'touchmove', 'touchend'] : ['mousedown', 'mousemove', 'mouseup'];
@@ -134,7 +142,7 @@ export default class Stage {
       disabled: true
     });
     this.setupEvent();
-
+    this.createComponentToolbar();
     this.initPorpPanel()
 
     this.recordOps()
@@ -226,7 +234,31 @@ export default class Stage {
       } else {
         this.ruler.hideCursor();
       }
-    })
+    });
+
+
+    canvasElem.addEventListener(EVENTS[1], (event: MouseEvent) => {
+      this.curMouseEvent = event;
+      if (this.focusComponent) {
+        let offsetX = event.clientX - this.$canvas.offset().left;
+        let offsetY = event.clientY - this.$canvas.offset().top;
+        let size = this.$componentTopBar.height();
+        let left = this.focusComponent.left();
+        let top = this.focusComponent.top();
+        let width = this.focusComponent.width();
+        let height = this.focusComponent.height();
+        if (width < this.$componentBottomBar.width()) {
+          width = this.$componentBottomBar.width();
+        }
+        if (height < this.$componentBottomBar.height()) {
+          height = this.$componentBottomBar.height();
+        }
+        if (offsetX < left - size || offsetX > left + width + size ||
+          offsetY < top - size || offsetY > top + height + size) {
+          this.hideComponentToolbar();
+        }
+      }
+    });
 
     canvasElem.addEventListener(EVENTS[0], event => {
       if (event.target !== canvasElem) {
@@ -246,7 +278,6 @@ export default class Stage {
         if (component === null) {
           component = new HotAreaComponent();
           that.addComponent(component)
-          component.showToolbar()
           that.selectComponent(component)
         }
         event = that.getEventInfo(event)
@@ -801,5 +832,122 @@ export default class Stage {
       that.pageHeight = h;
       that.setCanvasSize(that.pageWidth, that.pageHeight)
     })
+  }
+  createComponentToolbar() {
+    this.$componentTopBar = $(` <div class="top-bar">
+        <span class="setting" title="编辑"></span>
+        <span class="lock lock-pos" title="锁定位置"></span>
+        <span class="copy" title="复制"></span>
+        <span class="delete" title="删除"></span>
+      </div>`);
+    this.$componentBottomBar = $(` <div class="bottom-bar">
+        <span>X:<input type="text" value="0"></span>
+        <span>Y:<input type="text" value="0"></span>
+        <span class="width-input">宽:<input type="text" value="0"></span>
+        <span class="height-input">高:<input type="text" value="0"></span>
+        <span class="confirm">确定</span>
+      </div>`);
+    this.$canvas.append(this.$componentTopBar);
+    this.$canvas.append(this.$componentBottomBar);
+
+    this.$inputX = this.$componentBottomBar.find('span:nth-child(1) input');
+    this.$inputY = this.$componentBottomBar.find('span:nth-child(2) input');
+    this.$inputWidth = this.$componentBottomBar.find('span:nth-child(3) input');
+    this.$inputHeight = this.$componentBottomBar.find('span:nth-child(4) input');
+
+    let that = this;
+    this.$componentTopBar.find('.setting').bind('click', function() {
+      if (that.focusComponent && that.focusComponent.isEditPopup) {
+        that.focusComponent.openEditDialog();
+      }
+    })
+
+    this.$componentBottomBar.find('.confirm').bind('click', function() {
+      let x = that.$inputX.val()
+      let y = that.$inputY.val()
+      let width = that.$inputWidth.val()
+      let height = that.$inputHeight.val()
+      that.focusComponent && that.focusComponent.setPosition({
+        w: width,
+        h: height,
+        l: x,
+        t: y
+      })
+    })
+
+    this.$componentTopBar.find('.lock-pos').bind('click', function() {
+      let $this = $(this)
+      if (that.focusComponent.isLockedPos) {
+        that.focusComponent.isLockedPos = false
+        $this.removeClass('unlock')
+        $this.addClass('lock')
+        $this.attr('title', '锁定位置')
+        that.focusComponent.drag.enable()
+      } else {
+        that.focusComponent.isLockedPos = true
+        $this.removeClass('lock')
+        $this.addClass('unlock')
+        $this.attr('title', '解除锁定')
+        that.focusComponent.drag.disable()
+      }
+    })
+
+    this.$componentTopBar.find('.delete').on('mousedown', (event) => {
+      event.stopPropagation();
+      that.focusComponent.deleteSelf();
+    })
+
+    this.$componentTopBar.find('.copy').bind('click', function(event) {
+      that.focusComponent.clone();
+    })
+  }
+  resetComponentPositionInfo() {
+    if (this.focusComponent) {
+      let left = this.focusComponent.left();
+      let top = this.focusComponent.top();
+      this.$inputX.val(left);
+      this.$inputY.val(top);
+      this.$inputWidth.val(this.focusComponent.width());
+      this.$inputHeight.val(this.focusComponent.height());
+    }
+  }
+  setComponentToolbarPos() {
+    if (this.focusComponent) {
+      let topBarTop = this.focusComponent.top() - this.$componentTopBar.height();
+      let bottomBarTop = this.focusComponent.top() + this.focusComponent.height();
+      let topBarLeft = this.focusComponent.left();
+      this.$componentTopBar.css('top', topBarTop);
+      this.$componentTopBar.css('left', topBarLeft);
+      this.$componentBottomBar.css('top', bottomBarTop);
+      this.$componentBottomBar.css('left', topBarLeft);
+    }
+  }
+  showComponentToolbar(component: Component) {
+    if (this.focusComponent) {
+      return;
+    }
+    this.focusComponent = component;
+    if (!component.isEditPopup) {
+      this.$componentTopBar.find('.setting').hide();
+    } else {
+      this.$componentTopBar.find('.setting').show();
+    }
+    if (!component.enableResize) {
+      this.$componentBottomBar.find('.width-input, .height-input').hide();
+    } else {
+      this.$componentBottomBar.find('.width-input, .height-input').show();
+    }
+    this.$componentTopBar.show();
+    this.$componentBottomBar.show();
+    this.setComponentToolbarPos();
+    this.resetComponentPositionInfo();
+  }
+  hideComponentToolbar() {
+    if (!this.focusComponent) {
+      return;
+    }
+    this.$componentTopBar.hide();
+    this.$componentBottomBar.hide();
+    this.focusComponent = null;
   }
 }

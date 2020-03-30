@@ -227,7 +227,7 @@
         <li data-name="text-component"><icon>ꆀ</icon><span>文字</span></li>
         <li data-name="wang-component"><icon>ꑀ</icon><span>旺旺</span></li>
         <li data-name="video-component"><icon>ꊀ</icon><span>视频/FLASH</span></li>
-         <li data-name="marquee-component"><icon>ꆐ</icon><span>滚动文字/图片</span></li>
+         <li data-name="marquee-component" ><icon>ꆐ</icon><span>滚动文字/图片</span></li>
 
         <li style="display:none"><icon>ꅀ</icon><span>特效层</span></li>
 
@@ -913,6 +913,13 @@
               <label for="autoplay_2" >是</label>
             </div>
             <div class="nromal-wrap">
+              <label >循环播放</label>
+              <input class="radio-medium" type="radio" name="loop" id="loop_1" value="false">
+              <label for="loop_1" >否</label>
+              <input class="radio-medium" type="radio" name="loop" id="loop_2" value="true"   style="margin-left:10px;">
+              <label for="loop_2" >是</label>
+            </div>
+            <div class="nromal-wrap">
               <label >是否静音</label>
               <input class="radio-medium" type="radio" name="muted" id="muted_1" value="false">
               <label for="muted_1" >否</label>
@@ -1210,6 +1217,7 @@
                       <input name="bgImg" type="text" />
                     </div>              
                   </div>
+
                   <div class="nromal-wrap">
                     <label >链接地址</label>
                     <input class="input-medium"   name="href" type="text" />
@@ -1218,6 +1226,10 @@
                   </div>
                 </div>
                 <div class="layui-tab-item">
+                  <div class="nromal-wrap">
+                    <label >滚动间_距离</label>
+                    <input class="input-short"   name="scjl" type="text" />
+                  </div>
                   <div class="nromal-wrap">
                     <label class="label-con">滚动速度</label>
                     <input class="input-short" name="amount" type="text" />

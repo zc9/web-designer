@@ -151,30 +151,9 @@ export function valEmpty(v){
 }
 
 /*转化 正数值 */
-export function valInt(v) {
-   let re=false
-   switch (typeof v) {
-    case 'undefined':
-        re=true;
-    case 'string': 
-        if (v.replace(/(^[ \t\n\r]*)|([ \t\n\r]*$)/g, '').length == 0) re= true;
-        break;
-    case 'boolean':
-        if (!v) re= true;
-        break;
-    case 'number':
-        if (0 === v || isNaN(v)) re= true;
-        break;
-    case 'object':
-        if (null === v || v.length === 0) re= true;
-        for (var i in v) {
-            re= false;
-        }
-        re= true;
-    }
-    if(!re){
-    return Number.parseInt(v)
-    }
+export function valInt(a) {
+    var b;
+  return a && "" != a ? (b = parseInt(a, 10), !!isNaN(b) && (b = 0), b) : a
 }
 //生成图片样式
 export function ImgBgHtml(formData) {

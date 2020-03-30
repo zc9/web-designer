@@ -6,7 +6,7 @@ import {bgImage,valInt,valEmpty,textLine,conModeChanged} from './commonCss'
 export default class TextComponent extends Component {
 　$content: JQuery
   constructor() {
-    super('marquee-component')
+    super('marquee-component', {  isEditPopup: false})
     let content = `
     <marquee style="width:100%;height:100%;overflow:hidden;" scrollamount="4" scrolldelay="0" direction="right" behavior="slide"></marquee>
       `
@@ -42,6 +42,7 @@ export default class TextComponent extends Component {
     this.formData.behavior = 'scroll'
     this.formData.dirt = 'left'
     this.formData.amount = 5
+    this.formData.scjl = 0
     
      
     this.formData.conMode ='txt' //  txt 文字  img 图片
@@ -73,11 +74,12 @@ export default class TextComponent extends Component {
     height = this.$el.height()
 
     //滚动信息
-    let amount,delay,dirt,behavior,wzStyle
+    let amount,delay,dirt,behavior,wzStyle,scjl,sccs
     amount=valEmpty(this.formData.amount) !="" ? ' scrollamount="'+this.formData.amount+'"' :''
     delay=valEmpty(this.formData.delay) !="" ? ' scrolldelay="'+this.formData.delay+'"' :''
     dirt=this.formData.dirt
     behavior=this.formData.behavior
+    scjl=valInt(this.formData.scjl) !="" ? valInt(this.formData.scjl) : 0
     
     conMode=valEmpty(this.formData.conMode)
 
@@ -88,16 +90,29 @@ export default class TextComponent extends Component {
 
     scrollw=$scbox.width()
     scrollh=$scbox.height()
-    whStyle='width:'+scrollw+'px; height:'+scrollh+'px;'  
+    whStyle=''
+    sccs='rel'
+    if(scjl !=""){
+      if(dirt==='left' || dirt==='right'){
+        scrollw=scrollw+scjl
+        //whStyle+='margin-right:'+scjl+'px;'
+      }else if(dirt==='up' || dirt==='down'){
+        scrollh=scrollh+scjl
+        sccs='abs'
+        //whStyle+='margin-bottom:'+scjl+'px;'
+      }
+
+    }
+    whStyle+='width:'+scrollw+'px; height:'+scrollh+'px;'  
     wzStyle='white-space:nowrap;word-break:break-all;'
 
-
-
+ 
+ 
     href=valEmpty(this.formData.href) !="" ?  ' href="'+this.formData.href+'"':''
     hrefMode=valEmpty(this.formData.hrefMode) ==="_blank" ?  ' target="'+this.formData.hrefMode+'"':''
 
   
-    let family, fSize, color, bgColor,lHeight,spacing,indent,weight,fStyle,oLine,through,uLine,align,content,bgImg,bgRep,bgPos,onBgStyle,onlineStyle
+    let family, fSize, color, bgColor,lHeight,spacing,indent,weight,fStyle,oLine,through,uLine,align,content,bgImg,onBgStyle,onlineStyle
     content=valEmpty(this.formData.content)  !="" ? this.formData.content :''
     family=valEmpty(this.formData.family) !="" ? 'font-family:'+this.formData.family+';' :''
     fSize=valEmpty(this.formData.fSize) !="" ? 'font-size:'+this.formData.fSize+'px;' :''
@@ -132,12 +147,12 @@ export default class TextComponent extends Component {
       fm1Style='right:'+fm1+'px;'
       fm2Style='top:-'+scrollh+'px;'
       fm3Style='left:'+fm1+'px;top:-'+fm2+'px;'
-    }else if(dirt==='up'){
+    }else if(dirt==='up' || dirt==='down'){
       fm1=scrollh
-      fm2=scrollw*2 
-      fm1Style='top:-'+fm1+'px;'
-      fm2Style='top:0px;'
-      fm3Style='top:'+fm1+'px;'
+      fm2=scrollh*3 
+      fm1Style='top:-'+fm1+'px;background-color:red;'
+      fm2Style='top:0px;background-color: green;'
+      fm3Style='top:'+fm1+'px;background-color: #000;'
     }
     if(conMode==='txt'){
       
@@ -147,14 +162,12 @@ export default class TextComponent extends Component {
         htmlLink+='<div  class="rel"  style="'+fm3Style+whStyle+wzStyle+onBgStyle+onlineStyle+family+fSize+color+lHeight+spacing+indent+weight+align+fStyle+'" >'+content+'</div>'
       }
     }else{
-      if(dirt==='left' || dirt==='up'){
+      if(dirt==='left' || dirt==='up' || dirt==='down'){
         let bgImg=valEmpty(this.formData.bgImg) 
         let imgHtml= bgImg !="" ? '<img  src="'+bgImg+'" />': ''
-       
-
-        htmlLink='<div class="abs" style="'+fm1Style+whStyle+'">'+imgHtml+'</div>'
-        htmlLink+='<div class="abs" style="'+fm2Style+whStyle+'">'+imgHtml+'</div>' 
-        htmlLink+='<div class="abs" style="'+fm3Style+whStyle+'">'+imgHtml+'</div>'
+        htmlLink='<div class="'+sccs+'" style="'+fm1Style+whStyle+'">'+imgHtml+'</div>'
+        htmlLink+='<div class="'+sccs+'" style="'+fm2Style+whStyle+'">'+imgHtml+'</div>' 
+        htmlLink+='<div class="'+sccs+'" style="'+fm3Style+whStyle+'">'+imgHtml+'</div>'
       }
     }
     if(href !=""){
@@ -170,6 +183,9 @@ export default class TextComponent extends Component {
   }
  
  
+ 
+
+
   //文本框预览样式
   updatePreviewStyle($objElem){
     let $defElem=$objElem.parent().parent().parent().find('.font-textarea .multi-textarea')
@@ -316,6 +332,11 @@ export default class TextComponent extends Component {
       let val = $(this).val()
       that.formData.delay = val
       that.update(that.formData)
+    })
+    let $scjlInput = $propPanel.find('input[type=text][name=scjl]')
+    $scjlInput.keyup(function() {
+      let val = $(this).val()
+      that.formData.scjl = val
     })
 
 
@@ -771,6 +792,8 @@ export default class TextComponent extends Component {
     $amountInput.val(this.formData.amount)
     let $delaytInput = $propPanel.find('input[type=text][name=delay]')
     $delaytInput.val(this.formData.delay)
+    let $scjlInput = $propPanel.find('input[type=text][name=scjl]')
+    $scjlInput.val(this.formData.scjl)
 
     let $conModeRadio = $propPanel.find('input[type=radio][name=conMode]')
     $conModeRadio.filter(`[value="${this.formData.conMode}"]`).prop('checked', true)

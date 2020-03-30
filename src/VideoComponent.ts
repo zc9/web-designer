@@ -13,17 +13,20 @@ export default class VideoComponent extends Component {
   }
 
   toHtml() {
-    let top, left, width, height,isAutopaly,isMuted,isControls,isAutoControls,coverImg
+    let top, left, width, height,isAutopaly,isMuted,isControls,isAutoControls,isloop,coverImg
 
     top = this.$el.css('top')
     left = this.$el.css('left')
     width = this.$el.width()
     height = this.$el.height()
-    isAutopaly=valEmpty(this.formData.autoplay) ==="true" ? 'autoplay="autoplay"' : '';
-    isMuted=valEmpty(this.formData.muted) ==="true" ? 'muted' : '';
-    isControls=valEmpty(this.formData.controls) ==="true" ? 'controls' : '';
-    coverImg=valEmpty(this.formData.coverImg) !="" ? 'poster="'+this.formData.coverImg+'"' : '';
-    return '<div class="abs video-box"  style="top:'+top+';left:'+left+';width:'+width+'px; height:'+height+'px;"><Video '+isAutopaly+' '+isMuted+' '+isControls+' '+coverImg+' style="width:100%;height:100%;"   src="https://cloud.video.taobao.com/play/u/2780279213/p/1/e/6/t/1/d/ld/36255062.mp4"  /></div>'
+    isAutopaly=valEmpty(this.formData.autoplay) ==="true" ? ' autoplay="autoplay"' : '';
+    isMuted=valEmpty(this.formData.muted) ==="true" || valEmpty(this.formData.autoplay) ==="true" ? ' muted' : '';
+    isControls=valEmpty(this.formData.controls) ==="true" ? ' controls' : '';
+    coverImg=valEmpty(this.formData.coverImg) !="" ? ' poster="'+this.formData.coverImg+'"' : '';
+    isloop=valEmpty(this.formData.loop) ==="true" ? ' loop="loop"' : '';
+    
+
+    return '<div class="abs video-box"  style="top:'+top+';left:'+left+';width:'+width+'px; height:'+height+'px;"><Video '+isAutopaly+isMuted+isControls+isloop+coverImg+' style="width:100%;height:100%;"   src="https://cloud.video.taobao.com/play/u/2780279213/p/1/e/6/t/1/d/ld/36255062.mp4"  /></div>'
   }
 
   initFormData() {
@@ -34,10 +37,12 @@ export default class VideoComponent extends Component {
     this.formData.autoplay = 'false'     //是否自动播放
     this.formData.muted = 'false'        //是否静音
     this.formData.controls = 'true'        // 是否显示播放器控制条
-
+    this.formData.loop = 'false'           //是否 循环播
     this.formData.autoControls = 'false'    //鼠标移动到视频上才展示控制条
 
     this.formData.coverImg = '' //封面
+
+ 
     this.update(this.formData)
   }
 
@@ -99,6 +104,12 @@ export default class VideoComponent extends Component {
       that.formData.autoControls = $(this).prop('value')
       that.update(that.formData)
     })
+    let $loopRadio = $propPanel.find('input[type=radio][name=loop]')
+    $loopRadio.change(function() {
+      that.formData.loop = $(this).prop('value')
+      that.update(that.formData)
+    })
+
   }
   openEditDialog() {
     let layer = layui.layer;
@@ -152,6 +163,8 @@ export default class VideoComponent extends Component {
     let _autoplay=this.formData.autoplay==="true" ? true :false;
     let _muted=this.formData.muted==="true" ? true :false;
     let _controls=this.formData.controls==="true" ? true :false;
+    let _loop=this.formData.loop==="true" ? true :false;
+
     if(_autoplay){
       $Video.attr("autoplay","autoplay")
     }else{
@@ -164,10 +177,15 @@ export default class VideoComponent extends Component {
     }
     if(_controls){
       $Video.attr("controls","controls")
-
     }else{
       $Video.removeAttr("controls")
     }
+    if(_loop){
+      $Video.attr("loop","loop")
+    }else{
+      $Video.removeAttr("loop")
+    }
+
     let  dd= $Video.attr("autoplay")
     let  cc= $Video.attr("muted")
     let  bb= $Video.attr("controls")
@@ -204,7 +222,8 @@ export default class VideoComponent extends Component {
 
     let $autoControlsRadio = $propPanel.find('input[type=radio][name=autoControls]')
     $autoControlsRadio.filter(`[value="${this.formData.autoControls}"]`).prop('checked', true)
-
+    let $loopRadio = $propPanel.find('input[type=radio][name=loop]')
+    $loopRadio.filter(`[value="${this.formData.loop}"]`).prop('checked', true)
   }
   getProps() {
     let config = this.formData;

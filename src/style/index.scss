@@ -716,85 +716,86 @@ icon {
     background: rgb(51, 238, 255);
   }
 
+  .top-bar {
+    position: absolute;
+    display: none;
+    z-index: 1000;
+    height:24px;
+    white-space: nowrap;
+    font-size: 0;
+    user-select: none;
+    > span {
+      display: inline-block;
+      width: 22px;
+      height: 22px;
+      cursor: pointer;
+      background: url("../assets/icon.png") #ff3333;
+      border: 1px #ff3333 solid;
+      opacity: 0.7;
+      filter: progid:DXImageTransform.Microsoft.Alpha(opacity=70);
+      -ms-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=70);
+      &:hover {
+        opacity: 1;
+        filter: progid:DXImageTransform.Microsoft.Alpha(opacity=100);
+        -ms-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=100);
+      }
+      &.setting {
+        background-position: -210px -268px;
+      }
+      &.lock {
+        background-position: -210px -357px ;
+      }
+      &.copy {
+        background-position: -210px -298px;
+      }
+      &.unlock {
+        background-position: -210px -328px;
+      }
+      &.delete {
+        background-position: -210px -387px;
+      }
+    }
+
+  }
+  .bottom-bar {
+    position: absolute;
+    background: #717171;
+    z-index: 1000;
+    font-size: 12px;
+    color: #fff;
+    margin-top: 2px;
+    white-space: nowrap;
+    display: none;
+    > span {
+      display: inline-block;
+      line-height: 14px;
+      margin-left: 2px;
+      &.confirm {
+        width: 40px;
+        height: 22px;
+        text-align: center;
+        line-height: 22px;
+        // background: #717171;
+        cursor: pointer;
+      }
+      input {
+        color: #525c66;
+        width: 36px;
+        text-indent: 2px;
+        border: 1px #525c66 solid;
+        border-radius: 2px;
+        height: 14px;
+        line-height: 14px;
+        border: none;
+        outline: 0;
+        background: #fff;
+        margin-left: 2px;
+      }
+    }
+
+  }
   .component-box, .drag-box {
     position: absolute;
-    .top-bar {
-      position: absolute;
-      display: none;
-      top: -26px;
-      height:24px;
-      white-space: nowrap;
-      font-size: 0;
-      user-select: none;
-      > span {
-        display: inline-block;
-        width: 22px;
-        height: 22px;
-        cursor: pointer;
-        background: url("../assets/icon.png") #ff3333;
-        border: 1px #ff3333 solid;
-        opacity: 0.7;
-        filter: progid:DXImageTransform.Microsoft.Alpha(opacity=70);
-        -ms-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=70);
-        &:hover {
-          opacity: 1;
-          filter: progid:DXImageTransform.Microsoft.Alpha(opacity=100);
-	        -ms-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=100);
-        }
-        &.setting {
-          background-position: -210px -268px;
-        }
-        &.lock {
-          background-position: -210px -357px ;
-        }
-        &.copy {
-          background-position: -210px -298px;
-        }
-        &.unlock {
-          background-position: -210px -328px;
-        }
-        &.delete {
-          background-position: -210px -387px;
-        }
-      }
-
-    }
-    .bottom-bar {
-      position: absolute;
-      background: #717171;
-      font-size: 12px;
-      color: #fff;
-      margin-top: 2px;
-      white-space: nowrap;
-      display: none;
-      > span {
-        display: inline-block;
-        line-height: 14px;
-        margin-left: 2px;
-        &.confirm {
-          width: 40px;
-          height: 22px;
-          text-align: center;
-          line-height: 22px;
-          // background: #717171;
-          cursor: pointer;
-        }
-        input {
-          color: #525c66;
-          width: 36px;
-          text-indent: 2px;
-          border: 1px #525c66 solid;
-          border-radius: 2px;
-          height: 14px;
-          line-height: 14px;
-          border: none;
-          outline: 0;
-          background: #fff;
-          margin-left: 2px;
-        }
-      }
-
-    }
 
     .content-box {
       height: 100%;

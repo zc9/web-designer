@@ -27,25 +27,9 @@ export default abstract class Component {
     for (let k in prop) {
       this[k] = prop[k]
     }
-    let editTag = '';
-    if (this.isEditPopup) {
-      editTag = '<span class="setting" title="编辑"></span>';
-    }
     let $el = $(`
       <div class="component-box t-app">
-        <div class="top-bar">
-          ${editTag}
-          <span class="lock lock-pos" title="锁定位置"></span>
-          <span class="copy" title="复制"></span>
-          <span class="delete" title="删除"></span>
-        </div>
         <div class="content-box">
-        </div>
-        <div class="bottom-bar">
-          <span>X:<input type="text" value="0"></span>
-          <span>Y:<input type="text" value="0"></span>
-          ${this.enableResize ? '<span>宽:<input type="text" value="0"></span><span>高:<input type="text" value="0"></span>' : ''}
-          <span class="confirm">确定</span>
         </div>
       </div>
     `);
@@ -54,60 +38,13 @@ export default abstract class Component {
       $el.addClass(name)
     }
     this.$el = $el;
-    this.$topBar = $el.find('.top-bar');
-    this.$bottomBar = $el.find('.bottom-bar');
     this.minWidth = 24;
     this.minHeight = 24;
-
-    this.$inputX = this.$bottomBar.find('span:nth-child(1) input');
-    this.$inputY = this.$bottomBar.find('span:nth-child(2) input');
-    this.$inputWidth = this.$bottomBar.find('span:nth-child(3) input');
-    this.$inputHeight = this.$bottomBar.find('span:nth-child(4) input');
-
     let that = this;
-    this.$topBar.find('.setting').bind('click', function() {
-      if (that.isEditPopup) {
-        that.openEditDialog();
-      }
-    })
     this.$contentBox.dblclick(function() {
       if (that.isEditPopup) {
         that.openEditDialog();
       }
-    })
-
-    this.$bottomBar.find('.confirm').bind('click', function() {
-      let x = that.$inputX.val()
-      let y = that.$inputY.val()
-      let width = that.$inputWidth.val()
-      let height = that.$inputHeight.val()
-      that.setPosition({
-        w: width,
-        h: height,
-        l: x,
-        t: y
-      })
-    })
-
-    this.$topBar.find('.lock-pos').bind('click', function() {
-      let $this = $(this)
-      if (that.isLockedPos) {
-        that.isLockedPos = false
-        $this.removeClass('unlock')
-        $this.addClass('lock')
-        $this.attr('title', '锁定位置')
-        that.drag.enable()
-      } else {
-        that.isLockedPos = true
-        $this.removeClass('lock')
-        $this.addClass('unlock')
-        $this.attr('title', '解除锁定')
-        that.drag.disable()
-      }
-    })
-
-    this.$topBar.find('.copy').bind('click', function() {
-      that.clone()
     })
   }
 
@@ -118,7 +55,12 @@ export default abstract class Component {
   height() {
     return this.drag.$el.offsetHeight;
   }
-
+  left() {
+    return parseInt(this.$el[0].style.left);
+  }
+  top() {
+    return parseInt(this.$el[0].style.top);
+  }
   setContent(content) {
     this.$contentBox.append(content)
   }
@@ -127,11 +69,27 @@ export default abstract class Component {
     this.$el.remove();
   }
   clone() {
+    let copyELem = this.stage.$componentTopBar.find('.copy')[0];
+    let copyElemLeft = this.stage.$componentTopBar[0].offsetLeft + copyELem.offsetLeft;
+    let copyElemTop = this.stage.$componentTopBar[0].offsetTop + copyELem.offsetTop;
     let component = new (<any>this.constructor)
     component.formData = this.formData
     component.update(this.formData)
     this.stage.addComponent(component)
     this.stage.selectComponent(component)
+    component.setPosition({
+      l: copyElemLeft,
+      t: copyElemTop,
+      w: this.width(),
+      h: this.height()
+    });
+    let mouseEvent = document.createEvent('MouseEvent');
+    let clientX = this.stage.curMouseEvent.clientX;
+    let clientY = this.stage.curMouseEvent.clientY;
+    // @ts-ignore
+    mouseEvent.initMouseEvent('mousedown', true, true, window, 0,
+      0, 0, clientX, clientY);
+    component.$contentBox[0].dispatchEvent(mouseEvent);
   }
   abstract getProps() : object;
   abstract toHtml() : string;
@@ -148,18 +106,8 @@ export default abstract class Component {
     this.initPorpPanel()
   }
 
-  showToolbar() {
-    this.$topBar.show();
-    this.$bottomBar.show();
-  }
-
   resetPositionInfo() {
-    let left = this.drag.$el.style.left;
-    let top = this.drag.$el.style.top;
-    this.$inputX.val(parseInt(left ? left : 0));
-    this.$inputY.val(parseInt(top ? top : 0));
-    this.$inputWidth.val(this.width());
-    this.$inputHeight.val(this.height());
+    this.stage.resetComponentPositionInfo();
   }
 
   setPosition({ l, t, w, h }) {
@@ -170,10 +118,9 @@ export default abstract class Component {
   }
 
   unselect() {
-    this.$topBar.hide();
-    this.$bottomBar.hide();
     this.$el.removeClass('selected')
-    this.selectFlag = 0
+    this.selectFlag = 0;
+    this.stage.hideComponentToolbar();
   }
 
   deleteSelf() {
@@ -205,6 +152,7 @@ export default abstract class Component {
         handles: 'all',
         resize: () => {
           this.resetPositionInfo();
+          this.stage.setComponentToolbarPos();
         }
       })
     }
@@ -219,13 +167,14 @@ export default abstract class Component {
     })
     this.drag = drag;
     drag.onDrag = (event) => {
-      this.resetPositionInfo()
+      this.stage.hideComponentToolbar();
       if (this.drag.dragStatus === 0) {
         this.drag.dragStatus = 1
       }
     }
     drag.onStop = (event) => {
-      this.drag.dragStatus = 0
+      this.drag.dragStatus = 0;
+      this.stage.showComponentToolbar(this);
     }
 
     this.$contentBox.on('mousedown',  (event) => {
@@ -238,26 +187,15 @@ export default abstract class Component {
       } else {
         stage.selectComponent(this);
       }
-      this.showToolbar()
       this.selectFlag = 2
     });
-
-
-    this.$topBar.find('.delete').on('mousedown', (event) => {
-      event.stopPropagation();
-      this.deleteSelf()
-    })
-
-    this.$topBar.on('mousedown', (event) => {
-      event.stopPropagation();
-    })
-    this.$bottomBar.on('mousedown', (event) => {
-      event.stopPropagation();
-    })
 
     this.$el.on('mouseenter', (event) => {
       if (this.drag.dragStatus === 2) {
         this.drag.dragStatus = 1
+      }
+      if (this.selectFlag !== 0) {
+        this.stage.showComponentToolbar(this);
       }
     })
 

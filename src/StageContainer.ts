@@ -59,9 +59,11 @@ export default class StageContainer {
           }
         }
         case hotKeysArr[5]: {
+          console.log('copy')
           break;
         }
         case hotKeysArr[6]: {
+          console.log('paste')
           break;
         }
         case hotKeysArr[7]: {

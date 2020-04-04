@@ -292,6 +292,6 @@ export function imgReady (url, callback) {
                 callback(img.width, img.height);
             }
         }
- 
+
 }
- 
+  

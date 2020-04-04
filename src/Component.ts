@@ -102,7 +102,7 @@ export default abstract class Component {
     if (this.selectFlag) {
       return
     }
-    this.$el.addClass('selected');
+    this.$el.addClass('ui-selected');
     this.selectFlag = 1
     this.resetPositionInfo();
     this.initPorpPanel()
@@ -121,7 +121,7 @@ export default abstract class Component {
   }
 
   unselect() {
-    this.$el.removeClass('selected')
+    this.$el.removeClass('ui-selected')
     this.selectFlag = 0;
     this.stage.hideComponentToolbar();
   }

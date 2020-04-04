@@ -152,6 +152,8 @@ export function updateBorder($content,formData){
     let $textPanel=$content;
     let bRadius=formData.bRadius ?  parseInt(formData.bRadius) :''
     let bdWidth=formData.bdWidth !="" ? parseInt(formData.bdWidth) : '';
+    let bdColor=formData.bdColor !="" ? formData.bdColor : 'transparent';
+  
     let $alPanel=$content.find(".bk-aline")
     if (formData.bdT==="on" || formData.bdB==="on" ||formData.bdL==="on"||formData.bdR==="on"){
       if($alPanel.length <=0)
@@ -180,7 +182,7 @@ export function updateBorder($content,formData){
         $alPanel.css('border-right-width', 0)
       }
       $alPanel.css('border-style', formData.bdStyle)
-      $alPanel.css('border-color', formData.bdColor)
+      $alPanel.css('border-color', bdColor)
     }else{
       $alPanel.remove()
     }
@@ -197,7 +199,7 @@ export function updateBorder($content,formData){
       
       const mbdWidth=formData.mbdWidth !="" ? parseInt(formData.mbdWidth) : 0;
       const mbdStyle=formData.mbdStyle
-      const mbdColor=formData.mbdColor
+      const mbdColor=formData.mbdColor !="" ? formData.mbdColor : 'transparent';
 
       if($mlPanel.length <=0) $textPanel.append("<div class='bk-mline'></div>")
       $mlPanel=$content.find(".bk-mline")
@@ -710,7 +712,7 @@ export function toHtmlBorder(formData) {
   bdR=valEmpty(formData.bdR)
   
   bdWidth=valInt(formData.bdWidth)
-  bdColor=valEmpty(formData.bdColor)
+  bdColor=valEmpty(formData.bdColor) !="" ? formData.bdColor : 'transparent';
   bdStyle=valEmpty(formData.bdStyle)
 
   //移上边框
@@ -721,7 +723,7 @@ export function toHtmlBorder(formData) {
   mbdR=valEmpty(formData.mbdR)
   
   mbdWidth=valInt(formData.mbdWidth)
-  mbdColor=valEmpty(formData.mbdColor)
+  mbdColor=valEmpty(formData.mbdColor) !="" ? formData.mbdColor : 'transparent';
   mbdStyle=valEmpty(formData.mbdStyle)
 
   //鼠标经过 边框 样式 动画

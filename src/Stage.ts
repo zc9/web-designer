@@ -142,7 +142,6 @@ export default class Stage {
       disabled: true,
       filter: ".draggable",
       selected: ( event, ui ) => {
-        $(ui.selected).removeClass('ui-selected')
         this.selectComponentByElem(ui.selected);
       }
     });

@@ -25,7 +25,7 @@ export default class Draggable {
   snapLine: boolean = true
   snapDist: boolean = true
   isMulti: boolean = false
-  multiClass: string = '.selected'
+  multiClass: string = '.ui-selected'
   axis: any = false
   minLeft: number = 0
   minTop: number = 0

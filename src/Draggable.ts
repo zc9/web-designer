@@ -5,61 +5,52 @@ export default class Draggable {
     'left_ll', 'left_rl', 'left_cc', 'left_rr', 'left_lr',
     'top_tc', 'top_bc', 'left_lc', 'left_rc'
   ]
-  $el: any
+  el: any
   isDragging: boolean = false
   onStart: Function
   onStop: Function
   onSnap: Function
   onDrag: Function
+  onMultiDrag: Function
+  onMultiStop: Function
   cursor: string = 'move'
   containment: any = null
   disabled: boolean = false
   handle: any = null
   snapTolerance: number = 10
   snap: any = false
-  snapLineColor: string = '#FF4AFF'
-  snapLineSize: number = 1
+  static snapLineColor: string = '#FF4AFF'
+  static snapLineSize: number = 1
   snapAnchor: any = null
   snapLine: boolean = true
   snapDist: boolean = true
+  isMulti: boolean = false
+  multiClass: string = '.selected'
   axis: any = false
   minLeft: number = 0
   minTop: number = 0
   dragStatus: number = 0
+  isMock: boolean = false
   constructor(el: any, opt = {}) {
-    this.$el = el
+    this.el = el
     this.EVENTS = this.isTouch() ?
       ['touchstart', 'touchmove', 'touchend'] : ['mousedown', 'mousemove', 'mouseup']
     this.init(opt)
   }
 
   init(opt) {
-    if (typeof this.$el === 'string') {
-      this.$el = document.querySelector(this.$el)
+    if (typeof this.el === 'string') {
+      this.el = document.querySelector(this.el)
     }
-    this.$el.style.position = 'absolute'
-    this.$el.dragRef = this
-    let classArr = this.$el.className.split(' ');
+    this.el.style.position = 'absolute'
+    this.el.dragRef = this
+    let classArr = this.el.className.split(' ');
     classArr.push('draggable')
-    this.$el.className = classArr.join(' ')
-
-    this.option('containment', opt.containment)
-    this.option('handle', opt.handle)
-    this.option('snap', opt.snap)
-    this.option('axis', opt.axis)
-    this.option('snapAnchor', opt.snapAnchor)
-    this.option('snapLineColor', opt.snapLineColor)
-    this.option('snapTolerance', opt.snapTolerance)
-    this.option('resizeTolerance', opt.resizeTolerance)
-    this.option('cursor', opt.cursor)
-    this.option('snapLine', opt.snapLine)
-    this.option('snapDist', opt.snapDist)
-    this.option('resizable', opt.resizable)
-    this.option('minWidth', opt.minWidth)
-    this.option('minHeight', opt.minHeight)
-    this.option('minLeft', opt.minLeft)
-    this.option('minTop', opt.minTop)
-
+    this.el.className = classArr.join(' ')
+    this.handle = this.el;
+    for (let k in opt) {
+      this.option(k, opt[k]);
+    }
     this.setupEvent()
   }
 
@@ -67,14 +58,14 @@ export default class Draggable {
     if (prop === 'containment') {
       if (typeof val !== 'undefined') {
         if (val === 'parent') {
-          this.containment = this.$el.offsetParent
+          this.containment = this.el.offsetParent
         } else {
           this.containment = val
         }
       }
     } else if (prop === 'handle') {
       if (typeof val === 'undefined') {
-        this.handle = this.$el
+        this.handle = this.el
       } else {
         if (typeof val === 'string') {
           this.handle = document.querySelector(val)
@@ -98,10 +89,13 @@ export default class Draggable {
   }
 
   getEventInfo(event) {
+    if (event.type === 'mock') {
+      return event;
+    }
     return this.isTouch() ? event.targetTouches[0] : event
   }
 
-  darg(event) {
+  drag(event) {
     let _this = this
     const EVENTS = this.EVENTS
     let diffX = 0, diffY = 0
@@ -109,10 +103,10 @@ export default class Draggable {
     let windowWidth = 0, windowHeight = 0, parentWidth = 0, parentHeight = 0
     let eventInfo = _this.getEventInfo(event)
     _this.isDragging = true
-    diffX = eventInfo.clientX - _this.$el.offsetLeft
-    diffY = eventInfo.clientY - _this.$el.offsetTop
-    elemWidth = _this.$el.offsetWidth
-    elemHeight = _this.$el.offsetHeight
+    diffX = eventInfo.clientX - _this.el.offsetLeft
+    diffY = eventInfo.clientY - _this.el.offsetTop
+    elemWidth = _this.el.offsetWidth
+    elemHeight = _this.el.offsetHeight
     windowWidth = document.documentElement.clientWidth
     windowHeight = document.documentElement.clientHeight
     parentWidth = this.containment ? this.containment.clientWidth : windowWidth
@@ -120,7 +114,6 @@ export default class Draggable {
     document.addEventListener(EVENTS[1], move)
     document.addEventListener(EVENTS[2], end)
     function move(event) {
-      if (_this.disabled) return
       let eventInfo = _this.getEventInfo(event)
       let left = eventInfo.clientX - diffX
       let top = eventInfo.clientY - diffY
@@ -141,12 +134,17 @@ export default class Draggable {
         }
       }
 
+      let l = _this.el.offsetLeft;
+      let t = _this.el.offsetTop;
       if (_this.axis !== 'y') {
-        _this.$el.style.left = `${left}px`
+        _this.el.style.left = `${left}px`
       }
 
       if (_this.axis !== 'x') {
-        _this.$el.style.top = `${top}px`
+        _this.el.style.top = `${top}px`
+      }
+      if (_this.isMock) {
+        _this.moveSelectedDraggable(_this.el.offsetLeft - l, _this.el.offsetTop - t);
       }
 
       if (_this.snap) {
@@ -157,19 +155,85 @@ export default class Draggable {
     function end(event) {
       let eventInfo = _this.getEventInfo(event)
       _this.isDragging = false
+      if (_this.isMock) {
+        _this.el.remove();
+      }
       document.removeEventListener(EVENTS[1], move)
       document.removeEventListener(EVENTS[2], end)
       if (_this.onStop) _this.onStop(eventInfo)
       _this.clearSnapLine()
     }
   }
-
+  getSelectedDraggable() {
+    return Array.prototype.slice.call(document.querySelectorAll('.draggable' + this.multiClass));
+  }
+  moveSelectedDraggable(diffX, diffY) {
+    let elems = this.getSelectedDraggable();
+    if (elems.length > 0) {
+      elems.map((elem) => {
+        if (elem !== this.el) {
+          elem.style.left = (elem.offsetLeft + diffX) + 'px';
+          elem.style.top = (elem.offsetTop + diffY) + 'px';
+        }
+      });
+    }
+  }
+  createMultiDraggable() {
+    let elems = this.getSelectedDraggable();
+    if (elems.length > 0) {
+      let left = elems[0].offsetLeft, top = elems[0].offsetTop,
+        right = left + elems[0].offsetWidth, bottom = top + elems[0].offsetHeight;
+      for (let i = 1; i < elems.length; i++) {
+        let l = elems[i].offsetLeft, t = elems[i].offsetTop,
+          r = l + elems[i].offsetWidth, b = t + elems[i].offsetHeight;
+        left = Math.min(left, l);
+        top = Math.min(top, t);
+        right = Math.max(right, r);
+        bottom = Math.max(bottom, b);
+      }
+      let elem = document.createElement('div');
+      elem.style.left = left + 'px';
+      elem.style.top = top + 'px';
+      elem.style.width = (right - left) + 'px';
+      elem.style.height = (bottom - top) + 'px';
+      elem.style.outline = '1px dashed #cccccc';
+      this.containment.appendChild(elem);
+      let multiDraggable = new Draggable(elem, {
+        snap: true,
+        isMock: true,
+        containment: 'parent'
+      });
+      return multiDraggable;
+    }
+  }
 
   start(event) {
-    event.preventDefault()
-    this.stopPropagation(event)
+    if (event.type !== 'mock') {
+      event.preventDefault()
+      this.stopPropagation(event)
+    }
+    if (this.disabled) return
+    if (this.isMulti && this.getSelectedDraggable().length > 1) {
+      setTimeout(() => {
+        let multiDraggable = this.createMultiDraggable();
+        this.disable();
+        multiDraggable.drag(event);
+        this.enable();
+        this.onMultiDrag && this.onMultiDrag();
+        let that = this;
+        // @ts-ignore
+        function end() {
+          that.onMultiStop && that.onMultiStop();
+          document.removeEventListener(that.EVENTS[2], end)
+        }
+        document.addEventListener(this.EVENTS[2], end)
+      }, 10)
+
+
+      return;
+    }
     if (this.onStart) this.onStart(event)
-    this.darg(event)
+    this.drag(event)
   }
 
   setupEvent() {
@@ -200,7 +264,7 @@ export default class Draggable {
 
   getClientRect(el) {
     let elemRect = el.getBoundingClientRect()
-    let $parent = this.containment ? this.containment : this.$el.offsetParent
+    let $parent = this.containment ? this.containment : this.el.offsetParent
     let clientRect: any = {}
     let leftBorderWidth = parseInt(this.getStyle($parent, 'border-left-width'))
     let topBorderWidth = parseInt(this.getStyle($parent, 'border-top-width'))
@@ -242,7 +306,7 @@ export default class Draggable {
     let text = document.createElement('span')
     let distance = 0
     let textHeight = 14
-    text.style.background = this.snapLineColor
+    text.style.background = Draggable.snapLineColor
     text.style.borderRadius = '2px'
     text.style.lineHeight = '14px'
     text.style.padding = '0 2px'
@@ -329,8 +393,8 @@ export default class Draggable {
   }
 
   showSnapLine($parent, { flag, dragElemRect, snapElemRect, snapDrag }) {
-    let snapLineSize = this.snapLineSize
-    let snapLineColor = this.snapLineColor
+    let snapLineSize = Draggable.snapLineSize
+    let snapLineColor = Draggable.snapLineColor
     let { top, bottom, left, right, width, height } = snapElemRect
     let itemWidthHalf = width / 2
     let itemHeightHalf = height / 2
@@ -445,10 +509,10 @@ export default class Draggable {
     $parent.appendChild(line)
   }
   doSnap() {
-    let dragElem = this.$el
+    let dragElem = this.el
     let snapElems = []
     if (typeof this.snap === 'boolean') {
-      snapElems = [].slice.call(document.querySelectorAll('.draggable'))
+      snapElems = [].slice.call(document.querySelectorAll(`.draggable:not(${this.multiClass})`))
     }
     else if (typeof this.snap === 'string') {
       snapElems = [].slice.call(document.querySelectorAll(this.snap))
@@ -464,7 +528,7 @@ export default class Draggable {
       if (item === dragElem) {
         return
       }
-      let itemElem = item//.$el
+      let itemElem = item//.el
       let snapElemRect: any = this.getClientRect(item.dragRef.snapAnchor ? item.dragRef.snapAnchor : itemElem)
       let { top, height, bottom, left, width, right } = snapElemRect
       let dragWidthHalf = dragElemRect.width / 2
@@ -636,6 +700,8 @@ export default class Draggable {
     snapInfos.forEach(snapInfo => {
       let flags = snapInfo.flag.split('_')
       let pos = flags[0]
+      let l = dragElem.offsetLeft;
+      let t = dragElem.offsetTop;
       if (dragElem.dragRef.snapAnchor) {
         let d = 0
         if (pos === 'left') {
@@ -646,6 +712,9 @@ export default class Draggable {
         dragElem.style[pos] = `${snapInfo.dragValue - d}px`
       } else {
         dragElem.style[pos] = `${snapInfo.dragValue}px`
+      }
+      if (this.isMock) {
+        this.moveSelectedDraggable(dragElem.offsetLeft - l, dragElem.offsetTop - t);
       }
       // || snapInfo.snapDrag.isShowDist
       if (this.snapLine) {

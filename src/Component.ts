@@ -49,11 +49,11 @@ export default abstract class Component {
   }
 
   width() {
-    return this.drag.$el.offsetWidth;
+    return this.$el.width();
   }
 
   height() {
-    return this.drag.$el.offsetHeight;
+    return this.$el.height();
   }
   left() {
     return parseInt(this.$el[0].style.left);
@@ -73,23 +73,25 @@ export default abstract class Component {
     let copyElemLeft = this.stage.$componentTopBar[0].offsetLeft + copyELem.offsetLeft;
     let copyElemTop = this.stage.$componentTopBar[0].offsetTop + copyELem.offsetTop;
     let component = new (<any>this.constructor)
-    component.formData = this.formData
+    component.formData = JSON.parse(JSON.stringify(this.formData));
     component.update(this.formData)
     this.stage.addComponent(component)
     this.stage.selectComponent(component)
+    console.log(this.width(), this.height())
     component.setPosition({
       l: copyElemLeft,
       t: copyElemTop,
       w: this.width(),
       h: this.height()
     });
-    let mouseEvent = document.createEvent('MouseEvent');
+    // let mouseEvent = document.createEvent('MouseEvent');
     let clientX = this.stage.curMouseEvent.clientX;
     let clientY = this.stage.curMouseEvent.clientY;
-    // @ts-ignore
-    mouseEvent.initMouseEvent('mousedown', true, true, window, 0,
-      0, 0, clientX, clientY);
-    component.$contentBox[0].dispatchEvent(mouseEvent);
+    // // @ts-ignore
+    // mouseEvent.initMouseEvent('mousedown', true, true, window, 0,
+    //   0, 0, clientX, clientY);
+    // component.$contentBox[0].dispatchEvent(mouseEvent);
+    component.drag.start({type: 'mock', clientX: clientX, clientY: clientY});
   }
   abstract getProps() : object;
   abstract toHtml() : string;
@@ -115,6 +117,7 @@ export default abstract class Component {
     this.$el.height(h)
     this.$el.css('left', l + 'px')
     this.$el.css('top', t + 'px')
+
   }
 
   unselect() {
@@ -157,15 +160,26 @@ export default abstract class Component {
       })
     }
 
+
     let drag = new Draggable(this.$el[0], {
-      minWidth: this.minWidth,
-      minHeight: this.minHeight,
       handle: this.$contentBox[0],
       containment: $canvas[0],
-      resizable: false,
+      isMulti: true,
       snap: true
     })
     this.drag = drag;
+    drag.onStart = (event) => {
+    }
+    drag.onMultiDrag = () => {
+      if (this.drag.dragStatus === 0) {
+        this.drag.dragStatus = 1
+      }
+      this.stage.hideComponentToolbar();
+    }
+    drag.onMultiStop = () => {
+      this.drag.dragStatus = 0;
+      this.stage.showComponentToolbar(this);
+    }
     drag.onDrag = (event) => {
       this.stage.hideComponentToolbar();
       if (this.drag.dragStatus === 0) {
@@ -176,25 +190,30 @@ export default abstract class Component {
       this.drag.dragStatus = 0;
       this.stage.showComponentToolbar(this);
     }
-
     this.$contentBox.on('mousedown',  (event) => {
-      // console.log('aa', this.selected)
-      if (this.selectFlag === 2) {
+      if (this.selectFlag === 1) {
+        this.initPorpPanel();
         return
       }
       if (event.ctrlKey) {
+        // event.preventDefault();
+        // event.stopPropagation()
         stage.selectComponent(this, 1);
       } else {
         stage.selectComponent(this);
       }
-      this.selectFlag = 2
     });
+
+    this.$contentBox.on('contextmenu', function(event) {
+      event.preventDefault();
+    });
+
 
     this.$el.on('mouseenter', (event) => {
       if (this.drag.dragStatus === 2) {
         this.drag.dragStatus = 1
       }
-      if (this.selectFlag !== 0) {
+      if (this.selectFlag !== 0 && this.drag.dragStatus === 0) {
         this.stage.showComponentToolbar(this);
       }
     })

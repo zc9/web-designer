@@ -112,8 +112,8 @@ export default class Stage {
       $guideLine.css('top', (event.clientY - this.$el[0].getBoundingClientRect().top - $guideLine[0].children[0]['offsetTop']) + 'px')
       drag.start(event)
       drag.onStop = function(event) {
-        if (drag.$el.offsetTop <= 15) {
-          $(drag.$el).remove();
+        if (drag.el.offsetTop <= 15) {
+          $(drag.el).remove();
         }
       }
     })
@@ -132,15 +132,21 @@ export default class Stage {
       $guideLine.css('left', (event.clientX - this.$el[0].getBoundingClientRect().left - $guideLine[0].children[0]['offsetLeft']) + 'px')
       drag.start(event)
       drag.onStop = function(event) {
-        if (drag.$el.offsetLeft <= 15) {
-          $(drag.$el).remove();
+        if (drag.el.offsetLeft <= 15) {
+          $(drag.el).remove();
         }
       }
     })
 
     this.selector = $scrollContent.selectable({
-      disabled: true
+      disabled: true,
+      filter: ".draggable",
+      selected: ( event, ui ) => {
+        $(ui.selected).removeClass('ui-selected')
+        this.selectComponentByElem(ui.selected);
+      }
     });
+
     this.setupEvent();
     this.createComponentToolbar();
     this.initPorpPanel()
@@ -148,6 +154,14 @@ export default class Stage {
     this.recordOps()
     this.checkStore()
     this.autoStore()
+  }
+
+  selectComponentByElem(elem) {
+    for (let c of this.components) {
+      if (c.$el[0] === elem) {
+        this.selectComponent(c, 1)
+      }
+    }
   }
 
   createIScroll(disableMouse = true, x = 0, y = 0) {
@@ -300,6 +314,7 @@ export default class Stage {
           height = curStartY - startY;
         }
         that.setElementPos(component.$el, left - canvasRect.left, top - canvasRect.top, width, height)
+        that.setComponentToolbarPos();
         component.resetPositionInfo()
       }
       function end(event) {
@@ -342,12 +357,12 @@ export default class Stage {
   }
 
   unselectComponent(component = null) {
-    if (component) {
-      component.unselect();
-      // @ts-ignore
-      this.selectedComponents.remove(component)
-      return
-    }
+    // if (component) {
+    //   component.unselect();
+    //   // @ts-ignore
+    //   this.selectedComponents.remove(component)
+    //   return
+    // }
     for (let component of this.selectedComponents) {
       component.unselect()
     }
@@ -856,13 +871,13 @@ export default class Stage {
     this.$inputHeight = this.$componentBottomBar.find('span:nth-child(4) input');
 
     let that = this;
-    this.$componentTopBar.find('.setting').bind('click', function() {
+    this.$componentTopBar.find('.setting').on('click', function() {
       if (that.focusComponent && that.focusComponent.isEditPopup) {
         that.focusComponent.openEditDialog();
       }
     })
 
-    this.$componentBottomBar.find('.confirm').bind('click', function() {
+    this.$componentBottomBar.find('.confirm').on('click', function() {
       let x = that.$inputX.val()
       let y = that.$inputY.val()
       let width = that.$inputWidth.val()
@@ -873,9 +888,10 @@ export default class Stage {
         l: x,
         t: y
       })
+      that.setComponentToolbarPos();
     })
 
-    this.$componentTopBar.find('.lock-pos').bind('click', function() {
+    this.$componentTopBar.find('.lock-pos').on('click', function() {
       let $this = $(this)
       if (that.focusComponent.isLockedPos) {
         that.focusComponent.isLockedPos = false
@@ -897,7 +913,7 @@ export default class Stage {
       that.focusComponent.deleteSelf();
     })
 
-    this.$componentTopBar.find('.copy').bind('click', function(event) {
+    this.$componentTopBar.find('.copy').on('click', function(event) {
       that.focusComponent.clone();
     })
   }
@@ -914,7 +930,7 @@ export default class Stage {
   setComponentToolbarPos() {
     if (this.focusComponent) {
       let topBarTop = this.focusComponent.top() - this.$componentTopBar.height();
-      let bottomBarTop = this.focusComponent.top() + this.focusComponent.height();
+      let bottomBarTop = this.focusComponent.top() + this.focusComponent.height() + 2;
       let topBarLeft = this.focusComponent.left();
       this.$componentTopBar.css('top', topBarTop);
       this.$componentTopBar.css('left', topBarLeft);

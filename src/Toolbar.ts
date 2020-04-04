@@ -15,7 +15,7 @@ export default class Toolbar {
     let $curItemOfGroup1 = $el.find('.group1.active')
     this.$el = $el
     let that = this
-    $el.find('li').bind('click', function(event) {
+    $el.find('li').on('click', function(event) {
       let $this = $(this)
       let name = $this.data('name')
       if (name === 'draggable') {

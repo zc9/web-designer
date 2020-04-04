@@ -140,6 +140,7 @@ export default class Stage {
 
     this.selector = $scrollContent.selectable({
       disabled: true,
+      distance: 1,
       filter: ".draggable",
       selected: ( event, ui ) => {
         this.selectComponentByElem(ui.selected);
@@ -870,13 +871,13 @@ export default class Stage {
     this.$inputHeight = this.$componentBottomBar.find('span:nth-child(4) input');
 
     let that = this;
-    this.$componentTopBar.find('.setting').on('click', function() {
+    this.$componentTopBar.find('.setting').on('mousedown', function() {
       if (that.focusComponent && that.focusComponent.isEditPopup) {
         that.focusComponent.openEditDialog();
       }
     })
 
-    this.$componentBottomBar.find('.confirm').on('click', function() {
+    this.$componentBottomBar.find('.confirm').on('mousedown', function() {
       let x = that.$inputX.val()
       let y = that.$inputY.val()
       let width = that.$inputWidth.val()
@@ -890,7 +891,7 @@ export default class Stage {
       that.setComponentToolbarPos();
     })
 
-    this.$componentTopBar.find('.lock-pos').on('click', function() {
+    this.$componentTopBar.find('.lock-pos').on('mousedown', function() {
       let $this = $(this)
       if (that.focusComponent.isLockedPos) {
         that.focusComponent.isLockedPos = false
@@ -929,7 +930,7 @@ export default class Stage {
   setComponentToolbarPos() {
     if (this.focusComponent) {
       let topBarTop = this.focusComponent.top() - this.$componentTopBar.height();
-      let bottomBarTop = this.focusComponent.top() + this.focusComponent.height() + 2;
+      let bottomBarTop = this.focusComponent.top() + this.focusComponent.height();
       let topBarLeft = this.focusComponent.left();
       this.$componentTopBar.css('top', topBarTop);
       this.$componentTopBar.css('left', topBarLeft);

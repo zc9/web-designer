@@ -77,7 +77,6 @@ export default abstract class Component {
     component.update(this.formData)
     this.stage.addComponent(component)
     this.stage.selectComponent(component)
-    console.log(this.width(), this.height())
     component.setPosition({
       l: copyElemLeft,
       t: copyElemTop,

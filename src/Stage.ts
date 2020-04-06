@@ -11,7 +11,7 @@ import ImgZfComponent from './ImgZfComponent';
 import MarqueeComponent from './MarqueeComponent';
 
 import {bgImage} from './commonCss';
-import History from './History'
+import ActionManager from "./ActionManager"
 export default class Stage {
   static STATE: Array<string> = ['hotarea', 'selection', 'handle']
   EVENTS: Array<string> = []
@@ -40,7 +40,7 @@ export default class Stage {
   pageHeight: number = 2561
   state: string = Stage.STATE[0]
   propPanel: any = {}
-  history: History = new History()
+  actionManager: ActionManager = new ActionManager();
   props: any = {
     bgColor: '#FFFFFF',
     position: '50% 0%',
@@ -151,7 +151,6 @@ export default class Stage {
     this.createComponentToolbar();
     this.initPorpPanel()
 
-    this.recordOps()
     this.checkStore()
     this.autoStore()
   }
@@ -450,7 +449,6 @@ export default class Stage {
         layer.close(idx)
         let jsonObj = JSON.parse(data)
         that.loadProp(jsonObj)
-        that.recordOps()
       }, function() {
       });
     }
@@ -464,23 +462,6 @@ export default class Stage {
         localStorage.setItem('data', jsonCode)
       }
     }, 3000)
-  }
-  recordOps() {
-    this.history.add(this.generateJsonCode())
-  }
-
-  backOps() {
-    let data = this.history.back()
-    if (data) {
-      this.loadProp(JSON.parse(data))
-    }
-  }
-
-  forwardOps() {
-    let data = this.history.forward()
-    if (data) {
-      this.loadProp(JSON.parse(data))
-    }
   }
 
   moveBy(dir, com, px) {

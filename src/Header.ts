@@ -14,14 +14,11 @@ export default class Header {
       that.openImportDialog()
     })
     this.$el.find('.undo-btn').bind('click', function() {
-      that.stageCt.curStage.backOps()
-      console.log(that.stageCt.curStage.history.curIndex)
+      that.stageCt.curStage.actionManager.undo();
     })
 
     this.$el.find('.redo-btn').bind('click', function() {
-
-      that.stageCt.curStage.forwardOps()
-      console.log(that.stageCt.curStage.history.curIndex)
+      that.stageCt.curStage.actionManager.redo();
     })
 
     this.$el.find('.preview-btn').bind('click', function() {
@@ -130,7 +127,7 @@ export default class Header {
         })
 
         $layerElem.find('.copy-box button').bind('click', function() {
-          // @ts-ignore 
+          // @ts-ignore
           $jsonTextArea[0].select()
           document.execCommand('copy')
         })

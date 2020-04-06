@@ -1,5 +1,6 @@
 import Draggable from './Draggable';
 import Stage from './Stage';
+import SetPositionAction from "./SetPositionAction"
 export default abstract class Component {
   $contentBox: JQuery
   $el: JQuery
@@ -22,6 +23,7 @@ export default abstract class Component {
   enableResize: boolean = true
   selectFlag: number = 0
   isEditPopup: boolean = true
+  isInit: boolean = false
   constructor(name = '', prop = {}) {
     this.name = name;
     for (let k in prop) {
@@ -112,11 +114,29 @@ export default abstract class Component {
   }
 
   setPosition({ l, t, w, h }) {
+    let originPos = {
+      l: this.left(),
+      t: this.top(),
+      w: this.width(),
+      h: this.height()
+    }
     this.$el.width(w)
     this.$el.height(h)
     this.$el.css('left', l + 'px')
     this.$el.css('top', t + 'px')
-
+    let endPos = {
+      l: this.left(),
+      t: this.top(),
+      w: this.width(),
+      h: this.height()
+    }
+    if (originPos.l !== endPos.l || originPos.t !== endPos.t ||
+      originPos.w !== endPos.w || originPos.h !== endPos.h) {
+      let setPositionAction = new SetPositionAction(this);
+      setPositionAction.setOriginPos(originPos);
+      setPositionAction.setEndPos(endPos);
+      this.stage.actionManager.execute(setPositionAction);
+    }
   }
 
   unselect() {
@@ -138,12 +158,18 @@ export default abstract class Component {
     }, function() {
     });
   }
-
   mount(stage: Stage) {
     this.stage = stage;
-    this.id = stage.getRandomStr(4)
     let $canvas = stage.$canvas;
     $canvas.append(this.$el)
+    if (!this.isInit) {
+      this.init();
+    }
+  }
+
+  init() {
+    this.isInit = true;
+    this.id = this.stage.getRandomStr(4)
     if (this.enableResize) {
       // @ts-ignore
       this.$el.resizable({
@@ -159,16 +185,25 @@ export default abstract class Component {
       })
     }
 
+    let that = this;
 
     let drag = new Draggable(this.$el[0], {
       handle: this.$contentBox[0],
-      containment: $canvas[0],
+      containment: this.stage.$canvas[0],
       isMulti: true,
       snap: true
     })
     this.drag = drag;
+    let originPos = null;
     drag.onStart = (event) => {
+      originPos = {
+        l: this.left(),
+        t: this.top(),
+        w: this.width(),
+        h: this.height()
+      }
     }
+
     drag.onMultiDrag = () => {
       if (this.drag.dragStatus === 0) {
         this.drag.dragStatus = 1
@@ -188,18 +223,31 @@ export default abstract class Component {
     drag.onStop = (event) => {
       this.drag.dragStatus = 0;
       this.stage.showComponentToolbar(this);
+      let endPos = {
+        l: this.left(),
+        t: this.top(),
+        w: this.width(),
+        h: this.height()
+      }
+      if (originPos.l !== endPos.l || originPos.t !== endPos.t) {
+        let setPositionAction = new SetPositionAction(this);
+        setPositionAction.setOriginPos(originPos);
+        setPositionAction.setEndPos(endPos);
+        this.stage.actionManager.execute(setPositionAction);
+      }
     }
     this.$contentBox.on('mousedown',  (event) => {
+      event.preventDefault();
+      event.stopPropagation()
       if (this.selectFlag === 1) {
         this.initPorpPanel();
         return
       }
+
       if (event.ctrlKey) {
-        // event.preventDefault();
-        // event.stopPropagation()
-        stage.selectComponent(this, 1);
+        this.stage.selectComponent(this, 1);
       } else {
-        stage.selectComponent(this);
+        this.stage.selectComponent(this);
       }
     });
 

@@ -228,8 +228,6 @@ export default class Draggable {
         }
         document.addEventListener(this.EVENTS[2], end)
       }, 10)
-
-
       return;
     }
     if (this.onStart) this.onStart(event)

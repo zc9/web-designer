@@ -193,7 +193,6 @@ export default abstract class Component {
       })
     }
     this.$contentBox.on('mousedown',  (event) => {
-      console.log('mousedown')
       if (this.selectFlag === 1) {
         this.initPorpPanel();
         return

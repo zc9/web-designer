@@ -1093,4 +1093,22 @@
 .rel:hover .xins-fadein,.xins-fadeout,.xtxc:hover .xins-box-fadein,.xins-box-fadeout,.j-b:hover .b-1-fadein,.xinsfade .xinso,.xinsfade:hover .xinsi,img.xins-fadeout,img.xins-box-fadeout{opacity: 1;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=100);}
 .xins-fadein,.rel:hover .xins-fadeout,.xins-box-fadein,.xtxc:hover .xins-box-fadeout,.j-b:hover .b-1-fadeout,.xinsfade:hover .xinso,.xinsfade .xinsi,img.xins-fadein,img.xins-box-fadein{opacity: 0;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0);}
 
- 
+.scrly-box{ overflow-x:hidden;overflow-y: auto;}
+.scrly-box::-webkit-scrollbar-track{
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-radius: 4px;
+  background-color: #F5F5F5; 
+}
+
+.scrly-box::-webkit-scrollbar{
+  width: 7px;
+  border-radius:4px;
+  background-color: #F5F5F5;
+}
+
+.scrly-box::-webkit-scrollbar-thumb{
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: #e8e1e1;
+  cursor: pointer;
+}

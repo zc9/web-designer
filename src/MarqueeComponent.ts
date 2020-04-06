@@ -42,9 +42,10 @@ export default class TextComponent extends Component {
     this.formData.behavior = 'scroll'
     this.formData.dirt = 'left'
     this.formData.amount = 5
+    this.formData.scrlw = 0
+    this.formData.scrlh = 0
     this.formData.scjl = 0
-    
-     
+  
     this.formData.conMode ='txt' //  txt 文字  img 图片
  
     this.update(this.formData)
@@ -103,7 +104,7 @@ export default class TextComponent extends Component {
       }
 
     }
-    whStyle+='width:'+scrollw+'px; height:'+scrollh+'px;'  
+    whStyle+='width:'+scrollw+'px; height:'+scrollh+'px;overflow:hidden;'  
     wzStyle='white-space:nowrap;word-break:break-all;'
 
  
@@ -141,12 +142,13 @@ export default class TextComponent extends Component {
     let fm1Style=''
     let fm2Style=''
     let fm3Style=''
-    if(dirt==='left'){
+    if(dirt==='left' || dirt==='right' ){
       fm1=scrollw
-      fm2=scrollh*2
+      fm2=scrollh*2  
       fm1Style='right:'+fm1+'px;'
-      fm2Style='top:-'+scrollh+'px;'
-      fm3Style='left:'+fm1+'px;top:-'+fm2+'px;'
+      fm2Style='top:-'+scrollh+'px;right:0px;'
+      fm3Style='right:-'+fm1+'px;top:-'+fm2+'px;' 
+
     }else if(dirt==='up' || dirt==='down'){
       fm1=scrollh
       fm2=scrollh*3 
@@ -156,18 +158,23 @@ export default class TextComponent extends Component {
     }
     if(conMode==='txt'){
       
-      if(dirt==='left' || dirt==='up'){
-        htmlLink='<div class="rel"  style="'+fm1Style+whStyle+wzStyle+onBgStyle+onlineStyle+family+fSize+color+lHeight+spacing+indent+weight+align+fStyle+'" >'+content+'</div>'
-        htmlLink+='<div  class="rel"  style="'+fm2Style+whStyle+wzStyle+onBgStyle+onlineStyle+family+fSize+color+lHeight+spacing+indent+weight+align+fStyle+'" >'+content+'</div>'
-        htmlLink+='<div  class="rel"  style="'+fm3Style+whStyle+wzStyle+onBgStyle+onlineStyle+family+fSize+color+lHeight+spacing+indent+weight+align+fStyle+'" >'+content+'</div>'
+      if((dirt==='left' || dirt==='up' || dirt==='right') && behavior==="scroll"){
+        htmlLink ='<div class="rel"  style="'+fm1Style+whStyle+wzStyle+onBgStyle+onlineStyle+family+fSize+color+lHeight+spacing+indent+weight+align+fStyle+'" >'+content+'</div>'
+        htmlLink+='<div class="rel"  style="'+fm2Style+whStyle+wzStyle+onBgStyle+onlineStyle+family+fSize+color+lHeight+spacing+indent+weight+align+fStyle+'" >'+content+'</div>'
+        htmlLink+='<div class="rel"  style="'+fm3Style+whStyle+wzStyle+onBgStyle+onlineStyle+family+fSize+color+lHeight+spacing+indent+weight+align+fStyle+'" >'+content+'</div>'
+      }else{
+        htmlLink ='<div class="rel"  style="'+whStyle+wzStyle+onBgStyle+onlineStyle+family+fSize+color+lHeight+spacing+indent+weight+align+fStyle+'" >'+content+'</div>'
       }
     }else{
-      if(dirt==='left' || dirt==='up' || dirt==='down'){
-        let bgImg=valEmpty(this.formData.bgImg) 
-        let imgHtml= bgImg !="" ? '<img  src="'+bgImg+'" />': ''
+      let bgImg=valEmpty(this.formData.bgImg) 
+      let imgHtml= bgImg !="" ? '<img  src="'+bgImg+'" />': ''
+      if((dirt==='left' || dirt==='up' || dirt==='right') && behavior==="scroll"){
+
         htmlLink='<div class="'+sccs+'" style="'+fm1Style+whStyle+'">'+imgHtml+'</div>'
         htmlLink+='<div class="'+sccs+'" style="'+fm2Style+whStyle+'">'+imgHtml+'</div>' 
         htmlLink+='<div class="'+sccs+'" style="'+fm3Style+whStyle+'">'+imgHtml+'</div>'
+      }else{
+        htmlLink='<div class="'+sccs+'" style="'+whStyle+'">'+imgHtml+'</div>'
       }
     }
     if(href !=""){
@@ -773,11 +780,14 @@ export default class TextComponent extends Component {
     }else if(conMode==='img'){
       $defPanel.remove()
       if($imgPanel.length <=0)
-        that.$content.append('<div class="sc-img sc-box"  ><img src="'+this.formData.bgImg+'"  style="display: block;float: left;"/></div>')
+        that.$content.append('<div class="sc-img sc-box"  ><img src="'+this.formData.bgImg+'"  style="display: block;"/></div>')
       $imgPanel=that.$contentBox.find(".sc-img img")
       $imgPanel.attr("src",this.formData.bgImg)
-  
     }
+
+    let $scPanel=that.$contentBox.find(".sc-box")
+     that.formData.scrlw =$scPanel.width()
+     that.formData.scrlh =$scPanel.height()
   
   }
   updatePropPanel(){

@@ -227,7 +227,7 @@
         <li data-name="text-component"><icon>ꆀ</icon><span>文字</span></li>
         <li data-name="wang-component"><icon>ꑀ</icon><span>旺旺</span></li>
         <li data-name="video-component"><icon>ꊀ</icon><span>视频/FLASH</span></li>
-         <li data-name="marquee-component" ><icon>ꆐ</icon><span>滚动文字/图片</span></li>
+         <li data-name="marquee-component"  ><icon>ꆐ</icon><span>滚动文字/图片</span></li>
 
         <li style="display:none"><icon>ꅀ</icon><span>特效层</span></li>
 
@@ -394,6 +394,13 @@
                         <div class="nromal-wrap">
                           <label >圆角度数</label>
                           <input name="bRadius"  class="input-medium" type="text" placeholder="输入正数值" />
+                        </div>
+                        <div class="nromal-wrap">
+                          <label >超出滚动条</label>
+                          <input type="radio" value="on" name="scrlY" id="scrlYon">
+                          <label for="scrlYon">显示</label>
+                          <input type="radio" value="off" name="scrlY" id="scrlYoff" style="margin-left:10px;">
+                          <label for="scrlYoff">隐藏</label>
                         </div>
                       </div>
                       <div class="layui-tab-item">
@@ -1263,7 +1270,7 @@
               </div>
             </div>
           </div>
-          <div class="editor-btns clear"><span>更多设置...</span></div>
+          
         </div>
 
       </div>

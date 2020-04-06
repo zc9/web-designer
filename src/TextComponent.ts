@@ -17,7 +17,8 @@ export default class TextComponent extends Component {
   }
   initFormData() {
     this.formData.appLabel = ''
-
+    
+    this.formData.scrlY = 'off' 
     this.formData.family = 'arial' //字体
     this.formData.fSize = 12
     this.formData.color = '#000'
@@ -111,7 +112,7 @@ export default class TextComponent extends Component {
     }
   }
   toHtml() {
-    let top, left, width, height,bRadius,tipText,hrefMode,href,hoverMode
+    let top, left, width, height,bRadius,tipText,hrefMode,href,hoverMode,scrlY,scrlCss='',scrlStyle=''
     let htmlList=[]
   
     top = this.$el.css('top')
@@ -120,11 +121,20 @@ export default class TextComponent extends Component {
     height = this.$el.height()
     bRadius=valEmpty(this.formData.bRadius)
     hoverMode=valEmpty(this.formData.hoverMode)
+    scrlY=valEmpty(this.formData.scrlY)
+    if(scrlY==="on"){
+    scrlCss=' scrly-box'
+    scrlStyle='padding-right:5px;'
+    }
+
+    
+
     href=valEmpty(this.formData.href) !="" ?  ' href="'+this.formData.href+'"':''
     hrefMode=valEmpty(this.formData.hrefMode) ==="_blank" ?  ' target="'+this.formData.hrefMode+'"':''
     tipText=valEmpty(this.formData.tipText) !="" ? ' title="'+this.formData.tipText+'" ' : ''
-
-    let radiusStyle=bRadius !="" ? 'border-radius:'+bRadius+'px;' :''
+    let radiusStyle='word-wrap: break-word;word-break: normal;'
+        radiusStyle+=bRadius !="" ? 'border-radius:'+bRadius+'px;' :''
+ 
 
     //处理 阴影
     let shadowData = toHtmlShadow(this.formData)
@@ -174,7 +184,7 @@ export default class TextComponent extends Component {
     //鼠标经过样式
     mTsAntStyle='transition-timing-function:'+mTsFunVal+';'+mTsDurVal
 
-    onHtml='<div class="on" style="'+radiusStyle+onBgStyle+onlineStyle+mTsAntStyle+bdpdStyle+family+fSize+color+lHeight+spacing+indent+weight+align+fStyle+'" >'+content+'</div>'
+    onHtml='<div class="on" style="'+radiusStyle+scrlStyle+onBgStyle+onlineStyle+mTsAntStyle+bdpdStyle+family+fSize+color+lHeight+spacing+indent+weight+align+fStyle+'" >'+content+'</div>'
 
     //反面
     if(hoverMode==="on"){
@@ -222,7 +232,7 @@ export default class TextComponent extends Component {
     if(hoverMode ==="on"){
       htmlLink='<a '+tipText+' class="ywlink '+mTsAnt+' '+mbdTsAnt+'" '+href+hrefMode+' style="'+radiusStyle+'">'+htmlLink+'</a>'
     }
-    return '<div class="abs xdtb ant-text" style="top: '+top+'; left:'+left+'; width:'+width+'px; height:'+height+'px;'+onShadowStyle+radiusStyle+'" >'+offShadowHtml+htmlLink+'</div>'
+    return '<div class="abs xdtb ant-text '+scrlCss+'" style="top: '+top+'; left:'+left+'; width:'+width+'px; height:'+height+'px;'+onShadowStyle+radiusStyle+'" >'+offShadowHtml+htmlLink+'</div>'
 
    
 
@@ -477,6 +487,12 @@ export default class TextComponent extends Component {
       that.formData.bRadius = val
       that.update(that.formData)
     })
+    let $scrlYRadio = $propPanel.find('input[type=radio][name=scrlY]')
+    $scrlYRadio.change(function() {
+      let val = $(this).prop('value')
+      that.formData.scrlY = val
+    })
+
 
     let $familySelect = $propPanel.find('select[name=family]')
     $familySelect.change(function() {
@@ -952,6 +968,13 @@ export default class TextComponent extends Component {
                 </div>
               </div>
               <div class="layui-form-item">
+                <label class="layui-form-label">超出滚动条</label>
+                <div class="layui-input-inline">
+                  <input type="radio" name="scrlY" lay-filter="scrlY" value="on" title="显示" >
+                  <input type="radio" name="scrlY" lay-filter="scrlY" value="off" title="隐藏">
+                </div>
+              </div>
+              <div class="layui-form-item">
                 <label class="layui-form-label">背景图片</label>
                 <div class="layui-input-inline">
                   <input name="bgImg" type="text" class="layui-input">
@@ -1305,7 +1328,8 @@ export default class TextComponent extends Component {
     }
     let $bRadiusInput = $propPanel.find('input[type=text][name=bRadius]')
     $bRadiusInput.val(this.formData.bRadius)
-
+    let $scrlYRadio = $propPanel.find('input[type=radio][name=scrlY]')
+    $scrlYRadio.filter(`[value="${this.formData.scrlY}"]`).prop('checked', true)
 
     if (this.formData.color) {
        $colorInput.prev().find(".sp-preview-inner").css("background-color",this.formData.color)
@@ -1317,6 +1341,7 @@ export default class TextComponent extends Component {
     }else{
       $bgColorInput.prev().find(".sp-preview-inner").css("background-color",'')
     }
+
 
     //以下是移上信息
     let $hoverModeRadio = $propPanel.find('input[type=radio][name=hoverMode]')

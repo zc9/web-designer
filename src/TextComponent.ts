@@ -70,7 +70,7 @@ export default class TextComponent extends Component {
     this.formData.mTsFun ='ease'  //速度曲线
     this.formData.mTsAnt ='atrans5'  //动画效果
 
-    this.formData.bdT ='off'   
+    this.formData.bdT ='off'
     this.formData.bdB ='off'
     this.formData.bdL ='off'
     this.formData.bdR ='off'
@@ -114,7 +114,7 @@ export default class TextComponent extends Component {
   toHtml() {
     let top, left, width, height,bRadius,tipText,hrefMode,href,hoverMode,scrlY,scrlCss='',scrlStyle=''
     let htmlList=[]
-  
+
     top = this.$el.css('top')
     left = this.$el.css('left')
     width = this.$el.width()
@@ -147,7 +147,7 @@ export default class TextComponent extends Component {
     let mbdpdStyle=BorderData.mbdpdStyle
     let bdHtml=BorderData.Html
 
-   
+
     let family, fSize, color, bgColor,lHeight,spacing,indent,weight,fStyle,oLine,through,uLine,align,content,bgImg,bgRep,bgPos,onBgStyle,onlineStyle,onHtml
     content=valEmpty(this.formData.content)  !="" ? this.formData.content :''
     family=valEmpty(this.formData.family) !="" ? 'font-family:'+this.formData.family+';' :''
@@ -159,17 +159,17 @@ export default class TextComponent extends Component {
     weight=valEmpty(this.formData.weight) !="" ? 'font-weight:'+this.formData.weight+';' :''
     fStyle=valEmpty(this.formData.fStyle) !="" ? 'font-style:'+this.formData.fStyle+';' :''
     align=valEmpty(this.formData.align) !="" ? 'text-align:'+this.formData.align+';' :''
-    
-    bgColor=valEmpty(this.formData.bgColor) 
+
+    bgColor=valEmpty(this.formData.bgColor)
     bgImg=valEmpty(this.formData.bgImg)
-    bgRep=valEmpty(this.formData.bgRep)  
+    bgRep=valEmpty(this.formData.bgRep)
     bgPos=valEmpty(this.formData.bgPos)
     onBgStyle=bgImage(bgImg,bgColor,bgRep,bgPos,'')
     onBgStyle=onBgStyle !="" ?  'background:'+onBgStyle+';' : ''
 
     oLine=valEmpty(this.formData.oLine)
     through=valEmpty(this.formData.through)
-    uLine=valEmpty(this.formData.uLine) 
+    uLine=valEmpty(this.formData.uLine)
     onlineStyle=textLine(oLine,through,uLine) //处理线
     onlineStyle=onlineStyle !="" ?  'text-decoration:'+onlineStyle+';' : ''
 
@@ -178,7 +178,7 @@ export default class TextComponent extends Component {
     let mTsDur,mTsFun,mTsAnt,mTsFunVal,mTsDurVal,mTsAntStyle
     mTsDur=valEmpty(this.formData.mTsDur)
     mTsFun=valEmpty(this.formData.mTsFun)
-     
+
     mTsFunVal=mTsFun==='cubic-bezier'?  'cubic-bezier(0.52, 1.64, 0.37, 0.66)' :mTsFun
     mTsDurVal=mTsDur !="" ? 'transition-duration:'+mTsDur+'s;':''
     //鼠标经过样式
@@ -200,17 +200,17 @@ export default class TextComponent extends Component {
       mweight=valEmpty(this.formData.mweight) !="" ? 'font-weight:'+this.formData.mweight+';' :''
       mfStyle=valEmpty(this.formData.mfStyle) !="" ? 'font-style:'+this.formData.mfStyle+';' :''
       malign=valEmpty(this.formData.malign) !="" ? 'text-align:'+this.formData.malign+';' :''
-      
+
       mbgColor=valEmpty(this.formData.mbgColor)
       mbgImg=valEmpty(this.formData.mbgImg)
-      mbgRep=valEmpty(this.formData.mbgRep)  
+      mbgRep=valEmpty(this.formData.mbgRep)
       mbgPos=valEmpty(this.formData.mbgPos)
       offBgStyle=bgImage(mbgImg,mbgColor,mbgRep,mbgPos,'')
       offBgStyle=offBgStyle !="" ?  'background:'+offBgStyle+';' : ''
 
       moLine=valEmpty(this.formData.moLine)
       mthrough=valEmpty(this.formData.mthrough)
-      muLine=valEmpty(this.formData.muLine) 
+      muLine=valEmpty(this.formData.muLine)
       offlineStyle=textLine(moLine,mthrough,muLine) //处理线
       offlineStyle=offlineStyle !="" ?  'text-decoration:'+offlineStyle+';' : ''
 
@@ -234,11 +234,11 @@ export default class TextComponent extends Component {
     }
     return '<div class="abs xdtb ant-text '+scrlCss+'" style="top: '+top+'; left:'+left+'; width:'+width+'px; height:'+height+'px;'+onShadowStyle+radiusStyle+'" >'+offShadowHtml+htmlLink+'</div>'
 
-   
+
 
 
   }
- 
+
   //弹出来同步
   onTongBu($layerElem,$isVal,that) {
     let $familySelect = $layerElem.find('select[name=family] option:selected')
@@ -455,7 +455,7 @@ export default class TextComponent extends Component {
   initPorpPanel() {
     console.log('initTextPorpPanel')
     let that = this
-     
+
     $('.prop-setting-ct > div').hide()
     let $propPanel = $('.text-com-prop-panel')
     this.$propPanel = $propPanel
@@ -767,7 +767,7 @@ export default class TextComponent extends Component {
 
     //边框初始化
     initPorpBorder($propPanel,that)
-   
+
 
     //同步文字样式
     $propPanel.find('.font-synchronous').on('click', function() {
@@ -785,7 +785,7 @@ export default class TextComponent extends Component {
       })
     })
 
- 
+
 
     $propPanel.find('.editor-btns').on('click', function() {
       that.openEditDialog()
@@ -831,7 +831,7 @@ export default class TextComponent extends Component {
          let $mbgColorInput=$layerElem.find('input[type=text][name=mbgColor]')
          $mbgColorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.mbgColor)
         }
-       
+
         if(that.formData.weight=="600"){
           $layerElem.find('.font-z .font-item-checkbox:eq(0)').addClass('active')
         }
@@ -888,7 +888,7 @@ export default class TextComponent extends Component {
             }
           });
         })
-        
+
       },
       content: `<form class="layui-form" lay-filter="textComponentForm">
         <div class="layui-tab layui-tab-brief">
@@ -1096,10 +1096,10 @@ export default class TextComponent extends Component {
               </div>
             </div>
             <div  class="layui-tab-item pop-item-border">
-              
+
             </div>
             <div class="layui-tab-item pop-item-shadow">
-               
+
             </div>
             <div class="layui-tab-item">
               <fieldset  class="layui-elem-field">
@@ -1179,6 +1179,8 @@ export default class TextComponent extends Component {
     });
     form.val('textComponentForm', that.formData)
   }
+  doUpdate(formData: any): void {
+  }
   update(formData) {
     let that = this
     let bRadius=this.formData.bRadius;
@@ -1186,7 +1188,7 @@ export default class TextComponent extends Component {
     updateShadow(this.$content,formData)
     //处理边框
     updateBorder(this.$content,formData)
-    
+
     let deline=this.formData.uLine;
     if(this.formData.oLine){
       deline+=' '+this.formData.oLine
@@ -1286,8 +1288,8 @@ export default class TextComponent extends Component {
     }
     $offPanel=this.$contentBox.find(".off")
 
- 
-   
+
+
   }
   updatePropPanel(){
     let that = this

@@ -206,6 +206,8 @@ export default class WangComponent extends Component {
       return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
     });
   }
+  doUpdate(formData: any): void {
+  }
   update(formData) {
     let that = this
     let $cphoto=this.$content.find(".cphoto");

@@ -7,6 +7,7 @@ import VideoComponent from './VideoComponent';
 import ImgAntComponent from './ImgAntComponent';
 import ImgZfComponent from './ImgZfComponent';
 import MarqueeComponent from './MarqueeComponent';
+import Action from "./Action"
 export default class ComponentBar {
   stageCt: StageContainer
   $el: JQuery
@@ -37,9 +38,19 @@ export default class ComponentBar {
       }
       component.$el.css('left', Math.max(initX, 0) + 'px')
       component.$el.css('top', Math.max(initY, 0) + 'px')
-      curStage.addComponent(component)
-      curStage.selectComponent(component)
-      curStage.recordOps()
+
+      curStage.actionManager.execute({
+        do() {
+          curStage.addComponent(component)
+          curStage.selectComponent(component)
+        }, undo() {
+          curStage.removeComponent(component)
+          curStage.unselectComponent(component)
+          if (curStage.components.length > 0) {
+            curStage.selectComponent(curStage.components[curStage.components.length - 1])
+          }
+        }
+      });
     })
   }
 }

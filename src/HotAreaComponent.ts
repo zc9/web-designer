@@ -52,10 +52,10 @@ export default class HotAreaComponent extends Component {
    /*
     return `
       <a href="${url}" target="${this.formData.hrefMode || ''}" style="position: absolute; top: ${top}; left: ${left}; width: ${width}px; height: ${height}px;background-color: ${bgColor};display:inline-block; ">
-        
+
       </a>
     `*/
-  } 
+  }
   updatePropPanel() {
     let $propPanel = this.$propPanel
 
@@ -83,7 +83,7 @@ export default class HotAreaComponent extends Component {
     }
 
   }
-  initPorpPanel() { 
+  initPorpPanel() {
     let that = this
     $('.prop-setting-ct > div').hide()
     let $propPanel = $('.area-com-prop-panel')
@@ -124,6 +124,8 @@ export default class HotAreaComponent extends Component {
       that.formData.bgColor = val
       that.update(that.formData)
     })
+  }
+  doUpdate(formData: any): void {
   }
   update(formData) {
    let that = this

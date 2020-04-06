@@ -22,7 +22,7 @@ export default class ImgAntComponent extends Component {
     left = this.$el.css('left')
     width = this.$el.width()
     height = this.$el.height()
-  
+
     bRadius=valEmpty(this.formData.bRadius)
     href=valEmpty(this.formData.href)
     hrefMode=valEmpty(this.formData.hrefMode)
@@ -32,10 +32,10 @@ export default class ImgAntComponent extends Component {
     wangID=valEmpty(this.formData.wangID)
     url=wwUrl(href,linkMode,wangID,22)
 
-    
+
     href= href !="" ?  ' href="'+url+'"' : '';
     hrefMode= hrefMode ==="_blank" ?  ' target="_blank"' : '';
-    
+
     let radiusStyle=bRadius !="" ? 'border-radius:'+bRadius+'px;' :''
     //处理动画
     let mTsDur,mTsDelay,mTsBezier,mTsBezierv,Bezier,linkhtml,$mTsAnt
@@ -49,7 +49,7 @@ export default class ImgAntComponent extends Component {
     bgImg=this.formData.bgImg
     bgColor=this.formData.bgColor
     bgPos=this.formData.bgPos
- 
+
     bgCss=bgImage(bgImg,bgColor,'',bgPos,'')
     bgCss=bgCss !="" ?  'background:'+bgCss+';' : ''
 
@@ -64,7 +64,7 @@ export default class ImgAntComponent extends Component {
       mbgCss=bgImage(mbgImg,mbgColor,'',mbgPos,'')
       mbgCss=mbgCss !="" ?  'background:'+mbgCss+';' : ''
       offHtml='<div class="off" style="'+mbgCss+Bezier+'"></div>'
-     
+
     }
     if($mTsAnt=='atrans5' || $mTsAnt=='atrans6' || $mTsAnt==='atrans7' || $mTsAnt==='atrans8' || $mTsAnt==='atrans9' || $mTsAnt==='atrans19' ){
       htmlList.push(offHtml)
@@ -74,7 +74,7 @@ export default class ImgAntComponent extends Component {
       htmlList.push(offHtml)
      }
     let mrxz,mrxzv,mrxzCss,mrCss
-     
+
     mrxz=valEmpty(this.formData.mrxz)
     mrxzv=valEmpty(this.formData.mrxzv)
     mrxzCss='';
@@ -92,15 +92,15 @@ export default class ImgAntComponent extends Component {
     //处理 边框
     let mbdTsAnt=valEmpty(this.formData.mbdTsAnt)
     let BorderData = toHtmlBorder(this.formData)
- 
+
     htmlList.push(BorderData.Html)
- 
+
     linkhtml='<a   class="ywlink  ant-text '+mbdTsAnt+' '+$mTsAnt+'" '+href+hrefMode+'  style="'+radiusStyle+'overflow: hidden;position:relative;">'+htmlList.join('')+'</a>'
     linkhtml='<div class="yw-100'+mrxzCss+'" style="'+onShadowStyle+radiusStyle+'">'+offShadowStyle+linkhtml+'</div>'
 
     return '<div class="abs xdtb xtxc '+mrCss+'" style="top: '+top+'; left:'+left+'; width:'+width+'px; height:'+height+'px;'+radiusStyle+'" > '+linkhtml+'</div>'
   }
- 
+
   initFormData() {
     this.formData.appLabel = ''
     this.formData.bgImgSize = 'true'
@@ -108,7 +108,7 @@ export default class ImgAntComponent extends Component {
     this.formData.bgColor = ''
     this.formData.bgPos = '50% 50%'
     this.formData.mrxz=''
-    this.formData.mrxzv='20' 
+    this.formData.mrxzv='20'
 
     this.formData.mbgImg = 'http://img04.taobaocdn.com/imgextra/i4/808048452/TB2BLE3cpXXXXXIXXXXXXXXXXXX-808048452.jpg'
     this.formData.mbgColor = ''
@@ -119,12 +119,12 @@ export default class ImgAntComponent extends Component {
     this.formData.href = ''
     this.formData.wangID = ''
     this.formData.bdRadius= ''
-    
-    
+
+
     this.formData.mTsDur='0.5'
     this.formData.mTsAnt ='atrans16'  //动画效果
-  
-  
+
+
     this.formData.shadow= 'off'//box-shadow: h-shadow v-shadow blur spread color inset;
     this.formData.sdColor= '#666666'
     this.formData.sdSize= ''  //spread  可选。阴影的大小
@@ -134,10 +134,10 @@ export default class ImgAntComponent extends Component {
 
     this.formData.mshadow= 'on'
     this.formData.msdColor= '#E93030'
-    this.formData.msdSize= ''  
-    this.formData.msdBlur= '5'  
-    this.formData.msdX= ''    
-    this.formData.msdY= '' 
+    this.formData.msdSize= ''
+    this.formData.msdBlur= '5'
+    this.formData.msdX= ''
+    this.formData.msdY= ''
     this.formData.msdTsDur= '0.5'
 
     this.formData.bdWidth =5
@@ -146,16 +146,16 @@ export default class ImgAntComponent extends Component {
     this.formData.mbdWidth =5
     this.formData.mbdStyle ='solid'
 
-    this.formData.mbdTsDur ='0.5'  
-    this.formData.mbdTsFun ='ease-out'  
+    this.formData.mbdTsDur ='0.5'
+    this.formData.mbdTsFun ='ease-out'
     this.formData.mbdTsAnt ='bdtx1'
 
- 
+
     this.update(this.formData)
   }
- 
 
- 
+
+
   openEditDialog() {
     let that = this;
     let layer = layui.layer;
@@ -167,7 +167,7 @@ export default class ImgAntComponent extends Component {
       area: ['600px', '600px'],
       success: function(layerElem, index) {
         $layerElem = $(layerElem)
- 
+
         setAntSpinvOption($layerElem.find('.ant-spin-v'))
         setAntBezierOption($layerElem.find('.ant-bezier'))
         editPopHtmlBorder($layerElem.find('.pop-item-border'))
@@ -179,7 +179,7 @@ export default class ImgAntComponent extends Component {
         setPopHtmlShadow($layerElem,that)
 
 
-        
+
         if (that.formData.bgColor) {
           let $bgColorInput=$layerElem.find('input[type=text][name=bgColor]')
           $bgColorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.bgColor)
@@ -196,7 +196,7 @@ export default class ImgAntComponent extends Component {
         let $mrxzSelect=$layerElem.find('select[name=mrxz]').parent()
         onLinkModeChanged($layerElem, that.formData.linkMode)
         onDisabledChanged($layerElem,$mrxzSelect,that.formData.mrxz)
-  
+
 
       },
       content: `<form class="layui-form" lay-filter="imgZfComponentForm">
@@ -325,7 +325,7 @@ export default class ImgAntComponent extends Component {
                         <span class="clear-color-button"></span>
                       </div>
                     </div>
-               
+
 
 
                   </div>
@@ -334,16 +334,16 @@ export default class ImgAntComponent extends Component {
 
             </div>
             <div  class="layui-tab-item pop-item-border">
-              
+
             </div>
             <div class="layui-tab-item pop-item-shadow">
-              
+
             </div>
             <div class="layui-tab-item">
-                 
+
 
               <fieldset  class="layui-elem-field"  >
-                 
+
                 <div class="layui-field-box">
                   <div class="layui-form-item" >
                     <label class="layui-form-label">动画速度</label>
@@ -407,7 +407,7 @@ export default class ImgAntComponent extends Component {
                   <input class="radio-medium" type="radio" name="mTsAnt"  value="atrans20"  title="渐隐渐显">
                 </div>
               </fieldset>
-   
+
 
             </div>
           </div>
@@ -424,7 +424,7 @@ export default class ImgAntComponent extends Component {
     form.render();
 
 
-     
+
     form.on('radio(linkMode)', function(data){
       console.log(data)
       onLinkModeChanged($layerElem, data.value)
@@ -441,7 +441,9 @@ export default class ImgAntComponent extends Component {
     });
     form.val('imgZfComponentForm', that.formData)
   }
-  
+  doUpdate(formData: any): void {
+  }
+
   update(formData) {
     let that = this
     let bRadius=formData.bRadius ?  parseInt(formData.bRadius) :''
@@ -467,14 +469,14 @@ export default class ImgAntComponent extends Component {
     mTsDur=valEmpty(this.formData.mTsDur) !=""  ? this.formData.mTsDur+'s ':''
     mTsDelay=valEmpty(this.formData.mTsDelay) !=""  ?  this.formData.mTsDelay+'s ':''
     Bezier=mTsDur+BezierCss(this.formData.mTsBezier,this.formData.mTsBezierv)+mTsDelay
-   
-     
+
+
     let $defPanel=this.$contentBox.find(".on")
     let bgCss,bgImg,bgColor,bgPos
     bgImg=this.formData.bgImg
     bgColor=this.formData.bgColor
     bgPos=this.formData.bgPos
- 
+
     bgCss=bgImage(bgImg,bgColor,'',bgPos,'')
     $defPanel.css("background",bgCss)
     $defPanel.css("transition",Bezier)
@@ -485,9 +487,9 @@ export default class ImgAntComponent extends Component {
     mbgImg=this.formData.mbgImg
     mbgColor=this.formData.mbgColor
     mbgPos=this.formData.mbgPos
- 
+
     mbgCss=bgImage(mbgImg,mbgColor,'',mbgPos,'')
- 
+
     if(mbgImg !=""){
       $offPanel.remove()
       let $mTsAnt=this.formData.mTsAnt
@@ -533,7 +535,7 @@ export default class ImgAntComponent extends Component {
     $mrxzvSelect.val(this.formData.mrxzv)
     onDisabledChanged($propPanel,$mrxzSelect,this.formData.mrxz)
 
-  
+
     let $bgImgInput = $propPanel.find('input[type=text][name=bgImg]')
     $bgImgInput.val(this.formData.bgImg)
     let $bgImgSizeCheckBox = $propPanel.find('input[type=checkbox][name=bgImgSize]')
@@ -577,7 +579,7 @@ export default class ImgAntComponent extends Component {
     onLinkModeChanged($propPanel, this.formData.linkMode)
     let $bRadiusInput = $propPanel.find('input[type=text][name=bRadius]')
     $bRadiusInput.val(this.formData.bRadius)
- 
+
     //移上动画效果
     let $mTsDurInput = $propPanel.find('input[type=text][name=mTsDur]')
     $mTsDurInput.val(this.formData.mTsDur)
@@ -604,11 +606,11 @@ export default class ImgAntComponent extends Component {
     $propPanel.show()
     $propPanel.find('*').off()
 
- 
+
     setAntSpinvOption($propPanel.find('.ant-spin-v'))
     setAntBezierOption($propPanel.find('.ant-bezier'))
     editSideHtmlBorder($propPanel.find('.side-item-border'))
-    
+
     this.updatePropPanel()
 
     //收缩 重新加载
@@ -627,7 +629,7 @@ export default class ImgAntComponent extends Component {
       that.formData.mrxzv = $(this).prop('value')
       that.update(that.formData)
     })
- 
+
     let $bgImgInput = $propPanel.find('input[type=text][name=bgImg]')
     $bgImgInput.keyup((function() {
       that.formData.bgImg = $bgImgInput.val()
@@ -669,8 +671,8 @@ export default class ImgAntComponent extends Component {
       that.update(that.formData)
     })
 
- 
- 
+
+
     let $linkModeRadio = $propPanel.find('input[type=radio][name=linkMode]')
     $linkModeRadio.change(function() {
       let val = $(this).prop('value')
@@ -734,7 +736,7 @@ export default class ImgAntComponent extends Component {
 
     //边框初始化
     initPorpBorder($propPanel,that)
-    
+
 
     $propPanel.find('.editor-btns').on('click', function() {
       that.openEditDialog()

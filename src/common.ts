@@ -40,7 +40,14 @@ export function setFontOption($select) {
   $select.append(options)
 }
 
- 
+export function compareForm(form1, form2) {
+  for (let k in form1) {
+    if (form1[k] !== form2[k]) {
+      return false;
+    }
+  }
+  return true;
+}
 
 /*旋转*/
 export function setAntSpinvOption($select) {
@@ -211,29 +218,29 @@ export function setAntMovevOption($select) {
     {"value":"620","text": "620像素"},
     {"value":"670","text": "670像素"},
     {"value":"720","text": "720像素"},
-    {"value":"770","text": "770像素"}, 
+    {"value":"770","text": "770像素"},
     {"value":"820","text": "820像素"},
-    {"value":"870","text": "870像素"}, 
+    {"value":"870","text": "870像素"},
     {"value":"920","text": "920像素"},
-    {"value":"970","text": "970像素"}, 
+    {"value":"970","text": "970像素"},
     {"value":"820","text": "820像素"},
-    {"value":"870","text": "870像素"}, 
+    {"value":"870","text": "870像素"},
     {"value":"1020","text": "1020像素"},
-    {"value":"1070","text": "1070像素"}, 
+    {"value":"1070","text": "1070像素"},
     {"value":"1170","text": "1170像素"},
-    {"value":"1220","text": "1220像素"}, 
+    {"value":"1220","text": "1220像素"},
     {"value":"1270","text": "1270像素"},
-    {"value":"1320","text": "1320像素"}, 
+    {"value":"1320","text": "1320像素"},
     {"value":"1370","text": "1370像素"},
-    {"value":"1420","text": "1420像素"}, 
+    {"value":"1420","text": "1420像素"},
     {"value":"1470","text": "1470像素"},
     {"value":"1520","text": "1520像素"},
     {"value":"1570","text": "1570像素"},
-    {"value":"1620","text": "1620像素"}, 
+    {"value":"1620","text": "1620像素"},
     {"value":"1670","text": "1670像素"},
-    {"value":"1720","text": "1720像素"}, 
+    {"value":"1720","text": "1720像素"},
     {"value":"1770","text": "1770像素"},
-    {"value":"1820","text": "1820像素"}, 
+    {"value":"1820","text": "1820像素"},
     {"value":"1870","text": "1870像素"},
     {"value":"1920","text": "1920像素"},]
   let options = ''
@@ -244,7 +251,7 @@ export function setAntMovevOption($select) {
 }
 //动画特效
 export function setAntBezierOption($select) {
- 
+
   let htmlStr = $select.html().trim().replace(/\s/g, '')
   if (htmlStr !== '') {
     return
@@ -274,7 +281,7 @@ export function setRanDom() {
     e = b[Math.floor(62 * Math.random())],
     f = b[Math.floor(62 * Math.random())],
     c + d + e + f
-} 
+}
 //转化数子
 export function tParseInt (a) {
   var b;
@@ -294,4 +301,3 @@ export function imgReady (url, callback) {
         }
 
 }
-  

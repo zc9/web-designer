@@ -77,14 +77,27 @@ export default abstract class Component {
     let component = new (<any>this.constructor)
     component.formData = JSON.parse(JSON.stringify(this.formData));
     component.update(this.formData)
-    this.stage.addComponent(component)
-    this.stage.selectComponent(component)
+
     component.setPosition({
       l: copyElemLeft,
       t: copyElemTop,
       w: this.width(),
       h: this.height()
     });
+    let that = this;
+    this.stage.actionManager.execute({
+      do() {
+        that.stage.addComponent(component)
+        that.stage.selectComponent(component)
+      }, undo() {
+        that.stage.removeComponent(component)
+        that.stage.unselectComponent(component)
+        if (that.stage.components.length > 0) {
+          that.stage.selectComponent(that.stage.components[that.stage.components.length - 1])
+        }
+      }
+    })
+
     // let mouseEvent = document.createEvent('MouseEvent');
     let clientX = this.stage.curMouseEvent.clientX;
     let clientY = this.stage.curMouseEvent.clientY;
@@ -98,6 +111,7 @@ export default abstract class Component {
   abstract toHtml() : string;
   abstract openEditDialog(): void
   abstract update(formData: any): void
+  abstract doUpdate(formData: any): void
   abstract initPorpPanel(): void
   select() {
     if (this.selectFlag) {
@@ -113,7 +127,7 @@ export default abstract class Component {
     this.stage.resetComponentPositionInfo();
   }
 
-  setPosition({ l, t, w, h }) {
+  setPosition({ l, t, w, h }, flag = false) {
     let originPos = {
       l: this.left(),
       t: this.top(),
@@ -130,12 +144,14 @@ export default abstract class Component {
       w: this.width(),
       h: this.height()
     }
-    if (originPos.l !== endPos.l || originPos.t !== endPos.t ||
-      originPos.w !== endPos.w || originPos.h !== endPos.h) {
-      let setPositionAction = new SetPositionAction(this);
-      setPositionAction.setOriginPos(originPos);
-      setPositionAction.setEndPos(endPos);
-      this.stage.actionManager.execute(setPositionAction);
+    if (flag) {
+      if (originPos.l !== endPos.l || originPos.t !== endPos.t ||
+        originPos.w !== endPos.w || originPos.h !== endPos.h) {
+        let setPositionAction = new SetPositionAction(this);
+        setPositionAction.setOriginPos(originPos);
+        setPositionAction.setEndPos(endPos);
+        this.stage.actionManager.execute(setPositionAction);
+      }
     }
   }
 
@@ -162,14 +178,6 @@ export default abstract class Component {
     this.stage = stage;
     let $canvas = stage.$canvas;
     $canvas.append(this.$el)
-    if (!this.isInit) {
-      this.init();
-    }
-  }
-
-  init() {
-    this.isInit = true;
-    this.id = this.stage.getRandomStr(4)
     if (this.enableResize) {
       // @ts-ignore
       this.$el.resizable({
@@ -184,9 +192,47 @@ export default abstract class Component {
         }
       })
     }
+    this.$contentBox.on('mousedown',  (event) => {
+      console.log('mousedown')
+      if (this.selectFlag === 1) {
+        this.initPorpPanel();
+        return
+      }
 
+      if (event.ctrlKey) {
+        this.stage.selectComponent(this, 1);
+      } else {
+        this.stage.selectComponent(this);
+      }
+    });
+
+    this.$contentBox.on('mouseenter', (event) => {
+      if (this.drag.dragStatus === 2) {
+        this.drag.dragStatus = 1
+      }
+      if (this.selectFlag !== 0 && this.drag.dragStatus === 0) {
+        this.stage.showComponentToolbar(this);
+      }
+    })
+
+    this.$contentBox.on('mouseleave', (event) => {
+      if (this.drag.dragStatus === 1) {
+        this.drag.dragStatus = 2
+        this.stage.dragScroll(event, this.drag)
+      }
+    })
+    this.$contentBox.on('contextmenu', function(event) {
+      event.preventDefault();
+    });
+    if (!this.isInit) {
+      this.init();
+    }
+  }
+
+  init() {
+    this.isInit = true;
+    this.id = this.stage.getRandomStr(4)
     let that = this;
-
     let drag = new Draggable(this.$el[0], {
       handle: this.$contentBox[0],
       containment: this.stage.$canvas[0],
@@ -236,41 +282,7 @@ export default abstract class Component {
         this.stage.actionManager.execute(setPositionAction);
       }
     }
-    this.$contentBox.on('mousedown',  (event) => {
-      event.preventDefault();
-      event.stopPropagation()
-      if (this.selectFlag === 1) {
-        this.initPorpPanel();
-        return
-      }
 
-      if (event.ctrlKey) {
-        this.stage.selectComponent(this, 1);
-      } else {
-        this.stage.selectComponent(this);
-      }
-    });
-
-    this.$contentBox.on('contextmenu', function(event) {
-      event.preventDefault();
-    });
-
-
-    this.$el.on('mouseenter', (event) => {
-      if (this.drag.dragStatus === 2) {
-        this.drag.dragStatus = 1
-      }
-      if (this.selectFlag !== 0 && this.drag.dragStatus === 0) {
-        this.stage.showComponentToolbar(this);
-      }
-    })
-
-    this.$el.on('mouseleave', (event) => {
-      if (this.drag.dragStatus === 1) {
-        this.drag.dragStatus = 2
-        this.stage.dragScroll(event, this.drag)
-      }
-    })
   }
 
 

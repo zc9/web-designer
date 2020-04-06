@@ -402,7 +402,7 @@ export default class Stage {
 
   addComponent(component) {
     component.mount(this);
-    this.components.push(component)
+    this.components.push(component);
   }
 
   setComponentAllowOverstep(allowOverstep) {
@@ -868,7 +868,7 @@ export default class Stage {
         h: height,
         l: x,
         t: y
-      })
+      }, true)
       that.setComponentToolbarPos();
     })
 

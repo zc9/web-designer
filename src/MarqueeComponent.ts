@@ -1,7 +1,7 @@
 import Component from './Component';
 import { setFontOption } from './common';
 import {bgImage,valInt,valEmpty,textLine,conModeChanged} from './commonCss'
- 
+
 
 export default class TextComponent extends Component {
 　$content: JQuery
@@ -43,10 +43,10 @@ export default class TextComponent extends Component {
     this.formData.dirt = 'left'
     this.formData.amount = 5
     this.formData.scjl = 0
-    
-     
+
+
     this.formData.conMode ='txt' //  txt 文字  img 图片
- 
+
     this.update(this.formData)
 
   }
@@ -67,7 +67,7 @@ export default class TextComponent extends Component {
   toHtml() {
     let top, left, width, height,hrefMode,href,conMode,$scbox,scrollw,scrollh,whStyle
     let htmlList=[]
-   
+
     top = this.$el.css('top')
     left = this.$el.css('left')
     width = this.$el.width()
@@ -80,7 +80,7 @@ export default class TextComponent extends Component {
     dirt=this.formData.dirt
     behavior=this.formData.behavior
     scjl=valInt(this.formData.scjl) !="" ? valInt(this.formData.scjl) : 0
-    
+
     conMode=valEmpty(this.formData.conMode)
 
 
@@ -103,15 +103,15 @@ export default class TextComponent extends Component {
       }
 
     }
-    whStyle+='width:'+scrollw+'px; height:'+scrollh+'px;'  
+    whStyle+='width:'+scrollw+'px; height:'+scrollh+'px;'
     wzStyle='white-space:nowrap;word-break:break-all;'
 
- 
- 
+
+
     href=valEmpty(this.formData.href) !="" ?  ' href="'+this.formData.href+'"':''
     hrefMode=valEmpty(this.formData.hrefMode) ==="_blank" ?  ' target="'+this.formData.hrefMode+'"':''
 
-  
+
     let family, fSize, color, bgColor,lHeight,spacing,indent,weight,fStyle,oLine,through,uLine,align,content,bgImg,onBgStyle,onlineStyle
     content=valEmpty(this.formData.content)  !="" ? this.formData.content :''
     family=valEmpty(this.formData.family) !="" ? 'font-family:'+this.formData.family+';' :''
@@ -123,15 +123,15 @@ export default class TextComponent extends Component {
     weight=valEmpty(this.formData.weight) !="" ? 'font-weight:'+this.formData.weight+';' :''
     fStyle=valEmpty(this.formData.fStyle) !="" ? 'font-style:'+this.formData.fStyle+';' :''
     align=valEmpty(this.formData.align) !="" ? 'text-align:'+this.formData.align+';' :''
-    
-    bgColor=valEmpty(this.formData.bgColor) 
- 
-    
+
+    bgColor=valEmpty(this.formData.bgColor)
+
+
     onBgStyle=bgColor !="" ?  'background-color:'+bgColor+';' : ''
 
     oLine=valEmpty(this.formData.oLine)
     through=valEmpty(this.formData.through)
-    uLine=valEmpty(this.formData.uLine) 
+    uLine=valEmpty(this.formData.uLine)
     onlineStyle=textLine(oLine,through,uLine) //处理线
     onlineStyle=onlineStyle !="" ?  'text-decoration:'+onlineStyle+';' : ''
 
@@ -149,13 +149,13 @@ export default class TextComponent extends Component {
       fm3Style='left:'+fm1+'px;top:-'+fm2+'px;'
     }else if(dirt==='up' || dirt==='down'){
       fm1=scrollh
-      fm2=scrollh*3 
+      fm2=scrollh*3
       fm1Style='top:-'+fm1+'px;background-color:red;'
       fm2Style='top:0px;background-color: green;'
       fm3Style='top:'+fm1+'px;background-color: #000;'
     }
     if(conMode==='txt'){
-      
+
       if(dirt==='left' || dirt==='up'){
         htmlLink='<div class="rel"  style="'+fm1Style+whStyle+wzStyle+onBgStyle+onlineStyle+family+fSize+color+lHeight+spacing+indent+weight+align+fStyle+'" >'+content+'</div>'
         htmlLink+='<div  class="rel"  style="'+fm2Style+whStyle+wzStyle+onBgStyle+onlineStyle+family+fSize+color+lHeight+spacing+indent+weight+align+fStyle+'" >'+content+'</div>'
@@ -163,10 +163,10 @@ export default class TextComponent extends Component {
       }
     }else{
       if(dirt==='left' || dirt==='up' || dirt==='down'){
-        let bgImg=valEmpty(this.formData.bgImg) 
+        let bgImg=valEmpty(this.formData.bgImg)
         let imgHtml= bgImg !="" ? '<img  src="'+bgImg+'" />': ''
         htmlLink='<div class="'+sccs+'" style="'+fm1Style+whStyle+'">'+imgHtml+'</div>'
-        htmlLink+='<div class="'+sccs+'" style="'+fm2Style+whStyle+'">'+imgHtml+'</div>' 
+        htmlLink+='<div class="'+sccs+'" style="'+fm2Style+whStyle+'">'+imgHtml+'</div>'
         htmlLink+='<div class="'+sccs+'" style="'+fm3Style+whStyle+'">'+imgHtml+'</div>'
       }
     }
@@ -178,12 +178,12 @@ export default class TextComponent extends Component {
     htmlLink='<marquee class="rel" onmouseover=this.stop() onmouseout=this.start()  style="width:100%;height:100%;overflow:hidden;" '+amount+delay+' direction="'+dirt+'" behavior="'+behavior+'">'+htmlLink+'</marquee>'
 
     return '<div class="abs" style="top: '+top+'; left:'+left+'; width:'+width+'px; height:'+height+'px;" >'+htmlLink+'</div>'
- 
-  
+
+
   }
- 
- 
- 
+
+
+
 
 
   //文本框预览样式
@@ -297,7 +297,7 @@ export default class TextComponent extends Component {
   initPorpPanel() {
     console.log('initTextPorpPanel')
     let that = this
-     
+
     $('.prop-setting-ct > div').hide()
     let $propPanel = $('.marquee-com-prop-panel')
     this.$propPanel = $propPanel
@@ -305,7 +305,7 @@ export default class TextComponent extends Component {
     $propPanel.find('*').off()
 
     setFontOption($propPanel.find('.font-select'))
- 
+
     this.updatePropPanel();
     //收缩 重新加载
     let element = layui.element
@@ -351,7 +351,7 @@ export default class TextComponent extends Component {
       that.formData.href = val
       that.update(that.formData)
     })
- 
+
     let $familySelect = $propPanel.find('select[name=family]')
     $familySelect.change(function() {
       that.formData.family = $(this).prop('value')
@@ -421,7 +421,7 @@ export default class TextComponent extends Component {
       that.formData.bgImg = val
       that.update(that.formData)
     })
- 
+
 
 
     //正反  文字对齐 事件
@@ -497,7 +497,7 @@ export default class TextComponent extends Component {
       that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
- 
+
     $propPanel.find('.editor-btns').on('click', function() {
       that.openEditDialog()
     })
@@ -518,9 +518,9 @@ export default class TextComponent extends Component {
         $layerElem.find('.cancel-btn').on('click', function() {
           layer.close(index)
         })
- 
+
         $layerElem.find(".sp-preview-inner").css("background-color",'')
- 
+
 
         if (that.formData.color) {
          let $colorInput=$layerElem.find('input[type=text][name=color]')
@@ -538,7 +538,7 @@ export default class TextComponent extends Component {
          let $mbgColorInput=$layerElem.find('input[type=text][name=mbgColor]')
          $mbgColorInput.prev().find(".sp-preview-inner").css("background-color",that.formData.mbgColor)
         }
-       
+
         if(that.formData.weight=="600"){
           $layerElem.find('.font-z .font-item-checkbox:eq(0)').addClass('active')
         }
@@ -557,8 +557,8 @@ export default class TextComponent extends Component {
         }
 
         $layerElem.find(`.font-z .font-item-radio[data-val="${that.formData.align}"]`).addClass('active')
-     
- 
+
+
 
         $layerElem.find('.font-setting .font-item-checkbox').on('click', function() {
            that.getFontActive($(this));
@@ -571,8 +571,8 @@ export default class TextComponent extends Component {
         })
         conModeChanged($layerElem, that.formData.conMode)
 
-    
-        
+
+
       },
       content: `<form class="layui-form" lay-filter="marqueeComponentForm">
         <div class="layui-tab layui-tab-brief">
@@ -655,7 +655,7 @@ export default class TextComponent extends Component {
                 <div><input name="hrefMode" value="_blank" type="checkbox" lay-skin="primary" title="新窗口打开"></div>
               </div>
 
-       
+
 
             </div>
             <div class="layui-tab-item">
@@ -695,13 +695,13 @@ export default class TextComponent extends Component {
 
 
             </div>
- 
- 
+
+
           </div>
         </div>
         <div class="layui-form-item">
           <div class="layui-ft-btn">
-            <button class="layui-btn" lay-submit lay-filter="marqueeComponentForm">确定</button> 
+            <button class="layui-btn" lay-submit lay-filter="marqueeComponentForm">确定</button>
             <button type="button" class="cancel-btn layui-btn layui-btn-primary">取消</button>
           </div>
         </div>
@@ -727,6 +727,9 @@ export default class TextComponent extends Component {
     });
     form.val('marqueeComponentForm', that.formData)
   }
+  doUpdate(formData: any): void {
+  }
+
   update(formData) {
     let that = this
     const amount=this.formData.amount;
@@ -736,7 +739,7 @@ export default class TextComponent extends Component {
     this.$content.attr("behavior",this.formData.behavior)
     this.$content.attr("direction",this.formData.dirt)
 
-    
+
     let conMode=this.formData.conMode;
     let $defPanel=that.$contentBox.find(".sc-text")
     let $imgPanel=that.$contentBox.find(".sc-img")
@@ -750,7 +753,7 @@ export default class TextComponent extends Component {
       }
       if(deline ==="") deline='none'
 
-      
+
       if($defPanel.length <=0){
         that.$content.append("<div class='sc-text sc-box'></div>")
         $defPanel=that.$contentBox.find(".sc-text")
@@ -762,7 +765,7 @@ export default class TextComponent extends Component {
       $defPanel.css('line-height', this.formData.lHeight+'px')
       $defPanel.css('letter-spacing', parseInt(this.formData.spacing))
       $defPanel.css('text-indent', parseInt(this.formData.indent))
-          
+
       $defPanel.css('display', 'inline-block')
       $defPanel.css('text-align', this.formData.align)
       $defPanel.css("font-weight",this.formData.weight)
@@ -776,9 +779,9 @@ export default class TextComponent extends Component {
         that.$content.append('<div class="sc-img sc-box"  ><img src="'+this.formData.bgImg+'"  style="display: block;float: left;"/></div>')
       $imgPanel=that.$contentBox.find(".sc-img img")
       $imgPanel.attr("src",this.formData.bgImg)
-  
+
     }
-  
+
   }
   updatePropPanel(){
     let that = this
@@ -835,7 +838,7 @@ export default class TextComponent extends Component {
     } else {
       $hrefModeCheckBox.prop('checked', false)
     }
- 
+
     if (this.formData.color) {
        $colorInput.prev().find(".sp-preview-inner").css("background-color",this.formData.color)
     }else{
@@ -847,7 +850,7 @@ export default class TextComponent extends Component {
       $bgColorInput.prev().find(".sp-preview-inner").css("background-color",'')
     }
 
- 
+
 
    //右侧  正面字体样式设置
     $propPanel.find(`.font-setting span`).removeClass('active')
@@ -888,15 +891,15 @@ export default class TextComponent extends Component {
       $uLineInput.val("")
     }
 
-   
+
 
     $propPanel.find(`.font-z .font-item-radio[data-val="${that.formData.align}"]`).addClass('active')
-  
 
- 
-  
- 
- 
+
+
+
+
+
   }
 }
 

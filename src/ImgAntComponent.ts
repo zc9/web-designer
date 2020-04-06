@@ -24,7 +24,7 @@ export default class ImgAntComponent extends Component {
     width = this.$el.width()
     height = this.$el.height()
     overMode=valEmpty(this.formData.overMode);
- 
+
     bRadius=valEmpty(this.formData.bRadius)
     tipText=valEmpty(this.formData.tipText)
     href=valEmpty(this.formData.href)
@@ -42,7 +42,7 @@ export default class ImgAntComponent extends Component {
 
 
     let radiusStyle=bRadius !="" ? 'border-radius:'+bRadius+'px;' :''
-    
+
      //图片处理
     let ImgBgData = ImgBgHtml(this.formData)
     let imgBgStyle=ImgBgData.imgBgStyle
@@ -56,7 +56,7 @@ export default class ImgAntComponent extends Component {
     //处理 边框
     let mbdTsAnt=valEmpty(this.formData.mbdTsAnt)
     let BorderData = toHtmlBorder(this.formData)
- 
+
     htmlList.push(BorderData.Html)
 
     //处理动画
@@ -69,10 +69,10 @@ export default class ImgAntComponent extends Component {
     Bezier=  Bezier !=""  ? 'transition:'+Bezier+';' : ''
 
     linkhtml=' <a '+tipText+' class="abs ywlink '+disMode+' '+mbdTsAnt+'" href="'+url+'" target="'+hrefMode+'" style="'+imgBgStyle+onShadowStyle+radiusStyle+Bezier+'">'+htmlList.join('')+'</a>'
-      
+
     let whStyle,mrxz,mrxzv,mrsf,mrxzCss,mrCss
 
-    whStyle='width:'+width+'px; height:'+height+'px;'+Bezier       
+    whStyle='width:'+width+'px; height:'+height+'px;'+Bezier
     mrxz=valEmpty(this.formData.mrxz)
     mrxzv=valEmpty(this.formData.mrxzv)
     mrsf=valEmpty(this.formData.mrsf)
@@ -105,7 +105,7 @@ export default class ImgAntComponent extends Component {
     if(mvfz !=""){
       linkhtml='<div class="abs '+mvfz+'" style="'+whStyle+'">'+linkhtml+'</div>'
     }
-    
+
     if(mvsf !="" || mrsf !=""){
       linkhtml='<div class="abs '+mrsf+' '+mvsf+'" style="'+whStyle+'">'+linkhtml+'</div>'
     }
@@ -118,7 +118,7 @@ export default class ImgAntComponent extends Component {
 
     return '<div class="abs xdtb xtxc '+mrCss+overCss+'" style="top: '+top+'; left:'+left+'; width:'+width+'px; height:'+height+'px;overflow:'+overVal+';'+radiusStyle+'" > '+linkhtml+'</div>'
   }
- 
+
   initFormData() {
     this.formData.bgImg = 'http://image.suning.cn/uimg/sop/commodity/192796024482525085891100_x.jpg'
     this.formData.bgColor = ''
@@ -126,7 +126,7 @@ export default class ImgAntComponent extends Component {
     this.formData.imgMode = 'cut'
     this.formData.linkMode = 'urlink'
 
-    
+
     this.formData.href = ''
     this.formData.tipText = ''
     this.formData.animType = ''
@@ -137,7 +137,7 @@ export default class ImgAntComponent extends Component {
     this.formData.wangID = ''
     this.formData.bdRadius= ''
     this.formData.bdStyle= 'solid'
-    this.formData.overMode='visible' 
+    this.formData.overMode='visible'
 
     this.formData.shadow= 'off'//box-shadow: h-shadow v-shadow blur spread color inset;
     this.formData.sdColor= '#666666'
@@ -148,10 +148,10 @@ export default class ImgAntComponent extends Component {
 
     this.formData.mshadow= 'on'
     this.formData.msdColor= '#E93030'
-    this.formData.msdSize= ''  
-    this.formData.msdBlur= '5'  
-    this.formData.msdX= ''    
-    this.formData.msdY= '' 
+    this.formData.msdSize= ''
+    this.formData.msdBlur= '5'
+    this.formData.msdX= ''
+    this.formData.msdY= ''
     this.formData.msdTsDur= '0.5'
 
     this.formData.bdWidth =5
@@ -160,12 +160,12 @@ export default class ImgAntComponent extends Component {
     this.formData.mbdWidth =5
     this.formData.mbdStyle ='solid'
 
-    this.formData.mbdTsDur ='0.5'  
-    this.formData.mbdTsFun ='ease-out'  
+    this.formData.mbdTsDur ='0.5'
+    this.formData.mbdTsFun ='ease-out'
     this.formData.mbdTsAnt ='bdtx1'
     this.formData.mrxz=''
     this.formData.mrxzv='20'
-    this.formData.mvTsDur='0.5' 
+    this.formData.mvTsDur='0.5'
     this.formData.mvTsDelay=''
     this.formData.mvTsModeX='xins-box-lx'
     this.formData.mvTsModeXv='20'
@@ -173,14 +173,14 @@ export default class ImgAntComponent extends Component {
     this.formData.mvTsModeYv='30'
 
     this.formData.mvfz=''
-    this.formData.disMode='' 
+    this.formData.disMode=''
 
     this.$content.attr("mbdTsAnt",this.formData.mbdTsAnt)
     this.update(this.formData)
   }
- 
 
- 
+
+
   openEditDialog() {
     let that = this;
     let layer = layui.layer;
@@ -194,13 +194,13 @@ export default class ImgAntComponent extends Component {
          $layerElem = $(layerElem)
         setAntSpinvOption($layerElem.find('.ant-spin-v'))
         setAntBezierOption($layerElem.find('.ant-bezier'))
-        
+
         setAntMrZoomOption($layerElem.find('.ant-mr-zoom'))
         setAntMvZoomOption($layerElem.find('.ant-mv-zoom'))
         setAntMovevOption($layerElem.find('.ant-move-v'))
 
-       
- 
+
+
         $layerElem.find(`.animselect > div[data-val="${that.formData.animType}"]`).addClass('active')
         $layerElem.find('.animselect > div').on('click', function() {
           $layerElem.find('.animselect > div.active').removeClass('active')
@@ -223,7 +223,7 @@ export default class ImgAntComponent extends Component {
           layer.close(index)
         })
         onLinkModeChanged($layerElem, that.formData.linkMode)
-      
+
 
       },
       content: `<form class="layui-form" lay-filter="imgAntComponentForm">
@@ -246,7 +246,7 @@ export default class ImgAntComponent extends Component {
                 <label class="layui-form-label">图片地址</label>
                 <div class="layui-input-inline">
                   <input name="bgImg" type="text" class="layui-input">
-                   
+
                 </div>
                 <div><input name="bgImgSize" value="true" type="checkbox" lay-skin="primary" title="自动宽高"></div>
               </div>
@@ -312,10 +312,10 @@ export default class ImgAntComponent extends Component {
               </div>
             </div>
             <div  class="layui-tab-item pop-item-border">
-          
+
             </div>
             <div class="layui-tab-item pop-item-shadow">
- 
+
             </div>
             <div class="layui-tab-item">
               <div class="layui-tab layui-side-card">
@@ -325,7 +325,7 @@ export default class ImgAntComponent extends Component {
                 </ul>
                 <div class="layui-tab-content" style="height: 400px;">
                   <div class="layui-tab-item layui-show">
-                       
+
                     <div class="layui-form-item" style="margin-top:30px;">
                       <label class="layui-form-label">显示方式</label>
                       <div class="layui-input-inline" style="width: 326px;">
@@ -355,10 +355,10 @@ export default class ImgAntComponent extends Component {
                         </select>
                       </div>
                     </div>
- 
+
                   </div>
                   <div class="layui-tab-item">
-                       
+
                     <div class="layui-form-item" style="margin-top:30px;">
                       <label class="layui-form-label">动画速度</label>
                       <div class="layui-input-inline" style="width: 148px;">
@@ -466,11 +466,11 @@ export default class ImgAntComponent extends Component {
     });
     var form = layui.form
 
- 
+
     form.render();
 
 
-     
+
     form.on('radio(linkMode)', function(data){
       console.log(data)
       onLinkModeChanged($layerElem, data.value)
@@ -487,7 +487,8 @@ export default class ImgAntComponent extends Component {
     });
     form.val('imgAntComponentForm', that.formData)
   }
-  
+  doUpdate(formData: any): void {
+  }
   update(formData) {
     let that = this
     let bRadius=formData.bRadius ?  parseInt(formData.bRadius) :''
@@ -522,7 +523,7 @@ export default class ImgAntComponent extends Component {
       }
     }
     $mrCss ? $contentParnts.addClass("mr") : $contentParnts.removeClass("mr")
- 
+
     updateShadow(this.$content,formData)
     //处理边框
     updateBorder(this.$content,formData)
@@ -530,7 +531,7 @@ export default class ImgAntComponent extends Component {
     if(formData.bgImg) that.$img.attr('src', formData.bgImg)
     that.$content.css('border-radius', bRadius)
 
-  
+
     that.$img.bind('load', function() {
       if (formData.bgImgSize === 'true') {
         that.$el.width(that.$img.width())
@@ -545,7 +546,7 @@ export default class ImgAntComponent extends Component {
         that.$img.hide()
       }
     } else {
-     
+
       that.$content.css('background', 'none')
       that.$content.css('background-color', formData.bgColor)
       if (imgMode === 'full') {
@@ -561,7 +562,7 @@ export default class ImgAntComponent extends Component {
       that.$img.show()
     }
 
-  
+
   }
 
   updatePropPanel() {
@@ -576,7 +577,7 @@ export default class ImgAntComponent extends Component {
     let $mrsfSelect = $propPanel.find('select[name=mrsf]')
     $mrsfSelect.val(this.formData.mrsf)
 
-    
+
 
     let $mvTsModeXSelect = $propPanel.find('select[name=mvTsModeX]')
     $mvTsModeXSelect.val(this.formData.mvTsModeX)
@@ -618,7 +619,7 @@ export default class ImgAntComponent extends Component {
 
     let $disModeRadio = $propPanel.find('input[type=radio][name=disMode]')
     $disModeRadio.filter(`[value="${this.formData.disMode}"]`).prop('checked', true)
-      
+
     let $bgImgInput = $propPanel.find('input[type=text][name=bgImg]')
     $bgImgInput.val(this.formData.bgImg)
     let $bgImgSizeCheckBox = $propPanel.find('input[type=checkbox][name=bgImgSize]')
@@ -664,7 +665,7 @@ export default class ImgAntComponent extends Component {
     $propPanel.find('*').off()
     setAntSpinvOption($propPanel.find('.ant-spin-v'))
     setAntBezierOption($propPanel.find('.ant-bezier'))
-    
+
     setAntMrZoomOption($propPanel.find('.ant-mr-zoom'))
     setAntMvZoomOption($propPanel.find('.ant-mv-zoom'))
     setAntMovevOption($propPanel.find('.ant-move-v'))
@@ -726,7 +727,7 @@ export default class ImgAntComponent extends Component {
       that.update(that.formData)
       onDisabledChanged($propPanel,$(this),that.formData.mvTsModeX)
     })
-     
+
     let $mvTsModeYvSelect = $propPanel.find('select[name=mvTsModeYv]')
     $mvTsModeYvSelect.change(function() {
       that.formData.mvTsModeYv = $(this).prop('value')
@@ -825,7 +826,7 @@ export default class ImgAntComponent extends Component {
     })
     //边框初始化
     initPorpBorder($propPanel,that)
-  
+
     $propPanel.find('.editor-btns').on('click', function() {
       that.openEditDialog()
     })

@@ -24,7 +24,7 @@ export default class VideoComponent extends Component {
     isControls=valEmpty(this.formData.controls) ==="true" ? ' controls' : '';
     coverImg=valEmpty(this.formData.coverImg) !="" ? ' poster="'+this.formData.coverImg+'"' : '';
     isloop=valEmpty(this.formData.loop) ==="true" ? ' loop="loop"' : '';
-    
+
 
     return '<div class="abs video-box"  style="top:'+top+';left:'+left+';width:'+width+'px; height:'+height+'px;"><Video '+isAutopaly+isMuted+isControls+isloop+coverImg+' style="width:100%;height:100%;"   src="https://cloud.video.taobao.com/play/u/2780279213/p/1/e/6/t/1/d/ld/36255062.mp4"  /></div>'
   }
@@ -42,7 +42,7 @@ export default class VideoComponent extends Component {
 
     this.formData.coverImg = '' //封面
 
- 
+
     this.update(this.formData)
   }
 
@@ -156,6 +156,8 @@ export default class VideoComponent extends Component {
       layer.close(layerNo)
       return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
     });
+  }
+  doUpdate(formData: any): void {
   }
   update(formData) {
     let that = this

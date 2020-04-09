@@ -59,15 +59,15 @@ export default class Header {
         })
       },
       content: `
-        <div class="codegen" style="padding: 15px 10px">
+        <div class="codegen" style="padding: 10px 10px">
           <div class="layui-tab">
             <ul class="layui-tab-title" style="font-size: 12px">
-              <li style="font-size: 12px" class="layui-this">覆盖导入</li>
-              <li style="font-size: 12px">追加导入</li>
+              <li style="font-size: 14px" class="layui-this">将代码放下面 如不会操作 请拨电话:189-0079-2453  或加扣扣 458243665</li>
+              <li style="font-size: 12px;display:none;">追加导入</li>
             </ul>
-            <div class="layui-tab-content">
+            <div class="layui-tab-content" style="padding: 0px;">
               <div class="layui-tab-item layui-show">
-                <textarea id="jsonTextArea"style="float:left;width:100%;height:320px;" spellcheck="false"></textarea>
+                <textarea id="jsonTextArea"style="float:left;width:100%;height:320px;border-top: 0px;   margin-top: 1px;" spellcheck="false"></textarea>
               </div>
               <div class="layui-tab-item">
                 <textarea id="htmlTextArea"style="float:left;width:100%;height:320px;" spellcheck="false"></textarea>
@@ -154,18 +154,19 @@ export default class Header {
           </div>
           <div class="layui-tab">
             <ul class="layui-tab-title" style="font-size: 12px;display: none;">
-              <li style="font-size: 12px" class="layui-this">JSON代码</li>
-              <li style="font-size: 12px" style="">HTML代码</li>
+              <li style="font-size: 14px;" class="layui-this">JSON代码 </li>
+              <li style="font-size: 12px;" style="">HTML代码</li>
             </ul>
             <div class="layui-tab-content">
               <div class="layui-tab-item layui-show">
-                <textarea id="jsonTextArea"style="float:left;width:100%;height:300px;" readonly spellcheck="false"></textarea>
+                <textarea id="jsonTextArea"style=" width:100%;height:300px;" readonly spellcheck="false"></textarea>
               </div>
               <div class="layui-tab-item">
                 <textarea id="htmlTextArea"style="float:left;width:100%;height:300px;" readonly spellcheck="false"></textarea>
               </div>
             </div>
           </div>
+          <div  style="color:red;margin-left: 10px;font-size:14px;">   如不会操作 请拨电话:189-0079-2453  或加扣扣 458243665</div>
           <div class="code-size-box"><span>代码量:</span><span><span class="code-size">0</span>KB</span></div>
           <div class="copy-box"><button type="button" class="layui-btn layui-btn-sm layui-btn-primary">复制代码</button></div>
         </div>`

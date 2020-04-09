@@ -1,6 +1,8 @@
 import Component from './Component'
-import {setFontOption} from './common'
-import {valEmpty} from './commonCss'
+import {compareForm,valEmpty} from './common'
+import {setFontOption} from './commonOption';
+import UpdateFormAction from "./UpdateFormAction"
+
 require('./assets/wang2.gif')
 require('./assets/wang1.gif')
 export default class WangComponent extends Component {
@@ -71,7 +73,7 @@ export default class WangComponent extends Component {
     this.formData.tipText = '24Hours Service Online'
     this.formData.nameMl = 5
     this.formData.nameMt = 5 //
-    this.update(this.formData)
+    this.doUpdate(this.formData)
 
   }
   initPorpPanel() {
@@ -89,75 +91,70 @@ export default class WangComponent extends Component {
 
     let $wangModeRadio = $propPanel.find('input[type=radio][name=wangMode]')
     $wangModeRadio.change(function() {
-      that.formData.wangMode = $(this).prop('value')
-      that.update(that.formData)
+      let val = $(this).prop('value')
+      that.update({wangMode: val})
     })
 
     let $wangIDInput = $propPanel.find('input[type=text][name=wangID]')
-    $wangIDInput.change(function() {
+    $wangIDInput.keyup(function() {
       let val = $(this).val()
-      that.formData.wangID = val
+      that.update({wangID: val})
     })
     let $bgImgInput = $propPanel.find('input[type=text][name=bgImg]')
-    $bgImgInput.change(function() {
+    $bgImgInput.keyup(function() {
       let val = $(this).val()
-      that.formData.bgImg = val
-      that.update(that.formData)
+      that.update({bgImg: val})
     })
     let $nameMtInput = $propPanel.find('input[type=text][name=nameMt]')
-    $nameMtInput.change(function() {
+    $nameMtInput.keyup(function() {
       let val = $(this).val()
-      that.formData.nameMt = val
-      that.update(that.formData)
+      that.update({nameMt: val})
     })
     let $eNameInput = $propPanel.find('input[type=text][name=eName]')
-    $eNameInput.change(function() {
+    $eNameInput.keyup(function() {
       let val = $(this).val()
-      that.formData.eName = val
-      that.update(that.formData)
+      that.update({eName: val})
     })
     let $colorInput = $propPanel.find('input[type=text][name=color]')
     $colorInput.change(function() {
       let val = $(this).val()
-      that.formData.color = val
-      that.update(that.formData)
+      that.update({color: val})
     })
     let $bgColorInput = $propPanel.find('input[type=text][name=bgColor]')
     $bgColorInput.change(function() {
       let val = $(this).val()
-      that.formData.bgColor = val
-      that.update(that.formData)
+      that.update({bgColor: val})
     })
     let $nameMlInput= $propPanel.find('input[type=text][name=nameMl]')
-    $nameMlInput.change(function() {
-      that.formData.nameMl =$(this).val()
-      that.update(that.formData)
+    $nameMlInput.keyup(function() {
+      let val =$(this).val()
+      that.update({nameMl: val})
     })
     let $fSizeInput= $propPanel.find('input[type=text][name=fSize]')
-    $fSizeInput.change(function() {
-      that.formData.fSize =$(this).val()
-      that.update(that.formData)
+    $fSizeInput.keyup(function() {
+      let val =$(this).val()
+      that.update({fSize: val})
     })
 
     let $weightSelect = $propPanel.find('select[name=weight]')
     $weightSelect.change(function() {
-      that.formData.weight = $(this).prop('value')
-      that.update(that.formData)
+      let val= $(this).prop('value')
+      that.update({weight: val})
     })
     let $fStyleSelect = $propPanel.find('select[name=fStyle]')
     $fStyleSelect.change(function() {
-      that.formData.fStyle = $(this).prop('value')
-      that.update(that.formData)
+      let val= $(this).prop('value')
+      that.update({fStyle: val})
     })
     let $familySelect = $propPanel.find('select[name=family]')
     $familySelect.change(function() {
-      that.formData.family = $(this).prop('value')
-      that.update(that.formData)
+      let val= $(this).prop('value')
+      that.update({family: val})
     })
     let $tipTextInput= $propPanel.find('input[type=text][name=tipText]')
-    $tipTextInput.change(function() {
-      that.formData.tipText =$(this).val()
-      that.update(that.formData)
+    $tipTextInput.keyup(function() {
+      let val =$(this).val()
+      that.update({tipText: val})
     })
   }
   openEditDialog() {
@@ -206,9 +203,7 @@ export default class WangComponent extends Component {
       return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
     });
   }
-  doUpdate(formData: any): void {
-  }
-  update(formData) {
+  doUpdate(formData) {
     let that = this
     let $cphoto=this.$content.find(".cphoto");
     let $spanName=this.$content.find(".wang-info span");
@@ -252,6 +247,19 @@ export default class WangComponent extends Component {
        $spanName.remove();
     }
   }
+  update(formData) {
+    let newFormData = JSON.parse(JSON.stringify(this.formData));
+    for (let k in formData) {
+      newFormData[k] = formData[k];
+    }
+    if (!compareForm(newFormData, this.formData)) {
+      let updateFormAction = new UpdateFormAction(this);
+      updateFormAction.setOldFormData(this.formData);
+      updateFormAction.setNewFormData(newFormData);
+      this.stage.actionManager.execute(updateFormAction)
+    }
+  }
+
   updatePropPanel() {
     let $propPanel = this.$propPanel
 

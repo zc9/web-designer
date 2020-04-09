@@ -1,8 +1,10 @@
 import Component from './Component';
-import { setFontOption } from './common';
-import {bgImage,valInt,valEmpty,textLine} from './commonCss'
+import {compareForm,valInt,valEmpty } from './common';
+import { setFontOption} from './commonOption';
+import {bgImage,textLine} from './commonCss'
 import { initPorpBorder,updateBorder,updatePropBorder,editPopHtmlBorder,setPopHtmlBorder,editSideHtmlBorder,toHtmlBorder} from './borderComponent';
 import { updateShadow,editPopHtmlShadow,setPopHtmlShadow,toHtmlShadow} from './shadowComponent';
+import UpdateFormAction from "./UpdateFormAction"
 
 export default class TextComponent extends Component {
 　$content: JQuery
@@ -94,7 +96,7 @@ export default class TextComponent extends Component {
     this.formData.mbdColor ='#00FFFF'
     this.formData.mbdTsAnt ='bdtx1'
 
-    this.update(this.formData)
+    this.doUpdate(this.formData)
 
   }
   getProps() {
@@ -473,142 +475,124 @@ export default class TextComponent extends Component {
     let $hrefModeCheckBox = $propPanel.find('input[type=checkbox][name=hrefMode]')
     $hrefModeCheckBox.change(function() {
       let val = $(this).is(':checked')
-      that.formData.hrefMode = val ? '_blank' : ''
+      that.update({hrefMode: val ? '_blank' : ''})
     })
     let $hrefInput = $propPanel.find('input[type=text][name=href]')
     $hrefInput.change(function() {
       let val = $(this).val()
-      that.formData.href = val
-      that.update(that.formData)
+      that.update({href: val})
     })
     let $bRadiusInput = $propPanel.find('input[type=text][name=bRadius]')
     $bRadiusInput.keyup(function() {
       let val = $(this).val()
-      that.formData.bRadius = val
-      that.update(that.formData)
+      that.update({bRadius: val})
     })
     let $scrlYRadio = $propPanel.find('input[type=radio][name=scrlY]')
     $scrlYRadio.change(function() {
       let val = $(this).prop('value')
-      that.formData.scrlY = val
+      that.update({scrlY: val})
     })
-
 
     let $familySelect = $propPanel.find('select[name=family]')
     $familySelect.change(function() {
-      that.formData.family = $(this).prop('value')
-      that.update(that.formData)
+      let val= $(this).prop('value')
+      that.update({family: val})
       that.updatePreviewStyle($(this))
     })
 
     let $colorInput = $propPanel.find('input[type=text][name=color]')
     $colorInput.change(function() {
       let val = $(this).val()
-      that.formData.color = val
-      that.update(that.formData)
+      that.update({color: val})
       that.updatePreviewStyle($(this))
     })
     let $bgColorInput = $propPanel.find('input[type=text][name=bgColor]')
     $bgColorInput.change(function() {
       let val = $(this).val()
-      that.formData.bgColor = val
-      that.update(that.formData)
+      that.update({bgColor: val})
       that.updatePreviewStyle($(this))
     })
     let $fSizeInput = $propPanel.find('input[type=text][name=fSize]')
     $fSizeInput.keyup(function() {
       let val = $(this).val()
-      that.formData.fSize = val
-      that.update(that.formData)
+      that.update({fSize: val})
       that.updatePreviewStyle($(this))
     })
     let $lHeightInput = $propPanel.find('input[type=text][name=lHeight]')
     $lHeightInput.keyup(function() {
       let val = $(this).val()
-      that.formData.lHeight = val
-      that.update(that.formData)
+      that.update({lHeight: val})
       that.updatePreviewStyle($(this))
     })
     let $spacingInput = $propPanel.find('input[type=text][name=spacing]')
     $spacingInput.keyup(function() {
       let val = $(this).val()
-      that.formData.spacing = val
-      that.update(that.formData)
+      that.update({spacing: val})
       that.updatePreviewStyle($(this))
     })
     let $indentInput = $propPanel.find('input[type=text][name=indent]')
     $indentInput.keyup(function() {
       let val = $(this).val()
-      that.formData.indent = val
-      that.update(that.formData)
+      that.update({indent: val})
       that.updatePreviewStyle($(this))
     })
     let $contentTextarea = $propPanel.find('textarea[name=content]')
     $contentTextarea.keyup(function() {
       let val = $(this).val()
-      that.formData.content = val
-      that.update(that.formData)
+      that.update({content: val})
     })
 
     let $hoverModeRadio = $propPanel.find('input[type=radio][name=hoverMode]')
     $hoverModeRadio.change(function() {
       let val = $(this).prop('value')
-      that.formData.hoverMode = val
-      that.update(that.formData)
+      that.update({hoverMode: val})
     })
     let $mfamilySelect = $propPanel.find('select[name=mfamily]')
     $mfamilySelect.change(function() {
-      that.formData.mfamily = $(this).prop('value')
-      that.update(that.formData)
+      let val = $(this).prop('value')
+      that.update({mfamily: val})
     })
 
     let $mcolorInput = $propPanel.find('input[type=text][name=mcolor]')
     $mcolorInput.change(function() {
       let val = $(this).val()
-      that.formData.mcolor = val
-      that.update(that.formData)
+      that.update({mcolor: val})
       that.updatePreviewStyle($(this))
     })
     let $mbgColorInput = $propPanel.find('input[type=text][name=mbgColor]')
     $mbgColorInput.change(function() {
       let val = $(this).val()
-      that.formData.mbgColor = val
-      that.update(that.formData)
+      that.update({mbgColor: val})
       that.updatePreviewStyle($(this))
     })
     let $mfSizeInput = $propPanel.find('input[type=text][name=mfSize]')
     $mfSizeInput.keyup(function() {
       let val = $(this).val()
-      that.formData.mfSize = val
-      that.update(that.formData)
+      that.update({mfSize: val})
       that.updatePreviewStyle($(this))
     })
     let $mlHeightInput = $propPanel.find('input[type=text][name=mlHeight]')
     $mlHeightInput.keyup(function() {
       let val = $(this).val()
-      that.formData.mlHeight = val
-      that.update(that.formData)
+      that.update({mlHeight: val})
       that.updatePreviewStyle($(this))
     })
     let $mspacingInput = $propPanel.find('input[type=text][name=mspacing]')
     $mspacingInput.keyup(function() {
       let val = $(this).val()
-      that.formData.mspacing = val
-      that.update(that.formData)
+      that.update({mspacing: val})
       that.updatePreviewStyle($(this))
     })
     let $mindentInput = $propPanel.find('input[type=text][name=mindent]')
     $mindentInput.keyup(function() {
       let val = $(this).val()
-      that.formData.mindent = val
-      that.update(that.formData)
+      that.update({mindent: val})
       that.updatePreviewStyle($(this))
     })
     let $mcontentTextarea = $propPanel.find('textarea[name=mcontent]')
     $mcontentTextarea.keyup(function() {
       let val = $(this).val()
-      that.formData.mcontent = val
-      that.update(that.formData)
+      that.update({mcontent: val})
     })
 
 
@@ -616,20 +600,17 @@ export default class TextComponent extends Component {
     let $mTsDurInput = $propPanel.find('input[type=text][name=mTsDur]')
     $mTsDurInput.keyup(function() {
       let val = $(this).val()
-      that.formData.mTsDur = val
-      that.update(that.formData)
+      that.update({mTsDur: val})
     })
     let $mTsFunRadio = $propPanel.find('input[type=radio][name=mTsFun]')
     $mTsFunRadio.change(function() {
       let val = $(this).prop('value')
-      that.formData.mTsFun = val
-      that.update(that.formData)
+      that.update({mTsFun: val})
     })
     let $mTsAntRadio = $propPanel.find('input[type=radio][name=mTsAnt]')
     $mTsAntRadio.change(function() {
       let val = $(this).prop('value')
-      that.formData.mTsAnt = val
-      that.update(that.formData)
+      that.update({mTsAnt: val})
     })
 
 
@@ -641,13 +622,12 @@ export default class TextComponent extends Component {
       let $alignParent=$(this).parent()
       let isOff= $alignParent.hasClass("font-f")  ? true :false
       if(isOff){
-        that.formData.malign = val
+        that.update({malign: val})
       }else{
-        that.formData.align = val
+        that.update({align: val})
       }
       $alignParent.find('.font-item-radio').removeClass("active")
       $(this).addClass("active")
-      that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
     //转换成小写：toLowerCase()
@@ -659,23 +639,23 @@ export default class TextComponent extends Component {
         $(this).removeClass("active")
         switch($attrName) {
           case 'weight':
-            that.formData.weight =""
+            that.update({weight: ''})
             $elemInput.val("")
             break;
           case 'fstyle':
-            that.formData.fStyle ='normal'
+            that.update({fStyle: 'normal'})
             $elemInput.val("normal")
             break;
           case 'oline':
-            that.formData.oLine =''
+            that.update({oLine: ''})
             $elemInput.val("")
             break;
           case 'through':
-            that.formData.through = ''
+            that.update({through: ''})
             $elemInput.val("")
             break;
           case 'uline':
-            that.formData.uLine = ''
+            that.update({uLine: ''})
             $elemInput.val("")
             break;
         }
@@ -683,28 +663,27 @@ export default class TextComponent extends Component {
         $(this).addClass("active")
         switch($attrName) {
           case 'weight':
-            that.formData.weight ="600"
+            that.update({weight: '600'})
             $elemInput.val("600")
             break;
           case 'fstyle':
-            that.formData.fStyle ='italic'
+            that.update({fStyle: 'italic'})
             $elemInput.val("italic")
             break;
           case 'oline':
-            that.formData.oLine ='overline'
+            that.update({oLine: 'overline'})
             $elemInput.val("overline")
             break;
           case 'through':
-            that.formData.through = 'line-through'
+            that.update({through: 'line-through'})
             $elemInput.val("line-through")
             break;
           case 'uline':
-            that.formData.uLine = 'underline'
+            that.update({uLine: 'underline'})
             $elemInput.val("underline")
             break;
         }
       }
-      that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
 
@@ -716,23 +695,23 @@ export default class TextComponent extends Component {
         $(this).removeClass("active")
         switch($attrName) {
           case 'mweight':
-            that.formData.mweight =""
+            that.update({mweight: ''})
             $elemInput.val("")
             break;
           case 'mfstyle':
-            that.formData.mfStyle ='normal'
+            that.update({mfStyle: 'normal'})
             $elemInput.val("normal")
             break;
           case 'moLine':
-            that.formData.moLine =''
+            that.update({moLine: ''})
             $elemInput.val("")
             break;
           case 'mthrough':
-            that.formData.mthrough = ''
+            that.update({mthrough: ''})
             $elemInput.val("")
             break;
           case 'muLine':
-            that.formData.muLine = ''
+            that.update({muLine: ''})
             $elemInput.val("")
             break;
         }
@@ -740,28 +719,27 @@ export default class TextComponent extends Component {
         $(this).addClass("active")
         switch($attrName) {
           case 'mweight':
-            that.formData.mweight ="600"
+            that.update({mweight: '600'})
             $elemInput.val("600")
             break;
           case 'mfstyle':
-            that.formData.mfStyle ='italic'
+            that.update({mfStyle: 'italic'})
             $elemInput.val("italic")
             break;
           case 'moline':
-            that.formData.moLine ='overline'
+            that.update({moLine: 'overline'})
             $elemInput.val("overline")
             break;
           case 'mthrough':
-            that.formData.mthrough = 'line-through'
+            that.update({mthrough: 'line-through'})
             $elemInput.val("line-through")
             break;
           case 'muline':
-            that.formData.muLine = 'underline'
+            that.update({muLine: 'underline'})
             $elemInput.val("underline")
             break;
         }
       }
-      that.update(that.formData)
       that.updatePreviewStyle($(this))
     })
 

@@ -1,4 +1,4 @@
- import {isEmpty} from './common';
+ import {valEmpty,isEmpty} from './common';
 /*旺旺链接*/
 export function wwUrl(url,mode,whao,stype){
   return mode =="wwlink" ? '//amos.alicdn.com/msg.aw?&v=2&uid='+whao+'&site=enaliint&s='+stype+'&charset=UTF-8' : url
@@ -139,22 +139,7 @@ export function BezierCss(bz,bzv){
   return   defv;
 }
 
-
-
-/*是否为空 */
-export function isnull(str){
-if(typeof(str)=='object'){var n=0;for(var i in str){if(str[i]&&!/^[ ]*$/.test(str[i].toString()))n++;}return n==0?true:false;}else{return!str||(/^[ ]*$/.test(str.toString()))?true:false;}
-}
-/*返回为空字符*/
-export function valEmpty(v){
- return  isEmpty(v) ?  '' : v;
-}
-
-/*转化 正数值 */
-export function valInt(a) {
-    var b;
-  return a && "" != a ? (b = parseInt(a, 10), !!isNaN(b) && (b = 0), b) : a
-}
+ 
 //生成图片样式
 export function ImgBgHtml(formData) {
   var jsonData={'imgBgStyle':'','Html':''}

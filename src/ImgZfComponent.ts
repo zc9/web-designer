@@ -1,8 +1,10 @@
 import Component from './Component';
-import { setAntSpinvOption,setAntBezierOption,isEmpty} from './common';
-import {onLinkModeChanged,bgImage,onDisabledChanged,valEmpty,wwUrl,BezierCss,ImgBgHtml} from './commonCss'
+import { compareForm,isEmpty,valEmpty} from './common';
+import { setAntSpinvOption,setAntBezierOption} from './commonOption';
+import { onLinkModeChanged,bgImage,onDisabledChanged,wwUrl,BezierCss,ImgBgHtml} from './commonCss'
 import { initPorpBorder,updateBorder,updatePropBorder,editPopHtmlBorder,setPopHtmlBorder,editSideHtmlBorder,toHtmlBorder} from './borderComponent';
 import { updateShadow,editPopHtmlShadow,setPopHtmlShadow,toHtmlShadow} from './shadowComponent';
+import UpdateFormAction from "./UpdateFormAction"
 
 export default class ImgAntComponent extends Component {
   $content: JQuery
@@ -151,7 +153,7 @@ export default class ImgAntComponent extends Component {
     this.formData.mbdTsAnt ='bdtx1'
 
 
-    this.update(this.formData)
+    this.doUpdate(this.formData)
   }
 
 
@@ -441,10 +443,7 @@ export default class ImgAntComponent extends Component {
     });
     form.val('imgZfComponentForm', that.formData)
   }
-  doUpdate(formData: any): void {
-  }
-
-  update(formData) {
+  doUpdate(formData) {
     let that = this
     let bRadius=formData.bRadius ?  parseInt(formData.bRadius) :''
     let $contentParnts= that.$content.parent().parent()
@@ -523,9 +522,19 @@ export default class ImgAntComponent extends Component {
     updateShadow(this.$content,formData)
     //处理边框
     updateBorder(this.$content,formData)
-
   }
-
+  update(formData) {
+    let newFormData = JSON.parse(JSON.stringify(this.formData));
+    for (let k in formData) {
+      newFormData[k] = formData[k];
+    }
+    if (!compareForm(newFormData, this.formData)) {
+      let updateFormAction = new UpdateFormAction(this);
+      updateFormAction.setOldFormData(this.formData);
+      updateFormAction.setNewFormData(newFormData);
+      this.stage.actionManager.execute(updateFormAction)
+    }
+  }
   updatePropPanel() {
     let $propPanel = this.$propPanel
 
@@ -619,119 +628,110 @@ export default class ImgAntComponent extends Component {
 
     let $mrxzSelect = $propPanel.find('select[name=mrxz]')
     $mrxzSelect.change(function() {
-      that.formData.mrxz = $(this).prop('value')
-      that.update(that.formData)
-      onDisabledChanged($propPanel,$(this),that.formData.mrxz)
+      let val = $(this).prop('value')
+      that.update({mrxz: val})
+      onDisabledChanged($propPanel,$(this),val)
     })
 
     let $mrxzvSelect = $propPanel.find('select[name=mrxzv]')
     $mrxzvSelect.change(function() {
-      that.formData.mrxzv = $(this).prop('value')
-      that.update(that.formData)
+      let val= $(this).prop('value')
+      that.update({mrxzv: val})
     })
 
     let $bgImgInput = $propPanel.find('input[type=text][name=bgImg]')
     $bgImgInput.keyup((function() {
-      that.formData.bgImg = $bgImgInput.val()
-      that.update(that.formData)
+      let val = $(this).val()
+      that.update({bgImg: val})
     }))
     let $bgImgSizeCheckBox = $propPanel.find('input[type=checkbox][name=bgImgSize]')
     $bgImgSizeCheckBox.change(function() {
       let val = $(this).is(':checked')
-      that.formData.bgImgSize = val ? 'true' : 'false'
-      that.update(that.formData)
+      that.update({bgImgSize: val ? 'true' : 'false'})
     });
     let $bgPosSelect = $propPanel.find('select[name=bgPos]')
     $bgPosSelect.change(function() {
-      that.formData.bgPos = $(this).prop('value')
-      that.update(that.formData)
+      let val = $(this).prop('value')
+      that.update({bgPos: val})
     })
     let $bgColorInput = $propPanel.find('input[type=text][name=bgColor]')
     $bgColorInput.change(function() {
       let val = $(this).val()
-      that.formData.bgColor = val
-      that.update(that.formData)
+      that.update({bgColor: val})
     })
 
     //移上图片信息
     let $mbgImgInput = $propPanel.find('input[type=text][name=mbgImg]')
     $mbgImgInput.keyup((function() {
-      that.formData.mbgImg = $bgImgInput.val()
-      that.update(that.formData)
+      let val = $(this).val()
+      that.update({mbgImg: val})
     }))
     let $mbgPosSelect = $propPanel.find('select[name=mbgPos]')
     $mbgPosSelect.change(function() {
-      that.formData.mbgPos = $(this).prop('value')
-      that.update(that.formData)
+      let val = $(this).prop('value')
+      that.update({mbgPos: val})
     })
     let $mbgColorInput = $propPanel.find('input[type=text][name=mbgColor]')
     $mbgColorInput.change(function() {
       let val = $(this).val()
-      that.formData.mbgColor = val
-      that.update(that.formData)
+      that.update({mbgColor: val})
     })
-
-
 
     let $linkModeRadio = $propPanel.find('input[type=radio][name=linkMode]')
     $linkModeRadio.change(function() {
       let val = $(this).prop('value')
-      that.formData.linkMode = val
-      onLinkModeChanged($propPanel, that.formData.linkMode)
+      that.update({linkMode: val})
+      onLinkModeChanged($propPanel,val)
     })
 
     let $hrefInput = $propPanel.find('input[type=text][name=href]')
-    $hrefInput.change(function() {
+    $hrefInput.keyup(function() {
       let val = $(this).val()
-      that.formData.href = val
+      that.update({href: val})
     })
 
     let $hrefModeCheckBox = $propPanel.find('input[type=checkbox][name=hrefMode]')
     $hrefModeCheckBox.change(function() {
       let val = $(this).is(':checked')
-      that.formData.hrefMode = val ? '_blank' : ''
+      that.update({hrefMode: val ? '_blank' : ''})
     })
 
     let $wangIDInput = $propPanel.find('input[type=text][name=wangID]')
-    $wangIDInput.change(function() {
+    $wangIDInput.keyup(function() {
       let val = $(this).val()
-      that.formData.wangID = val
+      that.update({wangID: val})
     })
     let $bRadiusInput = $propPanel.find('input[type=text][name=bRadius]')
     $bRadiusInput.keyup(function() {
-      that.formData.bRadius = $(this).val()
-      that.update(that.formData)
+      let val= $(this).val()
+      that.update({bRadius: val})
     })
 
     //移上动画
     let $mTsDurInput = $propPanel.find('input[type=text][name=mTsDur]')
     $mTsDurInput.keyup(function() {
-      let val = $(this).val()
-      that.formData.mTsDur = val
-      that.update(that.formData)
+      let val= $(this).val()
+      that.update({mTsDur: val})
     })
-
     let $mTsDelayInput = $propPanel.find('input[type=text][name=mTsDelay]')
     $mTsDelayInput.keyup(function() {
-      let val = $(this).val()
-      that.formData.mTsDelay = val
-      that.update(that.formData)
+      let val= $(this).val()
+      that.update({mTsDelay: val})
     })
     let $mTsBezierSelect = $propPanel.find('select[name=mTsBezier]')
     $mTsBezierSelect.change(function() {
-      that.formData.mTsBezier = $(this).prop('value')
-      that.update(that.formData)
+      let val = $(this).prop('value')
+      that.update({mTsBezier: val})
     })
     let $mTsBeziervSelect = $propPanel.find('select[name=mTsBezierv]')
     $mTsBeziervSelect.change(function() {
-      that.formData.mTsBezierv = $(this).prop('value')
-      that.update(that.formData)
+      let val = $(this).prop('value')
+      that.update({mTsBezierv: val})
     })
     let $mTsAntRadio = $propPanel.find('input[type=radio][name=mTsAnt]')
     $mTsAntRadio.change(function() {
       let val = $(this).prop('value')
-      that.formData.mTsAnt = val
-      that.update(that.formData)
+      that.update({mTsAnt: val})
     })
 
     //边框初始化

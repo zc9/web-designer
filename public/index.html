@@ -227,7 +227,7 @@
         <li data-name="text-component"><icon>ꆀ</icon><span>文字</span></li>
         <li data-name="wang-component"><icon>ꑀ</icon><span>旺旺</span></li>
         <li data-name="video-component"><icon>ꊀ</icon><span>视频/FLASH</span></li>
-         <li data-name="marquee-component" style="display:none"><icon>ꆐ</icon><span>滚动文字/图片</span></li>
+         <li data-name="marquee-component"  ><icon>ꆐ</icon><span>滚动文字/图片</span></li>
 
         <li style="display:none"><icon>ꅀ</icon><span>特效层</span></li>
 
@@ -239,37 +239,7 @@
     <div class="stage-ct">
     </div>
     <div class="right-area">
-      <div class="align-panel" style="display:none">
-        <div class="title-bar"><em></em>对齐与分布<i class="r-icon-i" data-patype="switchBtn" data-paval="rightDq"></i></div>
-        <div class="align-btn-group clearfix">
-          <span data-aligntype="top" title="所选应用顶部对齐"><icon>ꔤ</icon></span>
-          <span data-aligntype="HorizontalMiddle" title="所选应用垂直中部对齐"><icon>ꔥ</icon></span>
-          <span data-aligntype="bottom" title="所选应用底部对齐"><icon>ꔦ</icon></span>
-          <span data-aligntype="left" title="所选应用左对齐"><icon>ꔧ</icon></span>
-          <span data-aligntype="VerticalMiddle" title="所选应用水平中部对齐"><icon>ꔨ</icon></span>
-          <span data-aligntype="right" title="所选应用右对齐"><icon>ꔩ</icon></span>
-          <span data-aligntype="topCanvas" title="调整位置到父层顶部"><icon>ꔰ</icon></span>
-          <span data-aligntype="VerticalMiddleCanvas" title="调整位置到父层垂直居中"><icon>ꔱ</icon></span>
-          <span data-aligntype="bottomCanvas" title="调整位置到父层底部"><icon>ꔲ</icon></span>
-          <span data-aligntype="leftCanvas" title="调整位置到父层左侧"><icon>ꔳ</icon></span>
-          <span data-aligntype="HorizontalMiddleCanvas" title="调整位置到父层水平居中"><icon>ꔴ</icon></span>
-          <span data-aligntype="rightCanvas" title="调整位置到父层右侧"><icon>ꔵ</icon></span>
-          <div class="space-line"></div>
-          <span data-aligntype="topSpread" title="基于应用上边线平均分布"><icon>ꔶ</icon></span>
-          <span data-aligntype="HorizontalSpread" title="基于应用水平中线平均分布"><icon>ꔷ</icon></span>
-          <span data-aligntype="bottomSpread" title="基于应用下边线平均分布"><icon>ꔸ</icon></span>
-          <span data-aligntype="leftSpread" title="基于应用左线平均分布"><icon>ꔹ</icon></span>
-          <span data-aligntype="VerticalSpread" title="基于应用垂直中线平均分布"><icon>ꕀ</icon></span>
-          <span data-aligntype="rightSpread" title="基于应用右线平均分布"><icon>ꕁ</icon></span>
-          <div class="space-line"></div>
-          <div class="plbox clearfix">
-            <label style="float:left;">按间距</label><input class="px" style="float:left;" type="text" name="jianju" id="jianju">
-            <span style="margin-top:0px;margin-left:8px;" title="横向按间距排列" data-aligntype="HorizontalRange"><icon>ꕂ</icon></span>
-            <span style="margin-top:0px;margin-right:0;" title="纵向按间距排列" data-aligntype="VerticalRange"><icon>ꕃ</icon></span>
-          </div>
-        </div>
-      </div>
-
+       <!--此处删除右侧对齐改到 顶部-->
       <div class="prop-setting-ct">
         <div class="slice-com-prop-panel" style="display:none">
           <div class="title-bar"><em></em>切片正反面 属性<i class="r-icon-i"></i></div>
@@ -394,6 +364,13 @@
                         <div class="nromal-wrap">
                           <label >圆角度数</label>
                           <input name="bRadius"  class="input-medium" type="text" placeholder="输入正数值" />
+                        </div>
+                        <div class="nromal-wrap">
+                          <label >超出滚动条</label>
+                          <input type="radio" value="on" name="scrlY" id="scrlYon">
+                          <label for="scrlYon">显示</label>
+                          <input type="radio" value="off" name="scrlY" id="scrlYoff" style="margin-left:10px;">
+                          <label for="scrlYoff">隐藏</label>
                         </div>
                       </div>
                       <div class="layui-tab-item">
@@ -1263,7 +1240,7 @@
               </div>
             </div>
           </div>
-          <div class="editor-btns clear"><span>更多设置...</span></div>
+          
         </div>
 
       </div>

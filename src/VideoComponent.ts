@@ -1,6 +1,8 @@
 import Component from './Component'
-import {wwUrl,valEmpty} from './commonCss'
-import {tParseInt} from './common'
+import {compareForm,valInt,valEmpty} from './common'
+import UpdateFormAction from "./UpdateFormAction"
+import {wwUrl} from './commonCss'
+
 
 export default class VideoComponent extends Component {
   $content: JQuery
@@ -43,7 +45,7 @@ export default class VideoComponent extends Component {
     this.formData.coverImg = '' //封面
 
 
-    this.update(this.formData)
+    this.doUpdate(this.formData)
   }
 
   initPorpPanel() {
@@ -61,53 +63,49 @@ export default class VideoComponent extends Component {
     $wInput.keyup(function() {
       let val = $(this).val()
       let part=that.$el
-      part.width(tParseInt(val))
+      part.width(valInt(val))
     })
     let $hInput = $propPanel.find('input[type=text][name=height]')
     $hInput.keyup(function() {
       let val = $(this).val()
       let part=that.$el
-      part.height(tParseInt(val))
+      part.height(valInt(val))
 
     })
-
     let $videoIDInput = $propPanel.find('input[type=text][name=videoID]')
     $videoIDInput.keyup(function() {
       let val = $(this).val()
-      that.formData.videoID = val
-      that.update(that.formData)
+      that.update({videoID: val})
     })
-
-
     let $coverImgInput = $propPanel.find('input[type=text][name=coverImg]')
-    $coverImgInput.change(function() {
+    $coverImgInput.keyup(function() {
       let val = $(this).val()
-      that.formData.coverImg = val
+      that.update({coverImg: val})
     })
     let $autoplayRadio = $propPanel.find('input[type=radio][name=autoplay]')
     $autoplayRadio.change(function() {
-      that.formData.autoplay = $(this).prop('value')
-      that.update(that.formData)
+      let val = $(this).prop('value')
+      that.update({autoplay: val})
     })
     let $mutedRadio = $propPanel.find('input[type=radio][name=muted]')
     $mutedRadio.change(function() {
-      that.formData.muted = $(this).prop('value')
-      that.update(that.formData)
+      let val = $(this).prop('value')
+      that.update({muted: val})
     })
     let $controlsRadio = $propPanel.find('input[type=radio][name=controls]')
     $controlsRadio.change(function() {
-      that.formData.controls = $(this).prop('value')
-      that.update(that.formData)
+      let val = $(this).prop('value')
+      that.update({controls: val})
     })
     let $autoControlsRadio = $propPanel.find('input[type=radio][name=autoControls]')
     $autoControlsRadio.change(function() {
-      that.formData.autoControls = $(this).prop('value')
-      that.update(that.formData)
+      let val = $(this).prop('value')
+      that.update({autoControls: val})
     })
     let $loopRadio = $propPanel.find('input[type=radio][name=loop]')
     $loopRadio.change(function() {
-      that.formData.loop = $(this).prop('value')
-      that.update(that.formData)
+      let val = $(this).prop('value')
+      that.update({loop: val})
     })
 
   }
@@ -157,9 +155,7 @@ export default class VideoComponent extends Component {
       return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
     });
   }
-  doUpdate(formData: any): void {
-  }
-  update(formData) {
+  doUpdate(formData) {
     let that = this
     let $Video=this.$content.find("Video");
     let _autoplay=this.formData.autoplay==="true" ? true :false;
@@ -196,6 +192,18 @@ export default class VideoComponent extends Component {
     let coverUrl=''
     if(this.formData.coverMode=="diy"){
       coverUrl=this.formData.coverImg
+    }
+  }
+  update(formData) {
+    let newFormData = JSON.parse(JSON.stringify(this.formData));
+    for (let k in formData) {
+      newFormData[k] = formData[k];
+    }
+    if (!compareForm(newFormData, this.formData)) {
+      let updateFormAction = new UpdateFormAction(this);
+      updateFormAction.setOldFormData(this.formData);
+      updateFormAction.setNewFormData(newFormData);
+      this.stage.actionManager.execute(updateFormAction)
     }
   }
   updatePropPanel() {

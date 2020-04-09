@@ -1,5 +1,5 @@
-import {setRanDom,isEmpty} from './common';
-import {valEmpty,valInt } from './commonCss'
+import {setRanDom,valInt,valEmpty,isEmpty} from './common';
+
 //弹出编辑 属性设置
 export function setPopHtmlBorder($layerElem,that) {
 
@@ -539,106 +539,89 @@ export function initPorpBorder($propPanel,that) {
   let $bdTCheckBox = $propPanel.find('input[type=checkbox][name=bdT]')
   $bdTCheckBox.change(function() {
     let val = $(this).is(':checked')
-    that.formData.bdT = val ? 'on' : ''
-    that.update(that.formData)
+    that.update({bdT: val ? 'on' : 'off'})
   })
   let $bdBCheckBox = $propPanel.find('input[type=checkbox][name=bdB]')
   $bdBCheckBox.change(function() {
     let val = $(this).is(':checked')
-    that.formData.bdB = val ? 'on' : ''
-    that.update(that.formData)
+    that.update({bdB: val ? 'on' : 'off'})
   })
   let $bdLCheckBox = $propPanel.find('input[type=checkbox][name=bdL]')
   $bdLCheckBox.change(function() {
     let val = $(this).is(':checked')
-    that.formData.bdL = val ? 'on' : ''
-    that.update(that.formData)
+    that.update({bdL: val ? 'on' : 'off'})
   })
   let $bdRCheckBox = $propPanel.find('input[type=checkbox][name=bdR]')
   $bdRCheckBox.change(function() {
     let val = $(this).is(':checked')
-    that.formData.bdR = val ? 'on' : ''
-    that.update(that.formData)
+    that.update({bdR: val ? 'on' : 'off'})
   })
   let $bdWidthInput = $propPanel.find('input[type=text][name=bdWidth]') 
   $bdWidthInput.keyup(function() {
     let val = $(this).val()
-    that.formData.bdWidth = val
-    that.update(that.formData)
+    that.update({bdWidth: val})
   })
   let $bdColorInput = $propPanel.find('input[type=text][name=bdColor]') 
   $bdColorInput.change(function() {
     let val = $(this).val()
-    that.formData.bdColor = val
-    that.update(that.formData)
+    that.update({bdColor: val})
   })
   let $bdStyleRadio = $propPanel.find('input[type=radio][name=bdStyle]')
   $bdStyleRadio.change(function() {
     let val = $(this).prop('value')
-    that.formData.bdStyle = val
-    that.update(that.formData)
+    that.update({bdStyle: val})
   })
   // 以下是经过边框 
   let $mbdTCheckBox = $propPanel.find('input[type=checkbox][name=mbdT]')
   $mbdTCheckBox.change(function() {
     let val = $(this).is(':checked')
-    that.formData.mbdT = val ? 'on' : 'off'
-    that.update(that.formData)
+    that.update({mbdT: val ? 'on' : 'off'})
   })
   let $mbdBCheckBox = $propPanel.find('input[type=checkbox][name=mbdB]')
   $mbdBCheckBox.change(function() {
     let val = $(this).is(':checked')
-    that.formData.mbdB = val ? 'on' : 'off'
-    that.update(that.formData)
+    that.update({mbdB: val ? 'on' : 'off'})
   })
   let $mbdLCheckBox = $propPanel.find('input[type=checkbox][name=mbdL]')
   $mbdLCheckBox.change(function() {
     let val = $(this).is(':checked')
-    that.formData.mbdL = val ? 'on' : 'off'
-    that.update(that.formData)
+    that.update({mbdL: val ? 'on' : 'off'})
   })
   let $mbdRCheckBox = $propPanel.find('input[type=checkbox][name=mbdR]')
   $mbdRCheckBox.change(function() {
     let val = $(this).is(':checked')
-    that.formData.mbdR = val ? 'on' : 'off'
-    that.update(that.formData)
+    that.update({mbdR: val ? 'on' : 'off'})
   })
   let $mbdWidthInput = $propPanel.find('input[type=text][name=mbdWidth]') 
   $mbdWidthInput.keyup(function() {
     let val = $(this).val()
-    that.formData.mbdWidth = val
-    that.update(that.formData)
+    that.update({mbdWidth: val})
   })
   let $mbdColorInput = $propPanel.find('input[type=text][name=mbdColor]') 
   $mbdColorInput.change(function() {
     let val = $(this).val()
-    that.formData.mbdColor = val
-    that.update(that.formData)
+    that.update({mbdColor: val})
   })
   let $mbdStyleRadio = $propPanel.find('input[type=radio][name=mbdStyle]')
   $mbdStyleRadio.change(function() {
     let val = $(this).prop('value')
-    that.formData.mbdStyle = val
-    that.update(that.formData)
+    that.update({mbdStyle: val})
   })
   //边框动画
   let $mbdTsDurInput = $propPanel.find('input[type=text][name=mbdTsDur]') 
   $mbdTsDurInput.keyup(function() {
     let val = $(this).val()
-    that.formData.mbdTsDur = val
-    that.update(that.formData)
+    that.update({mbdTsDur: val})
   })
   let $mbdTsFunRadio = $propPanel.find('input[type=radio][name=mbdTsFun]')
   $mbdTsFunRadio.change(function() {
     let val = $(this).prop('value')
-    that.formData.mbdTsFun = val
-    that.update(that.formData)
+    that.update({mbdTsFun: val})
   })
   let $mbdTsAntRadio = $propPanel.find('input[type=radio][name=mbdTsAnt]')
   $mbdTsAntRadio.change(function() {
     let val = $(this).prop('value')
-    that.formData.mbdTsAnt = val
-    that.update(that.formData)
+    that.update({mbdTsAnt: val})
   })
   //同步默文
   $propPanel.find('.layui-btn-sm').on('click', function() {

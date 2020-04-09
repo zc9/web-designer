@@ -1,5 +1,6 @@
 
-import {valEmpty,valInt,boxShadow} from './commonCss'
+import {valInt,valEmpty } from './common';
+import {boxShadow} from './commonCss'
 
 //弹出编辑 属性设置
 export function setPopHtmlShadow($layerElem,that) {

@@ -1,9 +1,10 @@
 import Component from './Component';
-import { setAntSpinvOption,setAntBezierOption, setAntMrZoomOption,setAntMvZoomOption,setAntMovevOption,isEmpty} from './common';
-import {onLinkModeChanged,bgImage,onDisabledChanged,valEmpty,wwUrl,BezierCss,ImgBgHtml} from './commonCss'
+import { compareForm,valEmpty,isEmpty} from './common';
+import { setAntSpinvOption,setAntBezierOption,setAntMrZoomOption,setAntMvZoomOption,setAntMovevOption} from './commonOption';
+import {onLinkModeChanged,bgImage,onDisabledChanged,wwUrl,BezierCss,ImgBgHtml} from './commonCss'
 import { initPorpBorder,updateBorder,updatePropBorder,editPopHtmlBorder,setPopHtmlBorder,editSideHtmlBorder,toHtmlBorder} from './borderComponent';
 import { updateShadow,editPopHtmlShadow,setPopHtmlShadow,toHtmlShadow} from './shadowComponent';
-
+import UpdateFormAction from "./UpdateFormAction"
 
 export default class ImgAntComponent extends Component {
   $content: JQuery
@@ -176,11 +177,8 @@ export default class ImgAntComponent extends Component {
     this.formData.disMode=''
 
     this.$content.attr("mbdTsAnt",this.formData.mbdTsAnt)
-    this.update(this.formData)
+    this.doUpdate(this.formData)
   }
-
-
-
   openEditDialog() {
     let that = this;
     let layer = layui.layer;
@@ -487,9 +485,7 @@ export default class ImgAntComponent extends Component {
     });
     form.val('imgAntComponentForm', that.formData)
   }
-  doUpdate(formData: any): void {
-  }
-  update(formData) {
+  doUpdate(formData) {
     let that = this
     let bRadius=formData.bRadius ?  parseInt(formData.bRadius) :''
     let $contentParnts= that.$content.parent().parent()
@@ -546,7 +542,6 @@ export default class ImgAntComponent extends Component {
         that.$img.hide()
       }
     } else {
-
       that.$content.css('background', 'none')
       that.$content.css('background-color', formData.bgColor)
       if (imgMode === 'full') {
@@ -561,10 +556,19 @@ export default class ImgAntComponent extends Component {
       }
       that.$img.show()
     }
-
-
   }
-
+  update(formData) {
+    let newFormData = JSON.parse(JSON.stringify(this.formData));
+    for (let k in formData) {
+      newFormData[k] = formData[k];
+    }
+    if (!compareForm(newFormData, this.formData)) {
+      let updateFormAction = new UpdateFormAction(this);
+      updateFormAction.setOldFormData(this.formData);
+      updateFormAction.setNewFormData(newFormData);
+      this.stage.actionManager.execute(updateFormAction)
+    }
+  }
   updatePropPanel() {
     let $propPanel = this.$propPanel
 
@@ -678,151 +682,137 @@ export default class ImgAntComponent extends Component {
     element.render("collapse")
 
     let $mvTsDurInput = $propPanel.find('input[type=text][name=mvTsDur]')
-    $mvTsDurInput.change(function() {
+    $mvTsDurInput.keyup(function() {
       let val = $(this).val()
-      that.formData.mvTsDur = val
+      that.update({mvTsDur: val})
     })
 
     let $mvTsDelayInput = $propPanel.find('input[type=text][name=mvTsDelay]')
-    $mvTsDelayInput.change(function() {
+    $mvTsDelayInput.keyup(function() {
       let val = $(this).val()
-      that.formData.mvTsDelay = val
+      that.update({mvTsDelay: val})
     })
 
     let $mvTsBezierSelect = $propPanel.find('select[name=mvTsBezier]')
     $mvTsBezierSelect.change(function() {
-      that.formData.mvTsBezier = $(this).prop('value')
+      that.update({mvTsBezier: $(this).prop('value')})
     })
     let $mvTsBeziervSelect = $propPanel.find('select[name=mvTsBezierv]')
     $mvTsBeziervSelect.change(function() {
-      that.formData.mvTsBezierv = $(this).prop('value')
+      that.update({mvTsBezierv: $(this).prop('value')})
     })
 
     let $mrsfSelect = $propPanel.find('select[name=mrsf]')
     $mrsfSelect.change(function() {
-      that.formData.mrsf = $(this).prop('value')
-      that.update(that.formData)
+      that.update({mrsf: $(this).prop('value')})
     })
     let $mrxzSelect = $propPanel.find('select[name=mrxz]')
     $mrxzSelect.change(function() {
-      that.formData.mrxz = $(this).prop('value')
-      that.update(that.formData)
+      that.update({mrxz: $(this).prop('value')})
       onDisabledChanged($propPanel,$(this),that.formData.mrxz)
     })
 
     let $mrxzvSelect = $propPanel.find('select[name=mrxzv]')
     $mrxzvSelect.change(function() {
-      that.formData.mrxzv = $(this).prop('value')
-      that.update(that.formData)
+      that.update({mrxzv: $(this).prop('value')})
     })
 
     let $mvTsModeXvSelect = $propPanel.find('select[name=mvTsModeXv]')
     $mvTsModeXvSelect.change(function() {
-      that.formData.mvTsModeXv = $(this).prop('value')
-      that.update(that.formData)
+      that.update({mvTsModeXv: $(this).prop('value')})
     })
     let $mvTsModeXSelect = $propPanel.find('select[name=mvTsModeX]')
     $mvTsModeXSelect.change(function() {
-      that.formData.mvTsModeX = $(this).prop('value')
-      that.update(that.formData)
+      that.update({mvTsModeX: $(this).prop('value')})
       onDisabledChanged($propPanel,$(this),that.formData.mvTsModeX)
     })
 
     let $mvTsModeYvSelect = $propPanel.find('select[name=mvTsModeYv]')
     $mvTsModeYvSelect.change(function() {
-      that.formData.mvTsModeYv = $(this).prop('value')
-      that.update(that.formData)
+      that.update({mvTsModeYv: $(this).prop('value')})
     })
     let $mvTsModeYSelect = $propPanel.find('select[name=mvTsModeY]')
     $mvTsModeYSelect.change(function() {
-      that.formData.mvTsModeY = $(this).prop('value')
-      that.update(that.formData)
+      that.update({mvTsModeY: $(this).prop('value')})
       onDisabledChanged($propPanel,$(this),that.formData.mvTsModeY)
     })
 
     let $mvxzvSelect = $propPanel.find('select[name=mvxzv]')
     $mvxzvSelect.change(function() {
-      that.formData.mvxzv = $(this).prop('value')
+      that.update({mvxzv: $(this).prop('value')})
       that.update(that.formData)
     })
     let $mvxzSelect = $propPanel.find('select[name=mvxz]')
     $mvxzSelect.change(function() {
-      that.formData.mvxz = $(this).prop('value')
-      that.update(that.formData)
+      that.update({mvxz: $(this).prop('value')})
       onDisabledChanged($propPanel,$(this),that.formData.mvxz)
     })
 
     let $mvsfSelect = $propPanel.find('select[name=mvsf]')
     $mvsfSelect.change(function() {
-      that.formData.mvsf = $(this).prop('value')
+      that.update({mvsf: $(this).prop('value')})
     })
 
 
     let $mvfzSelect = $propPanel.find('select[name=mvfz]')
     $mvfzSelect.change(function() {
-      that.formData.mvfz = $(this).prop('value')
-      that.update(that.formData)
+      that.update({mvfz: $(this).prop('value')})
     })
 
     let $disModeRadio = $propPanel.find('input[type=radio][name=disMode]')
     $disModeRadio.change(function() {
       let val = $(this).prop('value')
-      that.formData.disMode = val
+      that.update({disMode:val})
     })
     let $overModeRadio = $propPanel.find('input[type=radio][name=overMode]')
     $overModeRadio.change(function() {
       let val = $(this).prop('value')
-      that.formData.overMode = val
+      that.update({overMode:val})
     })
-
-
     let $bgImgInput = $propPanel.find('input[type=text][name=bgImg]')
-    $bgImgInput.change((function() {
-      that.formData.bgImg = $bgImgInput.val()
-      that.update(that.formData)
+    $bgImgInput.keyup((function() {
+      that.update({bgImg:$(this).val()})
     }))
 
     let $bgImgSizeCheckBox = $propPanel.find('input[type=checkbox][name=bgImgSize]')
     $bgImgSizeCheckBox.change(function() {
       let val = $(this).is(':checked')
-      that.formData.bgImgSize = val ? 'true' : 'false'
-      that.update(that.formData)
+      that.update({bgImgSize:val ? 'true' : 'false'})
     });
 
     let $imgMode = $propPanel.find('#imgMode')
     $imgMode.change(function() {
-      that.formData.imgMode = $(this).val()
-      that.update(that.formData)
+      that.update({imgMode:$(this).val()})
     })
 
     let $linkModeRadio = $propPanel.find('input[type=radio][name=linkMode]')
     $linkModeRadio.change(function() {
       let val = $(this).prop('value')
-      that.formData.linkMode = val
+      that.update({imgMode:val})
       onLinkModeChanged($propPanel, that.formData.linkMode)
     })
 
     let $hrefInput = $propPanel.find('input[type=text][name=href]')
     $hrefInput.change(function() {
       let val = $(this).val()
-      that.formData.href = val
+      that.update({href:val})
     })
 
     let $hrefModeCheckBox = $propPanel.find('input[type=checkbox][name=hrefMode]')
     $hrefModeCheckBox.change(function() {
       let val = $(this).is(':checked')
-      that.formData.hrefMode = val ? '_blank' : ''
+       that.update({hrefMode:val ? '_blank' : ''})
     })
 
     let $wangIDInput = $propPanel.find('input[type=text][name=wangID]')
     $wangIDInput.change(function() {
       let val = $(this).val()
-      that.formData.wangID = val
+      that.update({wangID:val})
     })
     let $bRadiusInput = $propPanel.find('input[type=text][name=bRadius]')
     $bRadiusInput.keyup(function() {
-      that.formData.bRadius = $(this).val()
-      that.update(that.formData)
+      let val= $(this).val()
+      that.update({bRadius:val})
     })
     //边框初始化
     initPorpBorder($propPanel,that)

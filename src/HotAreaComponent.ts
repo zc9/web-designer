@@ -1,5 +1,7 @@
 import Component from './Component';
-import { wwUrl,onLinkModeChanged,valEmpty} from './commonCss'
+import { wwUrl,onLinkModeChanged} from './commonCss'
+import { compareForm,valEmpty} from "./common"
+import UpdateFormAction from "./UpdateFormAction"
 export default class HotAreaComponent extends Component {
   $content: JQuery
   constructor() {
@@ -19,6 +21,7 @@ export default class HotAreaComponent extends Component {
     this.formData.href = ''
     this.formData.hrefMode ='_blank'
     this.formData.wangID = ''
+    this.doUpdate(this.formData)
   }
   getProps() {
     let config = this.formData;
@@ -82,7 +85,7 @@ export default class HotAreaComponent extends Component {
       $bgColorInput.prev().find(".sp-preview-inner").css("background-color",'')
     }
 
-  }
+  } 
   initPorpPanel() {
     let that = this
     $('.prop-setting-ct > div').hide()
@@ -104,36 +107,46 @@ export default class HotAreaComponent extends Component {
     let $hrefInput = $propPanel.find('input[type=text][name=href]')
     $hrefInput.change(function() {
       let val = $(this).val()
-      that.formData.href = val
+      that.update({href:val})
     })
 
     let $hrefModeCheckBox = $propPanel.find('input[type=checkbox][name=hrefMode]')
     $hrefModeCheckBox.change(function() {
       let val = $(this).is(':checked')
-      that.formData.hrefMode = val ? '_blank' : ''
+       that.update({hrefMode:val ? '_blank' : ''})
     })
 
     let $wangIDInput = $propPanel.find('input[type=text][name=wangID]')
     $wangIDInput.change(function() {
       let val = $(this).val()
-      that.formData.wangID = val
+      that.update({wangID:val})
     })
     let $bgColorInput = $propPanel.find('input[type=text][name=bgColor]')
     $bgColorInput.change(function() {
       let val = $(this).val()
-      that.formData.bgColor = val
-      that.update(that.formData)
+      that.update({bgColor:val})
     })
   }
-  doUpdate(formData: any): void {
+  doUpdate(formData){
+    let that = this
+    if(formData.bgColor !=""){
+       that.$content.css('background-color',formData.bgColor)
+       }else{
+       that.$content.css('background-color','transparent')
+     }
   }
   update(formData) {
-   let that = this
-   if(formData.bgColor !=""){
-     that.$content.css('background-color',formData.bgColor)
-   }else{
-     that.$content.css('background-color','transparent')
-   }
+    let newFormData = JSON.parse(JSON.stringify(this.formData));
+    for (let k in formData) {
+      newFormData[k] = formData[k];
+    }
+    if (!compareForm(newFormData, this.formData)) {
+      let updateFormAction = new UpdateFormAction(this);
+      updateFormAction.setOldFormData(this.formData);
+      updateFormAction.setNewFormData(newFormData);
+      this.stage.actionManager.execute(updateFormAction)
+    }
+
   }
   openEditDialog() {
 

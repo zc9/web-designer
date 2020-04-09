@@ -1,6 +1,6 @@
 import Component from './Component';
-import { wwUrl,onLinkModeChanged,bgImage,valInt,valEmpty,ImgBgHtml} from './commonCss'
-import { compareForm } from "./common"
+import { wwUrl,onLinkModeChanged,bgImage,ImgBgHtml} from './commonCss'
+import { compareForm,valInt,valEmpty} from "./common"
 import { initPorpBorder,updateBorder,updatePropBorder,editPopHtmlBorder,setPopHtmlBorder,editSideHtmlBorder,toHtmlBorder} from './borderComponent';
 import { updateShadow,editPopHtmlShadow,setPopHtmlShadow,toHtmlShadow} from './shadowComponent';
 import UpdateFormAction from "./UpdateFormAction"
@@ -48,7 +48,6 @@ export default class ImgComponent extends Component {
     let mbdTsAnt= valEmpty(this.formData.mbdTsAnt)
     let BorderData = toHtmlBorder(this.formData)
     htmlList.push(BorderData.Html)
-
 
     //特效动画处理
     let shakeCss="";
@@ -355,7 +354,6 @@ export default class ImgComponent extends Component {
       updateFormAction.setNewFormData(newFormData);
       this.stage.actionManager.execute(updateFormAction)
     }
-
   }
 
   updatePropPanel() {
@@ -425,13 +423,12 @@ export default class ImgComponent extends Component {
     let $linkModeRadio = $propPanel.find('input[type=radio][name=linkMode]')
     $linkModeRadio.change(function() {
       let val = $(this).prop('value')
-      that.formData.linkMode = val
       that.update({linkMode: val})
       onLinkModeChanged($propPanel, that.formData.linkMode)
     })
 
     let $hrefInput = $propPanel.find('input[type=text][name=href]')
-    $hrefInput.change(function() {
+    $hrefInput.keyup(function() {
       let val = $(this).val()
       // that.formData.href = val
       that.update({href: val})
@@ -445,7 +442,7 @@ export default class ImgComponent extends Component {
     })
 
     let $wangIDInput = $propPanel.find('input[type=text][name=wangID]')
-    $wangIDInput.change(function() {
+    $wangIDInput.keyup(function() {
       let val = $(this).val()
       // that.formData.wangID = val
       that.update({wangID: val})

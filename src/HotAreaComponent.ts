@@ -105,7 +105,7 @@ export default class HotAreaComponent extends Component {
     })
 
     let $hrefInput = $propPanel.find('input[type=text][name=href]')
-    $hrefInput.change(function() {
+    $hrefInput.keyup(function() {
       let val = $(this).val()
       that.update({href:val})
     })
@@ -117,7 +117,7 @@ export default class HotAreaComponent extends Component {
     })
 
     let $wangIDInput = $propPanel.find('input[type=text][name=wangID]')
-    $wangIDInput.change(function() {
+    $wangIDInput.keyup(function() {
       let val = $(this).val()
       that.update({wangID:val})
     })

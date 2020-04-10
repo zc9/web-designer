@@ -351,7 +351,7 @@ export default class TextComponent extends Component {
       that.update({hrefMode: val ? '_blank' : ''})
     })
     let $hrefInput = $propPanel.find('input[type=text][name=href]')
-    $hrefInput.change(function() {
+    $hrefInput.keyup(function() {
       let val = $(this).val()
       that.update({href: val})
     })

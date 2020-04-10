@@ -24,7 +24,7 @@ export default class TextComponent extends Component {
     this.formData.family = 'arial' //字体
     this.formData.fSize = 12
     this.formData.color = '#000'
-    this.formData.bgColor = '#fff'
+    this.formData.bgColor = ''
     this.formData.lHeight =''  //行距 line-height
     this.formData.spacing =''  //letterSpacing // 字  距
     this.formData.indent =''  //textIndent 缩进
@@ -1157,9 +1157,8 @@ export default class TextComponent extends Component {
     });
     form.val('textComponentForm', that.formData)
   }
-  doUpdate(formData: any): void {
-  }
-  update(formData) {
+ 
+  doUpdate(formData) {
     let that = this
     let bRadius=this.formData.bRadius;
 
@@ -1268,6 +1267,18 @@ export default class TextComponent extends Component {
 
 
 
+  }
+  update(formData) {
+    let newFormData = JSON.parse(JSON.stringify(this.formData));
+    for (let k in formData) {
+      newFormData[k] = formData[k];
+    }
+    if (!compareForm(newFormData, this.formData)) {
+      let updateFormAction = new UpdateFormAction(this);
+      updateFormAction.setOldFormData(this.formData);
+      updateFormAction.setNewFormData(newFormData);
+      this.stage.actionManager.execute(updateFormAction)
+    }
   }
   updatePropPanel(){
     let that = this

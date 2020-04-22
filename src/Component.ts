@@ -57,10 +57,19 @@ export default abstract class Component {
   height() {
     return this.$el.height();
   }
-  left() {
+
+  left(v = null) {
+    if (v !== null) {
+      this.$el[0].style.left = v + 'px';
+      return;
+    }
     return parseInt(this.$el[0].style.left);
   }
-  top() {
+  top(v = null) {
+    if (v !== null) {
+      this.$el[0].style.top = v + 'px';
+      return;
+    }
     return parseInt(this.$el[0].style.top);
   }
   setContent(content) {

@@ -1,5 +1,6 @@
 import ToolConfig from './ToolConfig'
 import StageContainer from './StageContainer';
+import AlignBar from './AlignBar';
 export default class Toolbar {
   $el: JQuery
   stageCt: StageContainer
@@ -9,6 +10,8 @@ export default class Toolbar {
     let $pageConfig = $settingBar.find('.page-config')
     let $assistConfig = $settingBar.find('.assist-config')
     let $magnetConfig = $settingBar.find('.magnet-config')
+    let $alignConfig = $settingBar.find('.align-config');
+    let alignBar = new AlignBar(stageCt.curStage, $alignConfig);
     let $curSetting = $pageConfig
     let $el = $('.toolbar')
     let $curItem = $el.find('.group3.active')
@@ -42,6 +45,13 @@ export default class Toolbar {
         }
       } else if (name === 'hotarea' || name === 'selection' || name === 'handle') {
         if ($this !== $curItemOfGroup1) {
+          if (name === 'selection') {
+            $alignConfig.show();
+            $pageConfig.hide();
+          } else {
+            $alignConfig.hide();
+            $pageConfig.show();
+          }
           $curItemOfGroup1.removeClass('active')
           $this.addClass('active')
           $curItemOfGroup1 = $this

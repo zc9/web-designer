@@ -39,6 +39,7 @@ export default class Toolbar {
           $curSetting.hide()
           $curSetting = $setting
           $curSetting.show()
+          $alignConfig.hide()
           $curItem.removeClass('active')
           $this.addClass('active')
           $curItem = $this
@@ -47,10 +48,10 @@ export default class Toolbar {
         if ($this !== $curItemOfGroup1) {
           if (name === 'selection') {
             $alignConfig.show();
-            $pageConfig.hide();
+            $curSetting.hide();
           } else {
             $alignConfig.hide();
-            $pageConfig.show();
+            $curSetting.show();
           }
           $curItemOfGroup1.removeClass('active')
           $this.addClass('active')
